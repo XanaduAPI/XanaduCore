@@ -4,32 +4,54 @@
 #include <XanaduCore/XanaduCoreHeader.h>
 #include <vector>
 
+/// <summary>
+/// A byte array tool
+/// </summary>
 class XANADU_CORE_EXPORT XByteArray : public std::vector<char>
 {
-public:
-	using _MyBase = std::vector<char>;
+private:
+	using	_BaseClass = std::vector<char>;
 
 public:
-	XByteArray() XANADU_NOTHROW;
+	XByteArray() XANADU_NOTHROW : _BaseClass()
+	{
+	};
 
-	XByteArray(const char* _Memory, int _Size = -1) XANADU_NOTHROW;
+	XByteArray(const char* _Memory, int _Size = -1) XANADU_NOTHROW : _BaseClass(_Memory, _Size)
+	{
+	};
 
-	XByteArray(int _Size, char _Char) XANADU_NOTHROW;
+	XByteArray(int _Size, char _Char) XANADU_NOTHROW : _BaseClass(_Size, _Char)
+	{
+	};
 
-	XByteArray(int _Size) XANADU_NOTHROW;
+	XByteArray(int _Size) XANADU_NOTHROW : _BaseClass(_Size)
+	{
+	};
 
-	XByteArray(const XByteArray& _Object) XANADU_NOTHROW;
+	XByteArray(const XByteArray&) XANADU_NOTHROW : _BaseClass()
+	{
+	};
 
-	XByteArray(XByteArray&& _Object) XANADU_NOTHROW;
-
-	virtual ~XByteArray() XANADU_NOTHROW;
+	virtual ~XByteArray() XANADU_NOTHROW
+	{
+	};
 
 public:
-	XByteArray& operator=(const char* _Memory) XANADU_NOTHROW;
+	virtual char* data() XANADU_NOTHROW
+	{
+		return &_BaseClass::front();
+	};
 
-	XByteArray& operator=(const XByteArray &) XANADU_NOTHROW;
+	virtual const char* data() const XANADU_NOTHROW
+	{
+		return &_BaseClass::front();
+	};
 
-	XByteArray& operator=(XByteArray &&other) XANADU_NOTHROW;
+	virtual int32S size()
+	{
+		return _BaseClass::size();
+	};
 };
 
 #endif//_XANADU_CORE_BYTEARRAY_H_

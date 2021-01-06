@@ -22,21 +22,46 @@
 #endif//XANADU_CORE_BUILD_STATIC
 #define			XANADU_CORE_LOCAL
 
+//一些C++头文件
+#include <iostream>
+#include <fstream>
+#include <cstdio>
+#include <cstdlib>
+#include <vector>
+#include <list>
+#include <ctime>
+#include <locale>
+#include <codecvt>
+#include <string>
+#include <xstring>
+#include <cstring>
+#include <algorithm>
+#include <regex>
+#include <map>
+#include <functional>
+#include <mutex>
+#include <thread>
+
+/// Macro needed by Xanadu series
+#define			XANADU_NEW						new(std::nothrow)
+#define			XANADU_DELETE_ARR(_Value)				if(_Value){delete[] _Value;_Value = nullptr;}
+#define			XANADU_DELETE_PTR(_Value)				if(_Value){delete _Value;	_Value = nullptr;}
+
 namespace Xanadu
 {
-	//大小写敏感性枚举
+	/// Case Sensitivity Enum
 	enum CaseSensitivity
 	{
-		CaseInsensitive,						//不区分大小写
-		CaseSensitive,							//区分大小写
+		CaseInsensitive,						/// no
+		CaseSensitive,							/// yes
 	};
 
-	//三项值
+	/// Trinomial value
 	enum Boolean
 	{
-		VALUE_NULL = -1,						//null value
-		VALUE_FALSE = 0,						//false
-		VALUE_TRUE = 1,							//true
+		VALUE_NULL = -1,						/// null value
+		VALUE_FALSE = 0,						/// false
+		VALUE_TRUE = 1,							/// true
 	};
 };
 
