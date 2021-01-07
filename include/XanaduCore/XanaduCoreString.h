@@ -2,12 +2,7 @@
 #define			_XANADU_CORE_STRING_H_
 
 #include <XanaduCore/XanaduCoreHeader.h>
-
-/// <summary>
-/// QT transformation support is defined here
-/// </summary>
-//#define XANADU_SUPPORT_QT
-
+#include <XanaduCore/XanaduCoreByteArray.h>
 
 /// <summary>
 /// Here are some string type name definitions for the Xanadu series
@@ -435,18 +430,11 @@ public:
 	//Convert : To UTF-8
 	virtual UString ToUString() const XANADU_NOTHROW;
 
-#ifdef XANADU_SUPPORT_QT
-	//Convert : To QString
-	virtual QString ToQString() const XANADU_NOTHROW;
-#endif /// XANADU_SUPPORT_QT
-
 	//Convert : To Native String
 	virtual NString ToNString() const XANADU_NOTHROW;
 
-#ifdef XANADU_SUPPORT_QT
-	//Convert : To QByteArray
-	virtual QByteArray ToBytes() const XANADU_NOTHROW;
-#endif /// XANADU_SUPPORT_QT
+	//Convert : To XByteArray
+	virtual XByteArray ToBytes() const XANADU_NOTHROW;
 
 	//Convert : To URL Encode
 	virtual UString ToURL() const XANADU_NOTHROW;
@@ -460,18 +448,11 @@ public:
 	//Convert : To UTF-8
 	static UString XANADUAPI ToUString(const XString& _String) XANADU_NOTHROW;
 
-#ifdef XANADU_SUPPORT_QT
-	//Convert : To QString
-	static QString XANADUAPI ToQString(const XString& _String) XANADU_NOTHROW;
-#endif /// XANADU_SUPPORT_QT
-
 	//Convert : To Native String
 	static NString XANADUAPI ToNString(const XString& _String) XANADU_NOTHROW;
 
-#ifdef XANADU_SUPPORT_QT
-	//Convert : To QByteArray
-	static QByteArray XANADUAPI ToBytes(const XString& _String) XANADU_NOTHROW;
-#endif /// XANADU_SUPPORT_QT
+	//Convert : To XByteArray
+	static XByteArray XANADUAPI ToBytes(const XString& _String) XANADU_NOTHROW;
 
 	//Convert : To URL Encode
 	static UString XANADUAPI ToURL(const XString& _String) XANADU_NOTHROW;
@@ -488,18 +469,11 @@ public:
 	//Convert:From Latin_1(ISO 8859-1)
 	static XString XANADUAPI FromLString(const LString& _LString) XANADU_NOTHROW;
 
-#ifdef XANADU_SUPPORT_QT
-	//Convert : From QString
-	static XString XANADUAPI FromQString(const QString& _QString) XANADU_NOTHROW;
-#endif /// XANADU_SUPPORT_QT
-
 	//Convert : From Native String
 	static XString XANADUAPI FromNString(const NString& _QString) XANADU_NOTHROW;
 
-#ifdef XANADU_SUPPORT_QT
-	//Convert : From QByteArray
-	static XString XANADUAPI FromBytes(const QByteArray& _QByteArray) XANADU_NOTHROW;
-#endif /// XANADU_SUPPORT_QT
+	//Convert : From XByteArray
+	static XString XANADUAPI FromBytes(const XByteArray& _QByteArray) XANADU_NOTHROW;
 
 	//Convert:From URL Encode
 	static XString XANADUAPI FromURL(const UString& _URL) XANADU_NOTHROW;
