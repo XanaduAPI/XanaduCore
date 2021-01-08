@@ -91,11 +91,93 @@ public:
 	virtual char operator[](int64S _Index) const XANADU_NOTHROW;
 
 public:
+	/// Add at the front
+	virtual XByteArray& prepend(char _Char) XANADU_NOTHROW;
+
+	/// Add at the front
+	virtual XByteArray& prepend(int _Count, char _Char) XANADU_NOTHROW;
+
+	/// Add at the front
+	virtual XByteArray& prepend(const char* _String) XANADU_NOTHROW;
+
+	/// Add at the front
+	virtual XByteArray& prepend(const char* _String, int _Length) XANADU_NOTHROW;
+
+	/// Add at the front
+	virtual XByteArray& prepend(const XByteArray& _Bytes) XANADU_NOTHROW;
+
+	/// Add at the end
+	virtual XByteArray& append(char _Char) XANADU_NOTHROW;
+
+	/// Add at the end
+	virtual XByteArray& append(int _Count, char _Char) XANADU_NOTHROW;
+
+	/// Add at the end
+	virtual XByteArray& append(const char* _String) XANADU_NOTHROW;
+
+	/// Add at the end
+	virtual XByteArray& append(const char* _String, int _Length) XANADU_NOTHROW;
+
+	/// Add at the end
+	virtual XByteArray& append(const XByteArray& _Bytes) XANADU_NOTHROW;
+
+	/// Insert by pos
+	virtual XByteArray& insert(int _Index, char _Char) XANADU_NOTHROW;
+
+	/// Insert by pos
+	virtual XByteArray& insert(int _Index, int _Count, char _Char) XANADU_NOTHROW;
+
+	/// Insert by pos
+	virtual XByteArray& insert(int _Index, const char* _String) XANADU_NOTHROW;
+
+	/// Insert by pos
+	virtual XByteArray& insert(int _Index, const char* _String, int _Length) XANADU_NOTHROW;
+
+	/// Insert by pos
+	virtual XByteArray& insert(int _Index, const XByteArray& _Bytes) XANADU_NOTHROW;
+
+	/// Delete the specified length of data from the specified pos
+	virtual XByteArray& remove(int _Index, int _Length) XANADU_NOTHROW;
+
+	/// Replace data
+	virtual XByteArray& replace(int _Index, int _Length, const char* _After) XANADU_NOTHROW;
+
+	/// Replace data
+	virtual XByteArray& replace(int _Index, int _Length, const char* _After, int _Asize) XANADU_NOTHROW;
+
+	/// Replace data
+	virtual XByteArray& replace(int _Index, int _Length, const XByteArray& _Bytes) XANADU_NOTHROW;
+
+	/// Replace data
+	virtual XByteArray& replace(char _Before, const char* _After) XANADU_NOTHROW;
+
+	/// Replace data
+	virtual XByteArray& replace(char _Before, const XByteArray& _After) XANADU_NOTHROW;
+
+	/// Replace data
+	virtual XByteArray& replace(const char* _Before, const char* _After) XANADU_NOTHROW;
+
+	/// Replace data
+	virtual XByteArray& replace(const char* _Before, int _Bsize, const char* _After, int _Asize) XANADU_NOTHROW;
+
+	/// Replace data
+	virtual XByteArray& replace(const XByteArray& _Before, const XByteArray& _After) XANADU_NOTHROW;
+
+	/// Replace data
+	virtual XByteArray& replace(const XByteArray& _Before, const char* _After) XANADU_NOTHROW;
+
+	/// Replace data
+	virtual XByteArray& replace(const char* _Before, const XByteArray& _After) XANADU_NOTHROW;
+
+	/// Replace data
+	virtual XByteArray& replace(char _Before, char _After) XANADU_NOTHROW;
+
+public:
 	/// Convert to Base64
-	XByteArray ToBase64() const XANADU_NOTHROW;
+	virtual XByteArray ToBase64() const XANADU_NOTHROW;
 
 	/// Convert to HEX
-	XByteArray ToHex() const XANADU_NOTHROW;
+	virtual XByteArray ToHex() const XANADU_NOTHROW;
 
 	/// Format from memory
 	static XByteArray XANADUAPI FromMemory(const char* _Memory, int _Size) XANADU_NOTHROW;

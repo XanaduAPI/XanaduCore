@@ -16,13 +16,17 @@ class XANADU_CORE_EXPORT XAllocator
 {
 private:
 	/// Memory address
-	void*			_memory_address = nullptr;
+	void*						_memory_address = nullptr;
 
 	/// Memory length
-	int64U			_memory_length = 0;
+	int64U						_memory_length = 0;
 
 	/// Memory capacity
-	int64U			_memory_capacity = 0;
+	int64U						_memory_capacity = 0;
+
+public:
+	/// Subscript returned when no matching data is found
+	static const int64U				npos = -1LL;
 
 public:
 	/// Constructors
@@ -42,6 +46,16 @@ public:
 
 	/// Destructor
 	virtual ~XAllocator() XANADU_NOTHROW;
+
+public:
+	/// operator overload =
+	XAllocator& operator = (const XAllocator& _Allocator) XANADU_NOTHROW;
+
+	/// operator overload +
+	XAllocator operator + (const XAllocator& _Allocator) XANADU_NOTHROW;
+
+	/// operator overload +=
+	XAllocator& operator += (const XAllocator& _Allocator) XANADU_NOTHROW;
 
 public:
 	/// Allocator memory
@@ -88,6 +102,18 @@ public:
 
 	/// Move Memory
 	virtual bool MemoryMove(XAllocator& _Allocator) XANADU_NOTHROW;
+
+	/// Find Memory
+	virtual int64U MemoryFind(int64U _Pos, const void* _Memory, int64U _Length) XANADU_NOTHROW;
+
+	/// Find Memory
+	virtual int64U MemoryFind(int64U _Pos, const XAllocator& _Allocator) XANADU_NOTHROW;
+
+	/// Replace Memory
+	virtual bool MemoryReplace(int64U _Pos, int64U _Length, const void* _Memory, int64U _Size) XANADU_NOTHROW;
+
+	/// Replace Memory
+	virtual bool MemoryReplace(int64U _Pos, int64U _Length, const XAllocator& _Allocator) XANADU_NOTHROW;
 
 public:
 	/// Get the address of the memory

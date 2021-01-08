@@ -49,6 +49,32 @@ XAllocator::~XAllocator() XANADU_NOTHROW
 }
 
 
+
+/// operator overload =
+XAllocator& XAllocator::operator = (const XAllocator& _Allocator) XANADU_NOTHROW
+{
+	this->MemoryCopy(_Allocator);
+	return *this;
+}
+
+/// operator overload +
+XAllocator XAllocator::operator + (const XAllocator& _Allocator) XANADU_NOTHROW
+{
+	auto		vResult = *this;
+	vResult.MemoryAppend(_Allocator);
+	return vResult;
+}
+
+/// operator overload +=
+XAllocator& XAllocator::operator += (const XAllocator& _Allocator) XANADU_NOTHROW
+{
+	this->MemoryAppend(_Allocator);
+	return *this;
+}
+
+
+
+
 /// Allocator memory
 bool XAllocator::MemoryAllocator(int64U _Length) XANADU_NOTHROW
 {
@@ -274,7 +300,8 @@ bool XAllocator::MemoryRemove(int64U _Pos, int64U _Length) XANADU_NOTHROW
 	auto		vTempAddress = XANADU_NEW char[vTempCapacity];
 	if (vTempAddress)
 	{
-		Xanadu::memcpy(vTempAddress, this->_memory_address, vTempLength);
+		Xanadu::memcpy(vTempAddress, this->_memory_address, _Pos);
+		Xanadu::memcpy(vTempAddress + _Pos, static_cast<const char*>(this->_memory_address) + _Pos, this->_memory_length - _Pos - _Length);
 		Xanadu::memset(vTempAddress + vTempLength, 0, vTempCapacity - vTempLength);
 
 		XANADU_DELETE_ARR(this->_memory_address);
@@ -296,8 +323,7 @@ bool XAllocator::MemoryCopy(const void* _Memory, int64U _Length) XANADU_NOTHROW
 /// Copy Memory
 bool XAllocator::MemoryCopy(const XAllocator& _Allocator) XANADU_NOTHROW
 {
-	this->MemoryRelease();
-	return this->MemoryAllocator(_Allocator._memory_address, _Allocator._memory_length);
+	return XAllocator::MemoryCopy(_Allocator._memory_address, _Allocator._memory_length);
 }
 
 /// Move Memory
@@ -312,27 +338,99 @@ bool XAllocator::MemoryMove(XAllocator& _Allocator) XANADU_NOTHROW
 	return true;
 }
 
+/// Find Memory
+int64U XAllocator::MemoryFind(int64U _Pos, const void* _Memory, int64U _Length) XANADU_NOTHROW
+{
+	auto		vPos = XAllocator::npos;
+	if (_Memory && _Length && _Pos < this->_memory_length)
+	{
+		auto		vSourceMemory = static_cast<const char*>(this->_memory_address) + _Pos;
+		auto		vSourceLength = this->_memory_length - _Pos;
+		auto		vTargetMemory = static_cast<const char*>(_Memory);
+
+		for (auto vSourceIndex = 0; vSourceIndex < vSourceLength; ++vSourceIndex)
+		{
+			auto		vFind = true;
+			for (auto vTargetIndex = 0; vTargetIndex < _Length && vFind; ++vTargetIndex)
+			{
+				if(vSourceIndex + vTargetIndex >= vSourceLength)
+				{
+					vFind = false;
+				}
+				else if(vSourceMemory[vSourceIndex + vTargetIndex] != vTargetMemory[vTargetIndex])
+				{
+					vFind = false;
+				}
+			}
+			if (vFind)
+			{
+				return _Pos + vSourceIndex;
+			}
+		}
+	}
+	return vPos;
+}
+
+/// Find Memory
+int64U XAllocator::MemoryFind(int64U _Pos, const XAllocator& _Allocator) XANADU_NOTHROW
+{
+	return XAllocator::MemoryFind(_Pos, _Allocator._memory_address, _Allocator._memory_length);
+}
+
+/// Replace Memory
+bool XAllocator::MemoryReplace(int64U _Pos, int64U _Length, const void* _Memory, int64U _Size) XANADU_NOTHROW
+{
+	if(_Pos < this->_memory_length && (_Pos + _Length) < this->_memory_length && _Memory && _Size)
+	{
+		auto		vTempLength = this->_memory_length - _Length + _Size;
+		auto		vTempCapacity = XanaduAllocatorCalculateCapacity(vTempLength);
+		auto		vTempAddress = XANADU_NEW char[vTempCapacity];
+		if (vTempAddress)
+		{
+			Xanadu::memcpy(vTempAddress, this->_memory_address, _Pos);
+			Xanadu::memcpy(vTempAddress + _Pos, _Memory, _Size);
+			Xanadu::memcpy(vTempAddress + _Pos + _Size, static_cast<const char*>(this->_memory_address) + _Pos, this->_memory_length - _Pos);
+			Xanadu::memset(vTempAddress + vTempLength, 0, vTempCapacity - vTempLength);
+
+			XANADU_DELETE_ARR(this->_memory_address);
+			this->_memory_address = vTempAddress;
+			this->_memory_length = vTempLength;
+			this->_memory_capacity = vTempCapacity;
+			return true;
+		}
+	}
+	return false;
+}
+
+/// Replace Memory
+bool XAllocator::MemoryReplace(int64U _Pos, int64U _Length, const XAllocator& _Allocator) XANADU_NOTHROW
+{
+	return XAllocator::MemoryReplace(_Pos, _Length, _Allocator._memory_address, _Allocator._memory_length);
+}
+
+
+
 
 /// Get the address of the memory
 void* XAllocator::MemoryAddress() XANADU_NOTHROW
 {
-	return _memory_address;
+	return this->_memory_address;
 }
 
 /// Get the address of the memory
 const void* XAllocator::MemoryAddress() const XANADU_NOTHROW
 {
-	return _memory_address;
+	return this->_memory_address;
 }
 
 /// Get the length of the memory
 int64U XAllocator::MemoryLength() const XANADU_NOTHROW
 {
-	return _memory_length;
+	return this->_memory_length;
 }
 
 /// Get the capacity of the memory
 int64U XAllocator::MemoryCapacity() const XANADU_NOTHROW
 {
-	return _memory_capacity;
+	return this->_memory_capacity;
 }

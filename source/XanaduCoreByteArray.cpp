@@ -221,6 +221,210 @@ char XByteArray::operator [] (int64S _Index) const XANADU_NOTHROW
 
 
 
+
+/// Add at the front
+XByteArray& XByteArray::prepend(char _Char) XANADU_NOTHROW
+{
+	return this->insert(0, _Char);
+}
+
+/// Add at the front
+XByteArray& XByteArray::prepend(int _Count, char _Char) XANADU_NOTHROW
+{
+	return this->insert(0, _Count, _Char);
+}
+
+/// Add at the front
+XByteArray& XByteArray::prepend(const char* _String) XANADU_NOTHROW
+{
+	return this->insert(0, _String);
+}
+
+/// Add at the front
+XByteArray& XByteArray::prepend(const char* _String, int _Length) XANADU_NOTHROW
+{
+	return this->insert(0, _String, _Length);
+}
+
+/// Add at the front
+XByteArray& XByteArray::prepend(const XByteArray& _Bytes) XANADU_NOTHROW
+{
+	return this->insert(0, _Bytes);
+}
+
+/// Add at the end
+XByteArray& XByteArray::append(char _Char) XANADU_NOTHROW
+{
+	return this->insert(this->size(), _Char);
+}
+
+/// Add at the end
+XByteArray& XByteArray::append(int _Count, char _Char) XANADU_NOTHROW
+{
+	return this->insert(this->size(), _Count, _Char);
+}
+
+/// Add at the end
+XByteArray& XByteArray::append(const char* _String) XANADU_NOTHROW
+{
+	return this->insert(this->size(), _String);
+}
+
+/// Add at the end
+XByteArray& XByteArray::append(const char* _String, int _Length) XANADU_NOTHROW
+{
+	return this->insert(this->size(), _String, _Length);
+}
+
+/// Add at the end
+XByteArray& XByteArray::append(const XByteArray& _Bytes) XANADU_NOTHROW
+{
+	return this->insert(this->size(), _Bytes);
+}
+
+/// Insert by pos
+XByteArray& XByteArray::insert(int _Index, char _Char) XANADU_NOTHROW
+{
+	return this->insert(_Index, 1, _Char);
+}
+
+/// Insert by pos
+XByteArray& XByteArray::insert(int _Index, int _Count, char _Char) XANADU_NOTHROW
+{
+	auto		vBuffer = XANADU_NEW char[_Count + 1];
+	if(vBuffer)
+	{
+		Xanadu::memset(vBuffer, _Char, _Count);
+		vBuffer[_Count] = '\0';
+		this->insert(_Index, vBuffer);
+		XANADU_DELETE_ARR(vBuffer);
+	}
+	return *this;
+}
+
+/// Insert by pos
+XByteArray& XByteArray::insert(int _Index, const char* _String) XANADU_NOTHROW
+{
+	return this->insert(_Index, _String, Xanadu::strlen(_String));
+}
+
+/// Insert by pos
+XByteArray& XByteArray::insert(int _Index, const char* _String, int _Length) XANADU_NOTHROW
+{
+	if (_String && _Length)
+	{
+		if(_Index < 0)
+		{
+			_Index = 0;
+		}
+		else if(_Index > this->size())
+		{
+			_Index = this->size();
+		}
+		this->MemoryInsert(_Index, _String, _Length);
+	}
+	return *this;
+}
+
+/// Insert by pos
+XByteArray& XByteArray::insert(int _Index, const XByteArray& _Bytes) XANADU_NOTHROW
+{
+	return this->insert(_Index, _Bytes.data(), _Bytes.size());
+}
+
+/// Delete the specified length of data from the specified pos
+XByteArray& XByteArray::remove(int _Index, int _Length) XANADU_NOTHROW
+{
+	this->MemoryRemove(_Index, _Length);
+	return *this;
+}
+
+/// Replace data
+XByteArray& XByteArray::replace(int _Index, int _Length, const char* _After) XANADU_NOTHROW
+{
+	return this->replace(_Index, _Length, _After, Xanadu::strlen(_After));
+}
+
+/// Replace data
+XByteArray& XByteArray::replace(int _Index, int _Length, const char* _After, int _Asize) XANADU_NOTHROW
+{
+	this->MemoryReplace(_Index, _Length, _After, _Asize);
+	return *this;
+}
+
+/// Replace data
+XByteArray& XByteArray::replace(int _Index, int _Length, const XByteArray& _Bytes) XANADU_NOTHROW
+{
+	return this->replace(_Index, _Length, _Bytes.data(), _Bytes.size());
+}
+
+/// Replace data
+XByteArray& XByteArray::replace(char _Before, const char* _After) XANADU_NOTHROW
+{
+	char 		vBuffer[2] = {_Before, '\0'};
+	return this->replace(vBuffer, Xanadu::strlen(vBuffer), _After, Xanadu::strlen(_After));
+}
+
+/// Replace data
+XByteArray& XByteArray::replace(char _Before, const XByteArray& _After) XANADU_NOTHROW
+{
+	char 		vBuffer[2] = {_Before, '\0'};
+	return this->replace(vBuffer, Xanadu::strlen(vBuffer), _After.data(), _After.size());
+}
+
+/// Replace data
+XByteArray& XByteArray::replace(const char* _Before, const char* _After) XANADU_NOTHROW
+{
+	return this->replace(_Before, Xanadu::strlen(_Before), _After, Xanadu::strlen(_After));
+}
+
+/// Replace data
+XByteArray& XByteArray::replace(const char* _Before, int _Bsize, const char* _After, int _Asize) XANADU_NOTHROW
+{
+	auto		vIndex = 0;
+	auto		vPos = XAllocator::npos;
+	while (_Before && _Bsize && _After && _Asize)
+	{
+		vPos = this->MemoryFind(vIndex, _Before, _Bsize);
+		if (XAllocator::npos == vPos)
+		{
+			break;
+		}
+		this->MemoryReplace(vPos, _Bsize, _After, _Asize);
+		vIndex += _Asize;
+	};
+	return *this;
+}
+
+/// Replace data
+XByteArray& XByteArray::replace(const XByteArray& _Before, const XByteArray& _After) XANADU_NOTHROW
+{
+	return this->replace(_Before.data(), _Before.size(), _After.data(), _After.size());
+}
+
+/// Replace data
+XByteArray& XByteArray::replace(const XByteArray& _Before, const char* _After) XANADU_NOTHROW
+{
+	return this->replace(_Before.data(), _Before.size(), _After, Xanadu::strlen(_After));
+}
+
+/// Replace data
+XByteArray& XByteArray::replace(const char* _Before, const XByteArray& _After) XANADU_NOTHROW
+{
+	return this->replace(_Before, Xanadu::strlen(_Before), _After.data(), _After.size());
+}
+
+/// Replace data
+XByteArray& XByteArray::replace(char _Before, char _After) XANADU_NOTHROW
+{
+	char 		vBuffer1[2] = {_Before, '\0'};
+	char 		vBuffer2[2] = {_After, '\0'};
+	return this->replace(vBuffer1, Xanadu::strlen(vBuffer1), vBuffer2, Xanadu::strlen(vBuffer2));
+}
+
+
+
+
 /// Convert to Base64
 XByteArray XByteArray::ToBase64() const XANADU_NOTHROW
 {
