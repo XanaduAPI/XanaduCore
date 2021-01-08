@@ -91,6 +91,57 @@ public:
 	virtual char operator[](int64S _Index) const XANADU_NOTHROW;
 
 public:
+	/// Iterator type definition
+	typedef char*					iterator;
+	typedef const char*				const_iterator;
+	typedef iterator				Iterator;
+	typedef const_iterator				ConstIterator;
+	typedef std::reverse_iterator<iterator>		reverse_iterator;
+	typedef std::reverse_iterator<const_iterator>	const_reverse_iterator;
+
+	/// Iterator operation
+	virtual iterator begin() XANADU_NOTHROW;
+
+	/// Iterator operation
+	virtual const_iterator begin() const XANADU_NOTHROW;
+
+	/// Iterator operation
+	virtual const_iterator cbegin() const XANADU_NOTHROW;
+
+	/// Iterator operation
+	virtual const_iterator constBegin() const XANADU_NOTHROW;
+
+	/// Iterator operation
+	virtual iterator end() XANADU_NOTHROW;
+
+	/// Iterator operation
+	virtual const_iterator end() const XANADU_NOTHROW;
+
+	/// Iterator operation
+	virtual const_iterator cend() const XANADU_NOTHROW;
+
+	/// Iterator operation
+	virtual const_iterator constEnd() const XANADU_NOTHROW;
+
+	/// Iterator operation
+	virtual reverse_iterator rbegin() XANADU_NOTHROW;
+
+	/// Iterator operation
+	virtual reverse_iterator rend() XANADU_NOTHROW;
+
+	/// Iterator operation
+	virtual const_reverse_iterator rbegin() const XANADU_NOTHROW;
+
+	/// Iterator operation
+	virtual const_reverse_iterator rend() const XANADU_NOTHROW;
+
+	/// Iterator operation
+	virtual const_reverse_iterator crbegin() const XANADU_NOTHROW;
+
+	/// Iterator operation
+	virtual const_reverse_iterator crend() const XANADU_NOTHROW;
+
+public:
 	/// Add at the front
 	virtual XByteArray& prepend(char _Char) XANADU_NOTHROW;
 

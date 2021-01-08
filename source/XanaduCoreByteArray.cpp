@@ -222,6 +222,95 @@ char XByteArray::operator [] (int64S _Index) const XANADU_NOTHROW
 
 
 
+
+/// Iterator operation
+XByteArray::iterator XByteArray::begin() XANADU_NOTHROW
+{
+	return this->data();
+}
+
+/// Iterator operation
+XByteArray::const_iterator XByteArray::begin() const XANADU_NOTHROW
+{
+	return this->data();
+}
+
+/// Iterator operation
+XByteArray::const_iterator XByteArray::cbegin() const XANADU_NOTHROW
+{
+	return this->data();
+}
+
+/// Iterator operation
+XByteArray::const_iterator XByteArray::constBegin() const XANADU_NOTHROW
+{
+	return this->data();
+}
+
+/// Iterator operation
+XByteArray::iterator XByteArray::end() XANADU_NOTHROW
+{
+	return this->data() + this->size();
+}
+
+/// Iterator operation
+XByteArray::const_iterator XByteArray::end() const XANADU_NOTHROW
+{
+	return this->data() + this->size();
+}
+
+/// Iterator operation
+XByteArray::const_iterator XByteArray::cend() const XANADU_NOTHROW
+{
+	return this->data() + this->size();
+}
+
+/// Iterator operation
+XByteArray::const_iterator XByteArray::constEnd() const XANADU_NOTHROW
+{
+	return this->data() + this->size();
+}
+
+/// Iterator operation
+XByteArray::reverse_iterator XByteArray::rbegin() XANADU_NOTHROW
+{
+	return reverse_iterator(end());
+}
+
+/// Iterator operation
+XByteArray::reverse_iterator XByteArray::rend() XANADU_NOTHROW
+{
+	return reverse_iterator(begin());
+}
+
+/// Iterator operation
+XByteArray::const_reverse_iterator XByteArray::rbegin() const XANADU_NOTHROW
+{
+	return const_reverse_iterator(end());
+}
+
+/// Iterator operation
+XByteArray::const_reverse_iterator XByteArray::rend() const XANADU_NOTHROW
+{
+	return const_reverse_iterator(begin());
+}
+
+/// Iterator operation
+XByteArray::const_reverse_iterator XByteArray::crbegin() const XANADU_NOTHROW
+{
+	return const_reverse_iterator(end());
+}
+
+/// Iterator operation
+XByteArray::const_reverse_iterator XByteArray::crend() const XANADU_NOTHROW
+{
+	return const_reverse_iterator(begin());
+}
+
+
+
+
+
 /// Add at the front
 XByteArray& XByteArray::prepend(char _Char) XANADU_NOTHROW
 {
