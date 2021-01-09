@@ -72,6 +72,21 @@ public:
 	/// Get data size
 	virtual int64S size() const XANADU_NOTHROW;
 
+	/// resize
+	virtual void resize(int64S _Size) XANADU_NOTHROW;
+
+	/// Fills a character to the specified length of space, or if -1, all of it
+	virtual XByteArray& fill(char _Char, int64S _Size = -1) XANADU_NOTHROW;
+
+	/// Get the current capacity
+	virtual int64S capacity() const XANADU_NOTHROW;
+
+	/// Check for null values
+	virtual bool isEmpty() const XANADU_NOTHROW;
+
+	/// Check if there is a value
+	virtual bool isExist() const XANADU_NOTHROW;
+
 public:
 	/// Read by subscript
 	virtual char at(int64S _Index) const XANADU_NOTHROW;
@@ -257,6 +272,25 @@ public:
 	virtual XByteArray mid(int64S _Index, int64S _Length = XByteArray::npos) const XANADU_NOTHROW;
 
 public:
+	/// Check if the head is the same
+	virtual bool startsWith(char _Char) const XANADU_NOTHROW;
+
+	/// Check if the head is the same
+	virtual bool startsWith(const char* _Memory) const XANADU_NOTHROW;
+
+	/// Check if the head is the same
+	virtual bool startsWith(const XByteArray& _Bytes) const XANADU_NOTHROW;
+
+	/// Check if the tails are the same
+	virtual bool endsWith(char _Char) const XANADU_NOTHROW;
+
+	/// Check if the tails are the same
+	virtual bool endsWith(const char* _Memory) const XANADU_NOTHROW;
+
+	/// Check if the tails are the same
+	virtual bool endsWith(const XByteArray& _Bytes) const XANADU_NOTHROW;
+
+public:
 	/// Find in positive order from the specified location
 	virtual int64S find(char _Char, int64S _From = 0) const XANADU_NOTHROW;
 
@@ -293,6 +327,25 @@ public:
 
 	/// Find in reverse order from the specified location
 	virtual int64S lastIndexOf(const XByteArray& _Bytes, int64S _From = -1) const XANADU_NOTHROW;
+
+public:
+	/// Check if it's lowercase
+	virtual bool isLower() const XANADU_NOTHROW;
+
+	/// Check if it's uppercase
+	virtual bool isUpper() const XANADU_NOTHROW;
+
+	/// Convert to lowercase
+	virtual XByteArray toLower() const XANADU_NOTHROW;
+
+	/// Convert to uppercase
+	virtual XByteArray toUpper() const XANADU_NOTHROW;
+
+	/// Remove start and end whitespace strings ('\t','\n','\v','\f','\r','_')
+	virtual XByteArray trimmed() const XANADU_NOTHROW;
+
+	/// Remove beginning, middle, and end whitespace strings ('\t','\n','\v','\f','\r','_')
+	virtual XByteArray simplified() const XANADU_NOTHROW;
 
 public:
 	/// Convert to Base64

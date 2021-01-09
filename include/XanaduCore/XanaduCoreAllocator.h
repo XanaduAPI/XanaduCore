@@ -61,6 +61,13 @@ public:
 	/// Fix Pos
 	virtual int64S MemoryPosFix(int64S _Pos) const XANADU_NOTHROW;
 
+	/// Check for null values
+	virtual bool MemoryIsEmpty() const XANADU_NOTHROW;
+
+	/// Check if there is a value
+	virtual bool MemoryIsExist() const XANADU_NOTHROW;
+
+public:
 	/// Allocator memory
 	virtual bool MemoryAllocator(int64S _Length) XANADU_NOTHROW;
 

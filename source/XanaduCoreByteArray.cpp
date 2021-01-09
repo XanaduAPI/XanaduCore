@@ -45,6 +45,17 @@ unsigned char XanaduByteArrayFindBase64(unsigned char _Char)
 	return static_cast<unsigned char>(-1);
 }
 
+/// Check if the character is blank
+bool XanaduByteArrayIsSpace(char _Char)
+{
+	if(_Char == ' ' || _Char == '\t' || _Char == '\n' || _Char == '\v' || _Char == '\f' || _Char == '\r')
+	{
+		return true;
+	}
+	return false;
+};
+
+
 
 /// Constructors
 XByteArray::XByteArray() XANADU_NOTHROW : XAllocator()
@@ -168,6 +179,46 @@ int64S XByteArray::size() const XANADU_NOTHROW
 {
 	return XAllocator::MemoryLength();
 }
+
+/// resize
+void XByteArray::resize(int64S _Size) XANADU_NOTHROW
+{
+	this->MemoryResize(_Size);
+}
+
+/// Fills a character to the specified length of space, or if -1, all of it
+XByteArray& XByteArray::fill(char _Char, int64S _Size) XANADU_NOTHROW
+{
+	if (_Size < 0 || _Size > this->size())
+	{
+		_Size = this->size();
+	}
+	for (auto vIndex = 0LL; vIndex < _Size; ++vIndex)
+	{
+		this->operator[](vIndex) = _Char;
+	}
+	return *this;
+}
+
+/// Get the current capacity
+int64S XByteArray::capacity() const XANADU_NOTHROW
+{
+	return this->MemoryCapacity();
+}
+
+/// Check for null values
+bool XByteArray::isEmpty() const XANADU_NOTHROW
+{
+	return this->MemoryIsEmpty();
+}
+
+/// Check if there is a value
+bool XByteArray::isExist() const XANADU_NOTHROW
+{
+	return this->MemoryIsExist();
+}
+
+
 
 
 
@@ -614,6 +665,69 @@ XByteArray XByteArray::mid(int64S _Index, int64S _Length) const XANADU_NOTHROW
 
 
 
+/// Check if the head is the same
+bool XByteArray::startsWith(char _Char) const XANADU_NOTHROW
+{
+	return this->startsWith(XByteArray(_Char));
+}
+
+/// Check if the head is the same
+bool XByteArray::startsWith(const char* _Memory) const XANADU_NOTHROW
+{
+	return this->startsWith(XByteArray(_Memory, Xanadu::strlen(_Memory)));
+}
+
+/// Check if the head is the same
+bool XByteArray::startsWith(const XByteArray& _Bytes) const XANADU_NOTHROW
+{
+	if (this->size() >= _Bytes.size() && _Bytes.isExist())
+	{
+		for(auto vIndex = 0LL; vIndex < _Bytes.size(); ++vIndex)
+		{
+			if(this->operator[](vIndex) != _Bytes.operator[](vIndex))
+			{
+				return false;
+			}
+		}
+		return true;
+	}
+	return false;
+}
+
+/// Check if the tails are the same
+bool XByteArray::endsWith(char _Char) const XANADU_NOTHROW
+{
+	return this->endsWith(XByteArray(_Char));
+}
+
+/// Check if the tails are the same
+bool XByteArray::endsWith(const char* _Memory) const XANADU_NOTHROW
+{
+	return this->endsWith(XByteArray(_Memory, Xanadu::strlen(_Memory)));
+}
+
+/// Check if the tails are the same
+bool XByteArray::endsWith(const XByteArray& _Bytes) const XANADU_NOTHROW
+{
+	if (this->size() >= _Bytes.size() && _Bytes.isExist())
+	{
+		for(auto vIndex = 0LL; vIndex < _Bytes.size(); ++vIndex)
+		{
+			if(this->operator[](vIndex + this->size() - _Bytes.size()) != _Bytes.operator[](vIndex))
+			{
+				return false;
+			}
+		}
+		return true;
+	}
+	return false;
+}
+
+
+
+
+
+
 /// Find in positive order from the specified location
 int64S XByteArray::find(char _Char, int64S _From) const XANADU_NOTHROW
 {
@@ -698,6 +812,122 @@ int64S XByteArray::lastIndexOf(const char* _Memory, int64S _From) const XANADU_N
 int64S XByteArray::lastIndexOf(const XByteArray& _Bytes, int64S _From) const XANADU_NOTHROW
 {
 	return this->rfind(_Bytes, _From);
+}
+
+
+
+
+
+
+/// Check if it's lowercase
+bool XByteArray::isLower() const XANADU_NOTHROW
+{
+	for (auto vIndex = 0LL; vIndex < this->size(); ++vIndex)
+	{
+		if ('A' <= this->operator[](vIndex) && this->operator[](vIndex) <= 'Z')
+		{
+			return false;
+		}
+	}
+	return true;
+}
+
+/// Check if it's uppercase
+bool XByteArray::isUpper() const XANADU_NOTHROW
+{
+	for (auto vIndex = 0LL; vIndex < this->size(); ++vIndex)
+	{
+		if ('a' <= this->operator[](vIndex) && this->operator[](vIndex) <= 'z')
+		{
+			return false;
+		}
+	}
+	return true;
+}
+
+/// Convert to lowercase
+XByteArray XByteArray::toLower() const XANADU_NOTHROW
+{
+	auto		vBytes = XByteArray();
+	for (auto vIndex = 0LL; vIndex < this->size(); ++vIndex)
+	{
+		auto		vChar = this->operator[](vIndex);
+		if ('A' <= this->operator[](vIndex) && this->operator[](vIndex) <= 'Z')
+		{
+			vChar = Xanadu::tolower(vChar);
+		}
+		vBytes.append(vChar);
+	}
+	return vBytes;
+}
+
+/// Convert to uppercase
+XByteArray XByteArray::toUpper() const XANADU_NOTHROW
+{
+	auto		vBytes = XByteArray();
+	for (auto vIndex = 0LL; vIndex < this->size(); ++vIndex)
+	{
+		auto		vChar = this->operator[](vIndex);
+		if ('a' <= this->operator[](vIndex) && this->operator[](vIndex) <= 'z')
+		{
+			vChar = Xanadu::toupper(vChar);
+		}
+		vBytes.append(vChar);
+	}
+	return vBytes;
+}
+
+/// Remove start and end whitespace strings ('\t','\n','\v','\f','\r','_')
+XByteArray XByteArray::trimmed() const XANADU_NOTHROW
+{
+	auto		vBeginPos = 0LL;
+	auto		vEndPos = this->size() - 1;
+	/// Positive sequence check
+	for (vBeginPos = 0LL; vBeginPos < this->size(); ++vBeginPos)
+	{
+		if (XanaduByteArrayIsSpace(this->operator[](vBeginPos)))
+		{
+			break;
+		}
+	}
+	/// Check order
+	for (vEndPos = this->size() - 1; vEndPos >= 0; --vEndPos)
+	{
+		if (XanaduByteArrayIsSpace(this->operator[](vBeginPos)))
+		{
+			break;
+		}
+	}
+	if (vBeginPos >= vEndPos)
+	{
+		return this->mid(vBeginPos, vEndPos - vBeginPos);
+	}
+	return XByteArray();
+}
+
+/// Remove beginning, middle, and end whitespace strings ('\t','\n','\v','\f','\r','_')
+XByteArray XByteArray::simplified() const XANADU_NOTHROW
+{
+	auto		vBytes = this->trimmed();
+	auto		vResult = XByteArray();
+	auto		vExistSpace = false;
+	for (auto vIndex = 0LL; vIndex < vBytes.size(); ++vIndex)
+	{
+		if (XanaduByteArrayIsSpace(vBytes.operator[](vIndex)))
+		{
+			vExistSpace = true;
+		}
+		else
+		{
+			if (vExistSpace)
+			{
+				vResult.append(' ');
+				vExistSpace = false;
+			}
+			vResult.append(vBytes.operator[](vIndex));
+		}
+	}
+	return vResult;
 }
 
 

@@ -92,6 +92,24 @@ int64S XAllocator::MemoryPosFix(int64S _Pos) const XANADU_NOTHROW
 	return _Pos;
 }
 
+/// Check for null values
+bool XAllocator::MemoryIsEmpty() const XANADU_NOTHROW
+{
+	return this->_memory_length <= 0;
+}
+
+/// Check if there is a value
+bool XAllocator::MemoryIsExist() const XANADU_NOTHROW
+{
+	return this->_memory_length > 0;
+}
+
+
+
+
+
+
+
 /// Allocator memory
 bool XAllocator::MemoryAllocator(int64S _Length) XANADU_NOTHROW
 {
