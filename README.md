@@ -55,6 +55,7 @@ sudo apt install \
 Then clone the actual project repository:
 ```shell
 git clone https://github.com/XanaduAPI/XanaduCore.git
+svn checkout https://github.com/XanaduAPI/XanaduCore/trunk
 cd XanaduCore
 ```
 
@@ -70,4 +71,4 @@ sudo make install
 This library is licensed under the [GNU Lesser General Public License v2.1](https://www.gnu.org/licenses/lgpl-2.1.en.html),
 also included in the repository in the `COPYING` file.
 
-README Updated on: 2020-12-31
+README Updated on: 2021-01-11
