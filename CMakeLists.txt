@@ -1,77 +1,85 @@
 ﻿#CMake最低版本号要求
-CMAKE_MINIMUM_REQUIRED(VERSION 3.17)
+cmake_minimum_required(VERSION 3.8)
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 message(${CMAKE_MODULE_PATH})
 
 #项目依赖
-FIND_PACKAGE(XanaduRuntime 0)
+find_package(XanaduRuntime REQUIRED)
 
 #项目名称
-PROJECT(XanaduCore)
+project(XanaduCore)
 
 #设置Debug后缀
 set(CMAKE_DEBUG_POSTFIX "D")
 
 #设置安装路径
-MESSAGE(STATUS "Operation System : ${CMAKE_SYSTEM}")
-IF (WIN32)
-	MESSAGE(STATUS "Current Platform : WIN32")
-	SET(CMAKE_INSTALL_PREFIX C:/Xanadu)
-	INCLUDE_DIRECTORIES(C:/Xanadu/include)
-ELSEIF (MINGW)
-	MESSAGE(STATUS "Current Platform : MINGW")
-	SET(CMAKE_INSTALL_PREFIX /usr)
-ELSEIF (APPLE)
-	MESSAGE(STATUS "Current Platform : APPLE")
-	SET(CMAKE_INSTALL_PREFIX /usr/local)
-ELSEIF (UNIX)
-	MESSAGE(STATUS "Current Platform : UNIX")
-	SET(CMAKE_INSTALL_PREFIX /usr)
-ENDIF (WIN32)
+message(STATUS "Operation System : ${CMAKE_SYSTEM}")
+if (WIN32)
+	message(STATUS "Current Platform : WIN32")
+	set(CMAKE_INSTALL_PREFIX C:/Xanadu)
+elseif (MINGW)
+	message(STATUS "Current Platform : MINGW")
+	set(CMAKE_INSTALL_PREFIX /usr)
+elseif (APPLE)
+	message(STATUS "Current Platform : APPLE")
+	set(CMAKE_INSTALL_PREFIX /usr/local)
+elseif (UNIX)
+	message(STATUS "Current Platform : UNIX")
+	set(CMAKE_INSTALL_PREFIX /usr)
+endif ()
 
 
 #C++支持
-SET(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 17)
 
 #头文件搜索目录
-INCLUDE_DIRECTORIES(${PROJECT_SOURCE_DIR}/include)
+include_directories(${PROJECT_SOURCE_DIR}/include)
+include_directories(${XANADU_RUNTIME_INCLUDE})
+
+#链接库搜索目录
+link_directories(${XANADU_RUNTIME_LIBRARY})
 
 #设置静态编译宏
-#ADD_DEFINITIONS(-DXANADU_CORE_BUILD_STATIC)
+#add_definitions(-DXANADU_CORE_BUILD_STATIC)
 #设置导出宏
-ADD_DEFINITIONS(-DXANADU_CORE_LIB)
+add_definitions(-DXANADU_CORE_LIB)
 
 #包含源文件
-AUX_SOURCE_DIRECTORY(./source SRC)
+aux_source_directory(./source SRC)
 
 #设置输出目录
-SET(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
+set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
 
 #链接库
-IF (MINGW)
-	LINK_LIBRARIES("stdc++")
-ENDIF(MINGW)
-LINK_LIBRARIES(XanaduRuntime)
+if (MINGW)
+	link_libraries("stdc++")
+endif()
+if (MSVC AND CMAKE_BUILD_TYPE STREQUAL "Debug")
+	link_libraries(XanaduRuntimeD)
+else ()
+	link_libraries(XanaduRuntime)
+endif ()
 
 #构建
-ADD_LIBRARY(XanaduCore SHARED ${SRC} "source/XanaduCoreString.cpp")
-
+add_library(XanaduCore SHARED ${SRC})
+#target_link_libraries(XanaduCore debug XanaduRuntimeD)
+#target_link_libraries(XanaduCore optimized XanaduRuntime)
 
 #设置项目版本号
-SET_TARGET_PROPERTIES(XanaduCore PROPERTIES VERSION 0.1.0 SOVERSION 0)
+set_target_properties(XanaduCore PROPERTIES VERSION 0.1.2 SOVERSION 0)
 
 #设置安装文件(静态库)
-INSTALL(TARGETS XanaduCore ARCHIVE DESTINATION ${CMAKE_INSTALL_PREFIX}/lib)
+install(TARGETS XanaduCore ARCHIVE DESTINATION ${CMAKE_INSTALL_PREFIX}/lib)
 #设置安装文件(动态库)
-INSTALL(TARGETS XanaduCore LIBRARY DESTINATION ${CMAKE_INSTALL_PREFIX}/lib)
+install(TARGETS XanaduCore LIBRARY DESTINATION ${CMAKE_INSTALL_PREFIX}/lib)
 #设置安装文件(可执行文件)
-#INSTALL(TARGETS XanaduCore RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX}/bin)
+#install(TARGETS XanaduCore RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX}/bin)
 #设置安装文件(与库关联的PUBLIC头文件)
-#INSTALL(TARGETS XanaduCore PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_PREFIX}/include)
+#install(TARGETS XanaduCore PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_PREFIX}/include)
 #设置安装文件(与库关联的PRIVATE头文件)
-#INSTALL(TARGETS XanaduCore PRIVATE_HEADER DESTINATION ${CMAKE_INSTALL_PREFIX}/include)
+#install(TARGETS XanaduCore PRIVATE_HEADER DESTINATION ${CMAKE_INSTALL_PREFIX}/include)
 #安装头文件
-INSTALL(DIRECTORY ${PROJECT_SOURCE_DIR}/include/XanaduCore DESTINATION ${CMAKE_INSTALL_PREFIX}/include)
+install(DIRECTORY ${PROJECT_SOURCE_DIR}/include/XanaduCore DESTINATION ${CMAKE_INSTALL_PREFIX}/include)
 #安装头文件
-#INSTALL(FILES ${PROJECT_SOURCE_DIR}/include/ DESTINATION ${CMAKE_INSTALL_PREFIX}/include)
+#install(FILES ${PROJECT_SOURCE_DIR}/include/ DESTINATION ${CMAKE_INSTALL_PREFIX}/include)
