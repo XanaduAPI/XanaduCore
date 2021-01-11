@@ -559,7 +559,7 @@ XByteArray& XByteArray::replace(const char* _Before, const char* _After) XANADU_
 /// Replace data
 XByteArray& XByteArray::replace(const char* _Before, int64S _Bsize, const char* _After, int64S _Asize) XANADU_NOTHROW
 {
-	auto		vIndex = 0;
+	auto		vIndex = 0LL;
 	auto		vPos = XAllocator::npos;
 	while (_Before && _Bsize > 0 && _After && _Asize >= 0)
 	{
@@ -992,7 +992,7 @@ XByteArray XByteArray::ToHex() const XANADU_NOTHROW
 	char		vBufferHex[3] = {0};
 	for (auto vIndex = 0; vIndex < this->size(); ++vIndex)
 	{
-		sprintf(vBufferHex, "%02X", this->at(vIndex));
+		sprintf(vBufferHex, "%02X", (int32S)this->at(vIndex));
 		vTarget[vIndex * 2 + 0] = vBufferHex[0];
 		vTarget[vIndex * 2 + 1] = vBufferHex[1];
 	}
@@ -1000,13 +1000,13 @@ XByteArray XByteArray::ToHex() const XANADU_NOTHROW
 }
 
 /// Format from memory
-XByteArray XANADUAPI XByteArray::FromMemory(const char* _Memory, int _Size) XANADU_NOTHROW
+XByteArray XANADUAPI XByteArray::FromMemory(const char* _Memory, int64S _Size) XANADU_NOTHROW
 {
 	return XByteArray(_Memory, _Size);
 }
 
 /// Format from Base64
-XByteArray XANADUAPI XByteArray::FromBase64(const void* _Memory, int _Size) XANADU_NOTHROW
+XByteArray XANADUAPI XByteArray::FromBase64(const void* _Memory, int64S _Size) XANADU_NOTHROW
 {
 	auto		vLength = _Size;
 	auto 		vSource = (const unsigned char*)_Memory;
@@ -1069,7 +1069,7 @@ XByteArray XANADUAPI XByteArray::FromBase64(const XByteArray& _Bytes) XANADU_NOT
 }
 
 /// Format from HEX
-XByteArray XANADUAPI XByteArray::FromHex(const void* _Memory, int _Size) XANADU_NOTHROW
+XByteArray XANADUAPI XByteArray::FromHex(const void* _Memory, int64S _Size) XANADU_NOTHROW
 {
 	if (nullptr == _Memory || _Size <= 0)
 	{
@@ -1081,7 +1081,7 @@ XByteArray XANADUAPI XByteArray::FromHex(const void* _Memory, int _Size) XANADU_
 	auto		vTarget = XByteArray(vLength);
 	if(_Memory && _Size > 0)
 	{
-		for (auto vIndex = 0; vIndex < vLength; ++vIndex)
+		for (auto vIndex = 0LL; vIndex < vLength; ++vIndex)
 		{
 			auto		vHexLeft = XanaduByteArrayHexToInt8U(vBuffer[vIndex * 2 + 0]);
 			auto		vHexRight = XanaduByteArrayHexToInt8U(vBuffer[vIndex * 2 + 1]);

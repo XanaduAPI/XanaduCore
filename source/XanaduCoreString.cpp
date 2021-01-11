@@ -1478,19 +1478,19 @@ XString XANADUAPI XString::FromLString(const LString& _LString) XANADU_NOTHROW
 }
 
 //Convert : From Native String
-XString XANADUAPI XString::FromNString(const NString& _QString) XANADU_NOTHROW
+XString XANADUAPI XString::FromNString(const NString& _NString) XANADU_NOTHROW
 {
 #ifdef XANADU_SYSTEM_WINDOWS
-	return XString::FromAString(_QString);
+	return XString::FromAString(_NString);
 #else
-	return XString::FromUString(_QString);
+	return XString::FromUString(_NString);
 #endif//XANADU_SYSTEM_WINDOWS
 }
 
 //Convert : From XByteArray
-XString XANADUAPI XString::FromBytes(const XByteArray& _QByteArray) XANADU_NOTHROW
+XString XANADUAPI XString::FromBytes(const XByteArray& _Bytes) XANADU_NOTHROW
 {
-	return XString::FromUString(UString(_QByteArray.data(), _QByteArray.size()));
+	return XString::FromUString(UString(_Bytes.data(), _Bytes.size()));
 }
 
 //Convert:From URL Encode
@@ -2115,7 +2115,7 @@ int64U XString::ToInt64U(bool* _Ok, int _Base) const XANADU_NOTHROW
 float XString::ToFloat(bool* _Ok) const XANADU_NOTHROW
 {
 	auto		vEnd = static_cast<wchar_t*>(nullptr);
-	auto		vValue = static_cast<int64U>(std::wcstof(data(), &vEnd));
+	auto		vValue = std::wcstof(data(), &vEnd);
 
 	if(_Ok)
 	{
@@ -2136,7 +2136,7 @@ float XString::ToFloat(bool* _Ok) const XANADU_NOTHROW
 double XString::ToDouble(bool* _Ok) const XANADU_NOTHROW
 {
 	auto		vEnd = static_cast<wchar_t*>(nullptr);
-	auto		vValue = static_cast<int64U>(std::wcstod(data(), &vEnd));
+	auto		vValue = std::wcstod(data(), &vEnd);
 
 	if(_Ok)
 	{

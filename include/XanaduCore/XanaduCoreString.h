@@ -470,10 +470,10 @@ public:
 	static XString XANADUAPI FromLString(const LString& _LString) XANADU_NOTHROW;
 
 	//Convert : From Native String
-	static XString XANADUAPI FromNString(const NString& _QString) XANADU_NOTHROW;
+	static XString XANADUAPI FromNString(const NString& _NString) XANADU_NOTHROW;
 
 	//Convert : From XByteArray
-	static XString XANADUAPI FromBytes(const XByteArray& _QByteArray) XANADU_NOTHROW;
+	static XString XANADUAPI FromBytes(const XByteArray& _Bytes) XANADU_NOTHROW;
 
 	//Convert:From URL Encode
 	static XString XANADUAPI FromURL(const UString& _URL) XANADU_NOTHROW;

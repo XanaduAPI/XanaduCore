@@ -355,16 +355,16 @@ public:
 	virtual XByteArray ToHex() const XANADU_NOTHROW;
 
 	/// Format from memory
-	static XByteArray XANADUAPI FromMemory(const char* _Memory, int _Size) XANADU_NOTHROW;
+	static XByteArray XANADUAPI FromMemory(const char* _Memory, int64S _Size) XANADU_NOTHROW;
 
 	/// Format from Base64
-	static XByteArray XANADUAPI FromBase64(const void* _Memory, int _Size) XANADU_NOTHROW;
+	static XByteArray XANADUAPI FromBase64(const void* _Memory, int64S _Size) XANADU_NOTHROW;
 
 	/// Format from Base64
 	static XByteArray XANADUAPI FromBase64(const XByteArray& _Bytes) XANADU_NOTHROW;
 
 	/// Format from HEX
-	static XByteArray XANADUAPI FromHex(const void* _Memory, int _Size) XANADU_NOTHROW;
+	static XByteArray XANADUAPI FromHex(const void* _Memory, int64S _Size) XANADU_NOTHROW;
 
 	/// Format from HEX
 	static XByteArray XANADUAPI FromHex(const XByteArray& _Bytes) XANADU_NOTHROW;
