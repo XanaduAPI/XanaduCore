@@ -3,6 +3,7 @@
 
 #include <XanaduCore/XanaduCoreAllocator.h>
 #include <XanaduCore/XanaduCoreByteArray.h>
+#include <XanaduCore/XanaduCoreException.h>
 #include <XanaduCore/XanaduCoreString.h>
 
 #endif//_XANADU_CORE_H_
