@@ -4,11 +4,15 @@
 /// Structure
 XVariant::XVariant() XANADU_NOTHROW
 {
+	this->_variant_type = XVariant::EINVALID;
+	this->_variant_data._VNull = 0LL;
 }
 
 /// Overloading structure
 XVariant::XVariant(Type _Type) XANADU_NOTHROW
 {
+	this->_variant_type = _Type;
+	this->_variant_data._VNull = 0LL;
 }
 
 /// Overloading structure

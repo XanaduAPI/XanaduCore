@@ -6,8 +6,8 @@
  * Variant Class for the Xanadu series
  * */
 
-#ifndef			_XANADU_CORE_EXCEPTION_H_
-#define			_XANADU_CORE_EXCEPTION_H_
+#ifndef			_XANADU_CORE_VARIANT_H_
+#define			_XANADU_CORE_VARIANT_H_
 
 #include <XanaduCore/XanaduCoreHeader.h>
 #include <XanaduCore/XanaduCoreByteArray.h>
@@ -35,6 +35,26 @@ public:
 		ESTRING,			/// XString
 		EBYTEARRAY,			/// XByteArray
 	};
+
+private:
+	union Data
+	{
+		bool		_VBool;
+		int8S		_VInt8S;
+		int8U		_VInt8U;
+		int16S		_VInt16S;
+		int16U		_VInt16U;
+		int32S		_VInt32S;
+		int32U		_VInt32U;
+		int64S		_VInt64S;
+		int64U		_VInt64U;
+		float 		_VFloat;
+		double 		_VDouble;
+		void*		_VObject;
+		int64S		_VNull;
+	}_variant_data;
+
+	Type			_variant_type;
 
 public:
 	/// Structure
@@ -112,4 +132,4 @@ public:
 	virtual void clear() const XANADU_NOTHROW;
 };
 
-#endif /// _XANADU_CORE_EXCEPTION_H_
+#endif /// _XANADU_CORE_VARIANT_H_
