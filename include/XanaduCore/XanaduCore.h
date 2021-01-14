@@ -5,6 +5,7 @@
 #include <XanaduCore/XanaduCoreByteArray.h>
 #include <XanaduCore/XanaduCoreDateTime.h>
 #include <XanaduCore/XanaduCoreException.h>
+#include <XanaduCore/XanaduCoreMutex.h>
 #include <XanaduCore/XanaduCoreStream.h>
 #include <XanaduCore/XanaduCoreString.h>
 #include <XanaduCore/XanaduCoreVariant.h>
