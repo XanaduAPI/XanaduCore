@@ -29,9 +29,8 @@ public:
 		EINT32U,			/// unsigned int
 		EINT64S,			/// long long
 		EINT64U,			/// unsigned long long
+		EFLOAT,				/// float
 		EDOUBLE,			/// double
-		EMAP,				/// std::map
-		ELIST,				/// std::list
 		ESTRING,			/// XString
 		EBYTEARRAY,			/// XByteArray
 	};
@@ -100,13 +99,13 @@ public:
 	XVariant(double _Value) XANADU_NOTHROW;
 
 	/// Overloading structure
-	XVariant(const std::map<XString, XVariant>& _Value) XANADU_NOTHROW;
-
-	/// Overloading structure
-	XVariant(const std::list<XVariant>& _Value) XANADU_NOTHROW;
+	XVariant(const wchar_t* _Value) XANADU_NOTHROW;
 
 	/// Overloading structure
 	XVariant(const XString& _Value) XANADU_NOTHROW;
+
+	/// Overloading structure
+	XVariant(const char* _Value) XANADU_NOTHROW;
 
 	/// Overloading structure
 	XVariant(const XByteArray& _Value) XANADU_NOTHROW;
@@ -124,12 +123,59 @@ public:
 	/// Overload Operator =
 	virtual XVariant& operator = (XVariant&& _Other) XANADU_NOTHROW;
 
+private:
+	/// Data to construct
+	virtual void Initialize(const XVariant& _Other) XANADU_NOTHROW;
+
+	/// Data released
+	virtual void Release() XANADU_NOTHROW;
+
 public:
 	/// Get the current type
 	virtual Type type() const XANADU_NOTHROW;
 
 	/// Clear current content
-	virtual void clear() const XANADU_NOTHROW;
+	virtual void clear() XANADU_NOTHROW;
+
+public:
+	/// Convert to bool
+	virtual bool ToBool() const XANADU_NOTHROW;
+
+	/// Convert to int8S
+	virtual int8S ToInt8S() const XANADU_NOTHROW;
+
+	/// Convert to int8U
+	virtual int8U ToInt8U() const XANADU_NOTHROW;
+
+	/// Convert to int16S
+	virtual int16S ToInt16S() const XANADU_NOTHROW;
+
+	/// Convert to int16U
+	virtual int16U ToInt16U() const XANADU_NOTHROW;
+
+	/// Convert to int32S
+	virtual int32S ToInt32S() const XANADU_NOTHROW;
+
+	/// Convert to int32U
+	virtual int32U ToInt32U() const XANADU_NOTHROW;
+
+	/// Convert to int64S
+	virtual int64S ToInt64S() const XANADU_NOTHROW;
+
+	/// Convert to int64U
+	virtual int64U ToInt64U() const XANADU_NOTHROW;
+
+	/// Convert to float
+	virtual float ToFloat() const XANADU_NOTHROW;
+
+	/// Convert to double
+	virtual double ToDouble() const XANADU_NOTHROW;
+
+	/// Convert to XString
+	virtual XString ToString() const XANADU_NOTHROW;
+
+	/// Convert to XByteArray
+	virtual XByteArray ToByteArray() const XANADU_NOTHROW;
 };
 
 #endif /// _XANADU_CORE_VARIANT_H_
