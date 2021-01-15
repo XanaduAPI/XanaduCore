@@ -63,6 +63,13 @@ public:
 	XByteArray& operator += (const XByteArray& _Bytes) XANADU_NOTHROW;
 
 public:
+	/// operator overload ==
+	virtual bool operator == (const char* _Memory)const  XANADU_NOTHROW;
+
+	/// operator overload ==
+	virtual bool operator == (const XByteArray& _Bytes)const  XANADU_NOTHROW;
+
+public:
 	/// Get data pointer
 	virtual char* data() XANADU_NOTHROW;
 
@@ -71,6 +78,9 @@ public:
 
 	/// Get data size
 	virtual int64S size() const XANADU_NOTHROW;
+
+	/// Get Data size
+	virtual int64S length() const XANADU_NOTHROW;
 
 	/// resize
 	virtual void resize(int64S _Size) XANADU_NOTHROW;
@@ -327,6 +337,22 @@ public:
 
 	/// Find in reverse order from the specified location
 	virtual int64S lastIndexOf(const XByteArray& _Bytes, int64S _From = -1) const XANADU_NOTHROW;
+
+public:
+	/// Check for inclusion
+	virtual bool contains(char _Char) const XANADU_NOTHROW;
+
+	/// Check for inclusion
+	virtual bool contains(const char* _Memory) const XANADU_NOTHROW;
+
+	/// Check for inclusion
+	virtual bool contains(const XByteArray& _Bytes) const XANADU_NOTHROW;
+
+	/// Check if they are the same
+	virtual int compare(const char* _Memory, Xanadu::CaseSensitivity _XCS = Xanadu::CaseSensitive) const XANADU_NOTHROW;
+
+	/// Check if they are the same
+	virtual int compare(const XByteArray& _Bytes, Xanadu::CaseSensitivity _XCS = Xanadu::CaseSensitive) const XANADU_NOTHROW;
 
 public:
 	/// Check if it's lowercase

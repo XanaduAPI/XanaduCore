@@ -4,6 +4,8 @@
 
 #include <XanaduCore/XanaduCoreAllocator.h>
 
+#define XANADU_ALLOCATOR_DELETE(_Address)			if((_Address)){ delete[] static_cast<char*>(_Address); _Address = nullptr;}
+
 /// Calculate the appropriate capacity according to the length of the input
 int64S XanaduAllocatorCalculateCapacity(int64S _Length)
 {
@@ -45,7 +47,7 @@ XAllocator::XAllocator(const XAllocator& _Allocator) XANADU_NOTHROW
 /// Destructor
 XAllocator::~XAllocator() XANADU_NOTHROW
 {
-	XANADU_DELETE_ARR(this->_memory_address);
+	XANADU_ALLOCATOR_DELETE(this->_memory_address);
 	this->_memory_length = 0;
 	this->_memory_capacity = 0;
 }
@@ -113,7 +115,7 @@ bool XAllocator::MemoryIsExist() const XANADU_NOTHROW
 /// Allocator memory
 bool XAllocator::MemoryAllocator(int64S _Length) XANADU_NOTHROW
 {
-	XANADU_DELETE_ARR(this->_memory_address);
+	XANADU_ALLOCATOR_DELETE(this->_memory_address);
 
 	/// When the value passed in is less than 0, the default size is assigned
 	this->_memory_length = _Length < 0 ? 0 : _Length;
@@ -151,7 +153,7 @@ bool XAllocator::MemoryAllocator(const void* _Memory, int64S _Length) XANADU_NOT
 /// Release memory
 void XAllocator::MemoryRelease() XANADU_NOTHROW
 {
-	XANADU_DELETE_ARR(this->_memory_address);
+	XANADU_ALLOCATOR_DELETE(this->_memory_address);
 	this->_memory_length = 0;
 	this->_memory_capacity = 0;
 	this->MemoryAllocator(0);
@@ -178,7 +180,7 @@ bool XAllocator::MemoryAppend(int64S _Length) XANADU_NOTHROW
 		Xanadu::memcpy(vTempAddress, this->_memory_address, this->_memory_length);
 		Xanadu::memset(vTempAddress + this->_memory_length, 0, vTempCapacity - this->_memory_length);
 
-		XANADU_DELETE_ARR(this->_memory_address);
+		XANADU_ALLOCATOR_DELETE(this->_memory_address);
 		this->_memory_address = vTempAddress;
 		this->_memory_length = vTempLength;
 		this->_memory_capacity = vTempCapacity;
@@ -247,7 +249,7 @@ bool XAllocator::MemoryReduce(int64S _Length) XANADU_NOTHROW
 		Xanadu::memcpy(vTempAddress, this->_memory_address, vTempLength);
 		Xanadu::memset(vTempAddress + vTempLength, 0, vTempCapacity - vTempLength);
 
-		XANADU_DELETE_ARR(this->_memory_address);
+		XANADU_ALLOCATOR_DELETE(this->_memory_address);
 		this->_memory_address = vTempAddress;
 		this->_memory_length = vTempLength;
 		this->_memory_capacity = vTempCapacity;
@@ -297,7 +299,7 @@ bool XAllocator::MemoryInsert(int64S _Pos, int64S _Length) XANADU_NOTHROW
 		Xanadu::memcpy(vTempAddress + _Pos + _Length, static_cast<char*>(this->_memory_address) + _Pos, this->_memory_length - _Pos);
 		Xanadu::memset(vTempAddress + this->_memory_length + _Length, 0, vTempCapacity - this->_memory_length - _Length);
 
-		XANADU_DELETE_ARR(this->_memory_address);
+		XANADU_ALLOCATOR_DELETE(this->_memory_address);
 		this->_memory_address = vTempAddress;
 		this->_memory_length = vTempLength;
 		this->_memory_capacity = vTempCapacity;
@@ -345,7 +347,7 @@ bool XAllocator::MemoryRemove(int64S _Pos, int64S _Length) XANADU_NOTHROW
 		Xanadu::memcpy(vTempAddress + _Pos, static_cast<const char*>(this->_memory_address) + _Pos + _Length, this->_memory_length - _Pos - _Length);
 		Xanadu::memset(vTempAddress + vTempLength, 0, vTempCapacity - vTempLength);
 
-		XANADU_DELETE_ARR(this->_memory_address);
+		XANADU_ALLOCATOR_DELETE(this->_memory_address);
 		this->_memory_address = vTempAddress;
 		this->_memory_length = vTempLength;
 		this->_memory_capacity = vTempCapacity;
@@ -373,12 +375,16 @@ bool XAllocator::MemoryCopy(const XAllocator& _Allocator) XANADU_NOTHROW
 /// Move Memory
 bool XAllocator::MemoryMove(XAllocator& _Allocator) XANADU_NOTHROW
 {
-	XANADU_DELETE_ARR(this->_memory_address);
+	XANADU_ALLOCATOR_DELETE(this->_memory_address);
 
 	this->_memory_address = _Allocator._memory_address;
 	this->_memory_length = _Allocator._memory_length;
 	this->_memory_capacity = _Allocator._memory_capacity;
-	_Allocator.MemoryRelease();
+
+	_Allocator._memory_address = nullptr;
+	_Allocator._memory_length = 0LL;
+	_Allocator._memory_capacity = 0LL;
+	_Allocator.MemoryAllocator(0);
 	return true;
 }
 
@@ -492,7 +498,7 @@ bool XAllocator::MemoryReplace(int64S _Pos, int64S _Length, const void* _Memory,
 				Xanadu::memcpy(vTempAddress + _Pos + _Size, static_cast<const char*>(this->_memory_address) + _Pos + _Length, this->_memory_length - _Pos - _Length);
 				Xanadu::memset(vTempAddress + vTempLength, 0, vTempCapacity - vTempLength);
 
-				XANADU_DELETE_ARR(this->_memory_address);
+				XANADU_ALLOCATOR_DELETE(this->_memory_address);
 				this->_memory_address = vTempAddress;
 				this->_memory_length = vTempLength;
 				this->_memory_capacity = vTempCapacity;

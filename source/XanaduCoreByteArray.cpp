@@ -162,6 +162,23 @@ XByteArray& XByteArray::operator += (const XByteArray& _Bytes) XANADU_NOTHROW
 
 
 
+
+/// operator overload ==
+bool XByteArray::operator == (const char* _Memory)const  XANADU_NOTHROW
+{
+	return 0 == this->compare(_Memory);
+}
+
+/// operator overload ==
+bool XByteArray::operator == (const XByteArray& _Bytes)const  XANADU_NOTHROW
+{
+	return 0 == this->compare(_Bytes);
+}
+
+
+
+
+
 /// Get data pointer
 char* XByteArray::data() XANADU_NOTHROW
 {
@@ -178,6 +195,12 @@ const char* XByteArray::data() const XANADU_NOTHROW
 int64S XByteArray::size() const XANADU_NOTHROW
 {
 	return XAllocator::MemoryLength();
+}
+
+/// Get Data size
+int64S XByteArray::length() const XANADU_NOTHROW
+{
+	return this->size();
 }
 
 /// resize
@@ -819,6 +842,67 @@ int64S XByteArray::lastIndexOf(const XByteArray& _Bytes, int64S _From) const XAN
 
 
 
+/// Check for inclusion
+bool XByteArray::contains(char _Char) const XANADU_NOTHROW
+{
+	return this->find(_Char, 0);
+}
+
+/// Check for inclusion
+bool XByteArray::contains(const char* _Memory) const XANADU_NOTHROW
+{
+	return this->find(_Memory, 0);
+}
+
+/// Check for inclusion
+bool XByteArray::contains(const XByteArray& _Bytes) const XANADU_NOTHROW
+{
+	return this->find(_Bytes, 0);
+}
+
+/// Check if they are the same
+int XByteArray::compare(const char* _Memory, Xanadu::CaseSensitivity _XCS) const XANADU_NOTHROW
+{
+	return this->compare(XByteArray(_Memory), _XCS);
+}
+
+/// Check if they are the same
+int XByteArray::compare(const XByteArray& _Bytes, Xanadu::CaseSensitivity _XCS) const XANADU_NOTHROW
+{
+	if (this->isEmpty() && _Bytes.isEmpty())
+	{
+		return 0;
+	}
+	if(this->isEmpty())
+	{
+		return -1;
+	}
+	if(_Bytes.isEmpty())
+	{
+		return 1;
+	}
+
+	if (_XCS == Xanadu::CaseSensitive)
+	{
+		return this->toUpper().compare(_Bytes.toUpper(), Xanadu::CaseInsensitive);
+	}
+	else
+	{
+		auto	vLength = this->length() <= _Bytes.length() ? this->length() : _Bytes.length();
+		auto 	vCompare = Xanadu::memcmp(this->data(), _Bytes.data(), vLength);
+		if(0 == vCompare)
+		{
+			vCompare = this->length() - _Bytes.length();
+		}
+		return vCompare;
+	}
+}
+
+
+
+
+
+
 /// Check if it's lowercase
 bool XByteArray::isLower() const XANADU_NOTHROW
 {
@@ -992,7 +1076,7 @@ XByteArray XByteArray::ToHex() const XANADU_NOTHROW
 	char		vBufferHex[3] = {0};
 	for (auto vIndex = 0; vIndex < this->size(); ++vIndex)
 	{
-		sprintf(vBufferHex, "%02X", (int32S)this->at(vIndex));
+		sprintf(vBufferHex, "%02X", (int8U)this->at(vIndex));
 		vTarget[vIndex * 2 + 0] = vBufferHex[0];
 		vTarget[vIndex * 2 + 1] = vBufferHex[1];
 	}
