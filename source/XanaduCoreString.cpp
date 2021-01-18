@@ -1290,7 +1290,7 @@ AString XString::ToAString() const XANADU_NOTHROW
 
 		Xanadu::setlocale(LC_ALL, "chs");
 
-		auto	_DestSize = static_cast<unsigned int>(2 * size() + 1);
+		auto	_DestSize = static_cast<unsigned int>(4 * size() + 1);
 		auto	_Dest = XANADU_NEW char[_DestSize];
 		Xanadu::memset(_Dest, 0, _DestSize);
 		Xanadu::wcstombs(_Dest, data(), _DestSize);
