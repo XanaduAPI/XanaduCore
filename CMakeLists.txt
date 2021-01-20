@@ -47,6 +47,7 @@ add_definitions(-DXANADU_CORE_LIB)
 
 #包含源文件
 aux_source_directory(./source SRC)
+aux_source_directory(./source/Hash SRC)
 
 #设置输出目录
 set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
@@ -67,7 +68,7 @@ add_library(XanaduCore SHARED ${SRC})
 #target_link_libraries(XanaduCore optimized XanaduRuntime)
 
 #设置项目版本号
-set_target_properties(XanaduCore PROPERTIES VERSION 0.1.7 SOVERSION 0)
+set_target_properties(XanaduCore PROPERTIES VERSION 0.2.0 SOVERSION 0)
 
 #设置安装文件(静态库)
 install(TARGETS XanaduCore ARCHIVE DESTINATION ${CMAKE_INSTALL_PREFIX}/lib)
