@@ -458,6 +458,7 @@ XString XSystem::DiskID() XANADU_NOTHROW
 #endif//XANADU_SYSTEM_LINUX
 #ifdef XANADU_SYSTEM_MACOS
 		//system_profiler SPSerialATADataType | grep Serial
+		/*
 		XShell::Run(L"system_profiler SPSerialATADataType | grep Serial", [&](XString _Output)->bool
 		{
 			_Output.remove(L"Serial Number:");
@@ -467,6 +468,7 @@ XString XSystem::DiskID() XANADU_NOTHROW
 				Xanadu::wcscpy(_StaticDiskID, _Output.data());
 			}
 		});
+		 */
 #endif//XANADU_SYSTEM_MACOS
 	}
 	return XString(_StaticDiskID);
