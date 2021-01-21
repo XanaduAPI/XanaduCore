@@ -7,6 +7,7 @@
 #include <XanaduCore/XanaduCoreDateTime.h>
 #include <XanaduCore/XanaduCoreEndian.h>
 #include <XanaduCore/XanaduCoreException.h>
+#include <XanaduCore/XanaduCoreFileInfo.h>
 #include <XanaduCore/XanaduCoreHash.h>
 #include <XanaduCore/XanaduCoreLibrary.h>
 #include <XanaduCore/XanaduCoreMutex.h>

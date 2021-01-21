@@ -25,7 +25,7 @@ public:
 
 private:
 	/// Private structures
-	XCryptoHashPrivate*		_Info;
+	XCryptoHashPrivate*			_Info;
 
 public:
 	/// Structure
