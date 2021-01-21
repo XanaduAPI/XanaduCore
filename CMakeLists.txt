@@ -68,7 +68,7 @@ add_library(XanaduCore SHARED ${SRC})
 #target_link_libraries(XanaduCore optimized XanaduRuntime)
 
 #设置项目版本号
-set_target_properties(XanaduCore PROPERTIES VERSION 0.2.0 SOVERSION 0)
+set_target_properties(XanaduCore PROPERTIES VERSION 0.2.1 SOVERSION 0)
 
 #设置安装文件(静态库)
 install(TARGETS XanaduCore ARCHIVE DESTINATION ${CMAKE_INSTALL_PREFIX}/lib)
