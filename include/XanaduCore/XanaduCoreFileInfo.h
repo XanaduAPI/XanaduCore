@@ -36,10 +36,13 @@ public:
 
 public:
 	/// Overload Operator =
-	XFileInfo& operator = (const XString& _Filepath) XANADU_NOTHROW;
+	virtual XFileInfo& operator = (const XString& _Filepath) XANADU_NOTHROW;
 
 	/// Overload Operator =
-	XFileInfo& operator = (const XFileInfo& _Fileinfo) XANADU_NOTHROW;
+	virtual XFileInfo& operator = (const XFileInfo& _Fileinfo) XANADU_NOTHROW;
+
+	/// move assignment
+	virtual XFileInfo& operator = (XFileInfo&& _Fileinfo) XANADU_NOTHROW;
 
 public:
 	/// Convert to an absolute path

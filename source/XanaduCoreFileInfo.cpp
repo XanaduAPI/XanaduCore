@@ -59,6 +59,17 @@ XFileInfo& XFileInfo::operator = (const XFileInfo& _Fileinfo) XANADU_NOTHROW
 	return *this;
 }
 
+/// move assignment
+XFileInfo& XFileInfo::operator = (XFileInfo&& _Fileinfo) XANADU_NOTHROW
+{
+	XANADU_DELETE_PTR(this->_Info);
+	this->_Info = _Fileinfo._Info;
+	_Fileinfo._Info = XANADU_NEW XFileInfoPrivate();
+	return *this;
+}
+
+
+
 
 
 
