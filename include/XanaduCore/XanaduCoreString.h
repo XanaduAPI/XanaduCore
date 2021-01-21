@@ -18,6 +18,9 @@ typedef			AString							NString;
 typedef			UString							NString;
 #endif/// XANADU_SYSTEM_WINDOWS
 
+/// The type of the Xanadu string
+#define			XSTRING(_String)					L ## _String
+
 
 /// <summary>
 /// This string processing expects a better memory allocator
