@@ -1,12 +1,6 @@
 ﻿#CMake最低版本号要求
 cmake_minimum_required(VERSION 3.8)
 
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
-message(${CMAKE_MODULE_PATH})
-
-#项目依赖
-find_package(XanaduRuntime REQUIRED)
-
 #项目名称
 project(XanaduCore)
 
@@ -29,6 +23,11 @@ elseif (UNIX)
 	set(CMAKE_INSTALL_PREFIX /usr)
 endif ()
 
+#设置模块搜索路径
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_INSTALL_PREFIX}/lib/cmake)
+
+#项目依赖
+find_package(XanaduRuntime REQUIRED)
 
 #C++支持
 set(CMAKE_CXX_STANDARD 17)
@@ -68,7 +67,7 @@ add_library(XanaduCore SHARED ${SRC})
 #target_link_libraries(XanaduCore optimized XanaduRuntime)
 
 #设置项目版本号
-set_target_properties(XanaduCore PROPERTIES VERSION 0.2.6 SOVERSION 0)
+set_target_properties(XanaduCore PROPERTIES VERSION 0.2.8 SOVERSION 0)
 
 #设置安装文件(静态库)
 install(TARGETS XanaduCore ARCHIVE DESTINATION ${CMAKE_INSTALL_PREFIX}/lib)
@@ -84,3 +83,6 @@ install(TARGETS XanaduCore LIBRARY DESTINATION ${CMAKE_INSTALL_PREFIX}/lib)
 install(DIRECTORY ${PROJECT_SOURCE_DIR}/include/XanaduCore DESTINATION ${CMAKE_INSTALL_PREFIX}/include)
 #安装头文件
 #install(FILES ${PROJECT_SOURCE_DIR}/include/ DESTINATION ${CMAKE_INSTALL_PREFIX}/include)
+#配置模块文件
+install(FILES ${PROJECT_SOURCE_DIR}/config/FindXanaduCore.cmake DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/cmake)
+install(FILES ${PROJECT_SOURCE_DIR}/config/XanaduCore.pc DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/pkgconfig)
