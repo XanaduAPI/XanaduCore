@@ -90,6 +90,13 @@ XString XFileInfo::ToAbsolutePath(const XString& _Filepath) XANADU_NOTHROW
 		vStatusAbsolute = true;
 	}
 #endif /// XANADU_SYSTEM_WINDOWS
+	if(vFilepath.size() >= 1)
+	{
+		if(vFilepath[vFilepath.size() - 1] == L'/')
+		{
+			vFilepath[vFilepath.size() - 1] = L'\0';
+		}
+	}
 	/// When the path is not absolute, preface it with the current directory
 	if(false == vStatusAbsolute)
 	{
@@ -231,10 +238,19 @@ bool XFileInfo::isFile() const XANADU_NOTHROW
 
 bool XFileInfo::isDir() const XANADU_NOTHROW
 {
+#ifdef XANADU_SYSTEM_WINDOWS
 	if(::GetFileAttributesW(this->_Info->_AbsolutePath.data()) & FILE_ATTRIBUTE_DIRECTORY)
 	{
 		return true;
 	}
+#else
+	struct stat64	vFileStatus;
+	auto		vUFilepath = this->_Info->_AbsolutePath.ToNString();
+	if(0 == stat64(vUFilepath.data(),&vFileStatus))
+	{
+		return S_ISDIR (vFileStatus.st_mode);
+	}
+#endif /// XANADU_SYSTEM_WINDOWS
 	return false;
 }
 
@@ -247,9 +263,9 @@ int64S XFileInfo::size() const XANADU_NOTHROW
 		return vFileStatus.st_size;
 	}
 #else
-	struct stat	vFileStatus;
+	struct stat64	vFileStatus;
 	auto		vUFilepath = this->_Info->_AbsolutePath.ToNString();
-	if(0 == stat(vUFilepath.data(),&vFileStatus))
+	if(0 == stat64(vUFilepath.data(),&vFileStatus))
 	{
 		return vFileStatus.st_size;
 	}

@@ -136,6 +136,20 @@ XString XSystem::HostName() XANADU_NOTHROW
 #endif//XANADU_SYSTEM_WINDOWS
 }
 
+/// Gets the directory for the current user
+XString XSystem::UserHome() XANADU_NOTHROW
+{
+#ifdef XANADU_SYSTEM_WINDOWS
+	return XString(L"C:/Users/") + XSystem::CurrentUser();
+#endif /// XANADU_SYSTEM_WINDOWS
+#ifdef XANADU_SYSTEM_LINUX
+	return XString(L"/home/") + XSystem::CurrentUser();
+#endif /// XANADU_SYSTEM_LINUX
+#ifdef XANADU_SYSTEM_MACOS
+	return XString(L"/Users/") + XSystem::CurrentUser();
+#endif /// XANADU_SYSTEM_MACOS
+}
+
 /// Whether the operating system is 32-bit
 bool XSystem::IsX86() XANADU_NOTHROW
 {

@@ -63,6 +63,9 @@ public:
 	/// Computer name
 	static XString HostName() XANADU_NOTHROW;
 
+	/// Gets the directory for the current user
+	static XString UserHome() XANADU_NOTHROW;
+
 	/// Whether the operating system is 32-bit
 	static bool IsX86() XANADU_NOTHROW;
 
