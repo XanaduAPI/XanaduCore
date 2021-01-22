@@ -1,5 +1,5 @@
 # 辅助输出信息
-message("now using FindXanaduCore.cmake find")
+message("using FindXanaduCore.cmake find")
 
 # 将头文件路径赋值给 XANADU_CORE_INCLUDE
 if (WIN32)
@@ -12,7 +12,7 @@ elseif (UNIX)
 	FIND_PATH(XANADU_CORE_INCLUDE XanaduCore/ /usr/include/)
 endif ()
 
-# 将 XanaduCore.lib 文件路径赋值给 XANADU_CORE_LIBRARY
+# 将库文件路径赋值给 XANADU_CORE_LIBRARY
 if (WIN32)
 	FIND_PATH(XANADU_CORE_LIBRARY XanaduCore.lib C:/Xanadu/lib/)
 elseif (MINGW)
