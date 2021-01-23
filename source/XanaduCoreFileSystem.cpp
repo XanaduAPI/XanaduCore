@@ -3,7 +3,7 @@
 #include <XanaduCore/XanaduCoreStream.h>
 #include <XanaduCore/XanaduCoreBase64.h>
 
-#define				XANADU_FileSystem_REMOVE_SUFFIX			L".xrm"
+#define				XANADU_FILESYSTEM_REMOVE_SUFFIX			L".xrm"
 
 ///
 XFileSystem::XFileSystem() XANADU_NOTHROW
@@ -230,6 +230,7 @@ int64S XFileSystem::FileSize(const XString& _File) XANADU_NOTHROW
 HANDLE XFileSystem::FileOpen(const XString& _File, const wchar_t* _Flags) XANADU_NOTHROW
 {
 	XANADU_CHECK_RETURN(_Flags, nullptr);
+
 	auto		vFile = XFileSystem::PathFormat(_File);
 	return Xanadu::wfopen(vFile.data(), _Flags);
 }
@@ -238,6 +239,7 @@ HANDLE XFileSystem::FileOpen(const XString& _File, const wchar_t* _Flags) XANADU
 bool XFileSystem::FileSeek(HANDLE _Handle, int64S _Offset, int32S _Origin) XANADU_NOTHROW
 {
 	XANADU_CHECK_RETURN(_Handle, false);
+
 	return 0 == Xanadu::fseek(static_cast<FILE*>(_Handle), _Offset, _Origin);
 }
 
@@ -245,6 +247,7 @@ bool XFileSystem::FileSeek(HANDLE _Handle, int64S _Offset, int32S _Origin) XANAD
 int64S XFileSystem::FileOffset(HANDLE _Handle) XANADU_NOTHROW
 {
 	XANADU_CHECK_RETURN(_Handle, -1);
+
 	return Xanadu::ftell(static_cast<FILE*>(_Handle));
 }
 
@@ -252,6 +255,7 @@ int64S XFileSystem::FileOffset(HANDLE _Handle) XANADU_NOTHROW
 bool XFileSystem::FileEof(HANDLE _Handle) XANADU_NOTHROW
 {
 	XANADU_CHECK_RETURN(_Handle, false);
+
 	return Xanadu::feof(static_cast<FILE*>(_Handle));
 }
 
@@ -259,13 +263,31 @@ bool XFileSystem::FileEof(HANDLE _Handle) XANADU_NOTHROW
 bool XFileSystem::FileRead(HANDLE _Handle, void* _Buffer, int64S _Length) XANADU_NOTHROW
 {
 	XANADU_CHECK_RETURN(_Handle, false);
+
 	return Xanadu::fread(static_cast<FILE*>(_Handle), _Buffer, _Length);
+}
+
+/// 文件:读取一行
+XByteArray XFileSystem::FileReadLine(HANDLE _Handle) XANADU_NOTHROW
+{
+	auto		vBytes = XByteArray();
+	auto		vBuffer = XANADU_NEW char[XANADU_SIZE_MB];
+	if(vBuffer)
+	{
+		if(Xanadu::fgets(vBuffer, XANADU_SIZE_MB - 2, static_cast<FILE*>(_Handle)))
+		{
+			vBytes = XByteArray(vBuffer, Xanadu::strlen(vBuffer));
+		}
+		XANADU_DELETE_ARR(vBuffer);
+	}
+	return vBytes;
 }
 
 /// 文件:写入
 int64S XFileSystem::FileRead(void* _Buffer, int64S _Size, int64S _Count, HANDLE _Handle) XANADU_NOTHROW
 {
 	XANADU_CHECK_RETURN(_Handle, false);
+
 	return Xanadu::fread(_Buffer, _Size, _Count, static_cast<FILE*>(_Handle));
 }
 
@@ -273,6 +295,7 @@ int64S XFileSystem::FileRead(void* _Buffer, int64S _Size, int64S _Count, HANDLE 
 bool XFileSystem::FileWrite(HANDLE _Handle, const void* _Buffer, int64S _Length) XANADU_NOTHROW
 {
 	XANADU_CHECK_RETURN(_Handle, false);
+
 	return Xanadu::fwrite(static_cast<FILE*>(_Handle), _Buffer, _Length);
 }
 
@@ -280,6 +303,7 @@ bool XFileSystem::FileWrite(HANDLE _Handle, const void* _Buffer, int64S _Length)
 bool XFileSystem::FileWrite(HANDLE _Handle, const XByteArray& _Buffer) XANADU_NOTHROW
 {
 	XANADU_CHECK_RETURN(_Handle, false);
+
 	if(_Buffer.size())
 	{
 		return XFileSystem::FileWrite(_Handle, _Buffer.data(), _Buffer.size());
@@ -291,6 +315,7 @@ bool XFileSystem::FileWrite(HANDLE _Handle, const XByteArray& _Buffer) XANADU_NO
 int64S XFileSystem::FileWrite(const void* _Buffer, int64S _Size, int64S _Count, HANDLE _Handle) XANADU_NOTHROW
 {
 	XANADU_CHECK_RETURN(_Handle, false);
+
 	return Xanadu::fwrite(_Buffer, _Size, _Count, static_cast<FILE*>(_Handle));
 }
 
@@ -298,6 +323,7 @@ int64S XFileSystem::FileWrite(const void* _Buffer, int64S _Size, int64S _Count, 
 bool XFileSystem::FileFlush(HANDLE _Handle) XANADU_NOTHROW
 {
 	XANADU_CHECK_RETURN(_Handle, false);
+
 	return 0 == Xanadu::fflush(static_cast<FILE*>(_Handle));
 }
 
@@ -305,6 +331,7 @@ bool XFileSystem::FileFlush(HANDLE _Handle) XANADU_NOTHROW
 bool XFileSystem::FileClose(HANDLE _Handle) XANADU_NOTHROW
 {
 	XANADU_CHECK_RETURN(_Handle, false);
+
 	return 0 == Xanadu::fclose(static_cast<FILE*>(_Handle));
 }
 
@@ -364,7 +391,7 @@ bool XFileSystem::FileRemove(const XString& _File) XANADU_NOTHROW
 			}
 #endif//XANADU_SYSTEM_WINDOWS
 			XANADU_ERROR(L"[REMOVE] [%ls] FAILURE", vFile.data());
-			return XFileSystem::FileRename(vFile, vFile + XANADU_FileSystem_REMOVE_SUFFIX);
+			return XFileSystem::FileRename(vFile, vFile + XANADU_FILESYSTEM_REMOVE_SUFFIX);
 		}
 	}
 	return true;

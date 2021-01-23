@@ -306,9 +306,9 @@ bool XVariant::ToBool() const XANADU_NOTHROW
 		case EDOUBLE:
 			return this->_variant_data._VDouble;
 		case ESTRING:
-			return false;
+			return (0 == this->ToString().compare(L"1")) ? true : false;
 		case EBYTEARRAY:
-			return false;
+			return (0 == this->ToByteArray().compare("1")) ? true : false;
 		default:
 			return this->_variant_data._VNull;
 	};
@@ -378,9 +378,9 @@ int64S XVariant::ToInt64S() const XANADU_NOTHROW
 		case EDOUBLE:
 			return static_cast<int64S>(this->_variant_data._VDouble);
 		case ESTRING:
-			return 0LL;
+			return Xanadu::wtoll(this->ToString().data());
 		case EBYTEARRAY:
-			return 0LL;
+			return Xanadu::atoll(this->ToByteArray().data());
 		default:
 			return this->_variant_data._VNull;
 	};
@@ -414,9 +414,9 @@ int64U XVariant::ToInt64U() const XANADU_NOTHROW
 		case EDOUBLE:
 			return static_cast<int64U>(this->_variant_data._VDouble);
 		case ESTRING:
-			return 0ULL;
+			return Xanadu::wtoll(this->ToString().data());
 		case EBYTEARRAY:
-			return 0ULL;
+			return Xanadu::atoll(this->ToByteArray().data());
 		default:
 			return this->_variant_data._VNull;
 	};
@@ -456,9 +456,9 @@ double XVariant::ToDouble() const XANADU_NOTHROW
 		case EDOUBLE:
 			return this->_variant_data._VDouble;
 		case ESTRING:
-			return 0.0f;
+			return Xanadu::wtof(this->ToString().data());
 		case EBYTEARRAY:
-			return 0.0f;
+			return Xanadu::atof(this->ToByteArray().data());
 		default:
 			return static_cast<double>(this->_variant_data._VNull);
 	};
@@ -469,8 +469,32 @@ XString XVariant::ToString() const XANADU_NOTHROW
 {
 	switch (this->_variant_type)
 	{
+		case EBOOL:
+			return XString::Format(L"%ls", this->_variant_data._VBool ? L"1" : L"0");
+		case EINT8S:
+			return XString::Format(L"%d", this->_variant_data._VInt8S);
+		case EINT8U:
+			return XString::Format(L"%u", this->_variant_data._VInt8U);
+		case EINT16S:
+			return XString::Format(L"%d", this->_variant_data._VInt16S);
+		case EINT16U:
+			return XString::Format(L"%u", this->_variant_data._VInt16U);
+		case EINT32S:
+			return XString::Format(L"%d", this->_variant_data._VInt32S);
+		case EINT32U:
+			return XString::Format(L"%u", this->_variant_data._VInt32U);
+		case EINT64S:
+			return XString::Format(L"%lld", this->_variant_data._VInt64S);
+		case EINT64U:
+			return XString::Format(L"%llu", this->_variant_data._VInt64U);
+		case EFLOAT:
+			return XString::Format(L"%f", this->_variant_data._VFloat);
+		case EDOUBLE:
+			return XString::Format(L"%f", this->_variant_data._VDouble);
 		case ESTRING:
 			return *(static_cast<XString*>(this->_variant_data._VObject));
+		case EBYTEARRAY:
+			return XString::FromBytes(this->ToByteArray());
 		default:
 			return L"";
 	};
@@ -481,7 +505,20 @@ XByteArray XVariant::ToByteArray() const XANADU_NOTHROW
 {
 	switch (this->_variant_type)
 	{
+		case EBOOL:
+		case EINT8S:
+		case EINT8U:
+		case EINT16S:
+		case EINT16U:
+		case EINT32S:
+		case EINT32U:
+		case EINT64S:
+		case EINT64U:
+		case EFLOAT:
+		case EDOUBLE:
 		case ESTRING:
+			return this->ToString().ToBytes();
+		case EBYTEARRAY:
 			return *(static_cast<XByteArray*>(this->_variant_data._VObject));
 		default:
 			return XByteArray();

@@ -1014,6 +1014,24 @@ XByteArray XByteArray::simplified() const XANADU_NOTHROW
 	return vResult;
 }
 
+/// split
+std::list<XByteArray> XByteArray::split(const char _Char) const XANADU_NOTHROW
+{
+	auto		vList = std::list<XByteArray>();
+	auto		vStart = 0;
+	auto		vEnd = 0;
+	while ((vEnd = indexOf(_Char, vStart)) != -1)
+	{
+		vList.push_back(this->mid(vStart, vEnd - vStart));
+		vStart = vEnd + 1;
+	}
+	vList.push_back(mid(vStart));
+	return vList;
+}
+
+
+
+
 
 
 

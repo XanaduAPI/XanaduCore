@@ -373,6 +373,9 @@ public:
 	/// Remove beginning, middle, and end whitespace strings ('\t','\n','\v','\f','\r','_')
 	virtual XByteArray simplified() const XANADU_NOTHROW;
 
+	/// split
+	virtual std::list<XByteArray> split(const char _Char) const XANADU_NOTHROW;
+
 public:
 	/// Convert to Base64
 	virtual XByteArray ToBase64() const XANADU_NOTHROW;

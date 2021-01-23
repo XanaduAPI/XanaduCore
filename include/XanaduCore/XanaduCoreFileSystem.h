@@ -84,6 +84,9 @@ public:
 	/// 文件:读取
 	static bool FileRead(HANDLE _Handle, void* _Buffer, int64S _Length) XANADU_NOTHROW;
 
+	/// 文件:读取一行
+	static XByteArray FileReadLine(HANDLE _Handle) XANADU_NOTHROW;
+
 	/// 文件:写入
 	static int64S FileRead(void* _Buffer, int64S _Size, int64S _Count, HANDLE _Handle) XANADU_NOTHROW;
 
