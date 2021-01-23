@@ -12,6 +12,10 @@
 #include <XanaduCore/XanaduCoreHash.h>
 #include <XanaduCore/XanaduCoreLibrary.h>
 #include <XanaduCore/XanaduCoreMutex.h>
+#include <XanaduCore/XanaduCoreNative.h>
+#include <XanaduCore/XanaduCoreProcess.h>
+#include <XanaduCore/XanaduCoreThread.h>
+#include <XanaduCore/XanaduCoreShell.h>
 #include <XanaduCore/XanaduCoreStream.h>
 #include <XanaduCore/XanaduCoreString.h>
 #include <XanaduCore/XanaduCoreSystem.h>

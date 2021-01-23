@@ -551,8 +551,8 @@ const uint64_t  k512[80] =
 
 XANADU_CORE_EXPORT void XANADUAPI sha512_compile(XANADU_CORE_SHA512_CONTEXT ctx[1])
 {
-	uint64_t    v[8], *p = ctx->wbuf;
-	uint32_t    j;
+	int64U    v[8], *p = ctx->wbuf;
+	int32U    j;
 
 	memcpy(v, ctx->hash, sizeof(ctx->hash));
 
