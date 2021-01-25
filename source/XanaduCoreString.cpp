@@ -404,7 +404,7 @@ XString::XString(const wchar_t* _String, int64U _Length) XANADU_NOTHROW
 {
 	this->_memory_malloc(0);
 
-	if(_Length < 0)
+	if(_Length == XString::npos)
 	{
 		_Length = Xanadu::wcslen(_String);
 	}
@@ -504,7 +504,11 @@ XString& XString::operator = (XString&& _String) XANADU_NOTHROW
 void XString::_memory_malloc(int64U _Size) XANADU_NOTHROW
 {
 	this->_memory_free();
-	if(_Size >= 0)
+	if(_Size == XString::npos)
+	{
+		this->_memory_malloc(0);
+	}
+	else
 	{
 		this->_string_data = XANADU_NEW wchar_t[_Size + XANADU_STRING_REDUNDANCY];
 		if(this->_string_data)
@@ -518,16 +522,12 @@ void XString::_memory_malloc(int64U _Size) XANADU_NOTHROW
 			this->_string_capacity = 0;
 		}
 	}
-	else
-	{
-		this->_memory_malloc(0);
-	}
 }
 
 /// memory operator append
 void XString::_memory_append(int64U _Size) XANADU_NOTHROW
 {
-	if(_Size > 0)
+	if(_Size != XString::npos)
 	{
 		/// 保存原来的数据
 		auto		_temp_malloc = false;
@@ -555,7 +555,7 @@ void XString::_memory_append(int64U _Size) XANADU_NOTHROW
 /// memory operator resize
 void XString::_memory_resize(int64U _Size) XANADU_NOTHROW
 {
-	if(_Size > 0)
+	if(_Size != XString::npos)
 	{
 		if(this->_string_length != _Size)
 		{
@@ -602,7 +602,7 @@ void XString::_string_append(wchar_t _Char) XANADU_NOTHROW
 /// private append const wchar_t*
 void XString::_string_append(const wchar_t* _String, int64U _Size) XANADU_NOTHROW
 {
-	if(_Size < 0LL)
+	if(_Size == XString::npos)
 	{
 		_Size = Xanadu::wcslen(_String);
 	}
@@ -816,8 +816,8 @@ XString::size_type XString::_find(const wchar_t* _String, int64U _Length, size_t
 /// 反向查找
 XString::size_type XString::_rfind(const wchar_t* _String, int64U _Length, size_type _Pos) const XANADU_NOTHROW
 {
-	auto		vReturn = npos;
-	if(_Pos == npos || _Pos + _Length > _string_length + 1)
+	auto		vReturn = XString::npos;
+	if(_Pos == XString::npos || _Pos + _Length > _string_length + 1)
 	{
 		_Pos = _string_length - _Length + 1;
 	}
@@ -1761,7 +1761,7 @@ XString& XString::append(wchar_t _Char) XANADU_NOTHROW
 /// append (2)
 XString& XString::append(const wchar_t* _String, int64U _Size) XANADU_NOTHROW
 {
-	if(_Size < 0)
+	if(_Size == XString::npos)
 	{
 		_Size = Xanadu::wcslen(_String);
 	}
@@ -1838,7 +1838,7 @@ XString& XString::remove(wchar_t _Char, Xanadu::CaseSensitivity _XCS) XANADU_NOT
 XString& XString::remove(const wchar_t* _String, int64U _Length, Xanadu::CaseSensitivity _XCS) XANADU_NOTHROW
 {
 	auto		vPos = XString::npos;
-	if(_Length < 0)
+	if(_Length == XString::npos)
 	{
 		_Length = Xanadu::wcslen(_String);
 	}
