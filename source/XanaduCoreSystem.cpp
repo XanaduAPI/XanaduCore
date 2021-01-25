@@ -524,7 +524,7 @@ XString XSystem::OnlyString() XANADU_NOTHROW
 		vTempOnlyString += XString::Format(L"%lld", gethostid());
 #endif /// XANADU_SYSTEM_WINDOWS
 		vTempOnlyString += L"]";
-		_StaticOnlyString = XString::FromBytes(XCryptoHash::Hash(vTempOnlyString.ToBytes(), XCryptoHash::MD5).ToHex().toUpper());
+		_StaticOnlyString = XString::FromBytes(XCryptoHash::Hash(vTempOnlyString.ToBytes(), XCryptoHash::MD5).toHex().toUpper());
 	}
 	return _StaticOnlyString;
 }

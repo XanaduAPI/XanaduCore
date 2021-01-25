@@ -27,7 +27,7 @@ XByteArray XCryptoBase64::Encode(const void* _Buffer, int64S _Length) XANADU_NOT
 /// Encoded in BASE64
 XByteArray XCryptoBase64::Encode(const XByteArray& _Buffer) XANADU_NOTHROW
 {
-	return _Buffer.ToBase64();
+	return _Buffer.toBase64();
 }
 
 /// Decoded in BASE64
@@ -39,5 +39,5 @@ XByteArray XCryptoBase64::Decode(const void* _Buffer, int64S _Length) XANADU_NOT
 /// Decoded in BASE64
 XByteArray XCryptoBase64::Decode(const XByteArray& _Buffer) XANADU_NOTHROW
 {
-	return XByteArray::FromBase64(_Buffer);
+	return XByteArray::fromBase64(_Buffer);
 }
