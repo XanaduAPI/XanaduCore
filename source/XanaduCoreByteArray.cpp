@@ -664,21 +664,9 @@ XByteArray XByteArray::right(int64U _Length) const XANADU_NOTHROW
 XByteArray XByteArray::mid(int64U _Index, int64U _Length) const XANADU_NOTHROW
 {
 	auto		vPos = XAllocator::MemoryPosFix(_Index);
-	if (_Length == XByteArray::npos)
+	if (_Length >= this->size() || _Index + _Length >= this->size())
 	{
-		return this->right(_Index);
-	}
-	if(_Index == 0)
-	{
-		return this->left(_Length);
-	}
-	else if(_Index >= this->size())
-	{
-		return XByteArray();
-	}
-	else if(_Index + _Length >= this->size())
-	{
-		return this->right(this->size() - _Index);
+		return XByteArray(this->data() + _Index, this->size() - _Index);
 	}
 	return XByteArray(this->data() + vPos, _Length);
 }
