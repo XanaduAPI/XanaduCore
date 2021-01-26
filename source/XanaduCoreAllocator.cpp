@@ -93,9 +93,9 @@ int64U XAllocator::MemoryPosFix(int64U _Pos) const XANADU_NOTHROW
 	{
 		return 0;
 	}
-	else if(_Pos >= this->_memory_length)
+	else if(_Pos > this->_memory_length)
 	{
-		return this->_memory_length - 1;
+		return this->_memory_length;
 	}
 	return _Pos;
 }
