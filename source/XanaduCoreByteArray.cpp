@@ -1004,17 +1004,41 @@ XByteArray XByteArray::simplified() const XANADU_NOTHROW
 /// split
 std::list<XByteArray> XByteArray::split(const char _Char) const XANADU_NOTHROW
 {
-	auto		vList = std::list<XByteArray>();
-	auto		vStart = 0ULL;
-	auto		vEnd = 0ULL;
-	while ((vEnd = indexOf(_Char, vStart)) != -1)
-	{
-		vList.push_back(this->mid(vStart, vEnd - vStart));
-		vStart = vEnd + 1;
-	}
-	vList.push_back(mid(vStart));
-	return vList;
+	char		vBuffer[2] = {0};
+	vBuffer[0] = _Char;
+	vBuffer[1] = '\0';
+	return this->split(vBuffer, 1ULL);
 }
+
+/// split
+std::list<XByteArray> XByteArray::split(const char* _Memory) const XANADU_NOTHROW
+{
+	return this->split(XByteArray(_Memory, Xanadu::strlen(_Memory)));
+}
+
+/// split
+std::list<XByteArray> XByteArray::split(const char* _Memory, int64U _Size) const XANADU_NOTHROW
+{
+	return this->split(XByteArray(_Memory, _Size));
+}
+
+/// split
+std::list<XByteArray> XByteArray::split(const XByteArray& _Bytes) const XANADU_NOTHROW
+{
+	auto		vHeaderArray = std::list<XByteArray>();
+	auto		vLast = static_cast<int64U>(0ULL);
+	auto		vSplitIndex = this->indexOf(_Bytes, vLast);
+	while(vSplitIndex != XByteArray::npos && false == _Bytes.isEmpty())
+	{
+		vHeaderArray.push_back(this->mid(vLast, vSplitIndex - vLast));
+		vLast = vSplitIndex + 2;
+		vSplitIndex = this->indexOf(_Bytes, vLast);
+	}
+	vHeaderArray.push_back(this->mid(vLast));
+
+	return vHeaderArray;
+}
+
 
 
 

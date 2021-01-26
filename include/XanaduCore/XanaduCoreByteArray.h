@@ -373,8 +373,18 @@ public:
 	/// Remove beginning, middle, and end whitespace strings ('\t','\n','\v','\f','\r','_')
 	virtual XByteArray simplified() const XANADU_NOTHROW;
 
+public:
 	/// split
 	virtual std::list<XByteArray> split(const char _Char) const XANADU_NOTHROW;
+
+	/// split
+	virtual std::list<XByteArray> split(const char* _Memory) const XANADU_NOTHROW;
+
+	/// split
+	virtual std::list<XByteArray> split(const char* _Memory, int64U _Size) const XANADU_NOTHROW;
+
+	/// split
+	virtual std::list<XByteArray> split(const XByteArray& _Bytes) const XANADU_NOTHROW;
 
 public:
 	/// Convert to Base64
