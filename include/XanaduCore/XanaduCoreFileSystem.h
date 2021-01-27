@@ -146,7 +146,7 @@ public:
 	static bool DirectoryIsExist(const XString& _Directory) XANADU_NOTHROW;
 
 	/// 目录:创建
-	static bool DirectoryCreate(const XString& _Directory, int32S _Mode = 0755) XANADU_NOTHROW;
+	static bool DirectoryCreate(const XString& _Directory, int32S _Mode = 0666) XANADU_NOTHROW;
 
 	/// 目录:遍历
 	static bool DirectoryTraverse(const XString& _Directory, std::function<bool(const XFileInfo& _Info, int32S _Level)> _Lambda) XANADU_NOTHROW;
