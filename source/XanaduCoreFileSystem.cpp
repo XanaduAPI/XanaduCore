@@ -593,10 +593,8 @@ bool XFileSystem::DirectoryIsExist(const XString& _Directory) XANADU_NOTHROW
 /// 目录:创建
 bool XFileSystem::DirectoryCreate(const XString& _Directory, int32S _Mode) XANADU_NOTHROW
 {
-	XANADU_UNPARAMETER(_Mode);
-
 	auto		vDirectory = XFileSystem::PathFormat(_Directory);
-	return 0 == Xanadu::wmkpath(vDirectory.data(), 0666);
+	return 0 == Xanadu::wmkpath(vDirectory.data(), _Mode);
 }
 
 /// 目录:遍历:实现
