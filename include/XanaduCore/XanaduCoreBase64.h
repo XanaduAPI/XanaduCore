@@ -20,16 +20,16 @@ public:
 
 public:
 	/// Encoded in BASE64
-	static XByteArray Encode(const void* _Buffer, int64S _Length) XANADU_NOTHROW;
+	static XByteArray Encode(const void* _Memory, int64U _Length) XANADU_NOTHROW;
 
 	/// Encoded in BASE64
-	static XByteArray Encode(const XByteArray& _Buffer) XANADU_NOTHROW;
+	static XByteArray Encode(const XByteArray& _Bytes) XANADU_NOTHROW;
 
 	/// Decoded in BASE64
-	static XByteArray Decode(const void* _Buffer, int64S _Length) XANADU_NOTHROW;
+	static XByteArray Decode(const void* _Memory, int64U _Length) XANADU_NOTHROW;
 
 	/// Decoded in BASE64
-	static XByteArray Decode(const XByteArray& _Buffer) XANADU_NOTHROW;
+	static XByteArray Decode(const XByteArray& _Bytes) XANADU_NOTHROW;
 };
 
 #endif /// _XANADU_CORE_BASE64_H_

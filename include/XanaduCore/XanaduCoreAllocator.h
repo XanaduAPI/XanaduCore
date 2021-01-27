@@ -14,6 +14,16 @@
 /// Xallocator belongs to the memory allocator of Xanadu series
 class XANADU_CORE_EXPORT XAllocator
 {
+public:
+	/// Type of data size
+	using						size_type = int64U;
+
+	/// The type of the data coordinate
+	using						pos_type = int64U;
+
+	/// Subscript returned when no matching data is found
+	static const int64U				npos = static_cast<int64U>(-1);
+
 private:
 	/// Memory address
 	char*						_memory_address = nullptr;
@@ -23,10 +33,6 @@ private:
 
 	/// Memory capacity
 	int64U						_memory_capacity = 0;
-
-public:
-	/// Subscript returned when no matching data is found
-	static const int64U				npos = static_cast<int64U>(-1);
 
 public:
 	/// Constructors

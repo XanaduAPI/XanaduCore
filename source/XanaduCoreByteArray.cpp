@@ -3,10 +3,9 @@
 //
 
 #include <XanaduCore/XanaduCoreByteArray.h>
+#include <XanaduCore/XanaduCoreBase64.h>
 
 static char				_StaticIndexBeyond = '\0';
-
-static const char*			_StaticBase64String = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
 
 /// Check for Base64 characters
 bool XanaduByteArrayIsBase64(unsigned char _Char)
@@ -30,20 +29,6 @@ unsigned char XanaduByteArrayHexToInt8U(char _Char)
 	}
 	return 0;
 };
-
-/// Check for Base64 characters
-unsigned char XanaduByteArrayFindBase64(unsigned char _Char)
-{
-	auto		vLength = Xanadu::strlen(_StaticBase64String);
-	for(auto vIndex = 0U; vIndex < vLength; ++vIndex)
-	{
-		if(_StaticBase64String[vIndex] == _Char)
-		{
-			return static_cast<unsigned char>(vIndex);
-		}
-	}
-	return static_cast<unsigned char>(-1);
-}
 
 /// Check if the character is blank
 bool XanaduByteArrayIsSpace(char _Char)
@@ -533,12 +518,62 @@ XByteArray& XByteArray::insert(int64U _Index, const XByteArray& _Bytes) XANADU_N
 	return this->insert(_Index, _Bytes.data(), _Bytes.size());
 }
 
+
+
+
+
+
 /// Delete the specified length of data from the specified pos
 XByteArray& XByteArray::remove(int64U _Index, int64U _Length) XANADU_NOTHROW
 {
 	this->MemoryRemove(_Index, _Length);
 	return *this;
 }
+
+/// Delete the specified length of data from the specified pos
+XByteArray& XByteArray::remove(const char _Char) XANADU_NOTHROW
+{
+	char		vBuffer[2] = {0};
+	vBuffer[0] = _Char;
+	vBuffer[1] = '\0';
+	return this->remove(vBuffer);
+}
+
+/// Delete the specified length of data from the specified pos
+XByteArray& XByteArray::remove(const char* _Memory) XANADU_NOTHROW
+{
+	return this->remove(_Memory, Xanadu::strlen(_Memory));
+}
+
+/// Delete the specified length of data from the specified pos
+XByteArray& XByteArray::remove(const char* _Memory, int64U _Size) XANADU_NOTHROW
+{
+	if(_Size = XByteArray::npos)
+	{
+		_Size = Xanadu::strlen(_Memory);
+	}
+	if (_Memory && _Size > 0)
+	{
+		auto		vFind = this->find(_Memory, 0);
+		while (vFind != XByteArray::npos)
+		{
+			this->remove(vFind, _Size);
+			vFind = this->find(_Memory, vFind);
+		};
+	}
+	return *this;
+}
+
+/// Delete the specified length of data from the specified pos
+XByteArray& XByteArray::remove(const XByteArray& _Bytes) XANADU_NOTHROW
+{
+	return this->remove(_Bytes.data(), _Bytes.size());
+}
+
+
+
+
+
 
 /// Replace data
 XByteArray& XByteArray::replace(int64U _Index, int64U _Length, const char* _After) XANADU_NOTHROW
@@ -1050,52 +1085,7 @@ std::list<XByteArray> XByteArray::split(const XByteArray& _Bytes) const XANADU_N
 /// Convert to Base64
 XByteArray XByteArray::toBase64() const XANADU_NOTHROW
 {
-	auto		vLength = this->size();
-	auto 		vSource = (const unsigned char*)this->data();
-	auto		vTarget = XByteArray();
-	if(vSource)
-	{
-		int		vIndex = 0;
-		int		vJ = 0;
-		unsigned char	vArray3[3];
-		unsigned char	vArray4[4];
-		while(vLength--)
-		{
-			vArray3[vIndex++] = *(vSource++);
-			if(vIndex == 3)
-			{
-				vArray4[0] = (vArray3[0] & 0xfc) >> 2;
-				vArray4[1] = ((vArray3[0] & 0x03) << 4) + ((vArray3[1] & 0xf0) >> 4);
-				vArray4[2] = ((vArray3[1] & 0x0f) << 2) + ((vArray3[2] & 0xc0) >> 6);
-				vArray4[3] = vArray3[2] & 0x3f;
-				for(vIndex = 0; (vIndex < 4); vIndex++)
-				{
-					vTarget += _StaticBase64String[vArray4[vIndex]];
-				}
-				vIndex = 0;
-			}
-		}
-		if(vIndex)
-		{
-			for(vJ = vIndex; vJ < 3; vJ++)
-			{
-				vArray3[vJ] = '\0';
-			}
-			vArray4[0] = (vArray3[0] & 0xfc) >> 2;
-			vArray4[1] = ((vArray3[0] & 0x03) << 4) + ((vArray3[1] & 0xf0) >> 4);
-			vArray4[2] = ((vArray3[1] & 0x0f) << 2) + ((vArray3[2] & 0xc0) >> 6);
-			vArray4[3] = vArray3[2] & 0x3f;
-			for(vJ = 0; (vJ < vIndex + 1); vJ++)
-			{
-				vTarget += _StaticBase64String[vArray4[vJ]];
-			}
-			while((vIndex++ < 3))
-			{
-				vTarget += '=';
-			}
-		}
-	}
-	return vTarget;
+	return XCryptoBase64::Encode(this->data(), this->size());
 }
 
 /// Convert to HEX
@@ -1121,58 +1111,7 @@ XByteArray XANADUAPI XByteArray::fromMemory(const char* _Memory, int64U _Size) X
 /// Format from Base64
 XByteArray XANADUAPI XByteArray::fromBase64(const void* _Memory, int64U _Size) XANADU_NOTHROW
 {
-	auto		vLength = _Size;
-	auto 		vSource = (const unsigned char*)_Memory;
-	auto		vTarget = XByteArray();
-	if(vSource)
-	{
-		int		vIndex = 0;
-		int		vJ = 0;
-		int		vIn = 0;
-		unsigned char	vArray4[4];
-		unsigned char	vArray3[3];
-		while(vLength-- && (vSource[vIn] != '=') && XanaduByteArrayIsBase64(vSource[vIn]))
-		{
-			vArray4[vIndex++] = vSource[vIn];
-			vIn++;
-			if(vIndex == 4)
-			{
-				for(vIndex = 0; vIndex < 4; vIndex++)
-				{
-					vArray4[vIndex] = XanaduByteArrayFindBase64(vArray4[vIndex]);
-				}
-
-				vArray3[0] = (vArray4[0] << 2) + ((vArray4[1] & 0x30) >> 4);
-				vArray3[1] = ((vArray4[1] & 0xf) << 4) + ((vArray4[2] & 0x3c) >> 2);
-				vArray3[2] = ((vArray4[2] & 0x3) << 6) + vArray4[3];
-
-				for(vIndex = 0; (vIndex < 3); vIndex++)
-				{
-					vTarget += vArray3[vIndex];
-				}
-				vIndex = 0;
-			}
-		}
-		if(vIndex)
-		{
-			for(vJ = vIndex; vJ < 4; vJ++)
-			{
-				vArray4[vJ] = 0;
-			}
-			for(vJ = 0; vJ < 4; vJ++)
-			{
-				vArray4[vJ] = XanaduByteArrayFindBase64(vArray4[vJ]);
-			}
-			vArray3[0] = (vArray4[0] << 2) + ((vArray4[1] & 0x30) >> 4);
-			vArray3[1] = ((vArray4[1] & 0xf) << 4) + ((vArray4[2] & 0x3c) >> 2);
-			vArray3[2] = ((vArray4[2] & 0x3) << 6) + vArray4[3];
-			for(vJ = 0; (vJ < vIndex - 1); vJ++)
-			{
-				vTarget += vArray3[vJ];
-			}
-		}
-	}
-	return vTarget;
+	return XCryptoBase64::Decode(_Memory, _Size);
 }
 
 /// Format from Base64

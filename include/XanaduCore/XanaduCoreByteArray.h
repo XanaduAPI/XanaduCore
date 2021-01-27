@@ -235,9 +235,23 @@ public:
 	/// Insert by pos
 	virtual XByteArray& insert(int64U _Index, const XByteArray& _Bytes) XANADU_NOTHROW;
 
+public:
 	/// Delete the specified length of data from the specified pos
 	virtual XByteArray& remove(int64U _Index, int64U _Length) XANADU_NOTHROW;
 
+	/// Delete the specified length of data from the specified pos
+	virtual XByteArray& remove(const char _Char) XANADU_NOTHROW;
+
+	/// Delete the specified length of data from the specified pos
+	virtual XByteArray& remove(const char* _Memory) XANADU_NOTHROW;
+
+	/// Delete the specified length of data from the specified pos
+	virtual XByteArray& remove(const char* _Memory, int64U _Size) XANADU_NOTHROW;
+
+	/// Delete the specified length of data from the specified pos
+	virtual XByteArray& remove(const XByteArray& _Bytes) XANADU_NOTHROW;
+
+public:
 	/// Replace data
 	virtual XByteArray& replace(int64U _Index, int64U _Length, const char* _After) XANADU_NOTHROW;
 
