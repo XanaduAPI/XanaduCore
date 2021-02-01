@@ -1,57 +1,56 @@
-﻿#CMake最低版本号要求
+﻿# CMake最低版本号要求
 cmake_minimum_required(VERSION 3.8)
 
-#项目名称
-project(XanaduCore)
+# 项目名称
+project(XanaduCore VERSION 0.3.0)
 
-#设置Debug后缀
-set(CMAKE_DEBUG_POSTFIX "D")
-
-#设置安装路径
+# 设置安装路径
 message(STATUS "Operation System : ${CMAKE_SYSTEM}")
 if (WIN32)
 	message(STATUS "Current Platform : WIN32")
 	set(CMAKE_INSTALL_PREFIX C:/Xanadu)
 elseif (MINGW)
 	message(STATUS "Current Platform : MINGW")
-	set(CMAKE_INSTALL_PREFIX /usr)
 elseif (APPLE)
 	message(STATUS "Current Platform : APPLE")
-	set(CMAKE_INSTALL_PREFIX /usr/local)
 elseif (UNIX)
 	message(STATUS "Current Platform : UNIX")
-	set(CMAKE_INSTALL_PREFIX /usr)
 endif ()
 
-#设置模块搜索路径
+# 设置模块搜索路径
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_INSTALL_PREFIX}/lib/cmake)
 
-#项目依赖
+# 项目依赖
 find_package(XanaduRuntime REQUIRED)
 
-#C++支持
+# C++支持
 set(CMAKE_CXX_STANDARD 17)
 
-#头文件搜索目录
+# 头文件搜索目录
 include_directories(${PROJECT_SOURCE_DIR}/include)
 include_directories(${XANADU_RUNTIME_INCLUDE})
 
-#链接库搜索目录
+# 链接库搜索目录
 link_directories(${XANADU_RUNTIME_LIBRARY})
 
-#设置静态编译宏
+# 设置静态编译宏
 #add_definitions(-DXANADU_CORE_BUILD_STATIC)
-#设置导出宏
+# 设置导出宏
 add_definitions(-DXANADU_CORE_LIB)
 
-#包含源文件
+# 包含源文件
 aux_source_directory(./source SRC)
 aux_source_directory(./source/Hash SRC)
+if(MSVC)
+	set(VERSIONINFO_RC "${CMAKE_BINARY_DIR}/VersionInfo.rc")
+	configure_file("${CMAKE_SOURCE_DIR}/config/VersionInfo.rc.in" "${VERSIONINFO_RC}")
+	list(APPEND SRC ${VERSIONINFO_RC})
+endif()
 
-#设置输出目录
+# 设置输出目录
 set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
 
-#链接库
+# 链接库
 if (MINGW)
 	link_libraries("stdc++")
 endif()
@@ -61,28 +60,27 @@ else ()
 	link_libraries(XanaduRuntime)
 endif ()
 
-#构建
+# 构建
 add_library(XanaduCore SHARED ${SRC})
-#target_link_libraries(XanaduCore debug XanaduRuntimeD)
-#target_link_libraries(XanaduCore optimized XanaduRuntime)
 
-#设置项目版本号
-set_target_properties(XanaduCore PROPERTIES VERSION 0.2.9 SOVERSION 0)
+# 设置项目属性
+set_target_properties(XanaduCore PROPERTIES VERSION 0.3.0 SOVERSION 0)
+set_target_properties(XanaduCore PROPERTIES DEBUG_POSTFIX D)
 
-#设置安装文件(静态库)
+# 设置安装文件(静态库)
 install(TARGETS XanaduCore ARCHIVE DESTINATION ${CMAKE_INSTALL_PREFIX}/lib)
-#设置安装文件(动态库)
+# 设置安装文件(动态库)
 install(TARGETS XanaduCore LIBRARY DESTINATION ${CMAKE_INSTALL_PREFIX}/lib)
-#设置安装文件(可执行文件)
+# 设置安装文件(可执行文件)
 #install(TARGETS XanaduCore RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX}/bin)
-#设置安装文件(与库关联的PUBLIC头文件)
+# 设置安装文件(与库关联的PUBLIC头文件)
 #install(TARGETS XanaduCore PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_PREFIX}/include)
-#设置安装文件(与库关联的PRIVATE头文件)
+# 设置安装文件(与库关联的PRIVATE头文件)
 #install(TARGETS XanaduCore PRIVATE_HEADER DESTINATION ${CMAKE_INSTALL_PREFIX}/include)
-#安装头文件
+# 安装头文件
 install(DIRECTORY ${PROJECT_SOURCE_DIR}/include/XanaduCore DESTINATION ${CMAKE_INSTALL_PREFIX}/include)
-#安装头文件
+# 安装头文件
 #install(FILES ${PROJECT_SOURCE_DIR}/include/ DESTINATION ${CMAKE_INSTALL_PREFIX}/include)
-#配置模块文件
+# 配置模块文件
 install(FILES ${PROJECT_SOURCE_DIR}/config/FindXanaduCore.cmake DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/cmake)
 install(FILES ${PROJECT_SOURCE_DIR}/config/XanaduCore.pc DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/pkgconfig)
