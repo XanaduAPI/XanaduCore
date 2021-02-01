@@ -1,8 +1,4 @@
-﻿//
-// Created by Administrator on 2021/1/12.
-//
-
-/*
+﻿/*
  * Variant Class for the Xanadu series
  * */
 

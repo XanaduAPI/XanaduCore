@@ -1,8 +1,4 @@
-﻿//
-// Created by Administrator on 2021/1/20.
-//
-
-#ifndef			_XANADU_CORE_SYSTEM_H_
+﻿#ifndef			_XANADU_CORE_SYSTEM_H_
 #define			_XANADU_CORE_SYSTEM_H_
 
 #include <XanaduCore/XanaduCoreHeader.h>
@@ -45,7 +41,7 @@
 #define			XANADU_OS_VERSION_MACOS_1100				0x00110000
 #define			XANADU_OS_VERSION_MACOS_1101				0x00110100
 
-//Xanadu Class System
+/// Xanadu Class System
 class XANADU_CORE_EXPORT XSystem
 {
 public:

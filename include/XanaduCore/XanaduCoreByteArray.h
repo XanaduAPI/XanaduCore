@@ -423,4 +423,4 @@ public:
 	static XByteArray XANADUAPI fromHex(const XByteArray& _Bytes) XANADU_NOTHROW;
 };
 
-#endif//_XANADU_CORE_BYTEARRAY_H_
+#endif /// _XANADU_CORE_BYTEARRAY_H_

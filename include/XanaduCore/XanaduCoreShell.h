@@ -17,7 +17,7 @@ public:
 	static int64S Run(const XString& _Shell) XANADU_NOTHROW;
 
 	/// Sync run shell
-	static int64S Run(const XString& _Shell, std::function<bool(XString _Output)> _Lambda) XANADU_NOTHROW;
+	static int64S Run(const XString& _Shell, std::function<bool(const XString& _Output)> _Lambda) XANADU_NOTHROW;
 
 	/// Native System
 	static int32S System(const XString& _Command) XANADU_NOTHROW;

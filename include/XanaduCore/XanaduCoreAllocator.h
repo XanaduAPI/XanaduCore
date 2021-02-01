@@ -1,8 +1,4 @@
-﻿//
-// Created by Administrator on 2021/1/7.
-//
-
-/*
+﻿/*
  * This is a memory allocator, Memory allocation for Xanadu series.
  * */
 

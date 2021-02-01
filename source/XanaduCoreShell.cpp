@@ -24,7 +24,7 @@ int64S XShell::Run(const XString& _Shell) XANADU_NOTHROW
 }
 
 /// Sync run shell
-int64S XShell::Run(const XString& _Shell, std::function<bool(XString _Output)> _Lambda) XANADU_NOTHROW
+int64S XShell::Run(const XString& _Shell, std::function<bool(const XString& _Output)> _Lambda) XANADU_NOTHROW
 {
 	XANADU_CHECK_RETURN(_Shell.size(), -1);
 

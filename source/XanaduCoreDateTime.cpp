@@ -39,21 +39,21 @@ XDateTime::~XDateTime() XANADU_NOTHROW
 }
 
 /// UTC Second
-int64S XDateTime::CurrentSecond() XANADU_NOTHROW
+int64U XDateTime::CurrentSecond() XANADU_NOTHROW
 {
-	return static_cast<int64S>(time(nullptr));
+	return static_cast<int64U>(time(nullptr));
 }
 
 /// UTC Millisecond
-int64S XDateTime::CurrentMillisecond() XANADU_NOTHROW
+int64U XDateTime::CurrentMillisecond() XANADU_NOTHROW
 {
 	struct timeb		vRawtime;
 	ftime(&vRawtime);
-	return vRawtime.time * 1000 + vRawtime.millitm;
+	return vRawtime.time * 1000ULL + vRawtime.millitm;
 }
 
 /// Second To String (1970-01-01 08:00:00)
-XString XDateTime::SecondToString(int64S _Second) XANADU_NOTHROW
+XString XDateTime::SecondToString(int64U _Second) XANADU_NOTHROW
 {
 	auto		vValueSecond = static_cast<time_t>(_Second);
 	auto		vTM = Xanadu::localtime(&vValueSecond);
@@ -61,7 +61,7 @@ XString XDateTime::SecondToString(int64S _Second) XANADU_NOTHROW
 }
 
 /// Millisecond To String (1970-01-01 08:00:00.000)
-XString XDateTime::MillisecondToString(int64S _Millisecond) XANADU_NOTHROW
+XString XDateTime::MillisecondToString(int64U _Millisecond) XANADU_NOTHROW
 {
 	return SecondToString(_Millisecond / 1000) + L"." + XString::number(_Millisecond % 1000);
 }
@@ -85,13 +85,13 @@ XString XDateTime::CurrentToString() XANADU_NOTHROW
 }
 
 /// format
-XDateTime XDateTime::FormSecond(int64S _Second) XANADU_NOTHROW
+XDateTime XDateTime::FormSecond(int64U _Second) XANADU_NOTHROW
 {
 	return XDateTime::FormMillisecond(_Second * 1000);
 }
 
 /// format
-XDateTime XDateTime::FormMillisecond(int64S _Millisecond) XANADU_NOTHROW
+XDateTime XDateTime::FormMillisecond(int64U _Millisecond) XANADU_NOTHROW
 {
 	auto		vTime = XDateTime();
 	vTime._time_millisecond = _Millisecond;

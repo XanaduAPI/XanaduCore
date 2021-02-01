@@ -1,8 +1,4 @@
-﻿//
-// Created by Administrator on 2021/1/12.
-//
-
-/*
+﻿/*
  * This file is an exception declaration for the Xanadu family
  * */
 

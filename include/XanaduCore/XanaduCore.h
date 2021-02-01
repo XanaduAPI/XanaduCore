@@ -21,4 +21,4 @@
 #include <XanaduCore/XanaduCoreSystem.h>
 #include <XanaduCore/XanaduCoreVariant.h>
 
-#endif//_XANADU_CORE_H_
+#endif /// _XANADU_CORE_H_

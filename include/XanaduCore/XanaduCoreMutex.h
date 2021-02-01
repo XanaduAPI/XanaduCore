@@ -1,13 +1,9 @@
-﻿//
-// Created by Administrator on 2021/1/14.
-//
-
-#ifndef			_XANADU_CORE_MUTEX_H_
+﻿#ifndef			_XANADU_CORE_MUTEX_H_
 #define			_XANADU_CORE_MUTEX_H_
 
 #include <XanaduCore/XanaduCoreHeader.h>
 
-//Xanadu Class Mutex
+/// Xanadu Class Mutex
 class XANADU_CORE_EXPORT XMutex
 {
 private:

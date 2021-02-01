@@ -1,8 +1,4 @@
-﻿//
-// Created by Administrator on 2021/1/20.
-//
-
-#ifndef			_XANADU_CORE_BASE64_H_
+﻿#ifndef			_XANADU_CORE_BASE64_H_
 #define			_XANADU_CORE_BASE64_H_
 
 #include <XanaduCore/XanaduCoreHeader.h>

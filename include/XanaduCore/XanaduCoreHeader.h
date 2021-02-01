@@ -64,4 +64,4 @@ namespace Xanadu
 	};
 };
 
-#endif//_XANADU_CORE_HEADER_H_
+#endif /// _XANADU_CORE_HEADER_H_

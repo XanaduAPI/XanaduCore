@@ -1528,11 +1528,7 @@ XString XANADUAPI XString::Format(const wchar_t* _Format, ...) XANADU_NOTHROW
 		Xanadu::memset(vBuffer, 0, sizeof(wchar_t) * XANADU_SIZE_KB * 10);
 		va_list		vArgs;
 		va_start(vArgs, _Format);
-#ifdef XANADU_SYSTEM_WINDOWS
-		wvsprintfW(vBuffer, _Format, vArgs);
-#else
 		vswprintf(vBuffer, XANADU_SIZE_KB * 10, _Format, vArgs);
-#endif/// XANADU_SYSTEM_WINDOWS
 		va_end(vArgs);
 
 		vString = vBuffer;

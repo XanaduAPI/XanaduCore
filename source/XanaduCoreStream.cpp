@@ -33,13 +33,9 @@ XANADU_DEPRECATED void XStream::Output(const char* _Format, ...) XANADU_NOTHROW
 	char		vBuffer[XANADU_LOG_MAX_LENGTH] = { 0 };
 	Xanadu::memset(vBuffer, 0, sizeof(char) * XANADU_LOG_MAX_LENGTH);
 	va_list		vArgs;
-		va_start(vArgs, _Format);
-#ifdef XANADU_SYSTEM_WINDOWS
-	vsprintf_s(vBuffer, _Format, vArgs);
-#else
+	va_start(vArgs, _Format);
 	vsnprintf(vBuffer, XANADU_LOG_MAX_LENGTH, _Format, vArgs);
-#endif//XANADU_SYSTEM_WINDOWS
-		va_end(vArgs);
+	va_end(vArgs);
 
 #ifdef XANADU_SYSTEM_WINDOWS
 	XStream::Output(XString::FromAString(vBuffer));
@@ -59,13 +55,9 @@ void XStream::Output(const wchar_t* _Format, ...) XANADU_NOTHROW
 	wchar_t		vBuffer[XANADU_LOG_MAX_LENGTH] = { 0 };
 	Xanadu::memset(vBuffer, 0, sizeof(wchar_t) * XANADU_LOG_MAX_LENGTH);
 	va_list		vArgs;
-		va_start(vArgs, _Format);
-#ifdef XANADU_SYSTEM_WINDOWS
-	wvsprintfW(vBuffer, _Format, vArgs);
-#else
+	va_start(vArgs, _Format);
 	vswprintf(vBuffer, XANADU_LOG_MAX_LENGTH, _Format, vArgs);
-#endif//XANADU_SYSTEM_WINDOWS
-		va_end(vArgs);
+	va_end(vArgs);
 
 	auto		vOutputString = XString(L"[") + XDateTime::CurrentToString() + XString(L"]") + XString(L" ") + vBuffer + XString(L"\n");
 	wprintf(vOutputString.data());
@@ -95,13 +87,9 @@ XANADU_DEPRECATED void XStream::Info(const char* _Format, ...) XANADU_NOTHROW
 	char		vBuffer[XANADU_LOG_MAX_LENGTH] = { 0 };
 	Xanadu::memset(vBuffer, 0, sizeof(char) * XANADU_LOG_MAX_LENGTH);
 	va_list		vArgs;
-		va_start(vArgs, _Format);
-#ifdef XANADU_SYSTEM_WINDOWS
-	vsprintf_s(vBuffer, _Format, vArgs);
-#else
+	va_start(vArgs, _Format);
 	vsnprintf(vBuffer, XANADU_LOG_MAX_LENGTH, _Format, vArgs);
-#endif//XANADU_SYSTEM_WINDOWS
-		va_end(vArgs);
+	va_end(vArgs);
 
 #ifdef XANADU_SYSTEM_WINDOWS
 	XStream::Info(XString::FromAString(vBuffer));
@@ -120,13 +108,9 @@ void XStream::Info(const wchar_t* _Format, ...) XANADU_NOTHROW
 	wchar_t		vBuffer[XANADU_LOG_MAX_LENGTH] = { 0 };
 	Xanadu::memset(vBuffer, 0, sizeof(wchar_t) * XANADU_LOG_MAX_LENGTH);
 	va_list		vArgs;
-		va_start(vArgs, _Format);
-#ifdef XANADU_SYSTEM_WINDOWS
-	wvsprintfW(vBuffer, _Format, vArgs);
-#else
+	va_start(vArgs, _Format);
 	vswprintf(vBuffer, XANADU_LOG_MAX_LENGTH, _Format, vArgs);
-#endif//XANADU_SYSTEM_WINDOWS
-		va_end(vArgs);
+	va_end(vArgs);
 
 	XStream::Output(XString(L"[INFO]") + XString(L" ") + vBuffer);
 #else
@@ -151,13 +135,9 @@ XANADU_DEPRECATED void XStream::Warning(const char* _Format, ...) XANADU_NOTHROW
 	char		vBuffer[XANADU_LOG_MAX_LENGTH] = { 0 };
 	Xanadu::memset(vBuffer, 0, sizeof(char) * XANADU_LOG_MAX_LENGTH);
 	va_list		vArgs;
-		va_start(vArgs, _Format);
-#ifdef XANADU_SYSTEM_WINDOWS
-	vsprintf_s(vBuffer, _Format, vArgs);
-#else
+	va_start(vArgs, _Format);
 	vsnprintf(vBuffer, XANADU_LOG_MAX_LENGTH, _Format, vArgs);
-#endif//XANADU_SYSTEM_WINDOWS
-		va_end(vArgs);
+	va_end(vArgs);
 
 #ifdef XANADU_SYSTEM_WINDOWS
 	XStream::Warning(XString::FromAString(vBuffer));
@@ -176,13 +156,9 @@ void XStream::Warning(const wchar_t* _Format, ...) XANADU_NOTHROW
 	wchar_t		vBuffer[XANADU_LOG_MAX_LENGTH] = { 0 };
 	Xanadu::memset(vBuffer, 0, sizeof(wchar_t) * XANADU_LOG_MAX_LENGTH);
 	va_list		vArgs;
-		va_start(vArgs, _Format);
-#ifdef XANADU_SYSTEM_WINDOWS
-	wvsprintfW(vBuffer, _Format, vArgs);
-#else
+	va_start(vArgs, _Format);
 	vswprintf(vBuffer, XANADU_LOG_MAX_LENGTH, _Format, vArgs);
-#endif//XANADU_SYSTEM_WINDOWS
-		va_end(vArgs);
+	va_end(vArgs);
 
 	XStream::Output(XString(L"[WARNING]") + XString(L" ") + vBuffer);
 #else
@@ -207,13 +183,9 @@ XANADU_DEPRECATED void XStream::Error(const char* _Format, ...) XANADU_NOTHROW
 	char		vBuffer[XANADU_LOG_MAX_LENGTH] = { 0 };
 	Xanadu::memset(vBuffer, 0, sizeof(char) * XANADU_LOG_MAX_LENGTH);
 	va_list		vArgs;
-		va_start(vArgs, _Format);
-#ifdef XANADU_SYSTEM_WINDOWS
-	vsprintf_s(vBuffer, _Format, vArgs);
-#else
+	va_start(vArgs, _Format);
 	vsnprintf(vBuffer, XANADU_LOG_MAX_LENGTH, _Format, vArgs);
-#endif//XANADU_SYSTEM_WINDOWS
-		va_end(vArgs);
+	va_end(vArgs);
 
 #ifdef XANADU_SYSTEM_WINDOWS
 	XStream::Error(XString::FromAString(vBuffer));
@@ -231,13 +203,9 @@ void XStream::Error(const wchar_t* _Format, ...) XANADU_NOTHROW
 	wchar_t		vBuffer[XANADU_LOG_MAX_LENGTH] = { 0 };
 	Xanadu::memset(vBuffer, 0, sizeof(wchar_t) * XANADU_LOG_MAX_LENGTH);
 	va_list		vArgs;
-		va_start(vArgs, _Format);
-#ifdef XANADU_SYSTEM_WINDOWS
-	wvsprintfW(vBuffer, _Format, vArgs);
-#else
+	va_start(vArgs, _Format);
 	vswprintf(vBuffer, XANADU_LOG_MAX_LENGTH, _Format, vArgs);
-#endif//XANADU_SYSTEM_WINDOWS
-		va_end(vArgs);
+	va_end(vArgs);
 
 	XStream::Output(XString(L"[ERROR]") + XString(L" ") + vBuffer);
 }

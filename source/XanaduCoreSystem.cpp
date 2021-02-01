@@ -406,6 +406,7 @@ XString XSystem::CPUID() XANADU_NOTHROW
 			mov vValue2, eax;
 		}
 #else
+#ifndef XANADU_SYSTEM_ARM
 		asm volatile
 			(
 				"movl $0x01, %%eax; \n\t"
@@ -415,7 +416,8 @@ XString XSystem::CPUID() XANADU_NOTHROW
 				"movl %%eax, %1; \n\t"
 				: "=m"(vValue1), "=m"(vValue2)
 				);
-#endif//XANADU_SYSTEM_WINDOWS
+#endif /// XANADU_SYSTEM_ARM
+#endif /// XANADU_SYSTEM_WINDOWS
 		swprintf(_StaticCpuID, XANADU_PATH, L"%08X%08X", vValue1, vValue2);
 	}
 	return XString(_StaticCpuID);
