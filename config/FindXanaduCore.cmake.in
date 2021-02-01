@@ -1,0 +1,21 @@
+# Explain
+message("using Find${PROJECT_NAME}.cmake find")
+
+# Find XANADU_CORE_INCLUDE
+find_path(XANADU_CORE_INCLUDE ${PROJECT_NAME}/ ${CMAKE_INSTALL_PREFIX}/include/)
+
+# Find XANADU_CORE_LIBRARY
+if (WIN32)
+	find_path(XANADU_CORE_LIBRARY ${PROJECT_NAME}.lib ${CMAKE_INSTALL_PREFIX}/lib/)
+elseif (MINGW)
+	find_path(XANADU_CORE_LIBRARY ${PROJECT_NAME}.dll.a ${CMAKE_INSTALL_PREFIX}/lib/)
+elseif (APPLE)
+	find_path(XANADU_CORE_LIBRARY lib${PROJECT_NAME}.dylib ${CMAKE_INSTALL_PREFIX}/lib/)
+elseif (UNIX)
+	find_path(XANADU_CORE_LIBRARY lib${PROJECT_NAME}.so ${CMAKE_INSTALL_PREFIX}/lib/)
+endif ()
+
+# Setting
+if(XANADU_CORE_INCLUDE AND XANADU_CORE_LIBRARY)
+	set(XANADU_CORE_FOUND TRUE)
+endif()
