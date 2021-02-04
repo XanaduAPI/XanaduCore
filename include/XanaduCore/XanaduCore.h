@@ -15,6 +15,7 @@
 #include <XanaduCore/XanaduCoreNative.h>
 #include <XanaduCore/XanaduCoreProcess.h>
 #include <XanaduCore/XanaduCoreThread.h>
+#include <XanaduCore/XanaduCoreSetting.h>
 #include <XanaduCore/XanaduCoreShell.h>
 #include <XanaduCore/XanaduCoreStream.h>
 #include <XanaduCore/XanaduCoreString.h>

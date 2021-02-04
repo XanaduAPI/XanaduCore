@@ -94,8 +94,14 @@ public:
 	/// Check for null values
 	virtual bool isEmpty() const XANADU_NOTHROW;
 
+	/// Check for null values
+	virtual bool empty() const XANADU_NOTHROW;
+
 	/// Check if there is a value
 	virtual bool isExist() const XANADU_NOTHROW;
+
+	/// Check if there is a value
+	virtual bool exist() const XANADU_NOTHROW;
 
 public:
 	/// Read by subscript

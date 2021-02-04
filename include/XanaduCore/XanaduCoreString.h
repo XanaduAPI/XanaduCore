@@ -318,6 +318,9 @@ public:
 	/// buffer is null
 	virtual bool empty() const XANADU_NOTHROW;
 
+	/// Check if there is a value
+	virtual bool exist() const XANADU_NOTHROW;
+
 	/// swap string
 	virtual void swap(XString& _String) XANADU_NOTHROW;
 

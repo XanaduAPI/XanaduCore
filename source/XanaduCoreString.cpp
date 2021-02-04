@@ -1009,6 +1009,12 @@ bool XString::empty() const XANADU_NOTHROW
 	}
 }
 
+/// Check if there is a value
+bool XString::exist() const XANADU_NOTHROW
+{
+	return !this->empty();
+}
+
 /// swap string
 void XString::swap(XString& _String) XANADU_NOTHROW
 {

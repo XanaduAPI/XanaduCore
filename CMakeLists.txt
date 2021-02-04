@@ -2,7 +2,7 @@
 cmake_minimum_required(VERSION 3.8)
 
 # 项目名称
-project(XanaduCore VERSION 0.3.0)
+project(XanaduCore VERSION 0.5.0)
 
 # 设置安装路径
 message(STATUS "Operation System : ${CMAKE_SYSTEM}")
@@ -60,6 +60,9 @@ set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
 if (MINGW)
 	link_libraries("stdc++")
 endif()
+if (UNIX)
+	link_libraries("pthread")
+endif ()
 if (MSVC AND CMAKE_BUILD_TYPE STREQUAL "Debug")
 	link_libraries(XanaduRuntimeD)
 else ()
@@ -70,7 +73,7 @@ endif ()
 add_library(XanaduCore SHARED ${SRC})
 
 # 设置项目属性
-set_target_properties(XanaduCore PROPERTIES VERSION 0.3.0 SOVERSION 0)
+set_target_properties(XanaduCore PROPERTIES VERSION 0.5.0 SOVERSION 0)
 set_target_properties(XanaduCore PROPERTIES DEBUG_POSTFIX D)
 
 # 设置安装文件(静态库)

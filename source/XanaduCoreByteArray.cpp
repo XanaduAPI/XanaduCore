@@ -220,8 +220,20 @@ bool XByteArray::isEmpty() const XANADU_NOTHROW
 	return this->MemoryIsEmpty();
 }
 
+/// Check for null values
+bool XByteArray::empty() const XANADU_NOTHROW
+{
+	return this->MemoryIsEmpty();
+}
+
 /// Check if there is a value
 bool XByteArray::isExist() const XANADU_NOTHROW
+{
+	return this->MemoryIsExist();
+}
+
+/// Check if there is a value
+bool XByteArray::exist() const XANADU_NOTHROW
 {
 	return this->MemoryIsExist();
 }
