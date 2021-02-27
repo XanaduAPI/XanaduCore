@@ -11,37 +11,34 @@
 class XANADU_CORE_EXPORT XAllocator
 {
 public:
-	/// Type of data size
+	/// Type of data size and pos
 	using						size_type = int64U;
 
-	/// The type of the data coordinate
-	using						pos_type = int64U;
-
 	/// Subscript returned when no matching data is found
-	static const int64U				npos = static_cast<int64U>(-1);
+	static const size_type				npos = static_cast<size_type>(-1);
 
 private:
 	/// Memory address
 	char*						_memory_address = nullptr;
 
 	/// Memory length
-	int64U						_memory_length = 0;
+	size_type					_memory_length = 0;
 
 	/// Memory capacity
-	int64U						_memory_capacity = 0;
+	size_type					_memory_capacity = 0;
 
 public:
 	/// Constructors
 	XAllocator() XANADU_NOTHROW;
 
 	/// Constructors
-	XAllocator(int64U _Length) XANADU_NOTHROW;
+	XAllocator(size_type _Length) XANADU_NOTHROW;
 
 	/// Constructors
-	XAllocator(int64U _Length, char _Char) XANADU_NOTHROW;
+	XAllocator(size_type _Length, char _Char) XANADU_NOTHROW;
 
 	/// Constructors
-	XAllocator(const void* _Memory, int64U _Length) XANADU_NOTHROW;
+	XAllocator(const void* _Memory, size_type _Length) XANADU_NOTHROW;
 
 	/// Constructors
 	XAllocator(const XAllocator& _Allocator) XANADU_NOTHROW;
@@ -61,7 +58,7 @@ public:
 
 public:
 	/// Fix Pos
-	virtual int64U MemoryPosFix(int64U _Pos) const XANADU_NOTHROW;
+	virtual size_type MemoryPosFix(size_type _Pos) const XANADU_NOTHROW;
 
 	/// Check for null values
 	virtual bool MemoryIsEmpty() const XANADU_NOTHROW;
@@ -71,43 +68,46 @@ public:
 
 public:
 	/// Allocator memory
-	virtual bool MemoryAllocator(int64U _Length) XANADU_NOTHROW;
+	virtual bool MemoryAllocator(size_type _Length) XANADU_NOTHROW;
 
 	/// Allocator memory
-	virtual bool MemoryAllocator(const void* _Memory, int64U _Length) XANADU_NOTHROW;
+	virtual bool MemoryAllocator(const void* _Memory, size_type _Length) XANADU_NOTHROW;
 
 	/// Release memory
 	virtual void MemoryRelease() XANADU_NOTHROW;
 
 	/// Append memory
-	virtual bool MemoryAppend(int64U _Length) XANADU_NOTHROW;
+	virtual bool MemoryAppend(size_type _Length) XANADU_NOTHROW;
 
 	/// Append memory
-	virtual bool MemoryAppend(int64U _Length, char _Char) XANADU_NOTHROW;
+	virtual bool MemoryAppend(size_type _Length, char _Char) XANADU_NOTHROW;
 
 	/// Append memory
-	virtual bool MemoryAppend(const void* _Memory, int64U _Length) XANADU_NOTHROW;
+	virtual bool MemoryAppend(const void* _Memory, size_type _Length) XANADU_NOTHROW;
 
 	/// Append memory
 	virtual bool MemoryAppend(const XAllocator& _Allocator) XANADU_NOTHROW;
 
 	/// Reduce memory
-	virtual bool MemoryReduce(int64U _Length) XANADU_NOTHROW;
+	virtual bool MemoryReduce(size_type _Length) XANADU_NOTHROW;
 
 	/// Resize memory
-	virtual bool MemoryResize(int64U _Length) XANADU_NOTHROW;
+	virtual bool MemoryResize(size_type _Length) XANADU_NOTHROW;
+
+	/// truncate memory
+	virtual void MemoryTruncate(size_type _Pos) XANADU_NOTHROW;
 
 	/// Insert memory
-	virtual bool MemoryInsert(int64U _Pos, int64U _Length) XANADU_NOTHROW;
+	virtual bool MemoryInsert(size_type _Pos, size_type _Length) XANADU_NOTHROW;
 
 	/// Insert memory
-	virtual bool MemoryInsert(int64U _Pos, const void* _Memory, int64U _Length) XANADU_NOTHROW;
+	virtual bool MemoryInsert(size_type _Pos, const void* _Memory, size_type _Length) XANADU_NOTHROW;
 
 	/// Remove memory
-	virtual bool MemoryRemove(int64U _Pos, int64U _Length) XANADU_NOTHROW;
+	virtual bool MemoryRemove(size_type _Pos, size_type _Length) XANADU_NOTHROW;
 
 	/// Copy Memory
-	virtual bool MemoryCopy(const void* _Memory, int64U _Length) XANADU_NOTHROW;
+	virtual bool MemoryCopy(const void* _Memory, size_type _Length) XANADU_NOTHROW;
 
 	/// Copy Memory
 	virtual bool MemoryCopy(const XAllocator& _Allocator) XANADU_NOTHROW;
@@ -116,22 +116,22 @@ public:
 	virtual bool MemoryMove(XAllocator& _Allocator) XANADU_NOTHROW;
 
 	/// Find Memory
-	virtual int64U MemoryFind(int64U _Pos, const void* _Memory, int64U _Length) const XANADU_NOTHROW;
+	virtual size_type MemoryFind(size_type _Pos, const void* _Memory, size_type _Length) const XANADU_NOTHROW;
 
 	/// Find Memory
-	virtual int64U MemoryFind(int64U _Pos, const XAllocator& _Allocator) const XANADU_NOTHROW;
+	virtual size_type MemoryFind(size_type _Pos, const XAllocator& _Allocator) const XANADU_NOTHROW;
 
 	/// Reverse Find Memory
-	virtual int64U MemoryReverseFind(int64U _Pos, const void* _Memory, int64U _Length) const XANADU_NOTHROW;
+	virtual size_type MemoryReverseFind(size_type _Pos, const void* _Memory, size_type _Length) const XANADU_NOTHROW;
 
 	/// Reverse Find Memory
-	virtual int64U MemoryReverseFind(int64U _Pos, const XAllocator& _Allocator) const XANADU_NOTHROW;
+	virtual size_type MemoryReverseFind(size_type _Pos, const XAllocator& _Allocator) const XANADU_NOTHROW;
 
 	/// Replace Memory
-	virtual bool MemoryReplace(int64U _Pos, int64U _Length, const void* _Memory, int64U _Size) XANADU_NOTHROW;
+	virtual bool MemoryReplace(size_type _Pos, size_type _Length, const void* _Memory, size_type _Size) XANADU_NOTHROW;
 
 	/// Replace Memory
-	virtual bool MemoryReplace(int64U _Pos, int64U _Length, const XAllocator& _Allocator) XANADU_NOTHROW;
+	virtual bool MemoryReplace(size_type _Pos, size_type _Length, const XAllocator& _Allocator) XANADU_NOTHROW;
 
 public:
 	/// Get the address of the memory
@@ -141,10 +141,10 @@ public:
 	virtual const void* MemoryAddress() const XANADU_NOTHROW;
 
 	/// Get the length of the memory
-	virtual int64U MemoryLength() const XANADU_NOTHROW;
+	virtual size_type MemoryLength() const XANADU_NOTHROW;
 
 	/// Get the capacity of the memory
-	virtual int64U MemoryCapacity() const XANADU_NOTHROW;
+	virtual size_type MemoryCapacity() const XANADU_NOTHROW;
 };
 
 #endif /// _XANADU_CORE_ALLOCATOR_H_

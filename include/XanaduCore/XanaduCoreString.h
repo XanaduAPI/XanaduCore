@@ -30,24 +30,24 @@ typedef			UString							NString;
 /// </summary>
 class XANADU_CORE_EXPORT XString
 {
+public:
+	using						size_type = XAllocator::size_type;
+	static const size_type				npos = XAllocator::npos;
+
 private:
 	wchar_t*					_string_data = nullptr;
-	int64U						_string_length = 0;
-	int64U						_string_capacity = 0;
-
-public:
-	using						size_type = int64U;
-	static const int64U				npos = XAllocator::npos;
+	size_type					_string_length = 0;
+	size_type					_string_capacity = 0;
 
 public:
 	/// String_iterator_type
 	struct String_iterator_type
 	{
 		wchar_t* first;
-		const int64U* size;
-		int64U					pos;
+		const size_type* size;
+		size_type					pos;
 
-		String_iterator_type(wchar_t* _First = nullptr, const int64U* _Size = nullptr, int64U _Pos = 0) : first(_First), size(_Size), pos(_Pos)
+		String_iterator_type(wchar_t* _First = nullptr, const size_type* _Size = nullptr, size_type _Pos = 0) : first(_First), size(_Size), pos(_Pos)
 		{
 		};
 	};
@@ -172,7 +172,7 @@ public:
 
 	XString(const wchar_t* _String) XANADU_NOTHROW;
 
-	XString(const wchar_t* _String, int64U _Length) XANADU_NOTHROW;
+	XString(const wchar_t* _String, size_type _Length) XANADU_NOTHROW;
 
 	XString(const XString& _String) XANADU_NOTHROW;
 
@@ -200,13 +200,13 @@ public:
 
 private:
 	/// memory operator new
-	virtual void _memory_malloc(int64U _Size) XANADU_NOTHROW;
+	virtual void _memory_malloc(size_type _Size) XANADU_NOTHROW;
 
 	/// memory operator append
-	virtual void _memory_append(int64U _Size) XANADU_NOTHROW;
+	virtual void _memory_append(size_type _Size) XANADU_NOTHROW;
 
 	/// memory operator resize
-	virtual void _memory_resize(int64U _Size) XANADU_NOTHROW;
+	virtual void _memory_resize(size_type _Size) XANADU_NOTHROW;
 
 	/// memory operator delete
 	virtual void _memory_free() XANADU_NOTHROW;
@@ -216,35 +216,35 @@ private:
 	virtual void _string_append(wchar_t _Char) XANADU_NOTHROW;
 
 	/// private append const wchar_t*
-	virtual void _string_append(const wchar_t* _String, int64U _Size = XString::npos) XANADU_NOTHROW;
+	virtual void _string_append(const wchar_t* _String, size_type _Size = XString::npos) XANADU_NOTHROW;
 
 	/// private search wchar_t
-	virtual int64U _string_search(wchar_t _Char, int64U _Begin = 0LL, Xanadu::CaseSensitivity _XCS = Xanadu::CaseSensitive) const XANADU_NOTHROW;
+	virtual size_type _string_search(wchar_t _Char, size_type _Begin = 0LL, Xanadu::CaseSensitivity _XCS = Xanadu::CaseSensitive) const XANADU_NOTHROW;
 
 	/// private search const wchar_t*
-	virtual int64U _string_search(const wchar_t* _String, int64U _Size = XString::npos, int64U _Begin = 0LL, Xanadu::CaseSensitivity _XCS = Xanadu::CaseSensitive) const XANADU_NOTHROW;
+	virtual size_type _string_search(const wchar_t* _String, size_type _Size = XString::npos, size_type _Begin = 0LL, Xanadu::CaseSensitivity _XCS = Xanadu::CaseSensitive) const XANADU_NOTHROW;
 
 	/// private insert wchar_t
-	virtual void _string_insert(int64U _Pos, wchar_t _Char) XANADU_NOTHROW;
+	virtual void _string_insert(size_type _Pos, wchar_t _Char) XANADU_NOTHROW;
 
 	/// private insert const wchar_t*
-	virtual void _string_insert(int64U _Pos, const wchar_t* _String, int64U _Size = XString::npos) XANADU_NOTHROW;
+	virtual void _string_insert(size_type _Pos, const wchar_t* _String, size_type _Size = XString::npos) XANADU_NOTHROW;
 
 	/// private remove
-	virtual void _string_remove(int64U _Pos, int64U _Length) XANADU_NOTHROW;
+	virtual void _string_remove(size_type _Pos, size_type _Length) XANADU_NOTHROW;
 
 	/// private compare
-	virtual int64S _string_compare(const wchar_t* _String, int64U _Size = XString::npos, Xanadu::CaseSensitivity _XCS = Xanadu::CaseSensitive) const XANADU_NOTHROW;
+	virtual int32S _string_compare(const wchar_t* _String, size_type _Size = XString::npos, Xanadu::CaseSensitivity _XCS = Xanadu::CaseSensitive) const XANADU_NOTHROW;
 
 private:
 	/// 查找
-	virtual size_type _find(const wchar_t* _String, int64U _Length, size_type _Pos) const XANADU_NOTHROW;
+	virtual size_type _find(const wchar_t* _String, size_type _Length, size_type _Pos) const XANADU_NOTHROW;
 
 	/// 反向查找
-	virtual size_type _rfind(const wchar_t* _String, int64U _Length, size_type _Pos) const XANADU_NOTHROW;
+	virtual size_type _rfind(const wchar_t* _String, size_type _Length, size_type _Pos) const XANADU_NOTHROW;
 
 	/// 查找并比较
-	virtual bool _compare(const wchar_t* _String, int64U _Length, size_type _Pos) const XANADU_NOTHROW;
+	virtual bool _compare(const wchar_t* _String, size_type _Length, size_type _Pos) const XANADU_NOTHROW;
 
 private:
 	/// cxx iterator private
@@ -257,7 +257,7 @@ private:
 	virtual String_iterator_type _end() const XANADU_NOTHROW;
 
 	/// cxx iterator private
-	virtual int64U _getLength(const const_iterator _First, const const_iterator _Second) XANADU_NOTHROW;
+	virtual size_type _getLength(const const_iterator _First, const const_iterator _Second) XANADU_NOTHROW;
 
 public:
 	/// cxx iterator function
@@ -304,13 +304,13 @@ public:
 	virtual const wchar_t* data() const XANADU_NOTHROW;
 
 	/// string length
-	virtual int64U length() const XANADU_NOTHROW;
+	virtual size_type length() const XANADU_NOTHROW;
 
 	/// string length
-	virtual int64U size() const XANADU_NOTHROW;
+	virtual size_type size() const XANADU_NOTHROW;
 
 	/// buffer capacity
-	virtual int64U capacity() const XANADU_NOTHROW;
+	virtual size_type capacity() const XANADU_NOTHROW;
 
 	/// buffer clear
 	virtual void clear() XANADU_NOTHROW;
@@ -325,26 +325,29 @@ public:
 	virtual void swap(XString& _String) XANADU_NOTHROW;
 
 	/// max_size
-	virtual int64U max_size() const XANADU_NOTHROW;
+	virtual size_type max_size() const XANADU_NOTHROW;
 
 	/// resize
-	virtual void resize(int64U _Length) XANADU_NOTHROW;
+	virtual void resize(size_type _Length) XANADU_NOTHROW;
 
 	/// resize
-	virtual void resize(int64U _Length, wchar_t _Char) XANADU_NOTHROW;
+	virtual void resize(size_type _Length, wchar_t _Char) XANADU_NOTHROW;
+
+	/// Truncates the byte array at index position pos. If pos is beyond the end of the array, nothing happens.
+	virtual void truncate(size_type _Index) XANADU_NOTHROW;
 
 public:
 	/// 元素访问 (1)
-	const wchar_t& operator [] (int64U _Index) const;
+	const wchar_t& operator [] (size_type _Index) const;
 
 	/// 元素访问 (2)
-	wchar_t& operator [] (int64U _Index);
+	wchar_t& operator [] (size_type _Index);
 
 	/// 元素访问 (3)
-	const wchar_t& at(int64U _Index) const;
+	const wchar_t& at(size_type _Index) const;
 
 	/// 元素访问 (4)
-	wchar_t& at(int64U _Index);
+	wchar_t& at(size_type _Index);
 
 	/// 元素访问 (5)
 	const wchar_t& front() const;
@@ -363,7 +366,7 @@ public:
 	virtual void push_back(wchar_t _Char) XANADU_NOTHROW;
 
 	/// cxx push_back (2)
-	virtual void push_back(const wchar_t* _String, int64U _Size = XString::npos) XANADU_NOTHROW;
+	virtual void push_back(const wchar_t* _String, size_type _Size = XString::npos) XANADU_NOTHROW;
 
 	/// cxx push_back (3)
 	virtual void push_back(const XString& _String) XANADU_NOTHROW;
@@ -420,75 +423,75 @@ public:
 
 public:
 	/// Convert : To ASCII
-	virtual AString ToAString() const XANADU_NOTHROW;
+	virtual AString toAString() const XANADU_NOTHROW;
 
 	/// Convert : To UNICODE
-	virtual WString ToWString() const XANADU_NOTHROW;
+	virtual WString toWString() const XANADU_NOTHROW;
 
 	/// Convert : To UTF-8
-	virtual UString ToUString() const XANADU_NOTHROW;
+	virtual UString toUString() const XANADU_NOTHROW;
 
 	/// Convert : To Native String
-	virtual NString ToNString() const XANADU_NOTHROW;
+	virtual NString toNString() const XANADU_NOTHROW;
 
 	/// Convert : To XByteArray
-	virtual XByteArray ToBytes() const XANADU_NOTHROW;
+	virtual XByteArray toBytes() const XANADU_NOTHROW;
 
 	/// Convert : To URL Encode
-	virtual UString ToURL() const XANADU_NOTHROW;
+	virtual UString toURL() const XANADU_NOTHROW;
 
 	/// Convert : To ASCII
-	static AString XANADUAPI ToAString(const XString& _String) XANADU_NOTHROW;
+	static AString XANADUAPI toAString(const XString& _String) XANADU_NOTHROW;
 
 	/// Convert : To UNICODE
-	static WString XANADUAPI ToWString(const XString& _String) XANADU_NOTHROW;
+	static WString XANADUAPI toWString(const XString& _String) XANADU_NOTHROW;
 
 	/// Convert : To UTF-8
-	static UString XANADUAPI ToUString(const XString& _String) XANADU_NOTHROW;
+	static UString XANADUAPI toUString(const XString& _String) XANADU_NOTHROW;
 
 	/// Convert : To Native String
-	static NString XANADUAPI ToNString(const XString& _String) XANADU_NOTHROW;
+	static NString XANADUAPI toNString(const XString& _String) XANADU_NOTHROW;
 
 	/// Convert : To XByteArray
-	static XByteArray XANADUAPI ToBytes(const XString& _String) XANADU_NOTHROW;
+	static XByteArray XANADUAPI toBytes(const XString& _String) XANADU_NOTHROW;
 
 	/// Convert : To URL Encode
-	static UString XANADUAPI ToURL(const XString& _String) XANADU_NOTHROW;
+	static UString XANADUAPI toURL(const XString& _String) XANADU_NOTHROW;
 
 	/// Convert:From ASCII
-	static XString XANADUAPI FromAString(const AString& _AString) XANADU_NOTHROW;
+	static XString XANADUAPI fromAString(const AString& _AString) XANADU_NOTHROW;
 
 	/// Convert:From UNICODE
-	static XString XANADUAPI FromWString(const WString& _WString) XANADU_NOTHROW;
+	static XString XANADUAPI fromWString(const WString& _WString) XANADU_NOTHROW;
 
 	/// Convert:From UTF-8
-	static XString XANADUAPI FromUString(const UString& _UString) XANADU_NOTHROW;
+	static XString XANADUAPI fromUString(const UString& _UString) XANADU_NOTHROW;
 
 	/// Convert:From Latin_1(ISO 8859-1)
-	static XString XANADUAPI FromLString(const LString& _LString) XANADU_NOTHROW;
+	static XString XANADUAPI fromLString(const LString& _LString) XANADU_NOTHROW;
 
 	/// Convert : From Native String
-	static XString XANADUAPI FromNString(const NString& _NString) XANADU_NOTHROW;
+	static XString XANADUAPI fromNString(const NString& _NString) XANADU_NOTHROW;
 
 	/// Convert : From XByteArray
-	static XString XANADUAPI FromBytes(const XByteArray& _Bytes) XANADU_NOTHROW;
+	static XString XANADUAPI fromBytes(const XByteArray& _Bytes) XANADU_NOTHROW;
 
 	/// Convert:From URL Encode
-	static XString XANADUAPI FromURL(const UString& _URL) XANADU_NOTHROW;
+	static XString XANADUAPI fromURL(const UString& _URL) XANADU_NOTHROW;
 
 	/// convert to upper
-	virtual XString ToUpper() const XANADU_NOTHROW;
+	virtual XString toUpper() const XANADU_NOTHROW;
 
 	/// convert to lower
-	virtual XString ToLower() const XANADU_NOTHROW;
+	virtual XString toLower() const XANADU_NOTHROW;
 
 public:
 	/// Format String (char* [%S]) (wchar_t* [%s][%ls][%ws])
-	static XString XANADUAPI Format(const wchar_t* _Format, ...) XANADU_NOTHROW;
+	static XString XANADUAPI format(const wchar_t* _Format, ...) XANADU_NOTHROW;
 
 public:
 	/// Sub String
-	virtual XString substr(size_type _Pos = 0, int64U _Length = XString::npos) const XANADU_NOTHROW;
+	virtual XString substr(size_type _Pos = 0, size_type _Length = XString::npos) const XANADU_NOTHROW;
 
 	/// Sub String
 	virtual XString left(size_type _Pos = XString::npos) const XANADU_NOTHROW;
@@ -497,7 +500,7 @@ public:
 	virtual XString right(size_type _Pos = 0) const XANADU_NOTHROW;
 
 	/// Retrieve the middle data by length
-	virtual XString mid(int64U _Pos, int64U _Size = XString::npos) const XANADU_NOTHROW;
+	virtual XString mid(size_type _Pos, size_type _Size = XString::npos) const XANADU_NOTHROW;
 
 	/// Middle String
 	virtual XString middle(const XString& _Left, const XString& _Right, Xanadu::CaseSensitivity _XCS = Xanadu::CaseSensitive) const XANADU_NOTHROW;
@@ -510,7 +513,7 @@ public:
 	virtual size_type find(const wchar_t* _String, size_type _Pos = 0) const XANADU_NOTHROW;
 
 	/// Find (3)
-	virtual size_type find(const wchar_t* _String, int64U _Length, size_type _Pos) const XANADU_NOTHROW;
+	virtual size_type find(const wchar_t* _String, size_type _Length, size_type _Pos) const XANADU_NOTHROW;
 
 	/// Find (4)
 	virtual size_type find(wchar_t _Char, size_type _Pos = 0) const XANADU_NOTHROW;
@@ -523,7 +526,7 @@ public:
 	virtual size_type rfind(const wchar_t* _String, size_type _Pos = npos) const XANADU_NOTHROW;
 
 	/// Reverse Find (3)
-	virtual size_type rfind(const wchar_t* _String, int64U _Length, size_type _Pos) const XANADU_NOTHROW;
+	virtual size_type rfind(const wchar_t* _String, size_type _Length, size_type _Pos) const XANADU_NOTHROW;
 
 	/// Reverse Find (4)
 	virtual size_type rfind(wchar_t _Char, size_type _Pos = npos) const XANADU_NOTHROW;
@@ -536,7 +539,7 @@ public:
 	virtual size_type indexOf(const wchar_t* _String, size_type _Pos = 0) const XANADU_NOTHROW;
 
 	/// Index Of (3)
-	virtual size_type indexOf(const wchar_t* _String, int64U _Length, size_type _Pos) const XANADU_NOTHROW;
+	virtual size_type indexOf(const wchar_t* _String, size_type _Length, size_type _Pos) const XANADU_NOTHROW;
 
 	/// Index Of (4)
 	virtual size_type indexOf(wchar_t _Char, size_type _Pos = 0) const XANADU_NOTHROW;
@@ -549,7 +552,7 @@ public:
 	virtual size_type lastIndexOf(const wchar_t* _String, size_type _Pos = XString::npos) const XANADU_NOTHROW;
 
 	/// Last Index Of (3)
-	virtual size_type lastIndexOf(const wchar_t* _String, int64U _Length, size_type _Pos) const XANADU_NOTHROW;
+	virtual size_type lastIndexOf(const wchar_t* _String, size_type _Length, size_type _Pos) const XANADU_NOTHROW;
 
 	/// Last Index Of (4)
 	virtual size_type lastIndexOf(wchar_t _Char, size_type _Pos = XString::npos) const XANADU_NOTHROW;
@@ -562,7 +565,7 @@ public:
 	virtual bool contains(const wchar_t* _String, Xanadu::CaseSensitivity _XCS = Xanadu::CaseSensitive) const XANADU_NOTHROW;
 
 	/// contains substring
-	virtual bool contains(const wchar_t* _String, int64U _Size, Xanadu::CaseSensitivity _XCS = Xanadu::CaseSensitive) const XANADU_NOTHROW;
+	virtual bool contains(const wchar_t* _String, size_type _Size, Xanadu::CaseSensitivity _XCS = Xanadu::CaseSensitive) const XANADU_NOTHROW;
 
 	/// contains substring
 	virtual bool contains(const XString& _String, Xanadu::CaseSensitivity _XCS = Xanadu::CaseSensitive) const XANADU_NOTHROW;
@@ -575,7 +578,7 @@ public:
 	virtual int compare(const wchar_t* _String, Xanadu::CaseSensitivity _XCS = Xanadu::CaseSensitive) const XANADU_NOTHROW;
 
 	/// compare substring
-	virtual int compare(const wchar_t* _String, int64U _Size, Xanadu::CaseSensitivity _XCS = Xanadu::CaseSensitive) const XANADU_NOTHROW;
+	virtual int compare(const wchar_t* _String, size_type _Size, Xanadu::CaseSensitivity _XCS = Xanadu::CaseSensitive) const XANADU_NOTHROW;
 
 	/// compare substring
 	virtual int compare(const XString& _String, Xanadu::CaseSensitivity _XCS = Xanadu::CaseSensitive) const XANADU_NOTHROW;
@@ -585,7 +588,7 @@ public:
 	virtual XString& append(wchar_t _Char) XANADU_NOTHROW;
 
 	/// append (2)
-	virtual XString& append(const wchar_t* _String, int64U _Size = XString::npos) XANADU_NOTHROW;
+	virtual XString& append(const wchar_t* _String, size_type _Size = XString::npos) XANADU_NOTHROW;
 
 	/// append (3)
 	virtual XString& append(const XString& _String) XANADU_NOTHROW;
@@ -595,60 +598,60 @@ public:
 	virtual XString& insert(size_type _Pos, wchar_t _Char) XANADU_NOTHROW;
 
 	/// string insert wchar_t
-	virtual XString& insert(size_type _Pos, int64U _Count, wchar_t _Char) XANADU_NOTHROW;
+	virtual XString& insert(size_type _Pos, size_type _Count, wchar_t _Char) XANADU_NOTHROW;
 
 	/// string insert const wchar_t*
-	virtual XString& insert(size_type _Pos, const wchar_t* _String, int64U _Length) XANADU_NOTHROW;
+	virtual XString& insert(size_type _Pos, const wchar_t* _String, size_type _Length) XANADU_NOTHROW;
 
 	/// string insert XString
 	virtual XString& insert(size_type _Pos, const XString& _String) XANADU_NOTHROW;
 
 public:
 	/// string remove (1)
-	virtual XString& remove(size_type _Pos, int64U _Length) XANADU_NOTHROW;
+	virtual XString& remove(size_type _Pos, size_type _Length) XANADU_NOTHROW;
 
 	/// string remove (2)
 	virtual XString& remove(wchar_t _Char, Xanadu::CaseSensitivity _XCS = Xanadu::CaseSensitive) XANADU_NOTHROW;
 
 	/// string remove (3)
-	virtual XString& remove(const wchar_t* _String, int64U _Length = XString::npos, Xanadu::CaseSensitivity _XCS = Xanadu::CaseSensitive) XANADU_NOTHROW;
+	virtual XString& remove(const wchar_t* _String, size_type _Length = XString::npos, Xanadu::CaseSensitivity _XCS = Xanadu::CaseSensitive) XANADU_NOTHROW;
 
 	/// string remove (4)
 	virtual XString& remove(const XString& _String, Xanadu::CaseSensitivity _XCS = Xanadu::CaseSensitive) XANADU_NOTHROW;
 
 public:
 	/// string replace
-	virtual XString& replace(size_type _Pos, int64U _Length, wchar_t _After) XANADU_NOTHROW;
+	virtual XString& replace(size_type _Pos, size_type _Length, wchar_t _After) XANADU_NOTHROW;
 
 	/// string replace
-	virtual XString& replace(size_type _Pos, int64U _Length, const wchar_t* _After, int64U _LengthA) XANADU_NOTHROW;
+	virtual XString& replace(size_type _Pos, size_type _Length, const wchar_t* _After, size_type _LengthA) XANADU_NOTHROW;
 
 	/// string replace
-	virtual XString& replace(size_type _Pos, int64U _Length, const XString& _After) XANADU_NOTHROW;
+	virtual XString& replace(size_type _Pos, size_type _Length, const XString& _After) XANADU_NOTHROW;
 
 	/// string replace
 	virtual XString& replace(wchar_t _Before, wchar_t _After, Xanadu::CaseSensitivity _XCS = Xanadu::CaseSensitive) XANADU_NOTHROW;
 
 	/// string replace
-	virtual XString& replace(wchar_t _Before, const wchar_t* _After, int64U _LengthA, Xanadu::CaseSensitivity _XCS = Xanadu::CaseSensitive) XANADU_NOTHROW;
+	virtual XString& replace(wchar_t _Before, const wchar_t* _After, size_type _LengthA, Xanadu::CaseSensitivity _XCS = Xanadu::CaseSensitive) XANADU_NOTHROW;
 
 	/// string replace
 	virtual XString& replace(wchar_t _Before, const XString& _After, Xanadu::CaseSensitivity _XCS = Xanadu::CaseSensitive) XANADU_NOTHROW;
 
 	/// string replace
-	virtual XString& replace(const wchar_t* _Before, int64U _LengthB, wchar_t _After, Xanadu::CaseSensitivity _XCS = Xanadu::CaseSensitive) XANADU_NOTHROW;
+	virtual XString& replace(const wchar_t* _Before, size_type _LengthB, wchar_t _After, Xanadu::CaseSensitivity _XCS = Xanadu::CaseSensitive) XANADU_NOTHROW;
 
 	/// string replace
-	virtual XString& replace(const wchar_t* _Before, int64U _LengthB, const wchar_t* _After, int64U _LengthA, Xanadu::CaseSensitivity _XCS = Xanadu::CaseSensitive) XANADU_NOTHROW;
+	virtual XString& replace(const wchar_t* _Before, size_type _LengthB, const wchar_t* _After, size_type _LengthA, Xanadu::CaseSensitivity _XCS = Xanadu::CaseSensitive) XANADU_NOTHROW;
 
 	/// string replace
-	virtual XString& replace(const wchar_t* _Before, int64U _LengthB, const XString& _After, Xanadu::CaseSensitivity _XCS = Xanadu::CaseSensitive) XANADU_NOTHROW;
+	virtual XString& replace(const wchar_t* _Before, size_type _LengthB, const XString& _After, Xanadu::CaseSensitivity _XCS = Xanadu::CaseSensitive) XANADU_NOTHROW;
 
 	/// string replace
 	virtual XString& replace(const XString& _Before, wchar_t _After, Xanadu::CaseSensitivity _XCS = Xanadu::CaseSensitive) XANADU_NOTHROW;
 
 	/// string replace
-	virtual XString& replace(const XString& _Before, const wchar_t* _After, int64U _LengthA, Xanadu::CaseSensitivity _XCS = Xanadu::CaseSensitive) XANADU_NOTHROW;
+	virtual XString& replace(const XString& _Before, const wchar_t* _After, size_type _LengthA, Xanadu::CaseSensitivity _XCS = Xanadu::CaseSensitive) XANADU_NOTHROW;
 
 	/// string replace
 	virtual XString& replace(const XString& _Before, const XString& _After, Xanadu::CaseSensitivity _XCS = Xanadu::CaseSensitive) XANADU_NOTHROW;
@@ -662,53 +665,53 @@ public:
 
 public:
 	/// string to int16S
-	virtual int16S  ToInt16S(bool* _Ok = nullptr, int _Base = 10) const XANADU_NOTHROW;
+	virtual int16S  toInt16S(bool* _Ok = nullptr, int _Base = 10) const XANADU_NOTHROW;
 
 	/// string to int16U
-	virtual int16U ToInt16U(bool* _Ok = nullptr, int _Base = 10) const XANADU_NOTHROW;
+	virtual int16U toInt16U(bool* _Ok = nullptr, int _Base = 10) const XANADU_NOTHROW;
 
 	/// string to int32S
-	virtual int32S ToInt32S(bool* _Ok = nullptr, int _Base = 10) const XANADU_NOTHROW;
+	virtual int32S toInt32S(bool* _Ok = nullptr, int _Base = 10) const XANADU_NOTHROW;
 
 	/// string to int32U
-	virtual int32U ToInt32U(bool* _Ok = nullptr, int _Base = 10) const XANADU_NOTHROW;
+	virtual int32U toInt32U(bool* _Ok = nullptr, int _Base = 10) const XANADU_NOTHROW;
 
 	/// string to int64S
-	virtual int64U ToInt64S(bool* _Ok = nullptr, int _Base = 10) const XANADU_NOTHROW;
+	virtual size_type toInt64S(bool* _Ok = nullptr, int _Base = 10) const XANADU_NOTHROW;
 
-	/// string to int64U
-	virtual int64U ToInt64U(bool* _Ok = nullptr, int _Base = 10) const XANADU_NOTHROW;
+	/// string to size_type
+	virtual size_type toInt64U(bool* _Ok = nullptr, int _Base = 10) const XANADU_NOTHROW;
 
 	/// string to float
-	virtual float ToFloat(bool* _Ok = nullptr) const XANADU_NOTHROW;
+	virtual float toFloat(bool* _Ok = nullptr) const XANADU_NOTHROW;
 
 	/// string to double
-	virtual double ToDouble(bool* _Ok = nullptr) const XANADU_NOTHROW;
+	virtual double toDouble(bool* _Ok = nullptr) const XANADU_NOTHROW;
 
 public:
 	/// string form number
-	virtual XString& SetNumber(int16S _Value, int32S _Base = 10) XANADU_NOTHROW;
+	virtual XString& setNumber(int16S _Value, int32S _Base = 10) XANADU_NOTHROW;
 
 	/// string form number
-	virtual XString& SetNumber(int16U _Value, int32S _Base = 10) XANADU_NOTHROW;
+	virtual XString& setNumber(int16U _Value, int32S _Base = 10) XANADU_NOTHROW;
 
 	/// string form number
-	virtual XString& SetNumber(int32S _Value, int32S _Base = 10) XANADU_NOTHROW;
+	virtual XString& setNumber(int32S _Value, int32S _Base = 10) XANADU_NOTHROW;
 
 	/// string form number
-	virtual XString& SetNumber(int32U _Value, int32S _Base = 10) XANADU_NOTHROW;
+	virtual XString& setNumber(int32U _Value, int32S _Base = 10) XANADU_NOTHROW;
 
 	/// string form number
-	virtual XString& SetNumber(int64S _Value, int32S _Base = 10) XANADU_NOTHROW;
+	virtual XString& setNumber(int64S _Value, int32S _Base = 10) XANADU_NOTHROW;
 
 	/// string form number
-	virtual XString& SetNumber(int64U _Value, int32S _Base = 10) XANADU_NOTHROW;
+	virtual XString& setNumber(int64U _Value, int32S _Base = 10) XANADU_NOTHROW;
 
 	/// string form number
-	virtual XString& SetNumber(float _Value, char _Format = 'g', int32S _Prec = 6) XANADU_NOTHROW;
+	virtual XString& setNumber(float _Value, char _Format = 'g', int32S _Prec = 6) XANADU_NOTHROW;
 
 	/// string form number
-	virtual XString& SetNumber(double _Value, char _Format = 'g', int32S _Prec = 6) XANADU_NOTHROW;
+	virtual XString& setNumber(double _Value, char _Format = 'g', int32S _Prec = 6) XANADU_NOTHROW;
 
 public:
 	/// string form number
@@ -727,7 +730,7 @@ public:
 	static XString number(int64S _Value, int32S _Base = 10) XANADU_NOTHROW;
 
 	/// string form number
-	static XString number(int64U _Value, int32S _Base = 10) XANADU_NOTHROW;
+	static XString number(size_type _Value, int32S _Base = 10) XANADU_NOTHROW;
 
 	/// string form number
 	static XString number(double _Value, char _Format = 'g', int32S _Prec = 6) XANADU_NOTHROW;

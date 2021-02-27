@@ -37,11 +37,7 @@ XANADU_DEPRECATED void XStream::Output(const char* _Format, ...) XANADU_NOTHROW
 	vsnprintf(vBuffer, XANADU_LOG_MAX_LENGTH, _Format, vArgs);
 	va_end(vArgs);
 
-#ifdef XANADU_SYSTEM_WINDOWS
-	XStream::Output(XString::FromAString(vBuffer));
-#else
-	XStream::Output(XString::FromUString(vBuffer));
-#endif//XANADU_SYSTEM_WINDOWS
+	XStream::Output(XString::fromNString(vBuffer));
 #else
 	XANADU_UNPARAMETER(_Format);
 #endif//XANADU_OUTPUT_ENABLED
@@ -91,11 +87,7 @@ XANADU_DEPRECATED void XStream::Info(const char* _Format, ...) XANADU_NOTHROW
 	vsnprintf(vBuffer, XANADU_LOG_MAX_LENGTH, _Format, vArgs);
 	va_end(vArgs);
 
-#ifdef XANADU_SYSTEM_WINDOWS
-	XStream::Info(XString::FromAString(vBuffer));
-#else
-	XStream::Info(XString::FromUString(vBuffer));
-#endif//XANADU_SYSTEM_WINDOWS
+	XStream::Info(XString::fromNString(vBuffer));
 #else
 	XANADU_UNPARAMETER(_Format);
 #endif//XANADU_OUTPUT_ENABLED
@@ -139,11 +131,7 @@ XANADU_DEPRECATED void XStream::Warning(const char* _Format, ...) XANADU_NOTHROW
 	vsnprintf(vBuffer, XANADU_LOG_MAX_LENGTH, _Format, vArgs);
 	va_end(vArgs);
 
-#ifdef XANADU_SYSTEM_WINDOWS
-	XStream::Warning(XString::FromAString(vBuffer));
-#else
-	XStream::Warning(XString::FromUString(vBuffer));
-#endif//XANADU_SYSTEM_WINDOWS
+	XStream::Warning(XString::fromNString(vBuffer));
 #else
 	XANADU_UNPARAMETER(_Format);
 #endif//XANADU_OUTPUT_ENABLED
@@ -187,11 +175,7 @@ XANADU_DEPRECATED void XStream::Error(const char* _Format, ...) XANADU_NOTHROW
 	vsnprintf(vBuffer, XANADU_LOG_MAX_LENGTH, _Format, vArgs);
 	va_end(vArgs);
 
-#ifdef XANADU_SYSTEM_WINDOWS
-	XStream::Error(XString::FromAString(vBuffer));
-#else
-	XStream::Error(XString::FromUString(vBuffer));
-#endif//XANADU_SYSTEM_WINDOWS
+	XStream::Error(XString::fromNString(vBuffer));
 #else
 	XANADU_UNPARAMETER(_Format);
 #endif//XANADU_OUTPUT_ENABLED

@@ -48,19 +48,19 @@ XByteArray::XByteArray() XANADU_NOTHROW : XAllocator()
 }
 
 /// Constructors
-XByteArray::XByteArray(const char* _Memory, int64U _Size) XANADU_NOTHROW : XAllocator()
+XByteArray::XByteArray(const char* _Memory, size_type _Size) XANADU_NOTHROW : XAllocator()
 {
 	XAllocator::MemoryAppend(_Memory, _Size == XByteArray::npos ? Xanadu::strlen(_Memory) : _Size);
 }
 
 /// Constructors
-XByteArray::XByteArray(int64U _Size, char _Char) XANADU_NOTHROW : XAllocator(_Size, _Char)
+XByteArray::XByteArray(size_type _Size, char _Char) XANADU_NOTHROW : XAllocator(_Size, _Char)
 {
 	XAllocator::MemoryAppend(_Size, _Char);
 }
 
 /// Constructors
-XByteArray::XByteArray(int64U _Size) XANADU_NOTHROW : XAllocator(_Size)
+XByteArray::XByteArray(size_type _Size) XANADU_NOTHROW : XAllocator(_Size)
 {
 }
 
@@ -177,25 +177,31 @@ const char* XByteArray::data() const XANADU_NOTHROW
 }
 
 /// Get data size
-int64U XByteArray::size() const XANADU_NOTHROW
+XByteArray::size_type XByteArray::size() const XANADU_NOTHROW
 {
 	return XAllocator::MemoryLength();
 }
 
 /// Get Data size
-int64U XByteArray::length() const XANADU_NOTHROW
+XByteArray::size_type XByteArray::length() const XANADU_NOTHROW
 {
 	return this->size();
 }
 
 /// resize
-void XByteArray::resize(int64U _Size) XANADU_NOTHROW
+void XByteArray::resize(size_type _Size) XANADU_NOTHROW
 {
 	this->MemoryResize(_Size);
 }
 
+/// Truncates the byte array at index position pos. If pos is beyond the end of the array, nothing happens.
+void XByteArray::truncate(size_type _Index) XANADU_NOTHROW
+{
+	this->MemoryTruncate(_Index);
+}
+
 /// Fills a character to the specified length of space, or if -1, all of it
-XByteArray& XByteArray::fill(char _Char, int64U _Size) XANADU_NOTHROW
+XByteArray& XByteArray::fill(char _Char, size_type _Size) XANADU_NOTHROW
 {
 	if (_Size > this->size())
 	{
@@ -209,27 +215,15 @@ XByteArray& XByteArray::fill(char _Char, int64U _Size) XANADU_NOTHROW
 }
 
 /// Get the current capacity
-int64U XByteArray::capacity() const XANADU_NOTHROW
+XByteArray::size_type XByteArray::capacity() const XANADU_NOTHROW
 {
 	return this->MemoryCapacity();
-}
-
-/// Check for null values
-bool XByteArray::isEmpty() const XANADU_NOTHROW
-{
-	return this->MemoryIsEmpty();
 }
 
 /// Check for null values
 bool XByteArray::empty() const XANADU_NOTHROW
 {
 	return this->MemoryIsEmpty();
-}
-
-/// Check if there is a value
-bool XByteArray::isExist() const XANADU_NOTHROW
-{
-	return this->MemoryIsExist();
 }
 
 /// Check if there is a value
@@ -243,7 +237,7 @@ bool XByteArray::exist() const XANADU_NOTHROW
 
 
 /// Read by subscript
-char XByteArray::at(int64U _Index) const XANADU_NOTHROW
+char XByteArray::at(size_type _Index) const XANADU_NOTHROW
 {
 	if (_Index < size())
 	{
@@ -277,7 +271,7 @@ char XByteArray::back() const XANADU_NOTHROW
 }
 
 /// Read by subscript
-char& XByteArray::operator [] (int64U _Index) XANADU_NOTHROW
+char& XByteArray::operator [] (size_type _Index) XANADU_NOTHROW
 {
 	if (_Index < size())
 	{
@@ -287,7 +281,7 @@ char& XByteArray::operator [] (int64U _Index) XANADU_NOTHROW
 }
 
 /// Read by subscript
-char XByteArray::operator [] (int64U _Index) const XANADU_NOTHROW
+char XByteArray::operator [] (size_type _Index) const XANADU_NOTHROW
 {
 	return this->at(_Index);
 }
@@ -431,7 +425,7 @@ XByteArray& XByteArray::prepend(char _Char) XANADU_NOTHROW
 }
 
 /// Add at the front
-XByteArray& XByteArray::prepend(int64U _Count, char _Char) XANADU_NOTHROW
+XByteArray& XByteArray::prepend(size_type _Count, char _Char) XANADU_NOTHROW
 {
 	return this->insert(0, _Count, _Char);
 }
@@ -443,7 +437,7 @@ XByteArray& XByteArray::prepend(const char* _String) XANADU_NOTHROW
 }
 
 /// Add at the front
-XByteArray& XByteArray::prepend(const char* _String, int64U _Length) XANADU_NOTHROW
+XByteArray& XByteArray::prepend(const char* _String, size_type _Length) XANADU_NOTHROW
 {
 	return this->insert(0, _String, _Length);
 }
@@ -461,7 +455,7 @@ XByteArray& XByteArray::append(char _Char) XANADU_NOTHROW
 }
 
 /// Add at the end
-XByteArray& XByteArray::append(int64U _Count, char _Char) XANADU_NOTHROW
+XByteArray& XByteArray::append(size_type _Count, char _Char) XANADU_NOTHROW
 {
 	return this->insert(this->size(), _Count, _Char);
 }
@@ -473,7 +467,7 @@ XByteArray& XByteArray::append(const char* _String) XANADU_NOTHROW
 }
 
 /// Add at the end
-XByteArray& XByteArray::append(const char* _String, int64U _Length) XANADU_NOTHROW
+XByteArray& XByteArray::append(const char* _String, size_type _Length) XANADU_NOTHROW
 {
 	return this->insert(this->size(), _String, _Length);
 }
@@ -485,17 +479,18 @@ XByteArray& XByteArray::append(const XByteArray& _Bytes) XANADU_NOTHROW
 }
 
 /// Insert by pos
-XByteArray& XByteArray::insert(int64U _Index, char _Char) XANADU_NOTHROW
+XByteArray& XByteArray::insert(size_type _Index, char _Char) XANADU_NOTHROW
 {
 	return this->insert(_Index, 1, _Char);
 }
 
 /// Insert by pos
-XByteArray& XByteArray::insert(int64U _Index, int64U _Count, char _Char) XANADU_NOTHROW
+XByteArray& XByteArray::insert(size_type _Index, size_type _Count, char _Char) XANADU_NOTHROW
 {
 	if(_Count > 0)
 	{
-		auto		vBuffer = XANADU_NEW char[_Count + 1];
+		auto		vSize = static_cast<unsigned int>(_Count);
+		auto		vBuffer = XANADU_NEW char[vSize + 1];
 		if(vBuffer)
 		{
 			Xanadu::memset(vBuffer, _Char, _Count);
@@ -508,13 +503,13 @@ XByteArray& XByteArray::insert(int64U _Index, int64U _Count, char _Char) XANADU_
 }
 
 /// Insert by pos
-XByteArray& XByteArray::insert(int64U _Index, const char* _String) XANADU_NOTHROW
+XByteArray& XByteArray::insert(size_type _Index, const char* _String) XANADU_NOTHROW
 {
 	return this->insert(_Index, _String, Xanadu::strlen(_String));
 }
 
 /// Insert by pos
-XByteArray& XByteArray::insert(int64U _Index, const char* _String, int64U _Length) XANADU_NOTHROW
+XByteArray& XByteArray::insert(size_type _Index, const char* _String, size_type _Length) XANADU_NOTHROW
 {
 	if (_String && _Length > 0)
 	{
@@ -525,7 +520,7 @@ XByteArray& XByteArray::insert(int64U _Index, const char* _String, int64U _Lengt
 }
 
 /// Insert by pos
-XByteArray& XByteArray::insert(int64U _Index, const XByteArray& _Bytes) XANADU_NOTHROW
+XByteArray& XByteArray::insert(size_type _Index, const XByteArray& _Bytes) XANADU_NOTHROW
 {
 	return this->insert(_Index, _Bytes.data(), _Bytes.size());
 }
@@ -536,7 +531,7 @@ XByteArray& XByteArray::insert(int64U _Index, const XByteArray& _Bytes) XANADU_N
 
 
 /// Delete the specified length of data from the specified pos
-XByteArray& XByteArray::remove(int64U _Index, int64U _Length) XANADU_NOTHROW
+XByteArray& XByteArray::remove(size_type _Index, size_type _Length) XANADU_NOTHROW
 {
 	this->MemoryRemove(_Index, _Length);
 	return *this;
@@ -558,7 +553,7 @@ XByteArray& XByteArray::remove(const char* _Memory) XANADU_NOTHROW
 }
 
 /// Delete the specified length of data from the specified pos
-XByteArray& XByteArray::remove(const char* _Memory, int64U _Size) XANADU_NOTHROW
+XByteArray& XByteArray::remove(const char* _Memory, size_type _Size) XANADU_NOTHROW
 {
 	if(_Size = XByteArray::npos)
 	{
@@ -588,20 +583,20 @@ XByteArray& XByteArray::remove(const XByteArray& _Bytes) XANADU_NOTHROW
 
 
 /// Replace data
-XByteArray& XByteArray::replace(int64U _Index, int64U _Length, const char* _After) XANADU_NOTHROW
+XByteArray& XByteArray::replace(size_type _Index, size_type _Length, const char* _After) XANADU_NOTHROW
 {
 	return this->replace(_Index, _Length, _After, Xanadu::strlen(_After));
 }
 
 /// Replace data
-XByteArray& XByteArray::replace(int64U _Index, int64U _Length, const char* _After, int64U _Asize) XANADU_NOTHROW
+XByteArray& XByteArray::replace(size_type _Index, size_type _Length, const char* _After, size_type _Asize) XANADU_NOTHROW
 {
 	this->MemoryReplace(_Index, _Length, _After, _Asize);
 	return *this;
 }
 
 /// Replace data
-XByteArray& XByteArray::replace(int64U _Index, int64U _Length, const XByteArray& _Bytes) XANADU_NOTHROW
+XByteArray& XByteArray::replace(size_type _Index, size_type _Length, const XByteArray& _Bytes) XANADU_NOTHROW
 {
 	return this->replace(_Index, _Length, _Bytes.data(), _Bytes.size());
 }
@@ -627,7 +622,7 @@ XByteArray& XByteArray::replace(const char* _Before, const char* _After) XANADU_
 }
 
 /// Replace data
-XByteArray& XByteArray::replace(const char* _Before, int64U _Bsize, const char* _After, int64U _Asize) XANADU_NOTHROW
+XByteArray& XByteArray::replace(const char* _Before, size_type _Bsize, const char* _After, size_type _Asize) XANADU_NOTHROW
 {
 	auto		vIndex = 0LL;
 	while (_Before && _Bsize > 0 && _After && _Asize >= 0)
@@ -674,7 +669,7 @@ XByteArray& XByteArray::replace(char _Before, char _After) XANADU_NOTHROW
 
 
 /// Get the data on the left by length
-XByteArray XByteArray::left(int64U _Length) const XANADU_NOTHROW
+XByteArray XByteArray::left(size_type _Length) const XANADU_NOTHROW
 {
 	if (_Length > 0)
 	{
@@ -691,7 +686,7 @@ XByteArray XByteArray::left(int64U _Length) const XANADU_NOTHROW
 }
 
 /// Get the data on the right by length
-XByteArray XByteArray::right(int64U _Length) const XANADU_NOTHROW
+XByteArray XByteArray::right(size_type _Length) const XANADU_NOTHROW
 {
 	if (_Length > 0)
 	{
@@ -708,7 +703,7 @@ XByteArray XByteArray::right(int64U _Length) const XANADU_NOTHROW
 }
 
 /// Retrieve the middle data by length
-XByteArray XByteArray::mid(int64U _Index, int64U _Length) const XANADU_NOTHROW
+XByteArray XByteArray::mid(size_type _Index, size_type _Length) const XANADU_NOTHROW
 {
 	auto		vPos = XAllocator::MemoryPosFix(_Index);
 	if (_Length >= this->size() || _Index + _Length >= this->size())
@@ -737,7 +732,7 @@ bool XByteArray::startsWith(const char* _Memory) const XANADU_NOTHROW
 /// Check if the head is the same
 bool XByteArray::startsWith(const XByteArray& _Bytes) const XANADU_NOTHROW
 {
-	if (this->size() >= _Bytes.size() && _Bytes.isExist())
+	if (this->size() >= _Bytes.size() && _Bytes.exist())
 	{
 		for(auto vIndex = 0ULL; vIndex < _Bytes.size(); ++vIndex)
 		{
@@ -766,7 +761,7 @@ bool XByteArray::endsWith(const char* _Memory) const XANADU_NOTHROW
 /// Check if the tails are the same
 bool XByteArray::endsWith(const XByteArray& _Bytes) const XANADU_NOTHROW
 {
-	if (this->size() >= _Bytes.size() && _Bytes.isExist())
+	if (this->size() >= _Bytes.size() && _Bytes.exist())
 	{
 		for(auto vIndex = 0ULL; vIndex < _Bytes.size(); ++vIndex)
 		{
@@ -786,14 +781,14 @@ bool XByteArray::endsWith(const XByteArray& _Bytes) const XANADU_NOTHROW
 
 
 /// Find in positive order from the specified location
-int64U XByteArray::find(char _Char, int64U _From) const XANADU_NOTHROW
+XByteArray::size_type XByteArray::find(char _Char, size_type _From) const XANADU_NOTHROW
 {
 	char		vBuffer[2] = {_Char, '\0'};
 	return this->find(XByteArray(vBuffer, 1), _From);
 }
 
 /// Find in positive order from the specified location
-int64U XByteArray::find(const char* _Memory, int64U _From) const XANADU_NOTHROW
+XByteArray::size_type XByteArray::find(const char* _Memory, size_type _From) const XANADU_NOTHROW
 {
 	XANADU_CHECK_RETURN(_Memory, XByteArray::npos);
 
@@ -801,7 +796,7 @@ int64U XByteArray::find(const char* _Memory, int64U _From) const XANADU_NOTHROW
 }
 
 /// Find in positive order from the specified location
-int64U XByteArray::find(const XByteArray& _Bytes, int64U _From) const XANADU_NOTHROW
+XByteArray::size_type XByteArray::find(const XByteArray& _Bytes, size_type _From) const XANADU_NOTHROW
 {
 	XANADU_CHECK_RETURN(_Bytes.size(), XByteArray::npos);
 
@@ -809,14 +804,14 @@ int64U XByteArray::find(const XByteArray& _Bytes, int64U _From) const XANADU_NOT
 }
 
 /// Find in reverse order from the specified location
-int64U XByteArray::rfind(char _Char, int64U _From) const XANADU_NOTHROW
+XByteArray::size_type XByteArray::rfind(char _Char, size_type _From) const XANADU_NOTHROW
 {
 	char		vBuffer[2] = {_Char, '\0'};
 	return this->rfind(XByteArray(vBuffer, 1), _From);
 }
 
 /// Find in reverse order from the specified location
-int64U XByteArray::rfind(const char* _Memory, int64U _From) const XANADU_NOTHROW
+XByteArray::size_type XByteArray::rfind(const char* _Memory, size_type _From) const XANADU_NOTHROW
 {
 	XANADU_CHECK_RETURN(_Memory, XByteArray::npos);
 
@@ -824,7 +819,7 @@ int64U XByteArray::rfind(const char* _Memory, int64U _From) const XANADU_NOTHROW
 }
 
 /// Find in reverse order from the specified location
-int64U XByteArray::rfind(const XByteArray& _Bytes, int64U _From) const XANADU_NOTHROW
+XByteArray::size_type XByteArray::rfind(const XByteArray& _Bytes, size_type _From) const XANADU_NOTHROW
 {
 	XANADU_CHECK_RETURN(_Bytes.size(), XByteArray::npos);
 
@@ -836,37 +831,37 @@ int64U XByteArray::rfind(const XByteArray& _Bytes, int64U _From) const XANADU_NO
 
 
 /// Find in positive order from the specified location
-int64U XByteArray::indexOf(char _Char, int64U _From) const XANADU_NOTHROW
+XByteArray::size_type XByteArray::indexOf(char _Char, size_type _From) const XANADU_NOTHROW
 {
 	return this->find(_Char, _From);
 }
 
 /// Find in positive order from the specified location
-int64U XByteArray::indexOf(const char* _Memory, int64U _From) const XANADU_NOTHROW
+XByteArray::size_type XByteArray::indexOf(const char* _Memory, size_type _From) const XANADU_NOTHROW
 {
 	return this->find(_Memory, _From);
 }
 
 /// Find in positive order from the specified location
-int64U XByteArray::indexOf(const XByteArray& _Bytes, int64U _From) const XANADU_NOTHROW
+XByteArray::size_type XByteArray::indexOf(const XByteArray& _Bytes, size_type _From) const XANADU_NOTHROW
 {
 	return this->find(_Bytes, _From);
 }
 
 /// Find in reverse order from the specified location
-int64U XByteArray::lastIndexOf(char _Char, int64U _From) const XANADU_NOTHROW
+XByteArray::size_type XByteArray::lastIndexOf(char _Char, size_type _From) const XANADU_NOTHROW
 {
 	return this->rfind(_Char, _From);
 }
 
 /// Find in reverse order from the specified location
-int64U XByteArray::lastIndexOf(const char* _Memory, int64U _From) const XANADU_NOTHROW
+XByteArray::size_type XByteArray::lastIndexOf(const char* _Memory, size_type _From) const XANADU_NOTHROW
 {
 	return this->rfind(_Memory, _From);
 }
 
 /// Find in reverse order from the specified location
-int64U XByteArray::lastIndexOf(const XByteArray& _Bytes, int64U _From) const XANADU_NOTHROW
+XByteArray::size_type XByteArray::lastIndexOf(const XByteArray& _Bytes, size_type _From) const XANADU_NOTHROW
 {
 	return this->rfind(_Bytes, _From);
 }
@@ -903,15 +898,15 @@ int XByteArray::compare(const char* _Memory, Xanadu::CaseSensitivity _XCS) const
 /// Check if they are the same
 int XByteArray::compare(const XByteArray& _Bytes, Xanadu::CaseSensitivity _XCS) const XANADU_NOTHROW
 {
-	if (this->isEmpty() && _Bytes.isEmpty())
+	if (this->empty() && _Bytes.empty())
 	{
 		return 0;
 	}
-	if(this->isEmpty())
+	if(this->empty())
 	{
 		return -1;
 	}
-	if(_Bytes.isEmpty())
+	if(_Bytes.empty())
 	{
 		return 1;
 	}
@@ -926,7 +921,7 @@ int XByteArray::compare(const XByteArray& _Bytes, Xanadu::CaseSensitivity _XCS) 
 		auto 		vCompare = Xanadu::memcmp(this->data(), _Bytes.data(), vLength);
 		if(0 == vCompare)
 		{
-			vCompare = this->length() - _Bytes.length();
+			vCompare = static_cast<int>(this->length() - _Bytes.length());
 		}
 		return vCompare;
 	}
@@ -1064,7 +1059,7 @@ std::list<XByteArray> XByteArray::split(const char* _Memory) const XANADU_NOTHRO
 }
 
 /// split
-std::list<XByteArray> XByteArray::split(const char* _Memory, int64U _Size) const XANADU_NOTHROW
+std::list<XByteArray> XByteArray::split(const char* _Memory, size_type _Size) const XANADU_NOTHROW
 {
 	return this->split(XByteArray(_Memory, _Size));
 }
@@ -1073,9 +1068,9 @@ std::list<XByteArray> XByteArray::split(const char* _Memory, int64U _Size) const
 std::list<XByteArray> XByteArray::split(const XByteArray& _Bytes) const XANADU_NOTHROW
 {
 	auto		vHeaderArray = std::list<XByteArray>();
-	auto		vLast = static_cast<int64U>(0ULL);
+	auto		vLast = static_cast<size_type>(0ULL);
 	auto		vSplitIndex = this->indexOf(_Bytes, vLast);
-	while(vSplitIndex != XByteArray::npos && false == _Bytes.isEmpty())
+	while(vSplitIndex != XByteArray::npos && _Bytes.exist())
 	{
 		vHeaderArray.push_back(this->mid(vLast, vSplitIndex - vLast));
 		vLast = vSplitIndex + 2;
@@ -1115,13 +1110,13 @@ XByteArray XByteArray::toHex() const XANADU_NOTHROW
 }
 
 /// Format from memory
-XByteArray XANADUAPI XByteArray::fromMemory(const char* _Memory, int64U _Size) XANADU_NOTHROW
+XByteArray XANADUAPI XByteArray::fromMemory(const char* _Memory, size_type _Size) XANADU_NOTHROW
 {
 	return XByteArray(_Memory, _Size);
 }
 
 /// Format from Base64
-XByteArray XANADUAPI XByteArray::fromBase64(const void* _Memory, int64U _Size) XANADU_NOTHROW
+XByteArray XANADUAPI XByteArray::fromBase64(const void* _Memory, size_type _Size) XANADU_NOTHROW
 {
 	return XCryptoBase64::Decode(_Memory, _Size);
 }
@@ -1133,7 +1128,7 @@ XByteArray XANADUAPI XByteArray::fromBase64(const XByteArray& _Bytes) XANADU_NOT
 }
 
 /// Format from HEX
-XByteArray XANADUAPI XByteArray::fromHex(const void* _Memory, int64U _Size) XANADU_NOTHROW
+XByteArray XANADUAPI XByteArray::fromHex(const void* _Memory, size_type _Size) XANADU_NOTHROW
 {
 	if (nullptr == _Memory)
 	{

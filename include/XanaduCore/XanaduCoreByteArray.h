@@ -10,21 +10,25 @@
 class XANADU_CORE_EXPORT XByteArray : private XAllocator
 {
 public:
+	/// Type of data size and pos
+	using						size_type = XAllocator::size_type;
+
+public:
 	/// Subscript returned when no matching data is found
-	static const int64U				npos = XAllocator::npos;
+	static const size_type				npos = XAllocator::npos;
 
 public:
 	/// Constructors
 	XByteArray() XANADU_NOTHROW;
 
 	/// Constructors
-	XByteArray(const char* _Memory, int64U _Size = XByteArray::npos) XANADU_NOTHROW;
+	XByteArray(const char* _Memory, size_type _Size = XByteArray::npos) XANADU_NOTHROW;
 
 	/// Constructors
-	XByteArray(int64U _Size, char _Char) XANADU_NOTHROW;
+	XByteArray(size_type _Size, char _Char) XANADU_NOTHROW;
 
 	/// Constructors
-	XByteArray(int64U _Size) XANADU_NOTHROW;
+	XByteArray(size_type _Size) XANADU_NOTHROW;
 
 	/// Constructors
 	XByteArray(const XByteArray& _Bytes) XANADU_NOTHROW;
@@ -77,35 +81,32 @@ public:
 	virtual const char* data() const XANADU_NOTHROW;
 
 	/// Get data size
-	virtual int64U size() const XANADU_NOTHROW;
+	virtual size_type size() const XANADU_NOTHROW;
 
 	/// Get Data size
-	virtual int64U length() const XANADU_NOTHROW;
+	virtual size_type length() const XANADU_NOTHROW;
 
 	/// resize
-	virtual void resize(int64U _Size) XANADU_NOTHROW;
+	virtual void resize(size_type _Size) XANADU_NOTHROW;
+
+	/// Truncates the byte array at index position pos. If pos is beyond the end of the array, nothing happens.
+	virtual void truncate(size_type _Index) XANADU_NOTHROW;
 
 	/// Fills a character to the specified length of space, or if XByteArray::npos, all of it
-	virtual XByteArray& fill(char _Char, int64U _Size = XByteArray::npos) XANADU_NOTHROW;
+	virtual XByteArray& fill(char _Char, size_type _Size = XByteArray::npos) XANADU_NOTHROW;
 
 	/// Get the current capacity
-	virtual int64U capacity() const XANADU_NOTHROW;
-
-	/// Check for null values
-	virtual bool isEmpty() const XANADU_NOTHROW;
+	virtual size_type capacity() const XANADU_NOTHROW;
 
 	/// Check for null values
 	virtual bool empty() const XANADU_NOTHROW;
-
-	/// Check if there is a value
-	virtual bool isExist() const XANADU_NOTHROW;
 
 	/// Check if there is a value
 	virtual bool exist() const XANADU_NOTHROW;
 
 public:
 	/// Read by subscript
-	virtual char at(int64U _Index) const XANADU_NOTHROW;
+	virtual char at(size_type _Index) const XANADU_NOTHROW;
 
 	/// Get the first one
 	virtual char front() const XANADU_NOTHROW;
@@ -120,10 +121,10 @@ public:
 	virtual char& back() XANADU_NOTHROW;
 
 	/// Read by subscript
-	virtual char& operator[](int64U _Index) XANADU_NOTHROW;
+	virtual char& operator[](size_type _Index) XANADU_NOTHROW;
 
 	/// Read by subscript
-	virtual char operator[](int64U _Index) const XANADU_NOTHROW;
+	virtual char operator[](size_type _Index) const XANADU_NOTHROW;
 
 public:
 	/// Iterator type definition
@@ -200,13 +201,13 @@ public:
 	virtual XByteArray& prepend(char _Char) XANADU_NOTHROW;
 
 	/// Add at the front
-	virtual XByteArray& prepend(int64U _Count, char _Char) XANADU_NOTHROW;
+	virtual XByteArray& prepend(size_type _Count, char _Char) XANADU_NOTHROW;
 
 	/// Add at the front
 	virtual XByteArray& prepend(const char* _String) XANADU_NOTHROW;
 
 	/// Add at the front
-	virtual XByteArray& prepend(const char* _String, int64U _Length) XANADU_NOTHROW;
+	virtual XByteArray& prepend(const char* _String, size_type _Length) XANADU_NOTHROW;
 
 	/// Add at the front
 	virtual XByteArray& prepend(const XByteArray& _Bytes) XANADU_NOTHROW;
@@ -215,35 +216,35 @@ public:
 	virtual XByteArray& append(char _Char) XANADU_NOTHROW;
 
 	/// Add at the end
-	virtual XByteArray& append(int64U _Count, char _Char) XANADU_NOTHROW;
+	virtual XByteArray& append(size_type _Count, char _Char) XANADU_NOTHROW;
 
 	/// Add at the end
 	virtual XByteArray& append(const char* _String) XANADU_NOTHROW;
 
 	/// Add at the end
-	virtual XByteArray& append(const char* _String, int64U _Length) XANADU_NOTHROW;
+	virtual XByteArray& append(const char* _String, size_type _Length) XANADU_NOTHROW;
 
 	/// Add at the end
 	virtual XByteArray& append(const XByteArray& _Bytes) XANADU_NOTHROW;
 
 	/// Insert by pos
-	virtual XByteArray& insert(int64U _Index, char _Char) XANADU_NOTHROW;
+	virtual XByteArray& insert(size_type _Index, char _Char) XANADU_NOTHROW;
 
 	/// Insert by pos
-	virtual XByteArray& insert(int64U _Index, int64U _Count, char _Char) XANADU_NOTHROW;
+	virtual XByteArray& insert(size_type _Index, size_type _Count, char _Char) XANADU_NOTHROW;
 
 	/// Insert by pos
-	virtual XByteArray& insert(int64U _Index, const char* _String) XANADU_NOTHROW;
+	virtual XByteArray& insert(size_type _Index, const char* _String) XANADU_NOTHROW;
 
 	/// Insert by pos
-	virtual XByteArray& insert(int64U _Index, const char* _String, int64U _Length) XANADU_NOTHROW;
+	virtual XByteArray& insert(size_type _Index, const char* _String, size_type _Length) XANADU_NOTHROW;
 
 	/// Insert by pos
-	virtual XByteArray& insert(int64U _Index, const XByteArray& _Bytes) XANADU_NOTHROW;
+	virtual XByteArray& insert(size_type _Index, const XByteArray& _Bytes) XANADU_NOTHROW;
 
 public:
 	/// Delete the specified length of data from the specified pos
-	virtual XByteArray& remove(int64U _Index, int64U _Length) XANADU_NOTHROW;
+	virtual XByteArray& remove(size_type _Index, size_type _Length) XANADU_NOTHROW;
 
 	/// Delete the specified length of data from the specified pos
 	virtual XByteArray& remove(const char _Char) XANADU_NOTHROW;
@@ -252,20 +253,20 @@ public:
 	virtual XByteArray& remove(const char* _Memory) XANADU_NOTHROW;
 
 	/// Delete the specified length of data from the specified pos
-	virtual XByteArray& remove(const char* _Memory, int64U _Size) XANADU_NOTHROW;
+	virtual XByteArray& remove(const char* _Memory, size_type _Size) XANADU_NOTHROW;
 
 	/// Delete the specified length of data from the specified pos
 	virtual XByteArray& remove(const XByteArray& _Bytes) XANADU_NOTHROW;
 
 public:
 	/// Replace data
-	virtual XByteArray& replace(int64U _Index, int64U _Length, const char* _After) XANADU_NOTHROW;
+	virtual XByteArray& replace(size_type _Index, size_type _Length, const char* _After) XANADU_NOTHROW;
 
 	/// Replace data
-	virtual XByteArray& replace(int64U _Index, int64U _Length, const char* _After, int64U _Asize) XANADU_NOTHROW;
+	virtual XByteArray& replace(size_type _Index, size_type _Length, const char* _After, size_type _Asize) XANADU_NOTHROW;
 
 	/// Replace data
-	virtual XByteArray& replace(int64U _Index, int64U _Length, const XByteArray& _Bytes) XANADU_NOTHROW;
+	virtual XByteArray& replace(size_type _Index, size_type _Length, const XByteArray& _Bytes) XANADU_NOTHROW;
 
 	/// Replace data
 	virtual XByteArray& replace(char _Before, const char* _After) XANADU_NOTHROW;
@@ -277,7 +278,7 @@ public:
 	virtual XByteArray& replace(const char* _Before, const char* _After) XANADU_NOTHROW;
 
 	/// Replace data
-	virtual XByteArray& replace(const char* _Before, int64U _Bsize, const char* _After, int64U _Asize) XANADU_NOTHROW;
+	virtual XByteArray& replace(const char* _Before, size_type _Bsize, const char* _After, size_type _Asize) XANADU_NOTHROW;
 
 	/// Replace data
 	virtual XByteArray& replace(const XByteArray& _Before, const XByteArray& _After) XANADU_NOTHROW;
@@ -293,13 +294,13 @@ public:
 
 public:
 	/// Get the data on the left by length
-	virtual XByteArray left(int64U _Length) const XANADU_NOTHROW;
+	virtual XByteArray left(size_type _Length) const XANADU_NOTHROW;
 
 	/// Get the data on the right by length
-	virtual XByteArray right(int64U _Length) const XANADU_NOTHROW;
+	virtual XByteArray right(size_type _Length) const XANADU_NOTHROW;
 
 	/// Retrieve the middle data by length
-	virtual XByteArray mid(int64U _Index, int64U _Length = XByteArray::npos) const XANADU_NOTHROW;
+	virtual XByteArray mid(size_type _Index, size_type _Length = XByteArray::npos) const XANADU_NOTHROW;
 
 public:
 	/// Check if the head is the same
@@ -322,41 +323,41 @@ public:
 
 public:
 	/// Find in positive order from the specified location
-	virtual int64U find(char _Char, int64U _From = 0) const XANADU_NOTHROW;
+	virtual size_type find(char _Char, size_type _From = 0) const XANADU_NOTHROW;
 
 	/// Find in positive order from the specified location
-	virtual int64U find(const char* _Memory, int64U _From = 0) const XANADU_NOTHROW;
+	virtual size_type find(const char* _Memory, size_type _From = 0) const XANADU_NOTHROW;
 
 	/// Find in positive order from the specified location
-	virtual int64U find(const XByteArray& _Bytes, int64U _From = 0) const XANADU_NOTHROW;
+	virtual size_type find(const XByteArray& _Bytes, size_type _From = 0) const XANADU_NOTHROW;
 
 	/// Find in reverse order from the specified location
-	virtual int64U rfind(char _Char, int64U _From = XByteArray::npos) const XANADU_NOTHROW;
+	virtual size_type rfind(char _Char, size_type _From = XByteArray::npos) const XANADU_NOTHROW;
 
 	/// Find in reverse order from the specified location
-	virtual int64U rfind(const char* _Memory, int64U _From = XByteArray::npos) const XANADU_NOTHROW;
+	virtual size_type rfind(const char* _Memory, size_type _From = XByteArray::npos) const XANADU_NOTHROW;
 
 	/// Find in reverse order from the specified location
-	virtual int64U rfind(const XByteArray& _Bytes, int64U _From = XByteArray::npos) const XANADU_NOTHROW;
+	virtual size_type rfind(const XByteArray& _Bytes, size_type _From = XByteArray::npos) const XANADU_NOTHROW;
 
 public:
 	/// Find in positive order from the specified location
-	virtual int64U indexOf(char _Char, int64U _From = 0) const XANADU_NOTHROW;
+	virtual size_type indexOf(char _Char, size_type _From = 0) const XANADU_NOTHROW;
 
 	/// Find in positive order from the specified location
-	virtual int64U indexOf(const char* _Memory, int64U _From = 0) const XANADU_NOTHROW;
+	virtual size_type indexOf(const char* _Memory, size_type _From = 0) const XANADU_NOTHROW;
 
 	/// Find in positive order from the specified location
-	virtual int64U indexOf(const XByteArray& _Bytes, int64U _From = 0) const XANADU_NOTHROW;
+	virtual size_type indexOf(const XByteArray& _Bytes, size_type _From = 0) const XANADU_NOTHROW;
 
 	/// Find in reverse order from the specified location
-	virtual int64U lastIndexOf(char _Char, int64U _From = XByteArray::npos) const XANADU_NOTHROW;
+	virtual size_type lastIndexOf(char _Char, size_type _From = XByteArray::npos) const XANADU_NOTHROW;
 
 	/// Find in reverse order from the specified location
-	virtual int64U lastIndexOf(const char* _Memory, int64U _From = XByteArray::npos) const XANADU_NOTHROW;
+	virtual size_type lastIndexOf(const char* _Memory, size_type _From = XByteArray::npos) const XANADU_NOTHROW;
 
 	/// Find in reverse order from the specified location
-	virtual int64U lastIndexOf(const XByteArray& _Bytes, int64U _From = XByteArray::npos) const XANADU_NOTHROW;
+	virtual size_type lastIndexOf(const XByteArray& _Bytes, size_type _From = XByteArray::npos) const XANADU_NOTHROW;
 
 public:
 	/// Check for inclusion
@@ -401,7 +402,7 @@ public:
 	virtual std::list<XByteArray> split(const char* _Memory) const XANADU_NOTHROW;
 
 	/// split
-	virtual std::list<XByteArray> split(const char* _Memory, int64U _Size) const XANADU_NOTHROW;
+	virtual std::list<XByteArray> split(const char* _Memory, size_type _Size) const XANADU_NOTHROW;
 
 	/// split
 	virtual std::list<XByteArray> split(const XByteArray& _Bytes) const XANADU_NOTHROW;
@@ -414,16 +415,16 @@ public:
 	virtual XByteArray toHex() const XANADU_NOTHROW;
 
 	/// Format from memory
-	static XByteArray XANADUAPI fromMemory(const char* _Memory, int64U _Size) XANADU_NOTHROW;
+	static XByteArray XANADUAPI fromMemory(const char* _Memory, size_type _Size) XANADU_NOTHROW;
 
 	/// Format from Base64
-	static XByteArray XANADUAPI fromBase64(const void* _Memory, int64U _Size) XANADU_NOTHROW;
+	static XByteArray XANADUAPI fromBase64(const void* _Memory, size_type _Size) XANADU_NOTHROW;
 
 	/// Format from Base64
 	static XByteArray XANADUAPI fromBase64(const XByteArray& _Bytes) XANADU_NOTHROW;
 
 	/// Format from HEX
-	static XByteArray XANADUAPI fromHex(const void* _Memory, int64U _Size = XByteArray::npos) XANADU_NOTHROW;
+	static XByteArray XANADUAPI fromHex(const void* _Memory, size_type _Size = XByteArray::npos) XANADU_NOTHROW;
 
 	/// Format from HEX
 	static XByteArray XANADUAPI fromHex(const XByteArray& _Bytes) XANADU_NOTHROW;

@@ -73,7 +73,7 @@ void XCryptoHash::AppendData(const XByteArray& _Bytes) XANADU_NOTHROW
 /// View the results
 XByteArray XCryptoHash::Result() const XANADU_NOTHROW
 {
-	if (this->_Info->_Result.isEmpty())
+	if (this->_Info->_Result.empty())
 	{
 		unsigned char 		vResult[128] = {0};
 		switch (this->_Info->_Algorithm)

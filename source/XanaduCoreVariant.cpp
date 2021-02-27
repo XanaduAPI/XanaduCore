@@ -279,7 +279,7 @@ void XVariant::clear() XANADU_NOTHROW
 
 
 /// Convert to bool
-bool XVariant::ToBool() const XANADU_NOTHROW
+bool XVariant::toBool() const XANADU_NOTHROW
 {
 	switch (this->_variant_type)
 	{
@@ -306,52 +306,52 @@ bool XVariant::ToBool() const XANADU_NOTHROW
 		case EDOUBLE:
 			return this->_variant_data._VDouble;
 		case ESTRING:
-			return (0 == this->ToString().compare(L"1")) ? true : false;
+			return (0 == this->toString().compare(L"1")) ? true : false;
 		case EBYTEARRAY:
-			return (0 == this->ToByteArray().compare("1")) ? true : false;
+			return (0 == this->toByteArray().compare("1")) ? true : false;
 		default:
 			return this->_variant_data._VNull;
 	};
 }
 
 /// Convert to int8S
-int8S XVariant::ToInt8S() const XANADU_NOTHROW
+int8S XVariant::toInt8S() const XANADU_NOTHROW
 {
-	return static_cast<int8S>(this->ToInt64S());
+	return static_cast<int8S>(this->toInt64S());
 }
 
 /// Convert to int8U
-int8U XVariant::ToInt8U() const XANADU_NOTHROW
+int8U XVariant::toInt8U() const XANADU_NOTHROW
 {
-	return static_cast<int8U>(this->ToInt64S());
+	return static_cast<int8U>(this->toInt64S());
 }
 
 /// Convert to int16S
-int16S XVariant::ToInt16S() const XANADU_NOTHROW
+int16S XVariant::toInt16S() const XANADU_NOTHROW
 {
-	return static_cast<int16S>(this->ToInt64S());
+	return static_cast<int16S>(this->toInt64S());
 }
 
 /// Convert to int16U
-int16U XVariant::ToInt16U() const XANADU_NOTHROW
+int16U XVariant::toInt16U() const XANADU_NOTHROW
 {
-	return static_cast<int16U>(this->ToInt64S());
+	return static_cast<int16U>(this->toInt64S());
 }
 
 /// Convert to int32S
-int32S XVariant::ToInt32S() const XANADU_NOTHROW
+int32S XVariant::toInt32S() const XANADU_NOTHROW
 {
-	return static_cast<int32S>(this->ToInt64S());
+	return static_cast<int32S>(this->toInt64S());
 }
 
 /// Convert to int32U
-int32U XVariant::ToInt32U() const XANADU_NOTHROW
+int32U XVariant::toInt32U() const XANADU_NOTHROW
 {
-	return static_cast<int32U>(this->ToInt64S());
+	return static_cast<int32U>(this->toInt64S());
 }
 
 /// Convert to int64S
-int64S XVariant::ToInt64S() const XANADU_NOTHROW
+int64S XVariant::toInt64S() const XANADU_NOTHROW
 {
 	switch (this->_variant_type)
 	{
@@ -378,16 +378,16 @@ int64S XVariant::ToInt64S() const XANADU_NOTHROW
 		case EDOUBLE:
 			return static_cast<int64S>(this->_variant_data._VDouble);
 		case ESTRING:
-			return Xanadu::wtoll(this->ToString().data());
+			return Xanadu::wtoll(this->toString().data());
 		case EBYTEARRAY:
-			return Xanadu::atoll(this->ToByteArray().data());
+			return Xanadu::atoll(this->toByteArray().data());
 		default:
 			return this->_variant_data._VNull;
 	};
 }
 
 /// Convert to int64U
-int64U XVariant::ToInt64U() const XANADU_NOTHROW
+int64U XVariant::toInt64U() const XANADU_NOTHROW
 {
 	switch (this->_variant_type)
 	{
@@ -414,22 +414,22 @@ int64U XVariant::ToInt64U() const XANADU_NOTHROW
 		case EDOUBLE:
 			return static_cast<int64U>(this->_variant_data._VDouble);
 		case ESTRING:
-			return Xanadu::wtoll(this->ToString().data());
+			return Xanadu::wtoll(this->toString().data());
 		case EBYTEARRAY:
-			return Xanadu::atoll(this->ToByteArray().data());
+			return Xanadu::atoll(this->toByteArray().data());
 		default:
 			return this->_variant_data._VNull;
 	};
 }
 
 /// Convert to float
-float XVariant::ToFloat() const XANADU_NOTHROW
+float XVariant::toFloat() const XANADU_NOTHROW
 {
-	return static_cast<float>(this->ToDouble());
+	return static_cast<float>(this->toDouble());
 }
 
 /// Convert to double
-double XVariant::ToDouble() const XANADU_NOTHROW
+double XVariant::toDouble() const XANADU_NOTHROW
 {
 	switch (this->_variant_type)
 	{
@@ -456,52 +456,52 @@ double XVariant::ToDouble() const XANADU_NOTHROW
 		case EDOUBLE:
 			return this->_variant_data._VDouble;
 		case ESTRING:
-			return Xanadu::wtof(this->ToString().data());
+			return Xanadu::wtof(this->toString().data());
 		case EBYTEARRAY:
-			return Xanadu::atof(this->ToByteArray().data());
+			return Xanadu::atof(this->toByteArray().data());
 		default:
 			return static_cast<double>(this->_variant_data._VNull);
 	};
 }
 
 /// Convert to XString
-XString XVariant::ToString() const XANADU_NOTHROW
+XString XVariant::toString() const XANADU_NOTHROW
 {
 	switch (this->_variant_type)
 	{
 		case EBOOL:
-			return XString::Format(L"%ls", this->_variant_data._VBool ? L"1" : L"0");
+			return XString::format(L"%ls", this->_variant_data._VBool ? L"1" : L"0");
 		case EINT8S:
-			return XString::Format(L"%d", this->_variant_data._VInt8S);
+			return XString::format(L"%d", this->_variant_data._VInt8S);
 		case EINT8U:
-			return XString::Format(L"%u", this->_variant_data._VInt8U);
+			return XString::format(L"%u", this->_variant_data._VInt8U);
 		case EINT16S:
-			return XString::Format(L"%d", this->_variant_data._VInt16S);
+			return XString::format(L"%d", this->_variant_data._VInt16S);
 		case EINT16U:
-			return XString::Format(L"%u", this->_variant_data._VInt16U);
+			return XString::format(L"%u", this->_variant_data._VInt16U);
 		case EINT32S:
-			return XString::Format(L"%d", this->_variant_data._VInt32S);
+			return XString::format(L"%d", this->_variant_data._VInt32S);
 		case EINT32U:
-			return XString::Format(L"%u", this->_variant_data._VInt32U);
+			return XString::format(L"%u", this->_variant_data._VInt32U);
 		case EINT64S:
-			return XString::Format(L"%lld", this->_variant_data._VInt64S);
+			return XString::format(L"%lld", this->_variant_data._VInt64S);
 		case EINT64U:
-			return XString::Format(L"%llu", this->_variant_data._VInt64U);
+			return XString::format(L"%llu", this->_variant_data._VInt64U);
 		case EFLOAT:
-			return XString::Format(L"%f", this->_variant_data._VFloat);
+			return XString::format(L"%f", this->_variant_data._VFloat);
 		case EDOUBLE:
-			return XString::Format(L"%f", this->_variant_data._VDouble);
+			return XString::format(L"%f", this->_variant_data._VDouble);
 		case ESTRING:
 			return *(static_cast<XString*>(this->_variant_data._VObject));
 		case EBYTEARRAY:
-			return XString::FromBytes(this->ToByteArray());
+			return XString::fromBytes(this->toByteArray());
 		default:
 			return L"";
 	};
 }
 
 /// Convert to XByteArray
-XByteArray XVariant::ToByteArray() const XANADU_NOTHROW
+XByteArray XVariant::toByteArray() const XANADU_NOTHROW
 {
 	switch (this->_variant_type)
 	{
@@ -517,7 +517,7 @@ XByteArray XVariant::ToByteArray() const XANADU_NOTHROW
 		case EFLOAT:
 		case EDOUBLE:
 		case ESTRING:
-			return this->ToString().ToBytes();
+			return this->toString().toBytes();
 		case EBYTEARRAY:
 			return *(static_cast<XByteArray*>(this->_variant_data._VObject));
 		default:

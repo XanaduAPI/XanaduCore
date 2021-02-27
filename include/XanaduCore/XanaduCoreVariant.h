@@ -135,43 +135,43 @@ public:
 
 public:
 	/// Convert to bool
-	virtual bool ToBool() const XANADU_NOTHROW;
+	virtual bool toBool() const XANADU_NOTHROW;
 
 	/// Convert to int8S
-	virtual int8S ToInt8S() const XANADU_NOTHROW;
+	virtual int8S toInt8S() const XANADU_NOTHROW;
 
 	/// Convert to int8U
-	virtual int8U ToInt8U() const XANADU_NOTHROW;
+	virtual int8U toInt8U() const XANADU_NOTHROW;
 
 	/// Convert to int16S
-	virtual int16S ToInt16S() const XANADU_NOTHROW;
+	virtual int16S toInt16S() const XANADU_NOTHROW;
 
 	/// Convert to int16U
-	virtual int16U ToInt16U() const XANADU_NOTHROW;
+	virtual int16U toInt16U() const XANADU_NOTHROW;
 
 	/// Convert to int32S
-	virtual int32S ToInt32S() const XANADU_NOTHROW;
+	virtual int32S toInt32S() const XANADU_NOTHROW;
 
 	/// Convert to int32U
-	virtual int32U ToInt32U() const XANADU_NOTHROW;
+	virtual int32U toInt32U() const XANADU_NOTHROW;
 
 	/// Convert to int64S
-	virtual int64S ToInt64S() const XANADU_NOTHROW;
+	virtual int64S toInt64S() const XANADU_NOTHROW;
 
 	/// Convert to int64U
-	virtual int64U ToInt64U() const XANADU_NOTHROW;
+	virtual int64U toInt64U() const XANADU_NOTHROW;
 
 	/// Convert to float
-	virtual float ToFloat() const XANADU_NOTHROW;
+	virtual float toFloat() const XANADU_NOTHROW;
 
 	/// Convert to double
-	virtual double ToDouble() const XANADU_NOTHROW;
+	virtual double toDouble() const XANADU_NOTHROW;
 
 	/// Convert to XString
-	virtual XString ToString() const XANADU_NOTHROW;
+	virtual XString toString() const XANADU_NOTHROW;
 
 	/// Convert to XByteArray
-	virtual XByteArray ToByteArray() const XANADU_NOTHROW;
+	virtual XByteArray toByteArray() const XANADU_NOTHROW;
 };
 
 #endif /// _XANADU_CORE_VARIANT_H_

@@ -110,7 +110,7 @@ bool XProcess::Terminate(XString _ProcessName) XANADU_NOTHROW
 	{
 		if(_Info.isDir())
 		{
-			auto		vExepath = XString::Format(L"/proc/%ls/exe", _Info.fileName().data());
+			auto		vExepath = XString::format(L"/proc/%ls/exe", _Info.fileName().data());
 			auto		vApplication = vExepath.ToUString();
 			char		vDirectory[XANADU_PATH] = { 0 };
 			auto		vCount = readlink(vApplication.data(), vDirectory, XANADU_PATH);
@@ -186,7 +186,7 @@ bool XProcess::Terminate(int64U _ProcessID) XANADU_NOTHROW
 {
 	auto		vResult = true;
 #ifdef XANADU_SYSTEM_WINDOWS
-	auto		vProcess = ::OpenProcess(PROCESS_ALL_ACCESS, FALSE, _ProcessID);
+	auto		vProcess = ::OpenProcess(PROCESS_ALL_ACCESS, FALSE, static_cast<DWORD>(_ProcessID));
 	if(vProcess != NULL)
 	{
 		vResult = ::TerminateProcess(vProcess, 0) ? true : false;
@@ -247,7 +247,7 @@ bool XProcess::Traverse(std::function<bool(const XProcessInfo& _Info)> _Lambda) 
 	{
 		if(_Info.isDir())
 		{
-			auto		vExepath = XString::Format(L"/proc/%ls/exe", _Info.fileName().data());
+			auto		vExepath = XString::format(L"/proc/%ls/exe", _Info.fileName().data());
 			auto		vApplication = vExepath.ToUString();
 			char		vDirectory[XANADU_PATH] = { 0 };
 			auto		vCount = readlink(vApplication.data(), vDirectory, XANADU_PATH);
@@ -352,7 +352,7 @@ int32S XProcess::Number(const XString& _ProcessName) XANADU_NOTHROW
 	{
 		if(_Info.isDir())
 		{
-			auto		vExepath = XString::Format(L"/proc/%ls/exe", _Info.fileName().data());
+			auto		vExepath = XString::format(L"/proc/%ls/exe", _Info.fileName().data());
 			auto		vApplication = vExepath.ToUString();
 			char		vDirectory[XANADU_PATH] = { 0 };
 			auto		vCount = readlink(vApplication.data(), vDirectory, XANADU_PATH);

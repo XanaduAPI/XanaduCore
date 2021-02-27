@@ -373,7 +373,7 @@ XString XSystem::BuildVersion() XANADU_NOTHROW
 		if(GetVersionNumbers)
 		{
 			GetVersionNumbers(&vValue1, &vValue2, &vValue3);
-			vBuildVersion = XString::Format(L"%d", vValue3);
+			vBuildVersion = XString::format(L"%d", vValue3);
 
 		}
 		XLibrary::Close(vModule);
@@ -523,10 +523,10 @@ XString XSystem::OnlyString() XANADU_NOTHROW
 			RegCloseKey(vKey);
 		}
 #else
-		vTempOnlyString += XString::Format(L"%lld", gethostid());
+		vTempOnlyString += XString::format(L"%lld", gethostid());
 #endif /// XANADU_SYSTEM_WINDOWS
 		vTempOnlyString += L"]";
-		_StaticOnlyString = XString::FromBytes(XCryptoHash::Hash(vTempOnlyString.ToBytes(), XCryptoHash::MD5).toHex().toUpper());
+		_StaticOnlyString = XString::fromBytes(XCryptoHash::Hash(vTempOnlyString.toBytes(), XCryptoHash::MD5).toHex().toUpper());
 	}
 	return _StaticOnlyString;
 }

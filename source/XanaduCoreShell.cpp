@@ -28,7 +28,7 @@ int64S XShell::Run(const XString& _Shell, std::function<bool(const XString& _Out
 {
 	XANADU_CHECK_RETURN(_Shell.size(), -1);
 
-	auto		vHandle = Xanadu::popen(_Shell.ToNString().data(), "r");
+	auto		vHandle = Xanadu::popen(_Shell.toNString().data(), "r");
 	if(vHandle)
 	{
 		auto		vBuffer = XANADU_NEW char[XANADU_SIZE_MB];
@@ -37,7 +37,7 @@ int64S XShell::Run(const XString& _Shell, std::function<bool(const XString& _Out
 		{
 			if(_Lambda)
 			{
-				_Lambda(XString::FromNString(vBuffer));
+				_Lambda(XString::fromNString(vBuffer));
 			}
 		};
 		Xanadu::pclose(vHandle);

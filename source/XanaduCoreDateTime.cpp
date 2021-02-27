@@ -57,7 +57,7 @@ XString XDateTime::SecondToString(int64U _Second) XANADU_NOTHROW
 {
 	auto		vValueSecond = static_cast<time_t>(_Second);
 	auto		vTM = Xanadu::localtime(&vValueSecond);
-	return XString::Format(L"%04d-%02d-%02d %02d:%02d:%02d", vTM->tm_year + 1900, vTM->tm_mon + 1, vTM->tm_mday, vTM->tm_hour, vTM->tm_min, vTM->tm_sec);
+	return XString::format(L"%04d-%02d-%02d %02d:%02d:%02d", vTM->tm_year + 1900, vTM->tm_mon + 1, vTM->tm_mday, vTM->tm_hour, vTM->tm_min, vTM->tm_sec);
 }
 
 /// Millisecond To String (1970-01-01 08:00:00.000)

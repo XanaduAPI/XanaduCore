@@ -80,7 +80,7 @@ XSettingPrivate* XSetting::_format(const XByteArray& _Bytes) const XANADU_NOTHRO
 	auto		vNode = XANADU_NEW XSettingPrivate();
 	if(vNode)
 	{
-		if (_Bytes.isEmpty())
+		if (_Bytes.empty())
 		{
 			vNode->_Type = EXSETTING_LINE_TYPE_NULL;
 		}
@@ -151,8 +151,8 @@ void XSetting::_append(XSettingPrivate* _Node) XANADU_NOTHROW
 
 XSettingPrivate* XSetting::_find(const XString& _Section, const XString& _Key) const XANADU_NOTHROW
 {
-	auto		vSection = _Section.ToBytes();
-	auto		vKey = _Key.ToBytes();
+	auto		vSection = _Section.toBytes();
+	auto		vKey = _Key.toBytes();
 
 	/// 遍历整个列表
 	for (auto vNode = this->_Info; vNode; vNode = vNode->_Next)
@@ -214,7 +214,7 @@ void XSetting::_remove(XSettingPrivate* _Node) XANADU_NOTHROW
 
 XSettingPrivate* XSetting::_section_end(const XString& _Section) XANADU_NOTHROW
 {
-	auto		vSection = _Section.ToBytes();
+	auto		vSection = _Section.toBytes();
 	auto		vEnd = static_cast<XSettingPrivate*>(nullptr);
 
 	/// 遍历整个列表
@@ -358,12 +358,12 @@ bool XSetting::Modify(const XString& _Section, const XString& _Key, const XVaria
 	auto		vNode = this->_find(_Section, _Key);
 	if(vNode)
 	{
-		vNode->_Text = _Key.ToBytes() + "=" + _Value.ToByteArray();
+		vNode->_Text = _Key.toBytes() + "=" + _Value.toByteArray();
 		return true;
 	}
 	else
 	{
-		vNode = this->_format(_Key.ToBytes() + "=" + _Value.ToByteArray());
+		vNode = this->_format(_Key.toBytes() + "=" + _Value.toByteArray());
 		if(vNode)
 		{
 			auto		vEnd = this->_section_end(_Section);
@@ -381,8 +381,8 @@ bool XSetting::Modify(const XString& _Section, const XString& _Key, const XVaria
 			else
 			{
 				/// 当没有同名Section存在时，创建一个Section与Key
-				auto		vNodeSection = this->_format(XByteArray("[") + _Section.ToBytes() + XByteArray("]"));
-				auto		vNodeKey = this->_format(_Key.ToBytes() + "=" + _Value.ToByteArray());
+				auto		vNodeSection = this->_format(XByteArray("[") + _Section.toBytes() + XByteArray("]"));
+				auto		vNodeKey = this->_format(_Key.toBytes() + "=" + _Value.toByteArray());
 				if(vNodeSection == vNodeKey)
 				{
 					this->_append(vNodeSection);

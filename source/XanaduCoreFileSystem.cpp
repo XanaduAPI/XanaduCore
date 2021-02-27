@@ -449,7 +449,8 @@ XByteArray XFileSystem::FileToBytes(const XString& _File) XANADU_NOTHROW
 	auto		vHandle = XFileSystem::FileOpen(_File, L"rb");
 	if(vHandle && vSize > 0)
 	{
-		auto		vBuffer = XANADU_NEW char[vSize];
+		auto		vSize32 = static_cast<unsigned int>(vSize);
+		auto		vBuffer = XANADU_NEW char[vSize32];
 		if (vBuffer)
 		{
 			if(XFileSystem::FileRead(vHandle, vBuffer, vSize))
