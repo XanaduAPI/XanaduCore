@@ -111,7 +111,7 @@ bool XProcess::Terminate(XString _ProcessName) XANADU_NOTHROW
 		if(_Info.isDir())
 		{
 			auto		vExepath = XString::format(L"/proc/%ls/exe", _Info.fileName().data());
-			auto		vApplication = vExepath.ToUString();
+			auto		vApplication = vExepath.toUString();
 			char		vDirectory[XANADU_PATH] = { 0 };
 			auto		vCount = readlink(vApplication.data(), vDirectory, XANADU_PATH);
 			if(0 <= vCount || vCount <= XANADU_PATH)
@@ -121,11 +121,11 @@ bool XProcess::Terminate(XString _ProcessName) XANADU_NOTHROW
 					auto	vName = Xanadu::strrchr(vDirectory, '/') + 1;
 					if(vName && Xanadu::strlen(vName))
 					{
-						if(0 == _ProcessName.compare(XString::FromUString(vName)))
+						if(0 == _ProcessName.compare(XString::fromUString(vName)))
 						{
 							//在此终止进程并返回false
-							auto	vProcessID = _Info.fileName().ToInt64S();
-							kill(vProcessID, 9);
+							auto	vProcessID = _Info.fileName().toInt64S();
+							Xanadu::kill(vProcessID, 9);
 							return false;
 						}
 					}
@@ -136,11 +136,11 @@ bool XProcess::Terminate(XString _ProcessName) XANADU_NOTHROW
 	});
 #endif /// XANADU_SYSTEM_LINUX
 #ifdef XANADU_SYSTEM_MACOS
-	auto	vProcessString = _ProcessName.ToUString();
+	auto	vProcessString = _ProcessName.toUString();
 	auto	vProcessNumber = proc_listpids(PROC_ALL_PIDS, 0, NULL, 0) * 2;
 	if(vProcessNumber)
 	{
-		auto	vProcessArray = (pid_t*)malloc(sizeof(pid_t) * vProcessNumber);
+		auto	vProcessArray = (pid_t*)Xanadu::malloc(sizeof(pid_t) * vProcessNumber);
 		if(vProcessArray)
 		{
 			vProcessNumber = proc_listpids(PROC_ALL_PIDS, 0, vProcessArray, sizeof(pid_t) * vProcessNumber);
@@ -164,7 +164,7 @@ bool XProcess::Terminate(XString _ProcessName) XANADU_NOTHROW
 					{
 						continue;
 					}
-					kill(vProcessID, 9);
+					Xanadu::kill(vProcessID, 9);
 					vResult = true;
 					//printf("\n----- %d -----\n", vProcessID);
 
@@ -174,7 +174,7 @@ bool XProcess::Terminate(XString _ProcessName) XANADU_NOTHROW
 				}
 				//printf("Process Number : %d\n", vProcessNumber);
 			}
-			free(vProcessArray);
+			Xanadu::free(vProcessArray);
 		}
 	}
 #endif /// XANADU_SYSTEM_MACOS
@@ -190,14 +190,14 @@ bool XProcess::Terminate(int64U _ProcessID) XANADU_NOTHROW
 	if(vProcess != NULL)
 	{
 		vResult = ::TerminateProcess(vProcess, 0) ? true : false;
-		CloseHandle(vProcess);
+		::CloseHandle(vProcess);
 	}
 #endif /// XANADU_SYSTEM_LINUX
 #ifdef XANADU_SYSTEM_LINUX
-	vResult = (kill(_ProcessID, 9) == 0) ? true : false;
+	vResult = (Xanadu::kill(_ProcessID, 9) == 0) ? true : false;
 #endif /// XANADU_SYSTEM_LINUX
 #ifdef XANADU_SYSTEM_MACOS
-	vResult = (kill(_ProcessID, 9) == 0) ? true : false;
+	vResult = (Xanadu::kill(_ProcessID, 9) == 0) ? true : false;
 #endif /// XANADU_SYSTEM_MACOS
 	return vResult;
 }
@@ -248,7 +248,7 @@ bool XProcess::Traverse(std::function<bool(const XProcessInfo& _Info)> _Lambda) 
 		if(_Info.isDir())
 		{
 			auto		vExepath = XString::format(L"/proc/%ls/exe", _Info.fileName().data());
-			auto		vApplication = vExepath.ToUString();
+			auto		vApplication = vExepath.toUString();
 			char		vDirectory[XANADU_PATH] = { 0 };
 			auto		vCount = readlink(vApplication.data(), vDirectory, XANADU_PATH);
 			if(0 <= vCount || vCount <= XANADU_PATH)
@@ -258,7 +258,7 @@ bool XProcess::Traverse(std::function<bool(const XProcessInfo& _Info)> _Lambda) 
 					auto	vName = Xanadu::strrchr(vDirectory, '/') + 1;
 					if(vName && Xanadu::strlen(vName))
 					{
-						if(false == _Lambda(XProcessInfo(static_cast<int64U>(_Info.fileName().ToInt64S()), XString::FromUString(vName))))
+						if(false == _Lambda(XProcessInfo(static_cast<int64U>(_Info.fileName().toInt64S()), XString::fromUString(vName))))
 						{
 							//当取消时返回false
 							return false;
@@ -294,7 +294,7 @@ bool XProcess::Traverse(std::function<bool(const XProcessInfo& _Info)> _Lambda) 
 					proc_name(vProcessID, vProcessNAME, 1024);
 					//proc_pidpath(vProcessID, vProcessPATH, 2048);
 					//proc_pidinfo(vProcessID, PROC_PIDTBSDINFO, 0, &vProcessINFO, PROC_PIDTBSDINFO_SIZE);
-					if(false == _Lambda(XProcessInfo(static_cast<int64U>(vProcessID), XString::FromUString(vProcessNAME))))
+					if(false == _Lambda(XProcessInfo(static_cast<int64U>(vProcessID), XString::fromUString(vProcessNAME))))
 					{
 						//当取消时返回false
 						break;
@@ -353,7 +353,7 @@ int32S XProcess::Number(const XString& _ProcessName) XANADU_NOTHROW
 		if(_Info.isDir())
 		{
 			auto		vExepath = XString::format(L"/proc/%ls/exe", _Info.fileName().data());
-			auto		vApplication = vExepath.ToUString();
+			auto		vApplication = vExepath.toUString();
 			char		vDirectory[XANADU_PATH] = { 0 };
 			auto		vCount = readlink(vApplication.data(), vDirectory, XANADU_PATH);
 			if(0 <= vCount || vCount <= XANADU_PATH)
@@ -363,7 +363,7 @@ int32S XProcess::Number(const XString& _ProcessName) XANADU_NOTHROW
 					auto	vName = Xanadu::strrchr(vDirectory, '/') + 1;
 					if(vName && Xanadu::strlen(vName))
 					{
-						if(0 == _ProcessName.compare(XString::FromUString(vName)))
+						if(0 == _ProcessName.compare(XString::fromUString(vName)))
 						{
 							++vNumber;
 						}
@@ -375,11 +375,11 @@ int32S XProcess::Number(const XString& _ProcessName) XANADU_NOTHROW
 	});
 #endif /// XANADU_SYSTEM_LINUX
 #ifdef XANADU_SYSTEM_MACOS
-	auto	vProcessString = _ProcessName.ToUString();
+	auto	vProcessString = _ProcessName.toUString();
 	auto	vProcessNumber = proc_listpids(PROC_ALL_PIDS, 0, NULL, 0) * 2;
 	if(vProcessNumber)
 	{
-		auto	vProcessArray = (pid_t*)malloc(sizeof(pid_t) * vProcessNumber);
+		auto	vProcessArray = (pid_t*)Xanadu::malloc(sizeof(pid_t) * vProcessNumber);
 		if(vProcessArray)
 		{
 			vProcessNumber = proc_listpids(PROC_ALL_PIDS, 0, vProcessArray, sizeof(pid_t) * vProcessNumber);
@@ -412,7 +412,7 @@ int32S XProcess::Number(const XString& _ProcessName) XANADU_NOTHROW
 				}
 				//printf("Process Number : %d\n", vProcessNumber);
 			}
-			free(vProcessArray);
+			Xanadu::free(vProcessArray);
 		}
 	}
 #endif//XANADU_SYSTEM_MACOS
@@ -482,9 +482,9 @@ int64U XProcess::Execute(const XString& _Application, const XString& _Param, con
 	}
 	else if(vSync == 0)
 	{
-		auto		vNApplication = _Application.ToNString();
-		auto		vNDirectory = _Directory.ToNString();
-		auto		vNParam = _Param.ToNString();
+		auto		vNApplication = _Application.toNString();
+		auto		vNDirectory = _Directory.toNString();
+		auto		vNParam = _Param.toNString();
 		if(-1 == Xanadu::execds(vNApplication.data(), vNDirectory.data(), vNParam.data()))
 		{
 			Xanadu::exit(0);

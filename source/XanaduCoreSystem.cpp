@@ -117,7 +117,7 @@ XString XSystem::CurrentUser() XANADU_NOTHROW
 	GetUserNameW(vUserName, &vUserLength);
 	return XString(vUserName);
 #else
-	return XString::FromUString(getlogin());
+	return XString::fromUString(getlogin());
 #endif /// XANADU_SYSTEM_WINDOWS
 }
 
@@ -132,7 +132,7 @@ XString XSystem::HostName() XANADU_NOTHROW
 #else
 	char		vHostName[XANADU_PATH] = { 0 };
 	gethostname(vHostName, XANADU_PATH);
-	return XString::FromUString(vHostName);
+	return XString::fromUString(vHostName);
 #endif//XANADU_SYSTEM_WINDOWS
 }
 

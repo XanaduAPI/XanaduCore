@@ -245,7 +245,7 @@ bool XFileInfo::isDir() const XANADU_NOTHROW
 	}
 #else
 	struct stat64	vFileStatus;
-	auto		vUFilepath = this->_Info->_AbsolutePath.ToNString();
+	auto		vUFilepath = this->_Info->_AbsolutePath.toNString();
 	if(0 == stat64(vUFilepath.data(),&vFileStatus))
 	{
 		return S_ISDIR (vFileStatus.st_mode);
@@ -264,7 +264,7 @@ int64S XFileInfo::size() const XANADU_NOTHROW
 	}
 #else
 	struct stat64	vFileStatus;
-	auto		vUFilepath = this->_Info->_AbsolutePath.ToNString();
+	auto		vUFilepath = this->_Info->_AbsolutePath.toNString();
 	if(0 == stat64(vUFilepath.data(),&vFileStatus))
 	{
 		return vFileStatus.st_size;
