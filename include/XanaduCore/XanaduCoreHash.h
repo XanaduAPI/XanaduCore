@@ -17,6 +17,7 @@ public:
 	{
 		MD5 = 0,
 		SHA1,
+		CRC32,
 	};
 
 private:
@@ -32,26 +33,26 @@ public:
 
 public:
 	/// Empty data
-	virtual void Reset() XANADU_NOTHROW;
+	virtual void reset() XANADU_NOTHROW;
 
 	/// Add Data
-	virtual void AppendData(const void* _Data, int64U _Length) XANADU_NOTHROW;
+	virtual void append(const void* _Data, int64U _Length) XANADU_NOTHROW;
 
 	/// Add Data
-	virtual void AppendData(const XByteArray& _Bytes) XANADU_NOTHROW;
+	virtual void append(const XByteArray& _Bytes) XANADU_NOTHROW;
 
 	/// View the results
-	virtual XByteArray Result() const XANADU_NOTHROW;
+	virtual XByteArray result() const XANADU_NOTHROW;
 
 public:
 	/// Static method: Calculates the hash value
-	static XByteArray Hash(const XByteArray& _Bytes, Algorithm _Algorithm) XANADU_NOTHROW;
+	static XByteArray hash(const XByteArray& _Bytes, Algorithm _Algorithm) XANADU_NOTHROW;
 
 	/// Static method: Calculates the hash value
-	static XByteArray Hash(const XString& _File, Algorithm _Algorithm) XANADU_NOTHROW;
+	static XByteArray hash(const XString& _File, Algorithm _Algorithm) XANADU_NOTHROW;
 
 	/// Static method: Gets the result length of the specified algorithm
-	static int32S HashLength(Algorithm _Algorithm) XANADU_NOTHROW;
+	static int32S hashLength(Algorithm _Algorithm) XANADU_NOTHROW;
 };
 
 #endif /// _XANADU_CORE_HASH_H_

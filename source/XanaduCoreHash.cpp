@@ -6,6 +6,7 @@
 #include "Hash/XanaduCoreHashMD5.h"
 #include "Hash/XanaduCoreHashSHA1.h"
 #include "Hash/XanaduCoreHashSHA2.h"
+#include "Hash/XanaduCoreHashCRC32.h"
 
 class XCryptoHashPrivate
 {
@@ -15,6 +16,7 @@ public:
 	{
 		XANADU_CORE_MD5_CONTEXT		_MD5Context;
 		XANADU_CORE_SHA1_CONTEXT	_SHA1Context;
+		XANADU_CORE_CRC32_CONTEXT	_CRC32Context;
 	};
 	XByteArray				_Result;
 };
@@ -24,7 +26,7 @@ XCryptoHash::XCryptoHash(Algorithm _Algorithm) XANADU_NOTHROW
 {
 	this->_Info = XANADU_NEW XCryptoHashPrivate();
 	this->_Info->_Algorithm = _Algorithm;
-	this->Reset();
+	this->reset();
 }
 
 /// Virtual destructor
@@ -37,7 +39,7 @@ XCryptoHash::~XCryptoHash() XANADU_NOTHROW
 
 
 /// Empty data
-void XCryptoHash::Reset() XANADU_NOTHROW
+void XCryptoHash::reset() XANADU_NOTHROW
 {
 	switch (this->_Info->_Algorithm)
 	{
@@ -46,12 +48,14 @@ void XCryptoHash::Reset() XANADU_NOTHROW
 			break;
 		case SHA1:
 			Xanadu::sha1_begin(&(this->_Info->_SHA1Context));
+		case CRC32:
+			Xanadu::CRC32_Init(&(this->_Info->_CRC32Context));
 			break;
 	}
 }
 
 /// Add Data
-void XCryptoHash::AppendData(const void* _Data, int64U _Length) XANADU_NOTHROW
+void XCryptoHash::append(const void* _Data, int64U _Length) XANADU_NOTHROW
 {
 	switch (this->_Info->_Algorithm)
 	{
@@ -61,17 +65,20 @@ void XCryptoHash::AppendData(const void* _Data, int64U _Length) XANADU_NOTHROW
 		case SHA1:
 			Xanadu::sha1_hash((const unsigned char*)_Data, _Length, &(this->_Info->_SHA1Context));
 			break;
+		case CRC32:
+			Xanadu::CRC32_Update(&(this->_Info->_CRC32Context), _Data, _Length);
+			break;
 	}
 }
 
 /// Add Data
-void XCryptoHash::AppendData(const XByteArray& _Bytes) XANADU_NOTHROW
+void XCryptoHash::append(const XByteArray& _Bytes) XANADU_NOTHROW
 {
-	XCryptoHash::AppendData(_Bytes.data(), _Bytes.length());
+	XCryptoHash::append(_Bytes.data(), _Bytes.length());
 }
 
 /// View the results
-XByteArray XCryptoHash::Result() const XANADU_NOTHROW
+XByteArray XCryptoHash::result() const XANADU_NOTHROW
 {
 	if (this->_Info->_Result.empty())
 	{
@@ -84,8 +91,11 @@ XByteArray XCryptoHash::Result() const XANADU_NOTHROW
 			case SHA1:
 				Xanadu::sha1_end(vResult, &(this->_Info->_SHA1Context));
 				break;
+			case CRC32:
+				Xanadu::CRC32_Final(vResult, &(this->_Info->_CRC32Context));
+				break;
 		}
-		this->_Info->_Result = XByteArray((const char*)vResult, XCryptoHash::HashLength(this->_Info->_Algorithm));
+		this->_Info->_Result = XByteArray((const char*)vResult, XCryptoHash::hashLength(this->_Info->_Algorithm));
 	}
 	return this->_Info->_Result;
 }
@@ -95,18 +105,18 @@ XByteArray XCryptoHash::Result() const XANADU_NOTHROW
 
 
 /// Static method: Calculates the hash value
-XByteArray XCryptoHash::Hash(const XByteArray& _Bytes, Algorithm _Algorithm) XANADU_NOTHROW
+XByteArray XCryptoHash::hash(const XByteArray& _Bytes, Algorithm _Algorithm) XANADU_NOTHROW
 {
 	auto		vClass = XCryptoHash(_Algorithm);
 	auto		vResult = XByteArray();
-	vClass.Reset();
-	vClass.AppendData(_Bytes);
-	vResult = vClass.Result();
+	vClass.reset();
+	vClass.append(_Bytes);
+	vResult = vClass.result();
 	return vResult;
 }
 
 /// Static method: Calculates the hash value
-XByteArray XCryptoHash::Hash(const XString& _File, Algorithm _Algorithm) XANADU_NOTHROW
+XByteArray XCryptoHash::hash(const XString& _File, Algorithm _Algorithm) XANADU_NOTHROW
 {
 	auto		vClass = XCryptoHash(_Algorithm);
 	auto		vResult = XByteArray();
@@ -116,7 +126,7 @@ XByteArray XCryptoHash::Hash(const XString& _File, Algorithm _Algorithm) XANADU_
 		auto		vMemory = XANADU_NEW char[XANADU_SIZE_MB];
 		if(vMemory)
 		{
-			vClass.Reset();
+			vClass.reset();
 			while(!Xanadu::feof(vHandle))
 			{
 				auto		vSync = Xanadu::fread(vMemory, 1, XANADU_SIZE_MB, vHandle);
@@ -124,9 +134,9 @@ XByteArray XCryptoHash::Hash(const XString& _File, Algorithm _Algorithm) XANADU_
 				{
 					break;
 				}
-				vClass.AppendData(vMemory, vSync);
+				vClass.append(vMemory, vSync);
 			};
-			vResult = vClass.Result();
+			vResult = vClass.result();
 			XANADU_DELETE_ARR(vMemory);
 		}
 		Xanadu::fclose(vHandle);
@@ -135,7 +145,7 @@ XByteArray XCryptoHash::Hash(const XString& _File, Algorithm _Algorithm) XANADU_
 }
 
 /// Static method: Gets the result length of the specified algorithm
-int32S XCryptoHash::HashLength(Algorithm _Algorithm) XANADU_NOTHROW
+int32S XCryptoHash::hashLength(Algorithm _Algorithm) XANADU_NOTHROW
 {
 	switch (_Algorithm)
 	{
@@ -143,6 +153,8 @@ int32S XCryptoHash::HashLength(Algorithm _Algorithm) XANADU_NOTHROW
 			return 16;
 		case SHA1:
 			return 20;
+		case CRC32:
+			return 4;
 		default:
 			return 0;
 	}

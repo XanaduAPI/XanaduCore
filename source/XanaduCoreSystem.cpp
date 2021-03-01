@@ -526,7 +526,7 @@ XString XSystem::OnlyString() XANADU_NOTHROW
 		vTempOnlyString += XString::format(L"%lld", gethostid());
 #endif /// XANADU_SYSTEM_WINDOWS
 		vTempOnlyString += L"]";
-		_StaticOnlyString = XString::fromBytes(XCryptoHash::Hash(vTempOnlyString.toBytes(), XCryptoHash::MD5).toHex().toUpper());
+		_StaticOnlyString = XString::fromBytes(XCryptoHash::hash(vTempOnlyString.toBytes(), XCryptoHash::MD5).toHex().toUpper());
 	}
 	return _StaticOnlyString;
 }
