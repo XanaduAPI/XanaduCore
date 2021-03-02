@@ -2,8 +2,12 @@
 
 // big endian architectures need #define __BYTE_ORDER __BIG_ENDIAN
 #ifndef _MSC_VER
+#ifdef XANADU_SYSTEM_MACOS
+#include <machine/endian.h>
+#else
 #include <endian.h>
-#endif
+#endif /// XANADU_SYSTEM_MACOS
+#endif /// _MSC_VER
 
 
 /// look-up table
