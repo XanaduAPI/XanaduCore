@@ -5,11 +5,11 @@
 #include <XanaduCore/XanaduCoreByteArray.h>
 #include <XanaduCore/XanaduCoreString.h>
 
-class XCryptoHashPrivate;
+class XHashPrivate;
 
 /// A public class that evaluates the hash value.
 /// Contains common algorithm such as MD5, SHA1, SHA256.
-class XANADU_CORE_EXPORT XCryptoHash
+class XANADU_CORE_EXPORT XHash
 {
 public:
 	/// Enumeration of common algorithms
@@ -22,37 +22,40 @@ public:
 
 private:
 	/// Private structures
-	XCryptoHashPrivate*			_Info;
+	XHashPrivate*				_Info;
 
 public:
 	/// Structure
-	XCryptoHash(Algorithm _Algorithm) XANADU_NOTHROW;
+	XHash(Algorithm _Algorithm) noexcept;
 
 	/// Virtual destructor
-	virtual ~XCryptoHash() XANADU_NOTHROW;
+	virtual ~XHash() noexcept;
 
 public:
 	/// Empty data
-	virtual void reset() XANADU_NOTHROW;
+	virtual void reset() noexcept;
 
 	/// Add Data
-	virtual void append(const void* _Data, int64U _Length) XANADU_NOTHROW;
+	virtual void append(const void* _Data, int64U _Length) noexcept;
 
 	/// Add Data
-	virtual void append(const XByteArray& _Bytes) XANADU_NOTHROW;
+	virtual void append(const XByteArray& _Bytes) noexcept;
 
 	/// View the results
-	virtual XByteArray result() const XANADU_NOTHROW;
+	virtual XByteArray result() const noexcept;
 
 public:
 	/// Static method: Calculates the hash value
-	static XByteArray hash(const XByteArray& _Bytes, Algorithm _Algorithm) XANADU_NOTHROW;
+	static XByteArray hash(const void* _Buffer, int64U _Length, Algorithm _Algorithm) noexcept;
 
 	/// Static method: Calculates the hash value
-	static XByteArray hash(const XString& _File, Algorithm _Algorithm) XANADU_NOTHROW;
+	static XByteArray hash(const XByteArray& _Bytes, Algorithm _Algorithm) noexcept;
+
+	/// Static method: Calculates the hash value
+	static XByteArray hash(const XString& _File, Algorithm _Algorithm) noexcept;
 
 	/// Static method: Gets the result length of the specified algorithm
-	static int32S hashLength(Algorithm _Algorithm) XANADU_NOTHROW;
+	static int32S hashLength(Algorithm _Algorithm) noexcept;
 };
 
 #endif /// _XANADU_CORE_HASH_H_

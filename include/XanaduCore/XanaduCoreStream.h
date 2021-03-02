@@ -4,53 +4,65 @@
 #include <XanaduCore/XanaduCoreHeader.h>
 #include <XanaduCore/XanaduCoreString.h>
 
-//Xanadu Class Stream
+enum ENUM_XANADU_DEBUG_LEVEL
+{
+	EXANADU_DEBUG_LEVEL_FULL = 0,
+	EXANADU_DEBUG_LEVEL_INFO,
+	EXANADU_DEBUG_LEVEL_WARNING,
+	EXANADU_DEBUG_LEVEL_ERROR,
+};
+
+/// Xanadu Class Stream
 class XANADU_CORE_EXPORT XStream
 {
 public:
-	XStream() XANADU_NOTHROW;
+	XStream() noexcept;
 
-	virtual ~XStream() XANADU_NOTHROW;
+	virtual ~XStream() noexcept;
+
+public:
+	/// 启用日志级别
+	static void setDebugLevel(ENUM_XANADU_DEBUG_LEVEL _Level = EXANADU_DEBUG_LEVEL_FULL) noexcept;
 
 public:
 	/// 输出日志
-	XANADU_DEPRECATED static void Output(const char* _Format, ...) XANADU_NOTHROW;
+	static void Output(const char* _Format, ...) noexcept;
 
 	/// 输出日志
-	static void Output(const wchar_t* _Format, ...) XANADU_NOTHROW;
+	static void Output(const wchar_t* _Format, ...) noexcept;
 
 	/// 输出日志
-	static void Output(const XString& _Format) XANADU_NOTHROW;
+	static void Output(const XString& _Format) noexcept;
 
 public:
 	/// 输出日志:INFO
-	XANADU_DEPRECATED static void Info(const char* _Format, ...) XANADU_NOTHROW;
+	static void Info(const char* _Format, ...) noexcept;
 
 	/// 输出日志:INFO
-	static void Info(const wchar_t* _Format, ...) XANADU_NOTHROW;
+	static void Info(const wchar_t* _Format, ...) noexcept;
 
 	/// 输出日志:INFO
-	static void Info(const XString& _Format) XANADU_NOTHROW;;
+	static void Info(const XString& _Format) noexcept;;
 
 public:
 	/// 输出日志:WARNING
-	XANADU_DEPRECATED static void Warning(const char* _Format, ...) XANADU_NOTHROW;
+	static void Warning(const char* _Format, ...) noexcept;
 
 	/// 输出日志:WARNING
-	static void Warning(const wchar_t* _Format, ...) XANADU_NOTHROW;
+	static void Warning(const wchar_t* _Format, ...) noexcept;
 
 	/// 输出日志:WARNING
-	static void Warning(const XString& _Format) XANADU_NOTHROW;
+	static void Warning(const XString& _Format) noexcept;
 
 public:
 	/// 输出日志:ERROR
-	XANADU_DEPRECATED static void Error(const char* _Format, ...) XANADU_NOTHROW;
+	static void Error(const char* _Format, ...) noexcept;
 
 	/// 输出日志:ERROR
-	static void Error(const wchar_t* _Format, ...) XANADU_NOTHROW;
+	static void Error(const wchar_t* _Format, ...) noexcept;
 
 	/// 输出日志:ERROR
-	static void Error(const XString& _Format) XANADU_NOTHROW;
+	static void Error(const XString& _Format) noexcept;
 };
 
 #ifdef XANADU_SYSTEM_WINDOWS

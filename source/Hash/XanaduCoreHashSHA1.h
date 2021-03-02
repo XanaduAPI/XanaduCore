@@ -32,16 +32,16 @@ typedef struct _XANADU_CORE_SHA1_CONTEXT
 
 namespace Xanadu
 {
-	XANADU_CORE_EXPORT void XANADUAPI sha1_compile(XANADU_CORE_SHA1_CONTEXT _Context[1]) XANADU_NOTHROW;
+	XANADU_CORE_EXPORT void XANADUAPI sha1_compile(XANADU_CORE_SHA1_CONTEXT _Context[1]) noexcept;
 
-	XANADU_CORE_EXPORT void XANADUAPI sha1_begin(XANADU_CORE_SHA1_CONTEXT _Context[1]) XANADU_NOTHROW;
+	XANADU_CORE_EXPORT void XANADUAPI sha1_begin(XANADU_CORE_SHA1_CONTEXT _Context[1]) noexcept;
 
-	XANADU_CORE_EXPORT void XANADUAPI sha1_hash(const unsigned char _Data[], int64U _Length, XANADU_CORE_SHA1_CONTEXT _Context[1]) XANADU_NOTHROW;
+	XANADU_CORE_EXPORT void XANADUAPI sha1_hash(const unsigned char _Data[], int64U _Length, XANADU_CORE_SHA1_CONTEXT _Context[1]) noexcept;
 
 	/// SHA1 final padding and digest calculation
-	XANADU_CORE_EXPORT void XANADUAPI sha1_end(unsigned char _Hval[], XANADU_CORE_SHA1_CONTEXT _Context[1]) XANADU_NOTHROW;
+	XANADU_CORE_EXPORT void XANADUAPI sha1_end(unsigned char _Hval[], XANADU_CORE_SHA1_CONTEXT _Context[1]) noexcept;
 
-	XANADU_CORE_EXPORT void XANADUAPI sha1(unsigned char _Hval[], const unsigned char _Data[], unsigned long _Length) XANADU_NOTHROW;
+	XANADU_CORE_EXPORT void XANADUAPI sha1(unsigned char _Hval[], const unsigned char _Data[], unsigned long _Length) noexcept;
 };
 
 #endif /// _XANADU_CORE_HASH_SHA1_H_

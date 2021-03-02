@@ -72,7 +72,7 @@
 	one_cycle(v, 2,3,4,0,1, f,k,hf(i+3));	\
 	one_cycle(v, 1,2,3,4,0, f,k,hf(i+4))
 
-XANADU_CORE_EXPORT void XANADUAPI Xanadu::sha1_compile(XANADU_CORE_SHA1_CONTEXT _Context[1]) XANADU_NOTHROW
+XANADU_CORE_EXPORT void XANADUAPI Xanadu::sha1_compile(XANADU_CORE_SHA1_CONTEXT _Context[1]) noexcept
 {
 	int32U    *w = _Context->wbuf;
 
@@ -129,7 +129,7 @@ XANADU_CORE_EXPORT void XANADUAPI Xanadu::sha1_compile(XANADU_CORE_SHA1_CONTEXT 
 #endif
 }
 
-XANADU_CORE_EXPORT void XANADUAPI Xanadu::sha1_begin(XANADU_CORE_SHA1_CONTEXT ctx[1]) XANADU_NOTHROW
+XANADU_CORE_EXPORT void XANADUAPI Xanadu::sha1_begin(XANADU_CORE_SHA1_CONTEXT ctx[1]) noexcept
 {
 	Xanadu::memset(ctx, 0, sizeof(XANADU_CORE_SHA1_CONTEXT));
 	ctx->hash[0] = 0x67452301;
@@ -143,7 +143,7 @@ XANADU_CORE_EXPORT void XANADUAPI Xanadu::sha1_begin(XANADU_CORE_SHA1_CONTEXT ct
 /* call the hash_compile function as required. For both the */
 /* bit and byte orientated versions, the block length '_Length' */
 /* must not be greater than 2^32 - 1 bits (2^29 - 1 bytes)  */
-XANADU_CORE_EXPORT void XANADUAPI Xanadu::sha1_hash(const unsigned char _Data[], int64U _Length, XANADU_CORE_SHA1_CONTEXT _Context[1]) XANADU_NOTHROW
+XANADU_CORE_EXPORT void XANADUAPI Xanadu::sha1_hash(const unsigned char _Data[], int64U _Length, XANADU_CORE_SHA1_CONTEXT _Context[1]) noexcept
 {
 	int32U pos = (int32U)((_Context->count[0] >> 3) & SHA1_MASK);
 	const unsigned char *sp = _Data;
@@ -203,7 +203,7 @@ XANADU_CORE_EXPORT void XANADUAPI Xanadu::sha1_hash(const unsigned char _Data[],
 }
 
 /// SHA1 final padding and digest calculation
-XANADU_CORE_EXPORT void XANADUAPI Xanadu::sha1_end(unsigned char _Hval[], XANADU_CORE_SHA1_CONTEXT _Context[1]) XANADU_NOTHROW
+XANADU_CORE_EXPORT void XANADUAPI Xanadu::sha1_end(unsigned char _Hval[], XANADU_CORE_SHA1_CONTEXT _Context[1]) noexcept
 {
 	auto		i = (int32U)((_Context->count[0] >> 3) & SHA1_MASK);
 	auto		m1 = static_cast<int32U>(0);
@@ -256,7 +256,7 @@ XANADU_CORE_EXPORT void XANADUAPI Xanadu::sha1_end(unsigned char _Hval[], XANADU
 	}
 }
 
-XANADU_CORE_EXPORT void XANADUAPI Xanadu::sha1(unsigned char _Hval[], const unsigned char _Data[], unsigned long _Length) XANADU_NOTHROW
+XANADU_CORE_EXPORT void XANADUAPI Xanadu::sha1(unsigned char _Hval[], const unsigned char _Data[], unsigned long _Length) noexcept
 {
 	XANADU_CORE_SHA1_CONTEXT    _Context[1];
 	Xanadu::sha1_begin(_Context);

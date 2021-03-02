@@ -5,27 +5,27 @@
 #include <XanaduCore/XanaduCoreByteArray.h>
 
 /// A Base64 codec library.
-class XANADU_CORE_EXPORT XCryptoBase64
+class XANADU_CORE_EXPORT XBase64
 {
 public:
 	/// Structure
-	XCryptoBase64() XANADU_NOTHROW;
+	XBase64() noexcept;
 
 	/// Virtual destructor
-	virtual ~XCryptoBase64() XANADU_NOTHROW;
+	virtual ~XBase64() noexcept;
 
 public:
 	/// Encoded in BASE64
-	static XByteArray Encode(const void* _Memory, int64U _Length) XANADU_NOTHROW;
+	static XByteArray encode(const void* _Memory, int64U _Length) noexcept;
 
 	/// Encoded in BASE64
-	static XByteArray Encode(const XByteArray& _Bytes) XANADU_NOTHROW;
+	static XByteArray encode(const XByteArray& _Bytes) noexcept;
 
 	/// Decoded in BASE64
-	static XByteArray Decode(const void* _Memory, int64U _Length) XANADU_NOTHROW;
+	static XByteArray decode(const void* _Memory, int64U _Length) noexcept;
 
 	/// Decoded in BASE64
-	static XByteArray Decode(const XByteArray& _Bytes) XANADU_NOTHROW;
+	static XByteArray decode(const XByteArray& _Bytes) noexcept;
 };
 
 #endif /// _XANADU_CORE_BASE64_H_

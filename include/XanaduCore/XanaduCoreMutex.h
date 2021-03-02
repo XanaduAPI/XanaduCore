@@ -17,14 +17,14 @@ public:
 	};
 
 public:
-	explicit XMutex(RecursionMode _Mode = Recursive) XANADU_NOTHROW;
+	explicit XMutex(RecursionMode _Mode = Recursive) noexcept;
 
-	virtual ~XMutex() XANADU_NOTHROW;
+	virtual ~XMutex() noexcept;
 
 public:
-	virtual void Lock() XANADU_NOTHROW;
+	virtual void lock() noexcept;
 
-	virtual void Unlock() XANADU_NOTHROW;
+	virtual void unlock() noexcept;
 };
 
 
@@ -35,9 +35,9 @@ private:
 	XMutex&				_data_mutex;
 
 public:
-	explicit XMutexAuto(XMutex& _Mutex) XANADU_NOTHROW;
+	explicit XMutexAuto(XMutex& _Mutex) noexcept;
 
-	virtual ~XMutexAuto() XANADU_NOTHROW;
+	virtual ~XMutexAuto() noexcept;
 };
 
 #define				XANADU_MUTEX_AUTO(_Mutex)				XMutexAuto	_XanaduMutexAuto(_Mutex)

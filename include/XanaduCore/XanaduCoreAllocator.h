@@ -1,8 +1,4 @@
-﻿/*
- * This is a memory allocator, Memory allocation for Xanadu series.
- * */
-
-#ifndef			_XANADU_CORE_ALLOCATOR_H_
+﻿#ifndef			_XANADU_CORE_ALLOCATOR_H_
 #define			_XANADU_CORE_ALLOCATOR_H_
 
 #include <XanaduCore/XanaduCoreHeader.h>
@@ -29,122 +25,122 @@ private:
 
 public:
 	/// Constructors
-	XAllocator() XANADU_NOTHROW;
+	XAllocator() noexcept;
 
 	/// Constructors
-	XAllocator(size_type _Length) XANADU_NOTHROW;
+	XAllocator(size_type _Length) noexcept;
 
 	/// Constructors
-	XAllocator(size_type _Length, char _Char) XANADU_NOTHROW;
+	XAllocator(size_type _Length, char _Char) noexcept;
 
 	/// Constructors
-	XAllocator(const void* _Memory, size_type _Length) XANADU_NOTHROW;
+	XAllocator(const void* _Memory, size_type _Length) noexcept;
 
 	/// Constructors
-	XAllocator(const XAllocator& _Allocator) XANADU_NOTHROW;
+	XAllocator(const XAllocator& _Allocator) noexcept;
 
 	/// Destructor
-	virtual ~XAllocator() XANADU_NOTHROW;
+	virtual ~XAllocator() noexcept;
 
 public:
 	/// operator overload =
-	XAllocator& operator = (const XAllocator& _Allocator) XANADU_NOTHROW;
+	XAllocator& operator = (const XAllocator& _Allocator) noexcept;
 
 	/// operator overload +
-	XAllocator operator + (const XAllocator& _Allocator) XANADU_NOTHROW;
+	XAllocator operator + (const XAllocator& _Allocator) noexcept;
 
 	/// operator overload +=
-	XAllocator& operator += (const XAllocator& _Allocator) XANADU_NOTHROW;
+	XAllocator& operator += (const XAllocator& _Allocator) noexcept;
 
 public:
 	/// Fix Pos
-	virtual size_type MemoryPosFix(size_type _Pos) const XANADU_NOTHROW;
+	virtual size_type MemoryPosFix(size_type _Pos) const noexcept;
 
 	/// Check for null values
-	virtual bool MemoryIsEmpty() const XANADU_NOTHROW;
+	virtual bool MemoryIsEmpty() const noexcept;
 
 	/// Check if there is a value
-	virtual bool MemoryIsExist() const XANADU_NOTHROW;
+	virtual bool MemoryIsExist() const noexcept;
 
 public:
 	/// Allocator memory
-	virtual bool MemoryAllocator(size_type _Length) XANADU_NOTHROW;
+	virtual bool MemoryAllocator(size_type _Length) noexcept;
 
 	/// Allocator memory
-	virtual bool MemoryAllocator(const void* _Memory, size_type _Length) XANADU_NOTHROW;
+	virtual bool MemoryAllocator(const void* _Memory, size_type _Length) noexcept;
 
 	/// Release memory
-	virtual void MemoryRelease() XANADU_NOTHROW;
+	virtual void MemoryRelease() noexcept;
 
 	/// Append memory
-	virtual bool MemoryAppend(size_type _Length) XANADU_NOTHROW;
+	virtual bool MemoryAppend(size_type _Length) noexcept;
 
 	/// Append memory
-	virtual bool MemoryAppend(size_type _Length, char _Char) XANADU_NOTHROW;
+	virtual bool MemoryAppend(size_type _Length, char _Char) noexcept;
 
 	/// Append memory
-	virtual bool MemoryAppend(const void* _Memory, size_type _Length) XANADU_NOTHROW;
+	virtual bool MemoryAppend(const void* _Memory, size_type _Length) noexcept;
 
 	/// Append memory
-	virtual bool MemoryAppend(const XAllocator& _Allocator) XANADU_NOTHROW;
+	virtual bool MemoryAppend(const XAllocator& _Allocator) noexcept;
 
 	/// Reduce memory
-	virtual bool MemoryReduce(size_type _Length) XANADU_NOTHROW;
+	virtual bool MemoryReduce(size_type _Length) noexcept;
 
 	/// Resize memory
-	virtual bool MemoryResize(size_type _Length) XANADU_NOTHROW;
+	virtual bool MemoryResize(size_type _Length) noexcept;
 
 	/// truncate memory
-	virtual void MemoryTruncate(size_type _Pos) XANADU_NOTHROW;
+	virtual void MemoryTruncate(size_type _Pos) noexcept;
 
 	/// Insert memory
-	virtual bool MemoryInsert(size_type _Pos, size_type _Length) XANADU_NOTHROW;
+	virtual bool MemoryInsert(size_type _Pos, size_type _Length) noexcept;
 
 	/// Insert memory
-	virtual bool MemoryInsert(size_type _Pos, const void* _Memory, size_type _Length) XANADU_NOTHROW;
+	virtual bool MemoryInsert(size_type _Pos, const void* _Memory, size_type _Length) noexcept;
 
 	/// Remove memory
-	virtual bool MemoryRemove(size_type _Pos, size_type _Length) XANADU_NOTHROW;
+	virtual bool MemoryRemove(size_type _Pos, size_type _Length) noexcept;
 
 	/// Copy Memory
-	virtual bool MemoryCopy(const void* _Memory, size_type _Length) XANADU_NOTHROW;
+	virtual bool MemoryCopy(const void* _Memory, size_type _Length) noexcept;
 
 	/// Copy Memory
-	virtual bool MemoryCopy(const XAllocator& _Allocator) XANADU_NOTHROW;
+	virtual bool MemoryCopy(const XAllocator& _Allocator) noexcept;
 
 	/// Move Memory
-	virtual bool MemoryMove(XAllocator& _Allocator) XANADU_NOTHROW;
+	virtual bool MemoryMove(XAllocator& _Allocator) noexcept;
 
-	/// Find Memory
-	virtual size_type MemoryFind(size_type _Pos, const void* _Memory, size_type _Length) const XANADU_NOTHROW;
+	/// find Memory
+	virtual size_type MemoryFind(size_type _Pos, const void* _Memory, size_type _Length) const noexcept;
 
-	/// Find Memory
-	virtual size_type MemoryFind(size_type _Pos, const XAllocator& _Allocator) const XANADU_NOTHROW;
+	/// find Memory
+	virtual size_type MemoryFind(size_type _Pos, const XAllocator& _Allocator) const noexcept;
 
-	/// Reverse Find Memory
-	virtual size_type MemoryReverseFind(size_type _Pos, const void* _Memory, size_type _Length) const XANADU_NOTHROW;
+	/// Reverse find Memory
+	virtual size_type MemoryReverseFind(size_type _Pos, const void* _Memory, size_type _Length) const noexcept;
 
-	/// Reverse Find Memory
-	virtual size_type MemoryReverseFind(size_type _Pos, const XAllocator& _Allocator) const XANADU_NOTHROW;
-
-	/// Replace Memory
-	virtual bool MemoryReplace(size_type _Pos, size_type _Length, const void* _Memory, size_type _Size) XANADU_NOTHROW;
+	/// Reverse find Memory
+	virtual size_type MemoryReverseFind(size_type _Pos, const XAllocator& _Allocator) const noexcept;
 
 	/// Replace Memory
-	virtual bool MemoryReplace(size_type _Pos, size_type _Length, const XAllocator& _Allocator) XANADU_NOTHROW;
+	virtual bool MemoryReplace(size_type _Pos, size_type _Length, const void* _Memory, size_type _Size) noexcept;
+
+	/// Replace Memory
+	virtual bool MemoryReplace(size_type _Pos, size_type _Length, const XAllocator& _Allocator) noexcept;
 
 public:
 	/// Get the address of the memory
-	virtual void* MemoryAddress() XANADU_NOTHROW;
+	virtual void* MemoryAddress() noexcept;
 
 	/// Get the address of the memory
-	virtual const void* MemoryAddress() const XANADU_NOTHROW;
+	virtual const void* MemoryAddress() const noexcept;
 
 	/// Get the length of the memory
-	virtual size_type MemoryLength() const XANADU_NOTHROW;
+	virtual size_type MemoryLength() const noexcept;
 
 	/// Get the capacity of the memory
-	virtual size_type MemoryCapacity() const XANADU_NOTHROW;
+	virtual size_type MemoryCapacity() const noexcept;
 };
 
 #endif /// _XANADU_CORE_ALLOCATOR_H_

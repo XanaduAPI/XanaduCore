@@ -1,18 +1,18 @@
 ﻿#include <XanaduCore/XanaduCoreShell.h>
 #include <XanaduCore/XanaduCoreProcess.h>
 
-XShell::XShell() XANADU_NOTHROW
+XShell::XShell() noexcept
 {
 }
 
-XShell::~XShell() XANADU_NOTHROW
+XShell::~XShell() noexcept
 {
 }
 
 
 
 /// Async run shell
-int64S XShell::Run(const XString& _Shell) XANADU_NOTHROW
+int64S XShell::Run(const XString& _Shell) noexcept
 {
 	XANADU_CHECK_RETURN(_Shell.size(), -1);
 
@@ -24,7 +24,7 @@ int64S XShell::Run(const XString& _Shell) XANADU_NOTHROW
 }
 
 /// Sync run shell
-int64S XShell::Run(const XString& _Shell, std::function<bool(const XString& _Output)> _Lambda) XANADU_NOTHROW
+int64S XShell::Run(const XString& _Shell, std::function<bool(const XString& _Output)> _Lambda) noexcept
 {
 	XANADU_CHECK_RETURN(_Shell.size(), -1);
 
@@ -47,7 +47,7 @@ int64S XShell::Run(const XString& _Shell, std::function<bool(const XString& _Out
 }
 
 /// Native System
-int32S XShell::System(const XString& _Command) XANADU_NOTHROW
+int32S XShell::System(const XString& _Command) noexcept
 {
 	XANADU_CHECK_RETURN(_Command.size(), -1);
 

@@ -14,17 +14,17 @@
 static int64S					_StaticSystemVersion = 0;
 
 //initialize
-XSystem::XSystem() XANADU_NOTHROW
+XSystem::XSystem() noexcept
 {
 }
 
 //release
-XSystem::~XSystem() XANADU_NOTHROW
+XSystem::~XSystem() noexcept
 {
 }
 
 /// The current version of the operating system
-int64S XSystem::SystemVersion() XANADU_NOTHROW
+int64S XSystem::SystemVersion() noexcept
 {
 	if(!_StaticSystemVersion)
 	{
@@ -34,10 +34,11 @@ int64S XSystem::SystemVersion() XANADU_NOTHROW
 		auto		vVersion_2 = static_cast<short>(0);
 		auto		vValue3 = static_cast<short>(0);
 		auto		vIsServer = IsServer();
-		auto		vModule = XLibrary::Open(L"ntdll.dll");
+		auto		vModule = XLibrary::open(L"ntdll.dll");
 		if(vModule)
 		{
-			auto		GetVersionNumbers = (_Function_GetVersionNumbers)XLibrary::Find(vModule, "RtlGetNtVersionNumbers");
+			auto		GetVersionNumbers = (_Function_GetVersionNumbers) XLibrary::find(vModule,
+													     "RtlGetNtVersionNumbers");
 			if(GetVersionNumbers)
 			{
 				GetVersionNumbers(&vVersion_1, &vVersion_2, &vValue3);
@@ -70,7 +71,7 @@ int64S XSystem::SystemVersion() XANADU_NOTHROW
 						break;
 				}
 			}
-			XLibrary::Close(vModule);
+			XLibrary::close(vModule);
 		}
 #endif//XANADU_SYSTEM_WINDOWS
 #ifdef XANADU_SYSTEM_LINUX
@@ -109,7 +110,7 @@ int64S XSystem::SystemVersion() XANADU_NOTHROW
 }
 
 /// The name of the user who is now logged in
-XString XSystem::CurrentUser() XANADU_NOTHROW
+XString XSystem::CurrentUser() noexcept
 {
 #ifdef XANADU_SYSTEM_WINDOWS
 	wchar_t		vUserName[XANADU_SIZE_KB] = { 0 };
@@ -122,7 +123,7 @@ XString XSystem::CurrentUser() XANADU_NOTHROW
 }
 
 /// Computer name
-XString XSystem::HostName() XANADU_NOTHROW
+XString XSystem::HostName() noexcept
 {
 #ifdef XANADU_SYSTEM_WINDOWS
 	wchar_t		vHostName[XANADU_PATH] = { 0 };
@@ -137,7 +138,7 @@ XString XSystem::HostName() XANADU_NOTHROW
 }
 
 /// Gets the directory for the current user
-XString XSystem::UserHome() XANADU_NOTHROW
+XString XSystem::UserHome() noexcept
 {
 #ifdef XANADU_SYSTEM_WINDOWS
 	return XString(L"C:/Users/") + XSystem::CurrentUser();
@@ -151,13 +152,13 @@ XString XSystem::UserHome() XANADU_NOTHROW
 }
 
 /// Whether the operating system is 32-bit
-bool XSystem::IsX86() XANADU_NOTHROW
+bool XSystem::IsX86() noexcept
 {
 	return !XSystem::IsX64();
 }
 
 /// Whether the operating system is 64-bit
-bool XSystem::IsX64() XANADU_NOTHROW
+bool XSystem::IsX64() noexcept
 {
 	static Xanadu::Boolean		vValue64Bit = Xanadu::VALUE_NULL;
 	if(Xanadu::VALUE_NULL == vValue64Bit)
@@ -184,22 +185,23 @@ bool XSystem::IsX64() XANADU_NOTHROW
 }
 
 /// Whether the operating system is a server version
-bool XSystem::IsServer() XANADU_NOTHROW
+bool XSystem::IsServer() noexcept
 {
 	static Xanadu::Boolean		vValueServer = Xanadu::VALUE_NULL;
 	if(Xanadu::VALUE_NULL == vValueServer)
 	{
 #ifdef XANADU_SYSTEM_WINDOWS
 		typedef BOOL(WINAPI* _Function_IsWindowsServer)();
-		auto		vHandle = XLibrary::Open(L"Kernel32.dll");
+		auto		vHandle = XLibrary::open(L"Kernel32.dll");
 		if(vHandle)
 		{
-			auto	vIsWindowsServer = (_Function_IsWindowsServer)XLibrary::Find(vHandle, "IsWindowsServer");
+			auto	vIsWindowsServer = (_Function_IsWindowsServer) XLibrary::find(vHandle,
+												  "IsWindowsServer");
 			if(vIsWindowsServer)
 			{
 				vValueServer = vIsWindowsServer() ? Xanadu::VALUE_TRUE : Xanadu::VALUE_FALSE;
 			}
-			XLibrary::Close(vHandle);
+			XLibrary::close(vHandle);
 		}
 #else
 		vValueServer = Xanadu::VALUE_FALSE;
@@ -209,13 +211,13 @@ bool XSystem::IsServer() XANADU_NOTHROW
 }
 
 /// Whether the operating system is a desktop version
-bool XSystem::IsDesktop() XANADU_NOTHROW
+bool XSystem::IsDesktop() noexcept
 {
 	return !XSystem::IsServer();
 }
 
 /// Native System String
-XString XSystem::NativeString() XANADU_NOTHROW
+XString XSystem::NativeString() noexcept
 {
 	static XString			_StaticNativeString;
 	if (_StaticNativeString.empty())
@@ -358,25 +360,26 @@ XString XSystem::NativeString() XANADU_NOTHROW
 }
 
 /// Native Build Version
-XString XSystem::BuildVersion() XANADU_NOTHROW
+XString XSystem::BuildVersion() noexcept
 {
 #ifdef XANADU_SYSTEM_WINDOWS
 	auto		vBuildVersion = XString();
-	auto		vModule = XLibrary::Open(L"ntdll.dll");
+	auto		vModule = XLibrary::open(L"ntdll.dll");
 	if(vModule)
 	{
 		int16S		vValue1 = 0;
 		int16S		vValue2 = 0;
 		int16S		vValue3 = 0;
 		typedef void(WINAPI* LP_GetVersionNumbers)(int16S*, int16S*, int16S*);
-		LP_GetVersionNumbers	GetVersionNumbers = (LP_GetVersionNumbers)XLibrary::Find(vModule, "RtlGetNtVersionNumbers");
+		LP_GetVersionNumbers	GetVersionNumbers = (LP_GetVersionNumbers) XLibrary::find(vModule,
+												      "RtlGetNtVersionNumbers");
 		if(GetVersionNumbers)
 		{
 			GetVersionNumbers(&vValue1, &vValue2, &vValue3);
 			vBuildVersion = XString::format(L"%d", vValue3);
 
 		}
-		XLibrary::Close(vModule);
+		XLibrary::close(vModule);
 	}
 	return vBuildVersion;
 #endif//XANADU_SYSTEM_WINDOWS
@@ -389,7 +392,7 @@ XString XSystem::BuildVersion() XANADU_NOTHROW
 }
 
 /// The CPUID of the current computer
-XString XSystem::CPUID() XANADU_NOTHROW
+XString XSystem::CPUID() noexcept
 {
 	static wchar_t			_StaticCpuID[XANADU_PATH] = { 0 };
 	if(!Xanadu::wcslen(_StaticCpuID))
@@ -424,7 +427,7 @@ XString XSystem::CPUID() XANADU_NOTHROW
 }
 
 /// The hard disk ID of the current computer
-XString XSystem::DiskID() XANADU_NOTHROW
+XString XSystem::DiskID() noexcept
 {
 	static wchar_t				_StaticDiskID[XANADU_PATH] = { 0 };
 	if(0LL == Xanadu::wcslen(_StaticDiskID))
@@ -491,7 +494,7 @@ XString XSystem::DiskID() XANADU_NOTHROW
 }
 
 /// A string unique to the current computer
-XString XSystem::OnlyString() XANADU_NOTHROW
+XString XSystem::OnlyString() noexcept
 {
 	static XString			_StaticOnlyString;
 	if(_StaticOnlyString.empty())
@@ -526,7 +529,7 @@ XString XSystem::OnlyString() XANADU_NOTHROW
 		vTempOnlyString += XString::format(L"%lld", gethostid());
 #endif /// XANADU_SYSTEM_WINDOWS
 		vTempOnlyString += L"]";
-		_StaticOnlyString = XString::fromBytes(XCryptoHash::hash(vTempOnlyString.toBytes(), XCryptoHash::MD5).toHex().toUpper());
+		_StaticOnlyString = XString::fromBytes(XHash::hash(vTempOnlyString.toBytes(), XHash::MD5).toHex().toUpper());
 	}
 	return _StaticOnlyString;
 }

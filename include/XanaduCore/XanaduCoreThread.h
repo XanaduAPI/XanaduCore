@@ -10,19 +10,19 @@ typedef void(XANADUAPI* _Thread_StartAddress)(void* _Param);
 class XANADU_CORE_EXPORT XThread
 {
 public:
-	XThread() XANADU_NOTHROW;
+	XThread() noexcept;
 
-	virtual ~XThread() XANADU_NOTHROW;
+	virtual ~XThread() noexcept;
 
 public:
 	/// 创建
-	static HANDLE Create(_Thread_StartAddress _Thread, void* _Param) XANADU_NOTHROW;
+	static HANDLE create(_Thread_StartAddress _Thread, void* _Param) noexcept;
 
 	/// 等待
-	static void Wait(HANDLE _Handle) XANADU_NOTHROW;
+	static void wait(HANDLE _Handle) noexcept;
 
 	/// 结束
-	static void Terminate(HANDLE _Handle) XANADU_NOTHROW;
+	static void terminate(HANDLE _Handle) noexcept;
 };
 
 #endif /// _XANADU_CORE_THREAD_H_

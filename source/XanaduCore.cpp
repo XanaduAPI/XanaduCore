@@ -1,11 +1,11 @@
 ﻿#include <XanaduCore/XanaduCore.h>
 
-bool XANADUAPI Xanadu_Core_Initialize() XANADU_NOTHROW
+bool XANADUAPI Xanadu_Core_Initialize() noexcept
 {
 	return true;
 };
 
-void XANADUAPI Xanadu_Core_Release() XANADU_NOTHROW
+void XANADUAPI Xanadu_Core_Release() noexcept
 {
 };
 

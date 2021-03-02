@@ -67,69 +67,69 @@ private:
 
 public:
 	/// Overload Initialize
-	XFileInfo() XANADU_NOTHROW;
+	XFileInfo() noexcept;
 
 	/// Overload Initialize
-	XFileInfo(const XString& _Filepath) XANADU_NOTHROW;
+	XFileInfo(const XString& _Filepath) noexcept;
 
 	/// Overload Initialize
-	XFileInfo(const XFileInfo& _Fileinfo) XANADU_NOTHROW;
+	XFileInfo(const XFileInfo& _Fileinfo) noexcept;
 
 	/// Virtual destructor
-	virtual ~XFileInfo() XANADU_NOTHROW;
+	virtual ~XFileInfo() noexcept;
 
 public:
 	/// Overload Operator =
-	virtual XFileInfo& operator = (const XString& _Filepath) XANADU_NOTHROW;
+	virtual XFileInfo& operator = (const XString& _Filepath) noexcept;
 
 	/// Overload Operator =
-	virtual XFileInfo& operator = (const XFileInfo& _Fileinfo) XANADU_NOTHROW;
+	virtual XFileInfo& operator = (const XFileInfo& _Fileinfo) noexcept;
 
 	/// move assignment
-	virtual XFileInfo& operator = (XFileInfo&& _Fileinfo) XANADU_NOTHROW;
+	virtual XFileInfo& operator = (XFileInfo&& _Fileinfo) noexcept;
 
 public:
 	/// Convert to an absolute path
-	static XString ToAbsolutePath(const XString& _Filepath) XANADU_NOTHROW;
+	static XString ToAbsolutePath(const XString& _Filepath) noexcept;
 
 	/// Convert to an relative path
-	static XString ToRelativePath(const XString& _Filepath) XANADU_NOTHROW;
+	static XString ToRelativePath(const XString& _Filepath) noexcept;
 
 public:
 	/// Check if the file exists
-	virtual bool exists() const XANADU_NOTHROW;
+	virtual bool exists() const noexcept;
 
-	virtual XString filePath() const XANADU_NOTHROW;
+	virtual XString filePath() const noexcept;
 
-	virtual XString absoluteFilePath() const XANADU_NOTHROW;
+	virtual XString absoluteFilePath() const noexcept;
 
-	virtual XString fileName() const XANADU_NOTHROW;
+	virtual XString fileName() const noexcept;
 
-	virtual XString baseName() const XANADU_NOTHROW;
+	virtual XString baseName() const noexcept;
 
-	virtual XString completeBaseName() const XANADU_NOTHROW;
+	virtual XString completeBaseName() const noexcept;
 
-	virtual XString suffix() const XANADU_NOTHROW;
+	virtual XString suffix() const noexcept;
 
-	virtual XString completeSuffix() const XANADU_NOTHROW;
+	virtual XString completeSuffix() const noexcept;
 
-	virtual XString path() const XANADU_NOTHROW;
+	virtual XString path() const noexcept;
 
-	virtual XString absolutePath() const XANADU_NOTHROW;
+	virtual XString absolutePath() const noexcept;
 
-	virtual XString dir() const XANADU_NOTHROW;
+	virtual XString dir() const noexcept;
 
-	virtual XString absoluteDir() const XANADU_NOTHROW;
+	virtual XString absoluteDir() const noexcept;
 
-	virtual bool isFile() const XANADU_NOTHROW;
+	virtual bool isFile() const noexcept;
 
-	virtual bool isDir() const XANADU_NOTHROW;
+	virtual bool isDir() const noexcept;
 
-	virtual int64S size() const XANADU_NOTHROW;
+	virtual int64S size() const noexcept;
 
 public:
 	/// Check if the file exists
-	static bool exists(const XString& _Filepath) XANADU_NOTHROW;
+	static bool exists(const XString& _Filepath) noexcept;
 };
 
 #endif /// _XANADU_CORE_FILEINFO_H_

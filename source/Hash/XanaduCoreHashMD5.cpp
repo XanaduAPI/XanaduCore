@@ -168,7 +168,7 @@ static const void* body(XANADU_CORE_MD5_CONTEXT* _Context, const void* _Data, un
 	return ptr;
 }
 
-XANADU_CORE_EXPORT void XANADUAPI Xanadu::MD5_Init(XANADU_CORE_MD5_CONTEXT* _Context) XANADU_NOTHROW
+XANADU_CORE_EXPORT void XANADUAPI Xanadu::MD5_Init(XANADU_CORE_MD5_CONTEXT* _Context) noexcept
 {
 	_Context->a = 0x67452301;
 	_Context->b = 0xefcdab89;
@@ -179,7 +179,7 @@ XANADU_CORE_EXPORT void XANADUAPI Xanadu::MD5_Init(XANADU_CORE_MD5_CONTEXT* _Con
 	_Context->hi = 0;
 }
 
-XANADU_CORE_EXPORT void XANADUAPI Xanadu::MD5_Update(XANADU_CORE_MD5_CONTEXT* _Context, const void* _Data, int64U _Size) XANADU_NOTHROW
+XANADU_CORE_EXPORT void XANADUAPI Xanadu::MD5_Update(XANADU_CORE_MD5_CONTEXT* _Context, const void* _Data, int64U _Size) noexcept
 {
 	auto 		saved_lo = static_cast<int32U>(0U);
 	auto 		used = static_cast<int64U>(0U);
@@ -225,7 +225,7 @@ XANADU_CORE_EXPORT void XANADUAPI Xanadu::MD5_Update(XANADU_CORE_MD5_CONTEXT* _C
 	(dst)[2] = (unsigned char)((src) >> 16); \
 	(dst)[3] = (unsigned char)((src) >> 24);
 
-XANADU_CORE_EXPORT void XANADUAPI Xanadu::MD5_Final(unsigned char* _Result, XANADU_CORE_MD5_CONTEXT* _Context) XANADU_NOTHROW
+XANADU_CORE_EXPORT void XANADUAPI Xanadu::MD5_Final(unsigned char* _Result, XANADU_CORE_MD5_CONTEXT* _Context) noexcept
 {
 	unsigned long used, available;
 

@@ -17,40 +17,40 @@ private:
 	int64U					_time_millisecond;
 
 public:
-	XDateTime() XANADU_NOTHROW;
+	XDateTime() noexcept;
 
-	virtual ~XDateTime() XANADU_NOTHROW;
+	virtual ~XDateTime() noexcept;
 
 public:
 	/// UTC Second
-	static int64U CurrentSecond() XANADU_NOTHROW;
+	static int64U CurrentSecond() noexcept;
 
 	/// UTC Millisecond
-	static int64U CurrentMillisecond() XANADU_NOTHROW;
+	static int64U CurrentMillisecond() noexcept;
 
 public:
 	/// Second To String (1970-01-01 08:00:00)
-	static XString SecondToString(int64U _Second) XANADU_NOTHROW;
+	static XString SecondToString(int64U _Second) noexcept;
 
 	/// Millisecond To String (1970-01-01 08:00:00.000)
-	static XString MillisecondToString(int64U _Millisecond) XANADU_NOTHROW;
+	static XString MillisecondToString(int64U _Millisecond) noexcept;
 
 	/// Current To String (1970-01-01 08:00:00.000)
-	static XString CurrentToString() XANADU_NOTHROW;
+	static XString CurrentToString() noexcept;
 
 public:
 	/// format
-	static XDateTime FormSecond(int64U _Second) XANADU_NOTHROW;
+	static XDateTime FormSecond(int64U _Second) noexcept;
 
 	/// format
-	static XDateTime FormMillisecond(int64U _Millisecond) XANADU_NOTHROW;
+	static XDateTime FormMillisecond(int64U _Millisecond) noexcept;
 
 public:
 	/// 高精度计时开始
-	static HANDLE HighPrecisionStart() XANADU_NOTHROW;
+	static HANDLE HighPrecisionStart() noexcept;
 
 	/// 高精度计时结束
-	static int64U HighPrecisionStop(HANDLE _Handle) XANADU_NOTHROW;
+	static int64U HighPrecisionStop(HANDLE _Handle) noexcept;
 };
 
 #endif /// _XANADU_CORE_DATETIME_H_

@@ -4,20 +4,20 @@
 #include <XanaduCore/XanaduCoreHeader.h>
 #include <XanaduCore/XanaduCoreString.h>
 
-//Xanadu Class Library
+/// Xanadu Class Library
 class XANADU_CORE_EXPORT XLibrary
 {
 public:
-	XLibrary() XANADU_NOTHROW;
+	XLibrary() noexcept;
 
-	virtual ~XLibrary() XANADU_NOTHROW;
+	virtual ~XLibrary() noexcept;
 
 public:
-	static HANDLE Open(const XString& _Dynamic) XANADU_NOTHROW;
+	static HANDLE open(const XString& _Dynamic) noexcept;
 
-	static void* Find(HANDLE _Handle, const NString& _Function) XANADU_NOTHROW;
+	static void* find(HANDLE _Handle, const NString& _Function) noexcept;
 
-	static void Close(HANDLE _Handle) XANADU_NOTHROW;
+	static void close(HANDLE _Handle) noexcept;
 };
 
 #endif /// _XANADU_CORE_LIBRARY_H_

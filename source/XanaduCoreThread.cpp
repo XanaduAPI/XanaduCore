@@ -35,16 +35,16 @@ void* Thread_Function_Macos(void* _Param)
 	return _Param;
 }
 
-XThread::XThread() XANADU_NOTHROW
+XThread::XThread() noexcept
 {
 }
 
-XThread::~XThread() XANADU_NOTHROW
+XThread::~XThread() noexcept
 {
 }
 
 /// 创建
-HANDLE XThread::Create(_Thread_StartAddress _Thread, void* _Param) XANADU_NOTHROW
+HANDLE XThread::create(_Thread_StartAddress _Thread, void* _Param) noexcept
 {
 	XANADU_CHECK_RETURN(_Thread, nullptr);
 	auto		vRunning = XANADU_NEW PlatformThreadRunning();
@@ -77,7 +77,7 @@ HANDLE XThread::Create(_Thread_StartAddress _Thread, void* _Param) XANADU_NOTHRO
 }
 
 /// 等待
-void XThread::Wait(HANDLE _Handle) XANADU_NOTHROW
+void XThread::wait(HANDLE _Handle) noexcept
 {
 #ifdef XANADU_SYSTEM_WINDOWS
 	::WaitForSingleObject(_Handle, INFINITE);
@@ -88,7 +88,7 @@ void XThread::Wait(HANDLE _Handle) XANADU_NOTHROW
 }
 
 /// 结束
-void XThread::Terminate(HANDLE _Handle) XANADU_NOTHROW
+void XThread::terminate(HANDLE _Handle) noexcept
 {
 #ifdef XANADU_SYSTEM_WINDOWS
 	::TerminateThread(_Handle, 4);

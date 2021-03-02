@@ -16,66 +16,66 @@ private:
 
 public:
 	/// Overload Initialize
-	XSetting() XANADU_NOTHROW;
+	XSetting() noexcept;
 
 	/// Overload Initialize
-	XSetting(const XSetting& _Setting) XANADU_NOTHROW;
+	XSetting(const XSetting& _Setting) noexcept;
 
 	/// Virtual destructor
-	virtual ~XSetting() XANADU_NOTHROW;
+	virtual ~XSetting() noexcept;
 
 public:
 	/// Overload Operator =
-	XSetting& operator = (const XSetting& _Setting) XANADU_NOTHROW;
+	XSetting& operator = (const XSetting& _Setting) noexcept;
 
 private:
-	virtual void _clear() XANADU_NOTHROW;
+	virtual void _clear() noexcept;
 
-	virtual void _copy(const XSetting& _Setting) XANADU_NOTHROW;
+	virtual void _copy(const XSetting& _Setting) noexcept;
 
-	virtual XSettingPrivate* _format(const XByteArray& _Bytes) const XANADU_NOTHROW;
+	virtual XSettingPrivate* _format(const XByteArray& _Bytes) const noexcept;
 
-	virtual void _append(XSettingPrivate* _Node) XANADU_NOTHROW;
+	virtual void _append(XSettingPrivate* _Node) noexcept;
 
-	virtual XSettingPrivate* _find(const XString& _Section, const XString& _Key) const XANADU_NOTHROW;
+	virtual XSettingPrivate* _find(const XString& _Section, const XString& _Key) const noexcept;
 
-	virtual void _remove(XSettingPrivate* _Node) XANADU_NOTHROW;
+	virtual void _remove(XSettingPrivate* _Node) noexcept;
 
-	virtual XSettingPrivate* _section_end(const XString& _Section) XANADU_NOTHROW;
+	virtual XSettingPrivate* _section_end(const XString& _Section) noexcept;
 
 private:
-	virtual XByteArray _section(const XSettingPrivate* _Node) const XANADU_NOTHROW;
+	virtual XByteArray _section(const XSettingPrivate* _Node) const noexcept;
 
-	virtual XByteArray _left(const XSettingPrivate* _Node) const XANADU_NOTHROW;
+	virtual XByteArray _left(const XSettingPrivate* _Node) const noexcept;
 
-	virtual XByteArray _right(const XSettingPrivate* _Node) const XANADU_NOTHROW;
+	virtual XByteArray _right(const XSettingPrivate* _Node) const noexcept;
 
 public:
 	///加载
-	virtual bool Load(const XString& _File) XANADU_NOTHROW;
+	virtual bool Load(const XString& _File) noexcept;
 
 	/// 保存
-	virtual bool Save(const XString& _File) const XANADU_NOTHROW;
+	virtual bool Save(const XString& _File) const noexcept;
 
 public:
 	/// 增
-	virtual bool Append(const XString& _Section, const XString& _Key, const XVariant& _Value) XANADU_NOTHROW;
+	virtual bool Append(const XString& _Section, const XString& _Key, const XVariant& _Value) noexcept;
 
 	/// 删
-	virtual bool Remove(const XString& _Section, const XString& _Key) XANADU_NOTHROW;
+	virtual bool Remove(const XString& _Section, const XString& _Key) noexcept;
 
 	/// 改
-	virtual bool Modify(const XString& _Section, const XString& _Key, const XVariant& _Value) XANADU_NOTHROW;
+	virtual bool Modify(const XString& _Section, const XString& _Key, const XVariant& _Value) noexcept;
 
 	/// 查
-	virtual XVariant Select(const XString& _Section, const XString& _Key, const XVariant& _Default = XVariant()) const XANADU_NOTHROW;
+	virtual XVariant Select(const XString& _Section, const XString& _Key, const XVariant& _Default = XVariant()) const noexcept;
 
 public:
 	/// 写入
-	static bool Write(const XString& _File, const XString& _Section, const XString& _Key, const XVariant& _Value) XANADU_NOTHROW;
+	static bool Write(const XString& _File, const XString& _Section, const XString& _Key, const XVariant& _Value) noexcept;
 
 	/// 读取
-	static XVariant Read(const XString& _File, const XString& _Section, const XString& _Key, const XVariant& _Default = XVariant()) XANADU_NOTHROW;
+	static XVariant Read(const XString& _File, const XString& _Section, const XString& _Key, const XVariant& _Default = XVariant()) noexcept;
 };
 
 #endif /// _XANADU_CORE_SETTING_H_

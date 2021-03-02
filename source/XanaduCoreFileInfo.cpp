@@ -11,7 +11,7 @@ public:
 
 
 /// Overload Initialize
-XFileInfo::XFileInfo() XANADU_NOTHROW
+XFileInfo::XFileInfo() noexcept
 {
 	this->_Info = XANADU_NEW XFileInfoPrivate();
 	this->_Info->_SourcePath = L"";
@@ -19,7 +19,7 @@ XFileInfo::XFileInfo() XANADU_NOTHROW
 }
 
 /// Overload Initialize
-XFileInfo::XFileInfo(const XString& _Filepath) XANADU_NOTHROW
+XFileInfo::XFileInfo(const XString& _Filepath) noexcept
 {
 	this->_Info = XANADU_NEW XFileInfoPrivate();
 	this->_Info->_SourcePath = _Filepath;
@@ -27,7 +27,7 @@ XFileInfo::XFileInfo(const XString& _Filepath) XANADU_NOTHROW
 }
 
 /// Overload Initialize
-XFileInfo::XFileInfo(const XFileInfo& _Fileinfo) XANADU_NOTHROW
+XFileInfo::XFileInfo(const XFileInfo& _Fileinfo) noexcept
 {
 	this->_Info = XANADU_NEW XFileInfoPrivate();
 	this->_Info->_SourcePath = _Fileinfo._Info->_SourcePath;
@@ -35,7 +35,7 @@ XFileInfo::XFileInfo(const XFileInfo& _Fileinfo) XANADU_NOTHROW
 }
 
 /// Virtual destructor
-XFileInfo::~XFileInfo() XANADU_NOTHROW
+XFileInfo::~XFileInfo() noexcept
 {
 	XANADU_DELETE_PTR(this->_Info);
 }
@@ -44,7 +44,7 @@ XFileInfo::~XFileInfo() XANADU_NOTHROW
 
 
 /// Overload Operator =
-XFileInfo& XFileInfo::operator = (const XString& _Filepath) XANADU_NOTHROW
+XFileInfo& XFileInfo::operator = (const XString& _Filepath) noexcept
 {
 	this->_Info->_SourcePath = _Filepath;
 	this->_Info->_AbsolutePath = XFileInfo::ToAbsolutePath(_Filepath);
@@ -52,7 +52,7 @@ XFileInfo& XFileInfo::operator = (const XString& _Filepath) XANADU_NOTHROW
 }
 
 /// Overload Operator =
-XFileInfo& XFileInfo::operator = (const XFileInfo& _Fileinfo) XANADU_NOTHROW
+XFileInfo& XFileInfo::operator = (const XFileInfo& _Fileinfo) noexcept
 {
 	this->_Info->_SourcePath = _Fileinfo._Info->_SourcePath;
 	this->_Info->_AbsolutePath = _Fileinfo._Info->_AbsolutePath;
@@ -60,7 +60,7 @@ XFileInfo& XFileInfo::operator = (const XFileInfo& _Fileinfo) XANADU_NOTHROW
 }
 
 /// move assignment
-XFileInfo& XFileInfo::operator = (XFileInfo&& _Fileinfo) XANADU_NOTHROW
+XFileInfo& XFileInfo::operator = (XFileInfo&& _Fileinfo) noexcept
 {
 	XANADU_DELETE_PTR(this->_Info);
 	this->_Info = _Fileinfo._Info;
@@ -74,7 +74,7 @@ XFileInfo& XFileInfo::operator = (XFileInfo&& _Fileinfo) XANADU_NOTHROW
 
 
 /// Convert to an absolute path
-XString XFileInfo::ToAbsolutePath(const XString& _Filepath) XANADU_NOTHROW
+XString XFileInfo::ToAbsolutePath(const XString& _Filepath) noexcept
 {
 	auto		vFilepath = _Filepath;
 	vFilepath.replace(L'\\', L'/');
@@ -110,7 +110,7 @@ XString XFileInfo::ToAbsolutePath(const XString& _Filepath) XANADU_NOTHROW
 }
 
 /// Convert to an relative path
-XString XFileInfo::ToRelativePath(const XString& _Filepath) XANADU_NOTHROW
+XString XFileInfo::ToRelativePath(const XString& _Filepath) noexcept
 {
 	return _Filepath;
 }
@@ -121,22 +121,22 @@ XString XFileInfo::ToRelativePath(const XString& _Filepath) XANADU_NOTHROW
 
 
 /// Check if the file exists
-bool XFileInfo::exists() const XANADU_NOTHROW
+bool XFileInfo::exists() const noexcept
 {
 	return 0 == Xanadu::waccess(this->_Info->_AbsolutePath.data(), F_OK);
 }
 
-XString XFileInfo::filePath() const XANADU_NOTHROW
+XString XFileInfo::filePath() const noexcept
 {
 	return this->_Info->_AbsolutePath;
 }
 
-XString XFileInfo::absoluteFilePath() const XANADU_NOTHROW
+XString XFileInfo::absoluteFilePath() const noexcept
 {
 	return this->_Info->_AbsolutePath;
 }
 
-XString XFileInfo::fileName() const XANADU_NOTHROW
+XString XFileInfo::fileName() const noexcept
 {
 	auto		vPos = this->_Info->_AbsolutePath.rfind(L'/');
 	if (vPos != XString::npos)
@@ -146,7 +146,7 @@ XString XFileInfo::fileName() const XANADU_NOTHROW
 	return L"";
 }
 
-XString XFileInfo::baseName() const XANADU_NOTHROW
+XString XFileInfo::baseName() const noexcept
 {
 	auto		vFilename = this->fileName();
 	auto		vPos = vFilename.find(L'.');
@@ -157,7 +157,7 @@ XString XFileInfo::baseName() const XANADU_NOTHROW
 	return vFilename;
 }
 
-XString XFileInfo::completeBaseName() const XANADU_NOTHROW
+XString XFileInfo::completeBaseName() const noexcept
 {
 	auto		vFilename = this->fileName();
 	auto		vPos = vFilename.rfind(L'.');
@@ -168,7 +168,7 @@ XString XFileInfo::completeBaseName() const XANADU_NOTHROW
 	return vFilename;
 }
 
-XString XFileInfo::suffix() const XANADU_NOTHROW
+XString XFileInfo::suffix() const noexcept
 {
 	if (this->isFile())
 	{
@@ -183,7 +183,7 @@ XString XFileInfo::suffix() const XANADU_NOTHROW
 	return L"";
 }
 
-XString XFileInfo::completeSuffix() const XANADU_NOTHROW
+XString XFileInfo::completeSuffix() const noexcept
 {
 	if (this->isFile())
 	{
@@ -198,12 +198,12 @@ XString XFileInfo::completeSuffix() const XANADU_NOTHROW
 	return L"";
 }
 
-XString XFileInfo::path() const XANADU_NOTHROW
+XString XFileInfo::path() const noexcept
 {
 	return this->absolutePath();
 }
 
-XString XFileInfo::absolutePath() const XANADU_NOTHROW
+XString XFileInfo::absolutePath() const noexcept
 {
 	if(false == this->_Info->_SourcePath.empty())
 	{
@@ -216,12 +216,12 @@ XString XFileInfo::absolutePath() const XANADU_NOTHROW
 	return this->absoluteDir();
 }
 
-XString XFileInfo::dir() const XANADU_NOTHROW
+XString XFileInfo::dir() const noexcept
 {
 	return this->absoluteDir();
 }
 
-XString XFileInfo::absoluteDir() const XANADU_NOTHROW
+XString XFileInfo::absoluteDir() const noexcept
 {
 	auto		vPos = this->_Info->_AbsolutePath.rfind(L'/');
 	if (vPos != XString::npos)
@@ -231,12 +231,12 @@ XString XFileInfo::absoluteDir() const XANADU_NOTHROW
 	return L"";
 }
 
-bool XFileInfo::isFile() const XANADU_NOTHROW
+bool XFileInfo::isFile() const noexcept
 {
 	return !this->isDir();
 }
 
-bool XFileInfo::isDir() const XANADU_NOTHROW
+bool XFileInfo::isDir() const noexcept
 {
 #ifdef XANADU_SYSTEM_WINDOWS
 	if(::GetFileAttributesW(this->_Info->_AbsolutePath.data()) & FILE_ATTRIBUTE_DIRECTORY)
@@ -254,7 +254,7 @@ bool XFileInfo::isDir() const XANADU_NOTHROW
 	return false;
 }
 
-int64S XFileInfo::size() const XANADU_NOTHROW
+int64S XFileInfo::size() const noexcept
 {
 #ifdef XANADU_SYSTEM_WINDOWS
 	struct _stat64	vFileStatus;
@@ -279,7 +279,7 @@ int64S XFileInfo::size() const XANADU_NOTHROW
 
 
 /// Check if the file exists
-bool XFileInfo::exists(const XString& _Filepath) XANADU_NOTHROW
+bool XFileInfo::exists(const XString& _Filepath) noexcept
 {
 	auto		vFileInfo = XFileInfo(_Filepath);
 	return vFileInfo.exists();

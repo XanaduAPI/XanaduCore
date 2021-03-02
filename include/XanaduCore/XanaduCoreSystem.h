@@ -45,49 +45,49 @@
 class XANADU_CORE_EXPORT XSystem
 {
 public:
-	XSystem() XANADU_NOTHROW;
+	XSystem() noexcept;
 
-	virtual ~XSystem() XANADU_NOTHROW;
+	virtual ~XSystem() noexcept;
 
 public:
 	/// The current version of the operating system
-	static int64S SystemVersion() XANADU_NOTHROW;
+	static int64S SystemVersion() noexcept;
 
 	/// The name of the user who is now logged in
-	static XString CurrentUser() XANADU_NOTHROW;
+	static XString CurrentUser() noexcept;
 
 	/// Computer name
-	static XString HostName() XANADU_NOTHROW;
+	static XString HostName() noexcept;
 
 	/// Gets the directory for the current user
-	static XString UserHome() XANADU_NOTHROW;
+	static XString UserHome() noexcept;
 
 	/// Whether the operating system is 32-bit
-	static bool IsX86() XANADU_NOTHROW;
+	static bool IsX86() noexcept;
 
 	/// Whether the operating system is 64-bit
-	static bool IsX64() XANADU_NOTHROW;
+	static bool IsX64() noexcept;
 
 	/// Whether the operating system is a server version
-	static bool IsServer() XANADU_NOTHROW;
+	static bool IsServer() noexcept;
 
 	/// Whether the operating system is a desktop version
-	static bool IsDesktop() XANADU_NOTHROW;
+	static bool IsDesktop() noexcept;
 
 	/// Native System String
-	static XString NativeString() XANADU_NOTHROW;
+	static XString NativeString() noexcept;
 
 	/// Native Build Version
-	static XString BuildVersion() XANADU_NOTHROW;
+	static XString BuildVersion() noexcept;
 
 	/// The CPUID of the current computer
-	static XString CPUID() XANADU_NOTHROW;
+	static XString CPUID() noexcept;
 
 	/// The hard disk ID of the current computer
-	static XString DiskID() XANADU_NOTHROW;
+	static XString DiskID() noexcept;
 
 	/// A string unique to the current computer
-	static XString OnlyString() XANADU_NOTHROW;
+	static XString OnlyString() noexcept;
 };
 
 #endif /// _XANADU_CORE_SYSTEM_H_

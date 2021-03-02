@@ -21,38 +21,38 @@ char* XanaduAllocatorMallocMemory(XAllocator::size_type _Size)
 }
 
 /// Constructors
-XAllocator::XAllocator() XANADU_NOTHROW
+XAllocator::XAllocator() noexcept
 {
 	MemoryAllocator(0);
 }
 
 /// Constructors
-XAllocator::XAllocator(size_type _Length) XANADU_NOTHROW
+XAllocator::XAllocator(size_type _Length) noexcept
 {
 	MemoryAllocator(_Length);
 }
 
 /// Constructors
-XAllocator::XAllocator(size_type _Length, char _Char) XANADU_NOTHROW
+XAllocator::XAllocator(size_type _Length, char _Char) noexcept
 {
 	MemoryAllocator(_Length);
 	Xanadu::memset(this->_memory_address, _Char, this->_memory_length);
 }
 
 /// Constructors
-XAllocator::XAllocator(const void* _Memory, size_type _Length) XANADU_NOTHROW
+XAllocator::XAllocator(const void* _Memory, size_type _Length) noexcept
 {
 	MemoryAllocator(_Memory, _Length);
 }
 
 /// Constructors
-XAllocator::XAllocator(const XAllocator& _Allocator) XANADU_NOTHROW
+XAllocator::XAllocator(const XAllocator& _Allocator) noexcept
 {
 	MemoryAllocator(_Allocator._memory_address, _Allocator._memory_length);
 }
 
 /// Destructor
-XAllocator::~XAllocator() XANADU_NOTHROW
+XAllocator::~XAllocator() noexcept
 {
 	XANADU_ALLOCATOR_DELETE(this->_memory_address);
 	this->_memory_length = 0;
@@ -62,14 +62,14 @@ XAllocator::~XAllocator() XANADU_NOTHROW
 
 
 /// operator overload =
-XAllocator& XAllocator::operator = (const XAllocator& _Allocator) XANADU_NOTHROW
+XAllocator& XAllocator::operator = (const XAllocator& _Allocator) noexcept
 {
 	this->MemoryCopy(_Allocator);
 	return *this;
 }
 
 /// operator overload +
-XAllocator XAllocator::operator + (const XAllocator& _Allocator) XANADU_NOTHROW
+XAllocator XAllocator::operator + (const XAllocator& _Allocator) noexcept
 {
 	auto		vResult = *this;
 	vResult.MemoryAppend(_Allocator);
@@ -77,7 +77,7 @@ XAllocator XAllocator::operator + (const XAllocator& _Allocator) XANADU_NOTHROW
 }
 
 /// operator overload +=
-XAllocator& XAllocator::operator += (const XAllocator& _Allocator) XANADU_NOTHROW
+XAllocator& XAllocator::operator += (const XAllocator& _Allocator) noexcept
 {
 	this->MemoryAppend(_Allocator);
 	return *this;
@@ -88,7 +88,7 @@ XAllocator& XAllocator::operator += (const XAllocator& _Allocator) XANADU_NOTHRO
 
 
 /// Fix Pos
-XAllocator::size_type XAllocator::MemoryPosFix(size_type _Pos) const XANADU_NOTHROW
+XAllocator::size_type XAllocator::MemoryPosFix(size_type _Pos) const noexcept
 {
 	if (_Pos == XAllocator::npos)
 	{
@@ -102,13 +102,13 @@ XAllocator::size_type XAllocator::MemoryPosFix(size_type _Pos) const XANADU_NOTH
 }
 
 /// Check for null values
-bool XAllocator::MemoryIsEmpty() const XANADU_NOTHROW
+bool XAllocator::MemoryIsEmpty() const noexcept
 {
 	return this->_memory_length <= 0;
 }
 
 /// Check if there is a value
-bool XAllocator::MemoryIsExist() const XANADU_NOTHROW
+bool XAllocator::MemoryIsExist() const noexcept
 {
 	return this->_memory_length > 0;
 }
@@ -120,7 +120,7 @@ bool XAllocator::MemoryIsExist() const XANADU_NOTHROW
 
 
 /// Allocator memory
-bool XAllocator::MemoryAllocator(size_type _Length) XANADU_NOTHROW
+bool XAllocator::MemoryAllocator(size_type _Length) noexcept
 {
 	XANADU_ALLOCATOR_DELETE(this->_memory_address);
 
@@ -143,7 +143,7 @@ bool XAllocator::MemoryAllocator(size_type _Length) XANADU_NOTHROW
 }
 
 /// Allocator memory
-bool XAllocator::MemoryAllocator(const void* _Memory, size_type _Length) XANADU_NOTHROW
+bool XAllocator::MemoryAllocator(const void* _Memory, size_type _Length) noexcept
 {
 	if(this->MemoryAllocator(_Length))
 	{
@@ -158,7 +158,7 @@ bool XAllocator::MemoryAllocator(const void* _Memory, size_type _Length) XANADU_
 }
 
 /// Release memory
-void XAllocator::MemoryRelease() XANADU_NOTHROW
+void XAllocator::MemoryRelease() noexcept
 {
 	XANADU_ALLOCATOR_DELETE(this->_memory_address);
 	this->_memory_length = 0;
@@ -167,7 +167,7 @@ void XAllocator::MemoryRelease() XANADU_NOTHROW
 }
 
 /// Append memory
-bool XAllocator::MemoryAppend(size_type _Length) XANADU_NOTHROW
+bool XAllocator::MemoryAppend(size_type _Length) noexcept
 {
 	XANADU_CHECK_RETURN(_Length > 0, false);
 
@@ -197,7 +197,7 @@ bool XAllocator::MemoryAppend(size_type _Length) XANADU_NOTHROW
 }
 
 /// Append memory
-bool XAllocator::MemoryAppend(size_type _Length, char _Char) XANADU_NOTHROW
+bool XAllocator::MemoryAppend(size_type _Length, char _Char) noexcept
 {
 	XANADU_CHECK_RETURN(_Length > 0, false);
 
@@ -213,7 +213,7 @@ bool XAllocator::MemoryAppend(size_type _Length, char _Char) XANADU_NOTHROW
 }
 
 /// Append memory
-bool XAllocator::MemoryAppend(const void* _Memory, size_type _Length) XANADU_NOTHROW
+bool XAllocator::MemoryAppend(const void* _Memory, size_type _Length) noexcept
 {
 	XANADU_CHECK_RETURN(_Memory, false);
 	XANADU_CHECK_RETURN(_Length > 0, false);
@@ -230,13 +230,13 @@ bool XAllocator::MemoryAppend(const void* _Memory, size_type _Length) XANADU_NOT
 }
 
 /// Append memory
-bool XAllocator::MemoryAppend(const XAllocator& _Allocator) XANADU_NOTHROW
+bool XAllocator::MemoryAppend(const XAllocator& _Allocator) noexcept
 {
 	return this->MemoryAppend(_Allocator._memory_address, _Allocator._memory_length);
 }
 
 /// Reduce memory
-bool XAllocator::MemoryReduce(size_type _Length) XANADU_NOTHROW
+bool XAllocator::MemoryReduce(size_type _Length) noexcept
 {
 	XANADU_CHECK_RETURN(_Length > 0, false);
 
@@ -266,7 +266,7 @@ bool XAllocator::MemoryReduce(size_type _Length) XANADU_NOTHROW
 }
 
 /// Resize memory
-bool XAllocator::MemoryResize(size_type _Length) XANADU_NOTHROW
+bool XAllocator::MemoryResize(size_type _Length) noexcept
 {
 	if (_Length > this->_memory_length)
 	{
@@ -283,7 +283,7 @@ bool XAllocator::MemoryResize(size_type _Length) XANADU_NOTHROW
 }
 
 /// truncate memory
-void XAllocator::MemoryTruncate(size_type _Pos) XANADU_NOTHROW
+void XAllocator::MemoryTruncate(size_type _Pos) noexcept
 {
 	if (_Pos < this->_memory_length)
 	{
@@ -292,7 +292,7 @@ void XAllocator::MemoryTruncate(size_type _Pos) XANADU_NOTHROW
 }
 
 /// Insert memory
-bool XAllocator::MemoryInsert(size_type _Pos, size_type _Length) XANADU_NOTHROW
+bool XAllocator::MemoryInsert(size_type _Pos, size_type _Length) noexcept
 {
 	XANADU_CHECK_RETURN(_Length > 0, false);
 
@@ -325,7 +325,7 @@ bool XAllocator::MemoryInsert(size_type _Pos, size_type _Length) XANADU_NOTHROW
 }
 
 /// Insert memory
-bool XAllocator::MemoryInsert(size_type _Pos, const void* _Memory, size_type _Length) XANADU_NOTHROW
+bool XAllocator::MemoryInsert(size_type _Pos, const void* _Memory, size_type _Length) noexcept
 {
 	XANADU_CHECK_RETURN(_Length > 0, false);
 
@@ -342,7 +342,7 @@ bool XAllocator::MemoryInsert(size_type _Pos, const void* _Memory, size_type _Le
 }
 
 /// Remove memory
-bool XAllocator::MemoryRemove(size_type _Pos, size_type _Length) XANADU_NOTHROW
+bool XAllocator::MemoryRemove(size_type _Pos, size_type _Length) noexcept
 {
 	XANADU_CHECK_RETURN(_Length > 0, false);
 
@@ -373,7 +373,7 @@ bool XAllocator::MemoryRemove(size_type _Pos, size_type _Length) XANADU_NOTHROW
 }
 
 /// Copy Memory
-bool XAllocator::MemoryCopy(const void* _Memory, size_type _Length) XANADU_NOTHROW
+bool XAllocator::MemoryCopy(const void* _Memory, size_type _Length) noexcept
 {
 	this->MemoryRelease();
 
@@ -383,13 +383,13 @@ bool XAllocator::MemoryCopy(const void* _Memory, size_type _Length) XANADU_NOTHR
 }
 
 /// Copy Memory
-bool XAllocator::MemoryCopy(const XAllocator& _Allocator) XANADU_NOTHROW
+bool XAllocator::MemoryCopy(const XAllocator& _Allocator) noexcept
 {
 	return this->MemoryCopy(_Allocator._memory_address, _Allocator._memory_length);
 }
 
 /// Move Memory
-bool XAllocator::MemoryMove(XAllocator& _Allocator) XANADU_NOTHROW
+bool XAllocator::MemoryMove(XAllocator& _Allocator) noexcept
 {
 	XANADU_ALLOCATOR_DELETE(this->_memory_address);
 
@@ -404,8 +404,8 @@ bool XAllocator::MemoryMove(XAllocator& _Allocator) XANADU_NOTHROW
 	return true;
 }
 
-/// Find Memory
-XAllocator::size_type XAllocator::MemoryFind(size_type _Pos, const void* _Memory, size_type _Length) const XANADU_NOTHROW
+/// find Memory
+XAllocator::size_type XAllocator::MemoryFind(size_type _Pos, const void* _Memory, size_type _Length) const noexcept
 {
 	_Pos = this->MemoryPosFix(_Pos);
 	auto		vPos = XAllocator::npos;
@@ -438,15 +438,15 @@ XAllocator::size_type XAllocator::MemoryFind(size_type _Pos, const void* _Memory
 	return vPos;
 }
 
-/// Find Memory
-XAllocator::size_type XAllocator::MemoryFind(size_type _Pos, const XAllocator& _Allocator) const XANADU_NOTHROW
+/// find Memory
+XAllocator::size_type XAllocator::MemoryFind(size_type _Pos, const XAllocator& _Allocator) const noexcept
 {
 	_Pos = this->MemoryPosFix(_Pos);
 	return this->MemoryFind(_Pos, _Allocator._memory_address, _Allocator._memory_length);
 }
 
-/// Reverse Find Memory
-XAllocator::size_type XAllocator::MemoryReverseFind(size_type _Pos, const void* _Memory, size_type _Length) const XANADU_NOTHROW
+/// Reverse find Memory
+XAllocator::size_type XAllocator::MemoryReverseFind(size_type _Pos, const void* _Memory, size_type _Length) const noexcept
 {
 	_Pos = this->MemoryPosFix(_Pos);
 	auto		vPos = XAllocator::npos;
@@ -479,15 +479,15 @@ XAllocator::size_type XAllocator::MemoryReverseFind(size_type _Pos, const void* 
 	return vPos;
 }
 
-/// Reverse Find Memory
-XAllocator::size_type XAllocator::MemoryReverseFind(size_type _Pos, const XAllocator& _Allocator) const XANADU_NOTHROW
+/// Reverse find Memory
+XAllocator::size_type XAllocator::MemoryReverseFind(size_type _Pos, const XAllocator& _Allocator) const noexcept
 {
 	_Pos = this->MemoryPosFix(_Pos);
 	return this->MemoryReverseFind(_Pos, _Allocator._memory_address, _Allocator._memory_length);
 }
 
 /// Replace Memory
-bool XAllocator::MemoryReplace(size_type _Pos, size_type _Length, const void* _Memory, size_type _Size) XANADU_NOTHROW
+bool XAllocator::MemoryReplace(size_type _Pos, size_type _Length, const void* _Memory, size_type _Size) noexcept
 {
 	XANADU_CHECK_RETURN(_Length > 0, false);
 	XANADU_CHECK_RETURN(_Size >= 0, false);
@@ -526,7 +526,7 @@ bool XAllocator::MemoryReplace(size_type _Pos, size_type _Length, const void* _M
 }
 
 /// Replace Memory
-bool XAllocator::MemoryReplace(size_type _Pos, size_type _Length, const XAllocator& _Allocator) XANADU_NOTHROW
+bool XAllocator::MemoryReplace(size_type _Pos, size_type _Length, const XAllocator& _Allocator) noexcept
 {
 	_Pos = this->MemoryPosFix(_Pos);
 	return this->MemoryReplace(_Pos, _Length, _Allocator._memory_address, _Allocator._memory_length);
@@ -536,25 +536,25 @@ bool XAllocator::MemoryReplace(size_type _Pos, size_type _Length, const XAllocat
 
 
 /// Get the address of the memory
-void* XAllocator::MemoryAddress() XANADU_NOTHROW
+void* XAllocator::MemoryAddress() noexcept
 {
 	return this->_memory_address;
 }
 
 /// Get the address of the memory
-const void* XAllocator::MemoryAddress() const XANADU_NOTHROW
+const void* XAllocator::MemoryAddress() const noexcept
 {
 	return this->_memory_address;
 }
 
 /// Get the length of the memory
-XAllocator::size_type XAllocator::MemoryLength() const XANADU_NOTHROW
+XAllocator::size_type XAllocator::MemoryLength() const noexcept
 {
 	return this->_memory_length;
 }
 
 /// Get the capacity of the memory
-XAllocator::size_type XAllocator::MemoryCapacity() const XANADU_NOTHROW
+XAllocator::size_type XAllocator::MemoryCapacity() const noexcept
 {
 	return this->_memory_capacity;
 }

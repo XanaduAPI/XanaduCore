@@ -5,20 +5,20 @@
 #include <XanaduCore/XanaduCoreLibrary.h>
 
 
-XLibrary::XLibrary() XANADU_NOTHROW
+XLibrary::XLibrary() noexcept
 {
 }
 
-XLibrary::~XLibrary() XANADU_NOTHROW
+XLibrary::~XLibrary() noexcept
 {
 }
 
-HANDLE XLibrary::Open(const XString& _Dynamic) XANADU_NOTHROW
+HANDLE XLibrary::open(const XString& _Dynamic) noexcept
 {
 	return Xanadu::LibraryOpen(_Dynamic.data());
 }
 
-void* XLibrary::Find(HANDLE _Handle, const NString& _Function) XANADU_NOTHROW
+void* XLibrary::find(HANDLE _Handle, const NString& _Function) noexcept
 {
 	XANADU_CHECK_RETURN(_Handle, nullptr);
 	XANADU_CHECK_RETURN(_Function.size(), nullptr);
@@ -26,7 +26,7 @@ void* XLibrary::Find(HANDLE _Handle, const NString& _Function) XANADU_NOTHROW
 	return Xanadu::LibraryFind(_Handle, _Function.data());
 }
 
-void XLibrary::Close(HANDLE _Handle) XANADU_NOTHROW
+void XLibrary::close(HANDLE _Handle) noexcept
 {
 	XANADU_CHECK_RETURN(_Handle);
 

@@ -378,18 +378,18 @@ XString::reverse_iterator XString::reverse_iterator::operator- (size_type i)
 
 
 
-XString::XString() XANADU_NOTHROW
+XString::XString() noexcept
 {
 	this->_memory_malloc(0);
 }
 
-XString::XString(wchar_t _Char) XANADU_NOTHROW
+XString::XString(wchar_t _Char) noexcept
 {
 	this->_memory_malloc(0);
 	this->_string_append(_Char);
 }
 
-XString::XString(const wchar_t* _String) XANADU_NOTHROW
+XString::XString(const wchar_t* _String) noexcept
 {
 	this->_memory_malloc(0);
 
@@ -400,7 +400,7 @@ XString::XString(const wchar_t* _String) XANADU_NOTHROW
 	}
 }
 
-XString::XString(const wchar_t* _String, size_type _Length) XANADU_NOTHROW
+XString::XString(const wchar_t* _String, size_type _Length) noexcept
 {
 	this->_memory_malloc(0);
 
@@ -414,7 +414,7 @@ XString::XString(const wchar_t* _String, size_type _Length) XANADU_NOTHROW
 	}
 }
 
-XString::XString(const XString& _String) XANADU_NOTHROW
+XString::XString(const XString& _String) noexcept
 {
 	this->_memory_malloc(0);
 
@@ -424,12 +424,12 @@ XString::XString(const XString& _String) XANADU_NOTHROW
 	}
 }
 
-XString::XString(XString&& _String) XANADU_NOTHROW
+XString::XString(XString&& _String) noexcept
 {
 	*this = std::move(_String);
 }
 
-XString::XString(const WString& _String) XANADU_NOTHROW
+XString::XString(const WString& _String) noexcept
 {
 	this->_memory_malloc(0);
 
@@ -439,7 +439,7 @@ XString::XString(const WString& _String) XANADU_NOTHROW
 	}
 }
 
-XString::~XString() XANADU_NOTHROW
+XString::~XString() noexcept
 {
 	this->_memory_free();
 }
@@ -447,7 +447,7 @@ XString::~XString() XANADU_NOTHROW
 
 
 /// copy assignment
-XString& XString::operator = (wchar_t _Char) XANADU_NOTHROW
+XString& XString::operator = (wchar_t _Char) noexcept
 {
 	this->_memory_free();
 	this->_string_append(_Char);
@@ -455,7 +455,7 @@ XString& XString::operator = (wchar_t _Char) XANADU_NOTHROW
 }
 
 /// copy assignment
-XString& XString::operator = (const wchar_t* _String) XANADU_NOTHROW
+XString& XString::operator = (const wchar_t* _String) noexcept
 {
 	this->_memory_free();
 	this->_string_append(_String, Xanadu::wcslen(_String));
@@ -463,7 +463,7 @@ XString& XString::operator = (const wchar_t* _String) XANADU_NOTHROW
 }
 
 /// copy assignment
-XString& XString::operator = (const WString& _String) XANADU_NOTHROW
+XString& XString::operator = (const WString& _String) noexcept
 {
 	this->_memory_free();
 	this->_string_append(_String.data(), _String.size());
@@ -471,7 +471,7 @@ XString& XString::operator = (const WString& _String) XANADU_NOTHROW
 }
 
 /// copy assignment
-XString& XString::operator = (const XString& _String) XANADU_NOTHROW
+XString& XString::operator = (const XString& _String) noexcept
 {
 	if(this != &_String)
 	{
@@ -482,7 +482,7 @@ XString& XString::operator = (const XString& _String) XANADU_NOTHROW
 }
 
 /// move assignment
-XString& XString::operator = (XString&& _String) XANADU_NOTHROW
+XString& XString::operator = (XString&& _String) noexcept
 {
 	if(this != &_String)
 	{
@@ -501,7 +501,7 @@ XString& XString::operator = (XString&& _String) XANADU_NOTHROW
 
 
 /// memory operator new
-void XString::_memory_malloc(size_type _Size) XANADU_NOTHROW
+void XString::_memory_malloc(size_type _Size) noexcept
 {
 	this->_memory_free();
 	if(_Size == XString::npos)
@@ -526,7 +526,7 @@ void XString::_memory_malloc(size_type _Size) XANADU_NOTHROW
 }
 
 /// memory operator append
-void XString::_memory_append(size_type _Size) XANADU_NOTHROW
+void XString::_memory_append(size_type _Size) noexcept
 {
 	if(_Size != XString::npos)
 	{
@@ -554,7 +554,7 @@ void XString::_memory_append(size_type _Size) XANADU_NOTHROW
 }
 
 /// memory operator resize
-void XString::_memory_resize(size_type _Size) XANADU_NOTHROW
+void XString::_memory_resize(size_type _Size) noexcept
 {
 	if(_Size != XString::npos)
 	{
@@ -582,7 +582,7 @@ void XString::_memory_resize(size_type _Size) XANADU_NOTHROW
 }
 
 /// memory operator delete
-void XString::_memory_free() XANADU_NOTHROW
+void XString::_memory_free() noexcept
 {
 	XANADU_DELETE_ARR(this->_string_data);
 	this->_string_data = nullptr;
@@ -593,7 +593,7 @@ void XString::_memory_free() XANADU_NOTHROW
 
 
 /// private append wchar_t
-void XString::_string_append(wchar_t _Char) XANADU_NOTHROW
+void XString::_string_append(wchar_t _Char) noexcept
 {
 	this->_memory_append(1);
 	this->_string_data[this->_string_length] = _Char;
@@ -601,7 +601,7 @@ void XString::_string_append(wchar_t _Char) XANADU_NOTHROW
 }
 
 /// private append const wchar_t*
-void XString::_string_append(const wchar_t* _String, size_type _Size) XANADU_NOTHROW
+void XString::_string_append(const wchar_t* _String, size_type _Size) noexcept
 {
 	if(_Size == XString::npos)
 	{
@@ -620,7 +620,7 @@ void XString::_string_append(const wchar_t* _String, size_type _Size) XANADU_NOT
 }
 
 /// private search wchar_t
-XString::size_type XString::_string_search(wchar_t _Char, size_type _Begin, Xanadu::CaseSensitivity _XCS) const XANADU_NOTHROW
+XString::size_type XString::_string_search(wchar_t _Char, size_type _Begin, Xanadu::CaseSensitivity _XCS) const noexcept
 {
 	if(_Begin == XString::npos)
 	{
@@ -655,7 +655,7 @@ XString::size_type XString::_string_search(wchar_t _Char, size_type _Begin, Xana
 }
 
 /// private search const wchar_t*
-XString::size_type XString::_string_search(const wchar_t* _String, size_type _Size, size_type _Begin, Xanadu::CaseSensitivity _XCS) const XANADU_NOTHROW
+XString::size_type XString::_string_search(const wchar_t* _String, size_type _Size, size_type _Begin, Xanadu::CaseSensitivity _XCS) const noexcept
 {
 	if(_Size == XString::npos)
 	{
@@ -692,7 +692,7 @@ XString::size_type XString::_string_search(const wchar_t* _String, size_type _Si
 }
 
 /// private insert wchar_t
-void XString::_string_insert(size_type _Pos, wchar_t _Char) XANADU_NOTHROW
+void XString::_string_insert(size_type _Pos, wchar_t _Char) noexcept
 {
 	if(_Pos == XString::npos)
 	{
@@ -718,7 +718,7 @@ void XString::_string_insert(size_type _Pos, wchar_t _Char) XANADU_NOTHROW
 }
 
 /// private insert const wchar_t*
-void XString::_string_insert(size_type _Pos, const wchar_t* _String, size_type _Size) XANADU_NOTHROW
+void XString::_string_insert(size_type _Pos, const wchar_t* _String, size_type _Size) noexcept
 {
 	if(_Size == XString::npos)
 	{
@@ -752,7 +752,7 @@ void XString::_string_insert(size_type _Pos, const wchar_t* _String, size_type _
 }
 
 /// private remove
-void XString::_string_remove(size_type _Pos, size_type _Length) XANADU_NOTHROW
+void XString::_string_remove(size_type _Pos, size_type _Length) noexcept
 {
 	if(_Pos == XString::npos)
 	{
@@ -781,7 +781,7 @@ void XString::_string_remove(size_type _Pos, size_type _Length) XANADU_NOTHROW
 }
 
 /// private compare
-int32S XString::_string_compare(const wchar_t* _String, size_type _Size, Xanadu::CaseSensitivity _XCS) const XANADU_NOTHROW
+int32S XString::_string_compare(const wchar_t* _String, size_type _Size, Xanadu::CaseSensitivity _XCS) const noexcept
 {
 	if(Xanadu::CaseInsensitive == _XCS)
 	{
@@ -796,7 +796,7 @@ int32S XString::_string_compare(const wchar_t* _String, size_type _Size, Xanadu:
 
 
 /// 查找
-XString::XString::size_type XString::_find(const wchar_t* _String, size_type _Length, size_type _Pos) const XANADU_NOTHROW
+XString::XString::size_type XString::_find(const wchar_t* _String, size_type _Length, size_type _Pos) const noexcept
 {
 	auto		vReturn = npos;
 	if(_Pos == npos)
@@ -815,7 +815,7 @@ XString::XString::size_type XString::_find(const wchar_t* _String, size_type _Le
 }
 
 /// 反向查找
-XString::XString::size_type XString::_rfind(const wchar_t* _String, size_type _Length, size_type _Pos) const XANADU_NOTHROW
+XString::XString::size_type XString::_rfind(const wchar_t* _String, size_type _Length, size_type _Pos) const noexcept
 {
 	auto		vReturn = XString::npos;
 	if(_Pos == XString::npos || _Pos + _Length > _string_length + 1)
@@ -834,7 +834,7 @@ XString::XString::size_type XString::_rfind(const wchar_t* _String, size_type _L
 }
 
 /// 查找并比较
-bool XString::_compare(const wchar_t* _String, size_type _Length, size_type _Pos) const XANADU_NOTHROW
+bool XString::_compare(const wchar_t* _String, size_type _Length, size_type _Pos) const noexcept
 {
 	if(_Pos == XString::npos)
 	{
@@ -853,25 +853,25 @@ bool XString::_compare(const wchar_t* _String, size_type _Length, size_type _Pos
 
 
 /// cxx iterator private
-XString::String_iterator_type XString::_ibegin() const XANADU_NOTHROW
+XString::String_iterator_type XString::_ibegin() const noexcept
 {
 	return String_iterator_type(_string_data, &_string_length, 0);
 }
 
 /// cxx iterator private
-XString::String_iterator_type XString::_end() const XANADU_NOTHROW
+XString::String_iterator_type XString::_end() const noexcept
 {
 	return String_iterator_type(_string_data, &_string_length, _string_length);
 }
 
 /// cxx iterator private
-XString::String_iterator_type XString::_rbegin() const XANADU_NOTHROW
+XString::String_iterator_type XString::_rbegin() const noexcept
 {
 	return String_iterator_type(_string_data, &_string_length, _string_length - 1);
 }
 
 /// cxx iterator private
-XString::size_type XString::_getLength(const XString::const_iterator _First, const XString::const_iterator _Second) XANADU_NOTHROW
+XString::size_type XString::_getLength(const XString::const_iterator _First, const XString::const_iterator _Second) noexcept
 {
 	if(_First.current.first != _Second.current.first)
 	{
@@ -888,73 +888,73 @@ XString::size_type XString::_getLength(const XString::const_iterator _First, con
 
 
 /// cxx iterator function
-XString::iterator XString::begin() XANADU_NOTHROW
+XString::iterator XString::begin() noexcept
 {
 	return this->_ibegin();
 }
 
 /// cxx iterator function
-XString::const_iterator XString::begin() const XANADU_NOTHROW
+XString::const_iterator XString::begin() const noexcept
 {
 	return this->_ibegin();
 }
 
 /// cxx iterator function
-XString::iterator XString::end() XANADU_NOTHROW
+XString::iterator XString::end() noexcept
 {
 	return this->_end();
 }
 
 /// cxx iterator function
-XString::const_iterator XString::end() const XANADU_NOTHROW
+XString::const_iterator XString::end() const noexcept
 {
 	return this->_end();
 }
 
 /// cxx iterator function
-XString::const_iterator XString::cbegin() const XANADU_NOTHROW
+XString::const_iterator XString::cbegin() const noexcept
 {
 	return this->_ibegin();
 }
 
 /// cxx iterator function
-XString::const_iterator XString::cend() const XANADU_NOTHROW
+XString::const_iterator XString::cend() const noexcept
 {
 	return this->_end();
 }
 
 /// cxx iterator function
-XString::reverse_iterator XString::rbegin() XANADU_NOTHROW
+XString::reverse_iterator XString::rbegin() noexcept
 {
 	return this->_rbegin();
 }
 
 /// cxx iterator function
-XString::const_reverse_iterator XString::rbegin() const XANADU_NOTHROW
+XString::const_reverse_iterator XString::rbegin() const noexcept
 {
 	return this->_rbegin();
 }
 
 /// cxx iterator function
-XString::reverse_iterator XString::rend() XANADU_NOTHROW
+XString::reverse_iterator XString::rend() noexcept
 {
 	return this->_end();
 }
 
 /// cxx iterator function
-XString::const_reverse_iterator XString::rend() const XANADU_NOTHROW
+XString::const_reverse_iterator XString::rend() const noexcept
 {
 	return this->_end();
 }
 
 /// cxx iterator function
-XString::const_reverse_iterator XString::crbegin() const XANADU_NOTHROW
+XString::const_reverse_iterator XString::crbegin() const noexcept
 {
 	return this->_rbegin();
 }
 
 /// cxx iterator function
-XString::const_reverse_iterator XString::crend() const XANADU_NOTHROW
+XString::const_reverse_iterator XString::crend() const noexcept
 {
 	return this->_end();
 }
@@ -962,43 +962,43 @@ XString::const_reverse_iterator XString::crend() const XANADU_NOTHROW
 
 
 /// string buffer
-wchar_t* XString::data() XANADU_NOTHROW
+wchar_t* XString::data() noexcept
 {
 	return this->_string_data;
 }
 
 /// string buffer
-const wchar_t* XString::data() const XANADU_NOTHROW
+const wchar_t* XString::data() const noexcept
 {
 	return this->_string_data;
 }
 
 /// string length
-XString::size_type XString::length() const XANADU_NOTHROW
+XString::size_type XString::length() const noexcept
 {
 	return this->_string_length;
 }
 
 /// string length
-XString::size_type XString::size() const XANADU_NOTHROW
+XString::size_type XString::size() const noexcept
 {
 	return this->length();
 }
 
 /// buffer capacity
-XString::size_type XString::capacity() const XANADU_NOTHROW
+XString::size_type XString::capacity() const noexcept
 {
 	return this->_string_capacity;
 }
 
 /// buffer clear
-void XString::clear() XANADU_NOTHROW
+void XString::clear() noexcept
 {
 	this->_memory_free();
 }
 
 /// buffer is null
-bool XString::empty() const XANADU_NOTHROW
+bool XString::empty() const noexcept
 {
 	if(this->data() && this->size() > 0)
 	{
@@ -1011,13 +1011,13 @@ bool XString::empty() const XANADU_NOTHROW
 }
 
 /// Check if there is a value
-bool XString::exist() const XANADU_NOTHROW
+bool XString::exist() const noexcept
 {
 	return !this->empty();
 }
 
 /// swap string
-void XString::swap(XString& _String) XANADU_NOTHROW
+void XString::swap(XString& _String) noexcept
 {
 	XString		vTemp = std::move(*this);
 	*this = std::move(_String);
@@ -1025,19 +1025,19 @@ void XString::swap(XString& _String) XANADU_NOTHROW
 }
 
 /// max_size
-XString::size_type XString::max_size() const XANADU_NOTHROW
+XString::size_type XString::max_size() const noexcept
 {
 	return 0xFFFFFFFFFFLL;
 }
 
 /// resize
-void XString::resize(size_type _Length) XANADU_NOTHROW
+void XString::resize(size_type _Length) noexcept
 {
 	this->_memory_resize(_Length);
 }
 
 /// resize
-void XString::resize(size_type _Length, wchar_t _Char) XANADU_NOTHROW
+void XString::resize(size_type _Length, wchar_t _Char) noexcept
 {
 	this->_memory_resize(_Length);
 	for(auto vIndex = 0ULL; vIndex < this->_string_length && this->_string_data; ++vIndex)
@@ -1047,7 +1047,7 @@ void XString::resize(size_type _Length, wchar_t _Char) XANADU_NOTHROW
 }
 
 /// Truncates the byte array at index position pos. If pos is beyond the end of the array, nothing happens.
-void XString::truncate(size_type _Index) XANADU_NOTHROW
+void XString::truncate(size_type _Index) noexcept
 {
 	if (_Index < this->size())
 	{
@@ -1116,25 +1116,25 @@ wchar_t& XString::back()
 
 
 /// cxx push_back (1)
-void XString::push_back(wchar_t _Char) XANADU_NOTHROW
+void XString::push_back(wchar_t _Char) noexcept
 {
 	this->append(_Char);
 }
 
 /// cxx push_back (2)
-void XString::push_back(const wchar_t* _String, size_type _Size) XANADU_NOTHROW
+void XString::push_back(const wchar_t* _String, size_type _Size) noexcept
 {
 	this->append(_String, _Size);
 }
 
 /// cxx push_back (3)
-void XString::push_back(const XString& _String) XANADU_NOTHROW
+void XString::push_back(const XString& _String) noexcept
 {
 	this->append(_String);
 }
 
 /// cxx 删除最后一个元素
-XString& XString::pop_back() XANADU_NOTHROW
+XString& XString::pop_back() noexcept
 {
 	if(this->size())
 	{
@@ -1145,7 +1145,7 @@ XString& XString::pop_back() XANADU_NOTHROW
 
 
 /// operator append (1)
-XString& XString::operator += (wchar_t _Char) XANADU_NOTHROW
+XString& XString::operator += (wchar_t _Char) noexcept
 {
 	wchar_t		vBuffer[2] = { 0 };
 	vBuffer[0] = _Char;
@@ -1154,14 +1154,14 @@ XString& XString::operator += (wchar_t _Char) XANADU_NOTHROW
 }
 
 /// operator append (2)
-XString& XString::operator += (const wchar_t* _String) XANADU_NOTHROW
+XString& XString::operator += (const wchar_t* _String) noexcept
 {
 	this->_string_append(_String);
 	return *this;
 }
 
 /// operator append (3)
-XString& XString::operator += (const XString& _String) XANADU_NOTHROW
+XString& XString::operator += (const XString& _String) noexcept
 {
 	this->_string_append(_String._string_data, _String._string_length);
 	return *this;
@@ -1171,73 +1171,73 @@ XString& XString::operator += (const XString& _String) XANADU_NOTHROW
 
 
 /// 比较运算符 (1)
-bool XString::operator == (const wchar_t* _String) const XANADU_NOTHROW
+bool XString::operator == (const wchar_t* _String) const noexcept
 {
 	return this->_string_compare(_String, Xanadu::wcslen(_String)) == 0;
 }
 
 /// 比较运算符 (1)
-bool XString::operator == (const XString& _String) const XANADU_NOTHROW
+bool XString::operator == (const XString& _String) const noexcept
 {
 	return this->_string_compare(_String._string_data, _String._string_length) == 0;
 }
 
 /// 比较运算符 (2)
-bool XString::operator != (const wchar_t* _String) const XANADU_NOTHROW
+bool XString::operator != (const wchar_t* _String) const noexcept
 {
 	return this->_string_compare(_String, Xanadu::wcslen(_String)) != 0;
 }
 
 /// 比较运算符 (2)
-bool XString::operator != (const XString& _String) const XANADU_NOTHROW
+bool XString::operator != (const XString& _String) const noexcept
 {
 	return this->_string_compare(_String._string_data, _String._string_length) != 0;
 }
 
 /// 比较运算符 (3)
-bool XString::operator < (const wchar_t* _String) const XANADU_NOTHROW
+bool XString::operator < (const wchar_t* _String) const noexcept
 {
 	return this->_string_compare(_String, Xanadu::wcslen(_String)) < 0;
 }
 
 /// 比较运算符 (3)
-bool XString::operator < (const XString& _String) const XANADU_NOTHROW
+bool XString::operator < (const XString& _String) const noexcept
 {
 	return this->_string_compare(_String._string_data, _String._string_length) < 0;
 }
 
 /// 比较运算符 (4)
-bool XString::operator > (const wchar_t* _String) const XANADU_NOTHROW
+bool XString::operator > (const wchar_t* _String) const noexcept
 {
 	return this->_string_compare(_String, Xanadu::wcslen(_String)) > 0;
 }
 
 /// 比较运算符 (4)
-bool XString::operator > (const XString& _String) const XANADU_NOTHROW
+bool XString::operator > (const XString& _String) const noexcept
 {
 	return this->_string_compare(_String._string_data, _String._string_length) > 0;
 }
 
 /// 比较运算符 (5)
-bool XString::operator <= (const wchar_t* _String) const XANADU_NOTHROW
+bool XString::operator <= (const wchar_t* _String) const noexcept
 {
 	return this->_string_compare(_String, Xanadu::wcslen(_String)) <= 0;
 }
 
 /// 比较运算符 (5)
-bool XString::operator <= (const XString& _String) const XANADU_NOTHROW
+bool XString::operator <= (const XString& _String) const noexcept
 {
 	return this->_string_compare(_String._string_data, _String._string_length) <= 0;
 }
 
 /// 比较运算符 (6)
-bool XString::operator >= (const wchar_t* _String) const XANADU_NOTHROW
+bool XString::operator >= (const wchar_t* _String) const noexcept
 {
 	return this->_string_compare(_String, Xanadu::wcslen(_String)) >= 0;
 }
 
 /// 比较运算符 (6)
-bool XString::operator >= (const XString& _String) const XANADU_NOTHROW
+bool XString::operator >= (const XString& _String) const noexcept
 {
 	return this->_string_compare(_String._string_data, _String._string_length) >= 0;
 }
@@ -1249,7 +1249,7 @@ bool XString::operator >= (const XString& _String) const XANADU_NOTHROW
 
 
 /// Convert : To ASCII
-AString XString::toAString() const XANADU_NOTHROW
+AString XString::toAString() const noexcept
 {
 	auto		vAString = AString("");
 	if(data() && size())
@@ -1272,13 +1272,13 @@ AString XString::toAString() const XANADU_NOTHROW
 }
 
 /// Convert : To UNICODE
-WString XString::toWString() const XANADU_NOTHROW
+WString XString::toWString() const noexcept
 {
 	return WString(data() ? data() : L"");
 }
 
 /// Convert : To UTF-8
-UString XString::toUString() const XANADU_NOTHROW
+UString XString::toUString() const noexcept
 {
 	auto	vReturn = UString("");
 	try
@@ -1294,7 +1294,7 @@ UString XString::toUString() const XANADU_NOTHROW
 }
 
 /// Convert : To Native String
-NString XString::toNString() const XANADU_NOTHROW
+NString XString::toNString() const noexcept
 {
 #ifdef XANADU_SYSTEM_WINDOWS
 	return toAString();
@@ -1304,14 +1304,14 @@ NString XString::toNString() const XANADU_NOTHROW
 }
 
 /// Convert : To XByteArray
-XByteArray XString::toBytes() const XANADU_NOTHROW
+XByteArray XString::toBytes() const noexcept
 {
 	auto		vUString = this->toUString();
 	return XByteArray(vUString.data(), vUString.size());
 }
 
-/// Convert : To URL Encode
-UString XString::toURL() const XANADU_NOTHROW
+/// Convert : To URL encode
+UString XString::toURL() const noexcept
 {
 	auto		vDecode = toUString();
 	auto		vEncode = UString();
@@ -1345,43 +1345,43 @@ UString XString::toURL() const XANADU_NOTHROW
 }
 
 /// Convert:To ASCII
-AString XANADUAPI XString::toAString(const XString& _String) XANADU_NOTHROW
+AString XANADUAPI XString::toAString(const XString& _String) noexcept
 {
 	return _String.toAString();
 }
 
 /// Convert:To UNICODE
-WString XANADUAPI XString::toWString(const XString& _String) XANADU_NOTHROW
+WString XANADUAPI XString::toWString(const XString& _String) noexcept
 {
 	return _String.toWString();
 }
 
 /// Convert:To UTF-8
-UString XANADUAPI XString::toUString(const XString& _String) XANADU_NOTHROW
+UString XANADUAPI XString::toUString(const XString& _String) noexcept
 {
 	return _String.toUString();
 }
 
 /// Convert : To Native String
-NString XANADUAPI XString::toNString(const XString& _String) XANADU_NOTHROW
+NString XANADUAPI XString::toNString(const XString& _String) noexcept
 {
 	return _String.toNString();
 }
 
 /// Convert : To XByteArray
-XByteArray XANADUAPI XString::toBytes(const XString& _String) XANADU_NOTHROW
+XByteArray XANADUAPI XString::toBytes(const XString& _String) noexcept
 {
 	return _String.toBytes();
 }
 
-/// Convert : To URL Encode
-UString XANADUAPI XString::toURL(const XString& _String) XANADU_NOTHROW
+/// Convert : To URL encode
+UString XANADUAPI XString::toURL(const XString& _String) noexcept
 {
 	return _String.toURL();
 }
 
 /// Convert : From ASCII
-XString XANADUAPI XString::fromAString(const AString& _AString) XANADU_NOTHROW
+XString XANADUAPI XString::fromAString(const AString& _AString) noexcept
 {
 	auto		vXString = XString(L"");
 	if(_AString.data() && _AString.size())
@@ -1404,13 +1404,13 @@ XString XANADUAPI XString::fromAString(const AString& _AString) XANADU_NOTHROW
 }
 
 /// Convert : From UNICODE
-XString XANADUAPI XString::fromWString(const WString& _XString) XANADU_NOTHROW
+XString XANADUAPI XString::fromWString(const WString& _XString) noexcept
 {
 	return XString(_XString.data());
 }
 
 /// Convert : From UTF-8
-XString XANADUAPI XString::fromUString(const UString& _UString) XANADU_NOTHROW
+XString XANADUAPI XString::fromUString(const UString& _UString) noexcept
 {
 	auto		vReturn = XString(L"");
 	try
@@ -1426,7 +1426,7 @@ XString XANADUAPI XString::fromUString(const UString& _UString) XANADU_NOTHROW
 }
 
 /// Convert:From Latin_1(ISO 8859-1)
-XString XANADUAPI XString::fromLString(const LString& _LString) XANADU_NOTHROW
+XString XANADUAPI XString::fromLString(const LString& _LString) noexcept
 {
 	auto		_UString = UString();
 	for(auto vIterator = _LString.begin(); vIterator != _LString.end(); ++vIterator)
@@ -1446,7 +1446,7 @@ XString XANADUAPI XString::fromLString(const LString& _LString) XANADU_NOTHROW
 }
 
 /// Convert : From Native String
-XString XANADUAPI XString::fromNString(const NString& _NString) XANADU_NOTHROW
+XString XANADUAPI XString::fromNString(const NString& _NString) noexcept
 {
 #ifdef XANADU_SYSTEM_WINDOWS
 	return XString::fromAString(_NString);
@@ -1456,13 +1456,13 @@ XString XANADUAPI XString::fromNString(const NString& _NString) XANADU_NOTHROW
 }
 
 /// Convert : From XByteArray
-XString XANADUAPI XString::fromBytes(const XByteArray& _Bytes) XANADU_NOTHROW
+XString XANADUAPI XString::fromBytes(const XByteArray& _Bytes) noexcept
 {
 	return XString::fromUString(UString(_Bytes.data(), _Bytes.size()));
 }
 
-/// Convert:From URL Encode
-XString XANADUAPI XString::fromURL(const UString& _URL) XANADU_NOTHROW
+/// Convert:From URL encode
+XString XANADUAPI XString::fromURL(const UString& _URL) noexcept
 {
 	auto		vEncode = _URL;
 	auto		vDecode = UString();
@@ -1510,7 +1510,7 @@ XString XANADUAPI XString::fromURL(const UString& _URL) XANADU_NOTHROW
 }
 
 /// convert to upper
-XString XString::toUpper() const XANADU_NOTHROW
+XString XString::toUpper() const noexcept
 {
 	if(this->data() && this->size())
 	{
@@ -1522,7 +1522,7 @@ XString XString::toUpper() const XANADU_NOTHROW
 }
 
 /// convert to lower
-XString XString::toLower() const XANADU_NOTHROW
+XString XString::toLower() const noexcept
 {
 	if(this->data() && this->size())
 	{
@@ -1535,7 +1535,7 @@ XString XString::toLower() const XANADU_NOTHROW
 
 
 /// Format String (char* [%S]) (wchar_t* [%s][%ls][%ws])
-XString XANADUAPI XString::format(const wchar_t* _Format, ...) XANADU_NOTHROW
+XString XANADUAPI XString::format(const wchar_t* _Format, ...) noexcept
 {
 	auto		vString = XString();
 	auto		vBuffer = XANADU_NEW wchar_t[XANADU_SIZE_KB * 10];
@@ -1555,7 +1555,7 @@ XString XANADUAPI XString::format(const wchar_t* _Format, ...) XANADU_NOTHROW
 
 
 /// Sub String
-XString XString::substr(size_type _Pos, size_type _Length) const XANADU_NOTHROW
+XString XString::substr(size_type _Pos, size_type _Length) const noexcept
 {
 	if(_Pos < this->size())
 	{
@@ -1568,25 +1568,25 @@ XString XString::substr(size_type _Pos, size_type _Length) const XANADU_NOTHROW
 }
 
 /// Sub String
-XString XString::left(size_type _Pos) const XANADU_NOTHROW
+XString XString::left(size_type _Pos) const noexcept
 {
 	return this->substr(0, _Pos);
 }
 
 /// Sub String
-XString XString::right(size_type _Pos) const XANADU_NOTHROW
+XString XString::right(size_type _Pos) const noexcept
 {
 	return this->substr(size() - _Pos, XString::npos);
 }
 
 /// Retrieve the middle data by length
-XString XString::mid(size_type _Pos, size_type _Size) const XANADU_NOTHROW
+XString XString::mid(size_type _Pos, size_type _Size) const noexcept
 {
 	return this->substr(_Pos, _Size);
 }
 
 /// Middle String
-XString XString::middle(const XString& _Left, const XString& _Right, Xanadu::CaseSensitivity _XCS) const XANADU_NOTHROW
+XString XString::middle(const XString& _Left, const XString& _Right, Xanadu::CaseSensitivity _XCS) const noexcept
 {
 	auto		vPosLeft = this->_string_search(_Left._string_data, _Left._string_length, 0, _XCS);
 	if(XString::npos != vPosLeft)
@@ -1604,101 +1604,143 @@ XString XString::middle(const XString& _Left, const XString& _Right, Xanadu::Cas
 
 
 
-/// XString Find(1)
-XString::XString::size_type XString::find(const XString& _String, size_type _Pos) const XANADU_NOTHROW
+
+/// Check if the head is the same
+bool XString::startsWith(wchar_t _Char, Xanadu::CaseSensitivity _XCS) const noexcept
+{
+	return this->left(1).compare(_Char, _XCS) == 0;
+}
+
+/// Check if the head is the same
+bool XString::startsWith(const wchar_t* _Memory, Xanadu::CaseSensitivity _XCS) const noexcept
+{
+	return this->left(Xanadu::wcslen(_Memory)).compare(_Memory, _XCS) == 0;
+}
+
+/// Check if the head is the same
+bool XString::startsWith(const XString& _String, Xanadu::CaseSensitivity _XCS) const noexcept
+{
+	return this->left(_String.size()).compare(_String, _XCS) == 0;
+}
+
+/// Check if the tails are the same
+bool XString::endsWith(wchar_t _Char, Xanadu::CaseSensitivity _XCS) const noexcept
+{
+	return this->right(1).compare(_Char, _XCS) == 0;
+}
+
+/// Check if the tails are the same
+bool XString::endsWith(const wchar_t* _Memory, Xanadu::CaseSensitivity _XCS) const noexcept
+{
+	return this->right(Xanadu::wcslen(_Memory)).compare(_Memory, _XCS) == 0;
+}
+
+/// Check if the tails are the same
+bool XString::endsWith(const XString& _String, Xanadu::CaseSensitivity _XCS) const noexcept
+{
+	return this->right(_String.size()).compare(_String, _XCS) == 0;
+}
+
+
+
+
+
+
+/// XString find(1)
+XString::XString::size_type XString::find(const XString& _String, size_type _Pos) const noexcept
 {
 	return this->_find(_String._string_data, _String._string_length, _Pos);
 }
 
-/// XString Find(2)
-XString::XString::size_type XString::find(const wchar_t* _String, size_type _Pos) const XANADU_NOTHROW
+/// XString find(2)
+XString::XString::size_type XString::find(const wchar_t* _String, size_type _Pos) const noexcept
 {
 	return this->_find(_String, Xanadu::wcslen(_String), _Pos);
 }
 
-/// XString Find(3)
-XString::XString::size_type XString::find(const wchar_t* _String, size_type _Length, size_type _Pos) const XANADU_NOTHROW
+/// XString find(3)
+XString::XString::size_type XString::find(const wchar_t* _String, size_type _Length, size_type _Pos) const noexcept
 {
 	return this->_find(_String, _Length, _Pos);
 }
 
-/// XString Find(4)
-XString::XString::size_type XString::find(wchar_t _Char, size_type _Pos) const XANADU_NOTHROW
+/// XString find(4)
+XString::XString::size_type XString::find(wchar_t _Char, size_type _Pos) const noexcept
 {
 	return this->_find(&_Char, 1, _Pos);
 }
 
 
-/// Reverse Find(1)
-XString::XString::size_type XString::rfind(const XString& _String, size_type _Pos) const XANADU_NOTHROW
+/// Reverse find(1)
+XString::XString::size_type XString::rfind(const XString& _String, size_type _Pos) const noexcept
 {
 	return this->_rfind(_String._string_data, _String._string_length, _Pos);
 }
 
-/// Reverse Find(2)
-XString::XString::size_type XString::rfind(const wchar_t* _String, size_type _Pos) const XANADU_NOTHROW
+/// Reverse find(2)
+XString::XString::size_type XString::rfind(const wchar_t* _String, size_type _Pos) const noexcept
 {
 	return  this->_rfind(_String, Xanadu::wcslen(_String), _Pos);
 }
 
-/// Reverse Find(3)
-XString::XString::size_type XString::rfind(const wchar_t* _String, size_type _Length, size_type _Pos) const XANADU_NOTHROW
+/// Reverse find(3)
+XString::XString::size_type XString::rfind(const wchar_t* _String, size_type _Length, size_type _Pos) const noexcept
 {
 	return this->_rfind(_String, _Length, _Pos);
 }
 
-/// Reverse Find(4)
-XString::XString::size_type XString::rfind(wchar_t _Char, size_type _Pos) const XANADU_NOTHROW
+/// Reverse find(4)
+XString::XString::size_type XString::rfind(wchar_t _Char, size_type _Pos) const noexcept
 {
 	return this->_rfind(&_Char, 1, _Pos);
 }
 
 
 /// Index Of (1)
-XString::XString::size_type XString::indexOf(const XString& _String, size_type _Pos) const XANADU_NOTHROW
+XString::XString::size_type XString::indexOf(const XString& _String, size_type _Pos) const noexcept
 {
 	return this->find(_String, _Pos);
 }
 
 /// Index Of (2)
-XString::XString::size_type XString::indexOf(const wchar_t* _String, size_type _Pos) const XANADU_NOTHROW
+XString::XString::size_type XString::indexOf(const wchar_t* _String, size_type _Pos) const noexcept
 {
 	return this->find(_String, _Pos);
 }
 
 /// Index Of (3)
-XString::XString::size_type XString::indexOf(const wchar_t* _String, size_type _Length, size_type _Pos) const XANADU_NOTHROW
+XString::XString::size_type XString::indexOf(const wchar_t* _String, size_type _Length, size_type _Pos) const noexcept
 {
 	return this->find(_String, _Length, _Pos);
 }
 
 /// Index Of (4)
-XString::XString::size_type XString::indexOf(wchar_t _Char, size_type _Pos) const XANADU_NOTHROW
+XString::XString::size_type XString::indexOf(wchar_t _Char, size_type _Pos) const noexcept
 {
 	return this->find(&_Char, 1, _Pos);
 }
 
 
 /// Last Index Of (1)
-XString::XString::size_type XString::lastIndexOf(const XString& _String, size_type _Pos) const XANADU_NOTHROW
+XString::XString::size_type XString::lastIndexOf(const XString& _String, size_type _Pos) const noexcept
 {
 	return this->rfind(_String, _Pos);
 }
 
 /// Last Index Of (2)
-XString::XString::size_type XString::lastIndexOf(const wchar_t* _String, size_type _Pos) const XANADU_NOTHROW
+XString::XString::size_type XString::lastIndexOf(const wchar_t* _String, size_type _Pos) const noexcept
 {
 	return this->rfind(_String, Xanadu::wcslen(_String), _Pos);
 }
 
 /// Last Index Of (3)
-XString::XString::size_type XString::lastIndexOf(const wchar_t* _String, size_type _Length, size_type _Pos) const XANADU_NOTHROW
+XString::XString::size_type XString::lastIndexOf(const wchar_t* _String, size_type _Length, size_type _Pos) const noexcept
 {
 	return this->rfind(_String, _Length, _Pos);
 }
 
 /// Last Index Of (4)
-XString::XString::size_type XString::lastIndexOf(wchar_t _Char, size_type _Pos) const XANADU_NOTHROW
+XString::XString::size_type XString::lastIndexOf(wchar_t _Char, size_type _Pos) const noexcept
 {
 	return this->rfind(&_Char, 1, _Pos);
 }
@@ -1707,26 +1749,26 @@ XString::XString::size_type XString::lastIndexOf(wchar_t _Char, size_type _Pos) 
 
 
 /// contains substring
-bool XString::contains(wchar_t _Char, Xanadu::CaseSensitivity _XCS) const XANADU_NOTHROW
+bool XString::contains(wchar_t _Char, Xanadu::CaseSensitivity _XCS) const noexcept
 {
 	wchar_t		vBuffer[2] = { _Char, 0 };
 	return this->contains(vBuffer, 1, _XCS);
 }
 
 /// contains substring
-bool XString::contains(const wchar_t* _String, Xanadu::CaseSensitivity _XCS) const XANADU_NOTHROW
+bool XString::contains(const wchar_t* _String, Xanadu::CaseSensitivity _XCS) const noexcept
 {
 	return this->contains(_String, Xanadu::wcslen(_String), _XCS);
 }
 
 /// contains substring
-bool XString::contains(const wchar_t* _String, size_type _Size, Xanadu::CaseSensitivity _XCS) const XANADU_NOTHROW
+bool XString::contains(const wchar_t* _String, size_type _Size, Xanadu::CaseSensitivity _XCS) const noexcept
 {
 	return this->_string_search(_String, _Size, 0, _XCS) != XString::npos ? true : false;
 }
 
 /// contains substring
-bool XString::contains(const XString& _String, Xanadu::CaseSensitivity _XCS) const XANADU_NOTHROW
+bool XString::contains(const XString& _String, Xanadu::CaseSensitivity _XCS) const noexcept
 {
 	return this->contains(_String._string_data, _String._string_length, _XCS);
 }
@@ -1736,26 +1778,26 @@ bool XString::contains(const XString& _String, Xanadu::CaseSensitivity _XCS) con
 
 
 /// compare substring
-int XString::compare(wchar_t _Char, Xanadu::CaseSensitivity _XCS) const XANADU_NOTHROW
+int XString::compare(wchar_t _Char, Xanadu::CaseSensitivity _XCS) const noexcept
 {
 	wchar_t		vBuffer[2] = { _Char, 0 };
 	return this->compare(vBuffer, 1, _XCS);
 }
 
 /// compare substring
-int XString::compare(const wchar_t* _String, Xanadu::CaseSensitivity _XCS) const XANADU_NOTHROW
+int XString::compare(const wchar_t* _String, Xanadu::CaseSensitivity _XCS) const noexcept
 {
 	return this->compare(_String, Xanadu::wcslen(_String), _XCS);
 }
 
 /// compare substring
-int XString::compare(const wchar_t* _String, size_type _Size, Xanadu::CaseSensitivity _XCS) const XANADU_NOTHROW
+int XString::compare(const wchar_t* _String, size_type _Size, Xanadu::CaseSensitivity _XCS) const noexcept
 {
 	return this->_string_compare(_String, _Size, _XCS);
 }
 
 /// compare substring
-int XString::compare(const XString& _String, Xanadu::CaseSensitivity _XCS) const XANADU_NOTHROW
+int XString::compare(const XString& _String, Xanadu::CaseSensitivity _XCS) const noexcept
 {
 	return this->compare(_String._string_data, _String._string_length, _XCS);
 }
@@ -1764,14 +1806,14 @@ int XString::compare(const XString& _String, Xanadu::CaseSensitivity _XCS) const
 
 
 /// append (1)
-XString& XString::append(wchar_t _Char) XANADU_NOTHROW
+XString& XString::append(wchar_t _Char) noexcept
 {
 	wchar_t		vBuffer[2] = { _Char, 0 };
 	return this->append(vBuffer);
 }
 
 /// append (2)
-XString& XString::append(const wchar_t* _String, size_type _Size) XANADU_NOTHROW
+XString& XString::append(const wchar_t* _String, size_type _Size) noexcept
 {
 	if(_Size == XString::npos)
 	{
@@ -1782,7 +1824,7 @@ XString& XString::append(const wchar_t* _String, size_type _Size) XANADU_NOTHROW
 }
 
 /// append (3)
-XString& XString::append(const XString& _String) XANADU_NOTHROW
+XString& XString::append(const XString& _String) noexcept
 {
 	return this->append(_String._string_data, _String._string_length);
 }
@@ -1791,14 +1833,14 @@ XString& XString::append(const XString& _String) XANADU_NOTHROW
 
 
 /// string insert wchar_t
-XString& XString::insert(size_type _Pos, wchar_t _Char) XANADU_NOTHROW
+XString& XString::insert(size_type _Pos, wchar_t _Char) noexcept
 {
 	this->_string_insert(_Pos, _Char);
 	return *this;
 }
 
 /// string insert wchar_t
-XString& XString::insert(size_type _Pos, size_type _Count, wchar_t _Char) XANADU_NOTHROW
+XString& XString::insert(size_type _Pos, size_type _Count, wchar_t _Char) noexcept
 {
 	for(auto vIndex = 0ULL; vIndex < _Count; ++vIndex)
 	{
@@ -1808,14 +1850,14 @@ XString& XString::insert(size_type _Pos, size_type _Count, wchar_t _Char) XANADU
 }
 
 /// string insert const wchar_t*
-XString& XString::insert(size_type _Pos, const wchar_t* _String, size_type _Length) XANADU_NOTHROW
+XString& XString::insert(size_type _Pos, const wchar_t* _String, size_type _Length) noexcept
 {
 	this->_string_insert(_Pos, _String, _Length);
 	return *this;
 }
 
 /// string insert XString
-XString& XString::insert(size_type _Pos, const XString& _String) XANADU_NOTHROW
+XString& XString::insert(size_type _Pos, const XString& _String) noexcept
 {
 	this->_string_insert(_Pos, _String._string_data, _String._string_length);
 	return *this;
@@ -1824,14 +1866,14 @@ XString& XString::insert(size_type _Pos, const XString& _String) XANADU_NOTHROW
 
 
 /// string remove (1)
-XString& XString::remove(size_type _Pos, size_type _Length) XANADU_NOTHROW
+XString& XString::remove(size_type _Pos, size_type _Length) noexcept
 {
 	this->_string_remove(_Pos, _Length);
 	return *this;
 }
 
 /// string remove (2)
-XString& XString::remove(wchar_t _Char, Xanadu::CaseSensitivity _XCS) XANADU_NOTHROW
+XString& XString::remove(wchar_t _Char, Xanadu::CaseSensitivity _XCS) noexcept
 {
 	auto		vPos = XString::npos;
 	do
@@ -1847,7 +1889,7 @@ XString& XString::remove(wchar_t _Char, Xanadu::CaseSensitivity _XCS) XANADU_NOT
 }
 
 /// string remove (3)
-XString& XString::remove(const wchar_t* _String, size_type _Length, Xanadu::CaseSensitivity _XCS) XANADU_NOTHROW
+XString& XString::remove(const wchar_t* _String, size_type _Length, Xanadu::CaseSensitivity _XCS) noexcept
 {
 	auto		vPos = XString::npos;
 	if(_Length == XString::npos)
@@ -1866,7 +1908,7 @@ XString& XString::remove(const wchar_t* _String, size_type _Length, Xanadu::Case
 }
 
 /// string remove (4)
-XString& XString::remove(const XString& _String, Xanadu::CaseSensitivity _XCS) XANADU_NOTHROW
+XString& XString::remove(const XString& _String, Xanadu::CaseSensitivity _XCS) noexcept
 {
 	return this->remove(_String._string_data, _String._string_length, _XCS);
 }
@@ -1874,7 +1916,7 @@ XString& XString::remove(const XString& _String, Xanadu::CaseSensitivity _XCS) X
 
 
 /// string replace
-XString& XString::replace(size_type _Pos, size_type _Length, wchar_t _After) XANADU_NOTHROW
+XString& XString::replace(size_type _Pos, size_type _Length, wchar_t _After) noexcept
 {
 	this->remove(_Pos, _Length);
 	this->insert(_Pos, _After);
@@ -1882,7 +1924,7 @@ XString& XString::replace(size_type _Pos, size_type _Length, wchar_t _After) XAN
 }
 
 /// string replace
-XString& XString::replace(size_type _Pos, size_type _Length, const wchar_t* _After, size_type _LengthA) XANADU_NOTHROW
+XString& XString::replace(size_type _Pos, size_type _Length, const wchar_t* _After, size_type _LengthA) noexcept
 {
 	this->remove(_Pos, _Length);
 	this->insert(_Pos, _After, _LengthA);
@@ -1890,7 +1932,7 @@ XString& XString::replace(size_type _Pos, size_type _Length, const wchar_t* _Aft
 }
 
 /// string replace
-XString& XString::replace(size_type _Pos, size_type _Length, const XString& _After) XANADU_NOTHROW
+XString& XString::replace(size_type _Pos, size_type _Length, const XString& _After) noexcept
 {
 	this->remove(_Pos, _Length);
 	this->insert(_Pos, _After._string_data, _After._string_length);
@@ -1898,35 +1940,35 @@ XString& XString::replace(size_type _Pos, size_type _Length, const XString& _Aft
 }
 
 /// string replace
-XString& XString::replace(wchar_t _Before, wchar_t _After, Xanadu::CaseSensitivity _XCS) XANADU_NOTHROW
+XString& XString::replace(wchar_t _Before, wchar_t _After, Xanadu::CaseSensitivity _XCS) noexcept
 {
 	wchar_t		vStringA[2] = { _After, 0 };
 	return replace(_Before, XString(vStringA), _XCS);
 }
 
 /// string replace
-XString& XString::replace(wchar_t _Before, const wchar_t* _After, size_type _LengthA, Xanadu::CaseSensitivity _XCS) XANADU_NOTHROW
+XString& XString::replace(wchar_t _Before, const wchar_t* _After, size_type _LengthA, Xanadu::CaseSensitivity _XCS) noexcept
 {
 	wchar_t		vStringB[2] = { _Before, 0 };
 	return this->replace(XString(vStringB), _After, _LengthA, _XCS);
 }
 
 /// string replace
-XString& XString::replace(wchar_t _Before, const XString& _After, Xanadu::CaseSensitivity _XCS) XANADU_NOTHROW
+XString& XString::replace(wchar_t _Before, const XString& _After, Xanadu::CaseSensitivity _XCS) noexcept
 {
 	wchar_t		vStringB[2] = { _Before, 0 };
 	return this->replace(XString(vStringB), _After._string_data, _After._string_length, _XCS);
 }
 
 /// string replace
-XString& XString::replace(const wchar_t* _Before, size_type _LengthB, wchar_t _After, Xanadu::CaseSensitivity _XCS) XANADU_NOTHROW
+XString& XString::replace(const wchar_t* _Before, size_type _LengthB, wchar_t _After, Xanadu::CaseSensitivity _XCS) noexcept
 {
 	wchar_t		vStringA[2] = { _After, 0 };
 	return this->replace(_Before, _LengthB, XString(vStringA), _XCS);
 }
 
 /// string replace
-XString& XString::replace(const wchar_t* _Before, size_type _LengthB, const wchar_t* _After, size_type _LengthA, Xanadu::CaseSensitivity _XCS) XANADU_NOTHROW
+XString& XString::replace(const wchar_t* _Before, size_type _LengthB, const wchar_t* _After, size_type _LengthA, Xanadu::CaseSensitivity _XCS) noexcept
 {
 	auto		vPos = XString::npos;
 	do
@@ -1943,26 +1985,26 @@ XString& XString::replace(const wchar_t* _Before, size_type _LengthB, const wcha
 }
 
 /// string replace
-XString& XString::replace(const wchar_t* _Before, size_type _LengthB, const XString& _After, Xanadu::CaseSensitivity _XCS) XANADU_NOTHROW
+XString& XString::replace(const wchar_t* _Before, size_type _LengthB, const XString& _After, Xanadu::CaseSensitivity _XCS) noexcept
 {
 	return this->replace(_Before, _LengthB, _After._string_data, _After._string_length, _XCS);
 }
 
 /// string replace
-XString& XString::replace(const XString& _Before, wchar_t _After, Xanadu::CaseSensitivity _XCS) XANADU_NOTHROW
+XString& XString::replace(const XString& _Before, wchar_t _After, Xanadu::CaseSensitivity _XCS) noexcept
 {
 	wchar_t		vStringA[2] = { _After, 0 };
 	return this->replace(_Before._string_data, _Before._string_length, XString(vStringA), _XCS);
 }
 
 /// string replace
-XString& XString::replace(const XString& _Before, const wchar_t* _After, size_type _LengthA, Xanadu::CaseSensitivity _XCS) XANADU_NOTHROW
+XString& XString::replace(const XString& _Before, const wchar_t* _After, size_type _LengthA, Xanadu::CaseSensitivity _XCS) noexcept
 {
 	return this->replace(_Before._string_data, _Before._string_length, _After, _LengthA, _XCS);
 }
 
 /// string replace
-XString& XString::replace(const XString& _Before, const XString& _After, Xanadu::CaseSensitivity _XCS) XANADU_NOTHROW
+XString& XString::replace(const XString& _Before, const XString& _After, Xanadu::CaseSensitivity _XCS) noexcept
 {
 	return this->replace(_Before._string_data, _Before._string_length, _After._string_data, _After._string_length, _XCS);
 }
@@ -1972,7 +2014,7 @@ XString& XString::replace(const XString& _Before, const XString& _After, Xanadu:
 
 
 /// isSpace
-bool XString::isSpace(wchar_t _Char) XANADU_NOTHROW
+bool XString::isSpace(wchar_t _Char) noexcept
 {
 	if(_Char == L' ' || _Char == L'\t' || _Char == L'\n' || _Char == L'\v' || _Char == L'\f' || _Char == L'\r')
 	{
@@ -1982,7 +2024,7 @@ bool XString::isSpace(wchar_t _Char) XANADU_NOTHROW
 }
 
 /// simplified
-XString XString::simplified() const XANADU_NOTHROW
+XString XString::simplified() const noexcept
 {
 	auto		vString = XString();
 	auto		vNumber = 0;
@@ -2016,31 +2058,31 @@ XString XString::simplified() const XANADU_NOTHROW
 
 
 /// string to int16S
-int16S XString::toInt16S(bool* _Ok, int _Base) const XANADU_NOTHROW
+int16S XString::toInt16S(bool* _Ok, int _Base) const noexcept
 {
 	return static_cast<int16S>(this->toInt64S(_Ok, _Base));
 }
 
 /// string to int16U
-int16U XString::toInt16U(bool* _Ok, int _Base) const XANADU_NOTHROW
+int16U XString::toInt16U(bool* _Ok, int _Base) const noexcept
 {
 	return static_cast<int16U>(this->toInt64U(_Ok, _Base));
 }
 
 /// string to int32S
-int32S XString::toInt32S(bool* _Ok, int _Base) const XANADU_NOTHROW
+int32S XString::toInt32S(bool* _Ok, int _Base) const noexcept
 {
 	return static_cast<int32S>(this->toInt64S(_Ok, _Base));
 }
 
 /// string to int32U
-int32U XString::toInt32U(bool* _Ok, int _Base) const XANADU_NOTHROW
+int32U XString::toInt32U(bool* _Ok, int _Base) const noexcept
 {
 	return static_cast<int32U>(this->toInt64U(_Ok, _Base));
 }
 
 /// string to size_type
-XString::size_type XString::toInt64S(bool* _Ok, int _Base) const XANADU_NOTHROW
+XString::size_type XString::toInt64S(bool* _Ok, int _Base) const noexcept
 {
 	auto		vEnd = static_cast<wchar_t*>(nullptr);
 	auto		vValue = static_cast<size_type>(std::wcstol(data(), &vEnd, _Base));
@@ -2061,7 +2103,7 @@ XString::size_type XString::toInt64S(bool* _Ok, int _Base) const XANADU_NOTHROW
 }
 
 /// string to size_type
-XString::size_type XString::toInt64U(bool* _Ok, int _Base) const XANADU_NOTHROW
+XString::size_type XString::toInt64U(bool* _Ok, int _Base) const noexcept
 {
 	auto		vEnd = static_cast<wchar_t*>(nullptr);
 	auto		vValue = static_cast<size_type>(std::wcstoul(data(), &vEnd, _Base));
@@ -2082,7 +2124,7 @@ XString::size_type XString::toInt64U(bool* _Ok, int _Base) const XANADU_NOTHROW
 }
 
 /// string to float
-float XString::toFloat(bool* _Ok) const XANADU_NOTHROW
+float XString::toFloat(bool* _Ok) const noexcept
 {
 	auto		vEnd = static_cast<wchar_t*>(nullptr);
 	auto		vValue = std::wcstof(data(), &vEnd);
@@ -2103,7 +2145,7 @@ float XString::toFloat(bool* _Ok) const XANADU_NOTHROW
 }
 
 /// string to double
-double XString::toDouble(bool* _Ok) const XANADU_NOTHROW
+double XString::toDouble(bool* _Ok) const noexcept
 {
 	auto		vEnd = static_cast<wchar_t*>(nullptr);
 	auto		vValue = std::wcstod(data(), &vEnd);
@@ -2127,35 +2169,35 @@ double XString::toDouble(bool* _Ok) const XANADU_NOTHROW
 
 
 /// string form number
-XString& XString::setNumber(int16S _Value, int32S _Base) XANADU_NOTHROW
+XString& XString::setNumber(int16S _Value, int32S _Base) noexcept
 {
 	this->setNumber(static_cast<size_type>(_Value), _Base);
 	return *this;
 }
 
 /// string form number
-XString& XString::setNumber(int16U _Value, int32S _Base) XANADU_NOTHROW
+XString& XString::setNumber(int16U _Value, int32S _Base) noexcept
 {
 	this->setNumber(static_cast<size_type>(_Value), _Base);
 	return *this;
 }
 
 /// string form number
-XString& XString::setNumber(int32S _Value, int32S _Base) XANADU_NOTHROW
+XString& XString::setNumber(int32S _Value, int32S _Base) noexcept
 {
 	this->setNumber(static_cast<size_type>(_Value), _Base);
 	return *this;
 }
 
 /// string form number
-XString& XString::setNumber(int32U _Value, int32S _Base) XANADU_NOTHROW
+XString& XString::setNumber(int32U _Value, int32S _Base) noexcept
 {
 	this->setNumber(static_cast<size_type>(_Value), _Base);
 	return *this;
 }
 
 /// string form number
-XString& XString::setNumber(int64S _Value, int32S _Base) XANADU_NOTHROW
+XString& XString::setNumber(int64S _Value, int32S _Base) noexcept
 {
 	if(2 <= _Base && _Base <= 36)
 	{
@@ -2165,7 +2207,7 @@ XString& XString::setNumber(int64S _Value, int32S _Base) XANADU_NOTHROW
 }
 
 /// string form number
-XString& XString::setNumber(int64U _Value, int32S _Base) XANADU_NOTHROW
+XString& XString::setNumber(int64U _Value, int32S _Base) noexcept
 {
 	if(2 <= _Base && _Base <= 36)
 	{
@@ -2175,7 +2217,7 @@ XString& XString::setNumber(int64U _Value, int32S _Base) XANADU_NOTHROW
 }
 
 /// string form number
-XString& XString::setNumber(float _Value, char _Format, int32S _Prec) XANADU_NOTHROW
+XString& XString::setNumber(float _Value, char _Format, int32S _Prec) noexcept
 {
 	XANADU_UNPARAMETER(_Format);
 	XANADU_UNPARAMETER(_Prec);
@@ -2185,7 +2227,7 @@ XString& XString::setNumber(float _Value, char _Format, int32S _Prec) XANADU_NOT
 }
 
 /// string form number
-XString& XString::setNumber(double _Value, char _Format, int32S _Prec) XANADU_NOTHROW
+XString& XString::setNumber(double _Value, char _Format, int32S _Prec) noexcept
 {
 	XANADU_UNPARAMETER(_Format);
 	XANADU_UNPARAMETER(_Prec);
@@ -2198,7 +2240,7 @@ XString& XString::setNumber(double _Value, char _Format, int32S _Prec) XANADU_NO
 
 
 /// string form number
-XString XString::number(int16S _Value, int32S _Base) XANADU_NOTHROW
+XString XString::number(int16S _Value, int32S _Base) noexcept
 {
 	auto		vValue = XString();
 	vValue.setNumber(_Value, _Base);
@@ -2206,7 +2248,7 @@ XString XString::number(int16S _Value, int32S _Base) XANADU_NOTHROW
 }
 
 /// string form number
-XString XString::number(int16U _Value, int32S _Base) XANADU_NOTHROW
+XString XString::number(int16U _Value, int32S _Base) noexcept
 {
 	auto		vValue = XString();
 	vValue.setNumber(_Value, _Base);
@@ -2214,7 +2256,7 @@ XString XString::number(int16U _Value, int32S _Base) XANADU_NOTHROW
 }
 
 /// string form number
-XString XString::number(int32S _Value, int32S _Base) XANADU_NOTHROW
+XString XString::number(int32S _Value, int32S _Base) noexcept
 {
 	auto		vValue = XString();
 	vValue.setNumber(_Value, _Base);
@@ -2222,7 +2264,7 @@ XString XString::number(int32S _Value, int32S _Base) XANADU_NOTHROW
 }
 
 /// string form number
-XString XString::number(int32U _Value, int32S _Base) XANADU_NOTHROW
+XString XString::number(int32U _Value, int32S _Base) noexcept
 {
 	auto		vValue = XString();
 	vValue.setNumber(_Value, _Base);
@@ -2230,7 +2272,7 @@ XString XString::number(int32U _Value, int32S _Base) XANADU_NOTHROW
 }
 
 /// string form number
-XString XString::number(int64S _Value, int32S _Base) XANADU_NOTHROW
+XString XString::number(int64S _Value, int32S _Base) noexcept
 {
 	auto		vValue = XString();
 	vValue.setNumber(_Value, _Base);
@@ -2238,7 +2280,7 @@ XString XString::number(int64S _Value, int32S _Base) XANADU_NOTHROW
 }
 
 /// string form number
-XString XString::number(size_type _Value, int32S _Base) XANADU_NOTHROW
+XString XString::number(size_type _Value, int32S _Base) noexcept
 {
 	auto		vValue = XString();
 	vValue.setNumber(_Value, _Base);
@@ -2246,7 +2288,7 @@ XString XString::number(size_type _Value, int32S _Base) XANADU_NOTHROW
 }
 
 /// string form number
-XString XString::number(double _Value, char _Format, int32S _Prec) XANADU_NOTHROW
+XString XString::number(double _Value, char _Format, int32S _Prec) noexcept
 {
 	auto		vValue = XString();
 	vValue.setNumber(_Value, _Format, _Prec);
@@ -2265,13 +2307,13 @@ XString XString::number(double _Value, char _Format, int32S _Prec) XANADU_NOTHRO
 
 
 /// XString Swap
-XANADU_CORE_EXPORT void swap(XString& _String1, XString& _String2) XANADU_NOTHROW
+XANADU_CORE_EXPORT void swap(XString& _String1, XString& _String2) noexcept
 {
 	_String1.swap(_String2);
 }
 
 /// XString Merged
-XANADU_CORE_EXPORT XString operator+ (const XString& _StringLeft, const XString& _StringRight) XANADU_NOTHROW
+XANADU_CORE_EXPORT XString operator+ (const XString& _StringLeft, const XString& _StringRight) noexcept
 {
 	XString		vReturn = _StringLeft;
 	vReturn += _StringRight;
@@ -2279,7 +2321,7 @@ XANADU_CORE_EXPORT XString operator+ (const XString& _StringLeft, const XString&
 }
 
 /// XString Merged
-XANADU_CORE_EXPORT XString operator+ (const XString& _StringLeft, const wchar_t* _StringRight) XANADU_NOTHROW
+XANADU_CORE_EXPORT XString operator+ (const XString& _StringLeft, const wchar_t* _StringRight) noexcept
 {
 	XString		vReturn = _StringLeft;
 	vReturn += _StringRight;
@@ -2287,7 +2329,7 @@ XANADU_CORE_EXPORT XString operator+ (const XString& _StringLeft, const wchar_t*
 }
 
 /// XString Merged
-XANADU_CORE_EXPORT XString operator+ (const wchar_t* _StringLeft, const XString& _StringRight) XANADU_NOTHROW
+XANADU_CORE_EXPORT XString operator+ (const wchar_t* _StringLeft, const XString& _StringRight) noexcept
 {
 	XString		vReturn = _StringLeft;
 	vReturn += _StringRight;
@@ -2295,7 +2337,7 @@ XANADU_CORE_EXPORT XString operator+ (const wchar_t* _StringLeft, const XString&
 }
 
 /// XString Merged
-XANADU_CORE_EXPORT XString operator+ (const XString& _StringLeft, wchar_t _CharRight) XANADU_NOTHROW
+XANADU_CORE_EXPORT XString operator+ (const XString& _StringLeft, wchar_t _CharRight) noexcept
 {
 	XString		vReturn = _StringLeft;
 	vReturn += _CharRight;
@@ -2303,7 +2345,7 @@ XANADU_CORE_EXPORT XString operator+ (const XString& _StringLeft, wchar_t _CharR
 }
 
 /// XString Merged
-XANADU_CORE_EXPORT XString operator+ (wchar_t _CharLeft, const XString& _StringRight) XANADU_NOTHROW
+XANADU_CORE_EXPORT XString operator+ (wchar_t _CharLeft, const XString& _StringRight) noexcept
 {
 	XString		vReturn = _StringRight;
 	vReturn += _CharLeft;
@@ -2311,7 +2353,7 @@ XANADU_CORE_EXPORT XString operator+ (wchar_t _CharLeft, const XString& _StringR
 }
 
 /// XString Out
-XANADU_CORE_EXPORT std::wostream& operator<< (std::wostream& _OStream, const XString& _String) XANADU_NOTHROW
+XANADU_CORE_EXPORT std::wostream& operator<< (std::wostream& _OStream, const XString& _String) noexcept
 {
 	for(auto vIndex = 0ULL; vIndex < _String.length(); ++vIndex)
 	{
@@ -2321,7 +2363,7 @@ XANADU_CORE_EXPORT std::wostream& operator<< (std::wostream& _OStream, const XSt
 }
 
 /// XString In
-XANADU_CORE_EXPORT std::wistream& operator>> (std::wistream& _IStream, XString& _String) XANADU_NOTHROW
+XANADU_CORE_EXPORT std::wistream& operator>> (std::wistream& _IStream, XString& _String) noexcept
 {
 	_String.clear();
 	do
@@ -2337,7 +2379,7 @@ XANADU_CORE_EXPORT std::wistream& operator>> (std::wistream& _IStream, XString& 
 }
 
 /// XString in line
-XANADU_CORE_EXPORT std::wistream& getline(std::wistream& _IStream, XString& _String, wchar_t _Delim) XANADU_NOTHROW
+XANADU_CORE_EXPORT std::wistream& getline(std::wistream& _IStream, XString& _String, wchar_t _Delim) noexcept
 {
 	_String.clear();
 	do
@@ -2353,7 +2395,7 @@ XANADU_CORE_EXPORT std::wistream& getline(std::wistream& _IStream, XString& _Str
 }
 
 /// XString in line
-XANADU_CORE_EXPORT std::wistream& getline(std::wistream& _IStream, XString& _String) XANADU_NOTHROW
+XANADU_CORE_EXPORT std::wistream& getline(std::wistream& _IStream, XString& _String) noexcept
 {
 	return getline(_IStream, _String, L'\n');
 }

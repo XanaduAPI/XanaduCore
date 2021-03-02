@@ -21,24 +21,24 @@ public:
 };
 
 
-XSetting::XSetting() XANADU_NOTHROW
+XSetting::XSetting() noexcept
 {
 	this->_Info = nullptr;
 }
 
 /// Overload Initialize
-XSetting::XSetting(const XSetting& _Setting) XANADU_NOTHROW
+XSetting::XSetting(const XSetting& _Setting) noexcept
 {
 	this->_copy(_Setting);
 }
 
-XSetting::~XSetting() XANADU_NOTHROW
+XSetting::~XSetting() noexcept
 {
 	this->_clear();
 }
 
 /// Overload Operator =
-XSetting& XSetting::operator = (const XSetting& _Setting) XANADU_NOTHROW
+XSetting& XSetting::operator = (const XSetting& _Setting) noexcept
 {
 	this->_copy(_Setting);
 	return *this;
@@ -49,7 +49,7 @@ XSetting& XSetting::operator = (const XSetting& _Setting) XANADU_NOTHROW
 
 
 
-void XSetting::_clear() XANADU_NOTHROW
+void XSetting::_clear() noexcept
 {
 	while (this->_Info)
 	{
@@ -59,7 +59,7 @@ void XSetting::_clear() XANADU_NOTHROW
 	};
 }
 
-void XSetting::_copy(const XSetting& _Setting) XANADU_NOTHROW
+void XSetting::_copy(const XSetting& _Setting) noexcept
 {
 	this->_clear();
 	for(auto vNode = _Setting._Info; vNode; vNode = vNode->_Next)
@@ -75,7 +75,7 @@ void XSetting::_copy(const XSetting& _Setting) XANADU_NOTHROW
 	}
 }
 
-XSettingPrivate* XSetting::_format(const XByteArray& _Bytes) const XANADU_NOTHROW
+XSettingPrivate* XSetting::_format(const XByteArray& _Bytes) const noexcept
 {
 	auto		vNode = XANADU_NEW XSettingPrivate();
 	if(vNode)
@@ -131,7 +131,7 @@ XSettingPrivate* XSetting::_format(const XByteArray& _Bytes) const XANADU_NOTHRO
 	return vNode;
 }
 
-void XSetting::_append(XSettingPrivate* _Node) XANADU_NOTHROW
+void XSetting::_append(XSettingPrivate* _Node) noexcept
 {
 	if(this->_Info)
 	{
@@ -149,7 +149,7 @@ void XSetting::_append(XSettingPrivate* _Node) XANADU_NOTHROW
 	}
 }
 
-XSettingPrivate* XSetting::_find(const XString& _Section, const XString& _Key) const XANADU_NOTHROW
+XSettingPrivate* XSetting::_find(const XString& _Section, const XString& _Key) const noexcept
 {
 	auto		vSection = _Section.toBytes();
 	auto		vKey = _Key.toBytes();
@@ -181,7 +181,7 @@ XSettingPrivate* XSetting::_find(const XString& _Section, const XString& _Key) c
 	return nullptr;
 }
 
-void XSetting::_remove(XSettingPrivate* _Node) XANADU_NOTHROW
+void XSetting::_remove(XSettingPrivate* _Node) noexcept
 {
 	if(_Node)
 	{
@@ -212,7 +212,7 @@ void XSetting::_remove(XSettingPrivate* _Node) XANADU_NOTHROW
 	}
 }
 
-XSettingPrivate* XSetting::_section_end(const XString& _Section) XANADU_NOTHROW
+XSettingPrivate* XSetting::_section_end(const XString& _Section) noexcept
 {
 	auto		vSection = _Section.toBytes();
 	auto		vEnd = static_cast<XSettingPrivate*>(nullptr);
@@ -241,7 +241,7 @@ XSettingPrivate* XSetting::_section_end(const XString& _Section) XANADU_NOTHROW
 	return vEnd;
 }
 
-XByteArray XSetting::_section(const XSettingPrivate* _Node) const XANADU_NOTHROW
+XByteArray XSetting::_section(const XSettingPrivate* _Node) const noexcept
 {
 	if(_Node)
 	{
@@ -253,7 +253,7 @@ XByteArray XSetting::_section(const XSettingPrivate* _Node) const XANADU_NOTHROW
 	return XByteArray();
 }
 
-XByteArray XSetting::_left(const XSettingPrivate* _Node) const XANADU_NOTHROW
+XByteArray XSetting::_left(const XSettingPrivate* _Node) const noexcept
 {
 	if(_Node)
 	{
@@ -265,7 +265,7 @@ XByteArray XSetting::_left(const XSettingPrivate* _Node) const XANADU_NOTHROW
 	return XByteArray();
 }
 
-XByteArray XSetting::_right(const XSettingPrivate* _Node) const XANADU_NOTHROW
+XByteArray XSetting::_right(const XSettingPrivate* _Node) const noexcept
 {
 	if(_Node)
 	{
@@ -286,7 +286,7 @@ XByteArray XSetting::_right(const XSettingPrivate* _Node) const XANADU_NOTHROW
 
 
 ///加载
-bool XSetting::Load(const XString& _File) XANADU_NOTHROW
+bool XSetting::Load(const XString& _File) noexcept
 {
 	this->_clear();
 
@@ -314,7 +314,7 @@ bool XSetting::Load(const XString& _File) XANADU_NOTHROW
 }
 
 /// 保存
-bool XSetting::Save(const XString& _File) const XANADU_NOTHROW
+bool XSetting::Save(const XString& _File) const noexcept
 {
 	auto		vHandle = Xanadu::wfopen(_File.data(), L"w");
 	if(vHandle)
@@ -335,13 +335,13 @@ bool XSetting::Save(const XString& _File) const XANADU_NOTHROW
 
 
 /// 增
-bool XSetting::Append(const XString& _Section, const XString& _Key, const XVariant& _Value) XANADU_NOTHROW
+bool XSetting::Append(const XString& _Section, const XString& _Key, const XVariant& _Value) noexcept
 {
 	return this->Modify(_Section, _Key, _Value);
 }
 
 /// 删
-bool XSetting::Remove(const XString& _Section, const XString& _Key) XANADU_NOTHROW
+bool XSetting::Remove(const XString& _Section, const XString& _Key) noexcept
 {
 	auto		vNode = this->_find(_Section, _Key);
 	if(vNode)
@@ -353,7 +353,7 @@ bool XSetting::Remove(const XString& _Section, const XString& _Key) XANADU_NOTHR
 }
 
 /// 改
-bool XSetting::Modify(const XString& _Section, const XString& _Key, const XVariant& _Value) XANADU_NOTHROW
+bool XSetting::Modify(const XString& _Section, const XString& _Key, const XVariant& _Value) noexcept
 {
 	auto		vNode = this->_find(_Section, _Key);
 	if(vNode)
@@ -396,7 +396,7 @@ bool XSetting::Modify(const XString& _Section, const XString& _Key, const XVaria
 }
 
 /// 查
-XVariant XSetting::Select(const XString& _Section, const XString& _Key, const XVariant& _Default) const XANADU_NOTHROW
+XVariant XSetting::Select(const XString& _Section, const XString& _Key, const XVariant& _Default) const noexcept
 {
 	auto		vNode = this->_find(_Section, _Key);
 	if(vNode)
@@ -411,7 +411,7 @@ XVariant XSetting::Select(const XString& _Section, const XString& _Key, const XV
 
 
 /// 写入
-bool XSetting::Write(const XString& _File, const XString& _Section, const XString& _Key, const XVariant& _Value) XANADU_NOTHROW
+bool XSetting::Write(const XString& _File, const XString& _Section, const XString& _Key, const XVariant& _Value) noexcept
 {
 	auto		vSync = false;
 	auto		vSetting = XSetting();
@@ -427,7 +427,7 @@ bool XSetting::Write(const XString& _File, const XString& _Section, const XStrin
 }
 
 /// 读取
-XVariant XSetting::Read(const XString& _File, const XString& _Section, const XString& _Key, const XVariant& _Default) XANADU_NOTHROW
+XVariant XSetting::Read(const XString& _File, const XString& _Section, const XString& _Key, const XVariant& _Default) noexcept
 {
 	auto		vSync = _Default;
 	auto		vSetting = XSetting();

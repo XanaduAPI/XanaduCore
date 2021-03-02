@@ -24,13 +24,13 @@ typedef struct _XANADU_CORE_MD5_CONTEXT
 namespace Xanadu
 {
 	/// MD5 initialization
-	XANADU_CORE_EXPORT void XANADUAPI MD5_Init(XANADU_CORE_MD5_CONTEXT* _Context) XANADU_NOTHROW;
+	XANADU_CORE_EXPORT void XANADUAPI MD5_Init(XANADU_CORE_MD5_CONTEXT* _Context) noexcept;
 
 	/// MD5 updates the data
-	XANADU_CORE_EXPORT void XANADUAPI MD5_Update(XANADU_CORE_MD5_CONTEXT* _Context, const void* _Data, int64U _Size) XANADU_NOTHROW;
+	XANADU_CORE_EXPORT void XANADUAPI MD5_Update(XANADU_CORE_MD5_CONTEXT* _Context, const void* _Data, int64U _Size) noexcept;
 
 	/// MD5 retrieves the results
-	XANADU_CORE_EXPORT void XANADUAPI MD5_Final(unsigned char* _Result, XANADU_CORE_MD5_CONTEXT* _Context) XANADU_NOTHROW;
+	XANADU_CORE_EXPORT void XANADUAPI MD5_Final(unsigned char* _Result, XANADU_CORE_MD5_CONTEXT* _Context) noexcept;
 };
 
 #endif /// _XANADU_CORE_HASH_MD5_H_

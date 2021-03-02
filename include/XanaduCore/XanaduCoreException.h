@@ -1,8 +1,4 @@
-﻿/*
- * This file is an exception declaration for the Xanadu family
- * */
-
-#ifndef			_XANADU_CORE_EXCEPTION_H_
+﻿#ifndef			_XANADU_CORE_EXCEPTION_H_
 #define			_XANADU_CORE_EXCEPTION_H_
 
 #include <XanaduCore/XanaduCoreHeader.h>
@@ -17,33 +13,33 @@ private:
 
 public:
 	/// Overload Initialize
-	XException() XANADU_NOTHROW;
+	XException() noexcept;
 
 	/// Overload Initialize
-	XException(const wchar_t* _Explain) XANADU_NOTHROW;
+	XException(const wchar_t* _Explain) noexcept;
 
 	/// Overload Initialize
-	XException(const XString& _Explain) XANADU_NOTHROW;
+	XException(const XString& _Explain) noexcept;
 
 	/// Overload Initialize
-	XException(const XException& _Exception) XANADU_NOTHROW;
+	XException(const XException& _Exception) noexcept;
 
 	/// Virtual destructor
-	virtual ~XException() XANADU_NOTHROW;
+	virtual ~XException() noexcept;
 
 public:
 	/// Overload Operator =
-	XException& operator = (const wchar_t* _Explain) XANADU_NOTHROW;
+	XException& operator = (const wchar_t* _Explain) noexcept;
 
 	/// Overload Operator =
-	XException& operator = (const XString& _Explain) XANADU_NOTHROW;
+	XException& operator = (const XString& _Explain) noexcept;
 
 	/// Overload Operator =
-	XException& operator = (const XException& _Exception) XANADU_NOTHROW;
+	XException& operator = (const XException& _Exception) noexcept;
 
 public:
 	/// Get Exception Info
-	virtual const wchar_t* what() const XANADU_NOTHROW;
+	virtual const wchar_t* what() const noexcept;
 };
 
 #endif /// _XANADU_CORE_EXCEPTION_H_

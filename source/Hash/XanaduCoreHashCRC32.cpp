@@ -290,13 +290,13 @@ inline int32U swap(int32U x)
 }
 
 /// CRC32 initialization
-XANADU_CORE_EXPORT void XANADUAPI Xanadu::CRC32_Init(XANADU_CORE_CRC32_CONTEXT* _Context) XANADU_NOTHROW
+XANADU_CORE_EXPORT void XANADUAPI Xanadu::CRC32_Init(XANADU_CORE_CRC32_CONTEXT* _Context) noexcept
 {
 	_Context->hash = 0;
 }
 
 /// CRC32 updates the data
-XANADU_CORE_EXPORT void XANADUAPI Xanadu::CRC32_Update(XANADU_CORE_CRC32_CONTEXT* _Context, const void* _Data, int64U _Size) XANADU_NOTHROW
+XANADU_CORE_EXPORT void XANADUAPI Xanadu::CRC32_Update(XANADU_CORE_CRC32_CONTEXT* _Context, const void* _Data, int64U _Size) noexcept
 {
 	auto		current = (int32U*)_Data;
 	auto		crc = ~(_Context->hash);
@@ -340,7 +340,7 @@ XANADU_CORE_EXPORT void XANADUAPI Xanadu::CRC32_Update(XANADU_CORE_CRC32_CONTEXT
 }
 
 /// CRC32 retrieves the results
-XANADU_CORE_EXPORT void XANADUAPI Xanadu::CRC32_Final(unsigned char* _Result, XANADU_CORE_CRC32_CONTEXT* _Context) XANADU_NOTHROW
+XANADU_CORE_EXPORT void XANADUAPI Xanadu::CRC32_Final(unsigned char* _Result, XANADU_CORE_CRC32_CONTEXT* _Context) noexcept
 {
 	_Result[0] = (_Context->hash >> 24) & 0xFF;
 	_Result[1] = (_Context->hash >> 16) & 0xFF;

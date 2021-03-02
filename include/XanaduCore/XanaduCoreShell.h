@@ -8,19 +8,19 @@
 class XANADU_CORE_EXPORT XShell
 {
 public:
-	XShell() XANADU_NOTHROW;
+	XShell() noexcept;
 
-	virtual ~XShell() XANADU_NOTHROW;
+	virtual ~XShell() noexcept;
 
 public:
 	/// Async run shell
-	static int64S Run(const XString& _Shell) XANADU_NOTHROW;
+	static int64S Run(const XString& _Shell) noexcept;
 
 	/// Sync run shell
-	static int64S Run(const XString& _Shell, std::function<bool(const XString& _Output)> _Lambda) XANADU_NOTHROW;
+	static int64S Run(const XString& _Shell, std::function<bool(const XString& _Output)> _Lambda) noexcept;
 
 	/// Native System
-	static int32S System(const XString& _Command) XANADU_NOTHROW;
+	static int32S System(const XString& _Command) noexcept;
 };
 
 #endif /// _XANADU_CORE_SHELL_H_

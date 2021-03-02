@@ -29,23 +29,23 @@ typedef struct _XANADU_TIME_HIGH_PRECISION
 
 
 
-XDateTime::XDateTime() XANADU_NOTHROW
+XDateTime::XDateTime() noexcept
 {
 	_time_millisecond = XDateTime::CurrentMillisecond();
 }
 
-XDateTime::~XDateTime() XANADU_NOTHROW
+XDateTime::~XDateTime() noexcept
 {
 }
 
 /// UTC Second
-int64U XDateTime::CurrentSecond() XANADU_NOTHROW
+int64U XDateTime::CurrentSecond() noexcept
 {
 	return static_cast<int64U>(time(nullptr));
 }
 
 /// UTC Millisecond
-int64U XDateTime::CurrentMillisecond() XANADU_NOTHROW
+int64U XDateTime::CurrentMillisecond() noexcept
 {
 	struct timeb		vRawtime;
 	ftime(&vRawtime);
@@ -53,7 +53,7 @@ int64U XDateTime::CurrentMillisecond() XANADU_NOTHROW
 }
 
 /// Second To String (1970-01-01 08:00:00)
-XString XDateTime::SecondToString(int64U _Second) XANADU_NOTHROW
+XString XDateTime::SecondToString(int64U _Second) noexcept
 {
 	auto		vValueSecond = static_cast<time_t>(_Second);
 	auto		vTM = Xanadu::localtime(&vValueSecond);
@@ -61,13 +61,13 @@ XString XDateTime::SecondToString(int64U _Second) XANADU_NOTHROW
 }
 
 /// Millisecond To String (1970-01-01 08:00:00.000)
-XString XDateTime::MillisecondToString(int64U _Millisecond) XANADU_NOTHROW
+XString XDateTime::MillisecondToString(int64U _Millisecond) noexcept
 {
 	return SecondToString(_Millisecond / 1000) + L"." + XString::number(_Millisecond % 1000);
 }
 
 /// Current To String (1970-01-01 08:00:00.000)
-XString XDateTime::CurrentToString() XANADU_NOTHROW
+XString XDateTime::CurrentToString() noexcept
 {
 	wchar_t		vBuffer[XANADU_PATH] = { 0 };
 #ifdef XANADU_SYSTEM_WINDOWS
@@ -85,13 +85,13 @@ XString XDateTime::CurrentToString() XANADU_NOTHROW
 }
 
 /// format
-XDateTime XDateTime::FormSecond(int64U _Second) XANADU_NOTHROW
+XDateTime XDateTime::FormSecond(int64U _Second) noexcept
 {
 	return XDateTime::FormMillisecond(_Second * 1000);
 }
 
 /// format
-XDateTime XDateTime::FormMillisecond(int64U _Millisecond) XANADU_NOTHROW
+XDateTime XDateTime::FormMillisecond(int64U _Millisecond) noexcept
 {
 	auto		vTime = XDateTime();
 	vTime._time_millisecond = _Millisecond;
@@ -100,7 +100,7 @@ XDateTime XDateTime::FormMillisecond(int64U _Millisecond) XANADU_NOTHROW
 
 
 /// 高精度计时开始
-HANDLE XDateTime::HighPrecisionStart() XANADU_NOTHROW
+HANDLE XDateTime::HighPrecisionStart() noexcept
 {
 	auto		vHandle = XANADU_NEW XANADU_TIME_HIGH_PRECISION();
 	if (vHandle)
@@ -117,7 +117,7 @@ HANDLE XDateTime::HighPrecisionStart() XANADU_NOTHROW
 }
 
 /// 高精度计时结束
-int64U XDateTime::HighPrecisionStop(HANDLE _Handle) XANADU_NOTHROW
+int64U XDateTime::HighPrecisionStop(HANDLE _Handle) noexcept
 {
 	auto		vDifference = static_cast<int64U>(0);
 	auto		vHandle = static_cast<XANADU_TIME_HIGH_PRECISION*>(_Handle);

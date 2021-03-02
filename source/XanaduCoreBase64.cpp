@@ -5,12 +5,12 @@
 #include <XanaduCore/XanaduCoreBase64.h>
 
 /// Structure
-XCryptoBase64::XCryptoBase64() XANADU_NOTHROW
+XBase64::XBase64() noexcept
 {
 }
 
 /// Virtual destructor
-XCryptoBase64::~XCryptoBase64() XANADU_NOTHROW
+XBase64::~XBase64() noexcept
 {
 }
 
@@ -18,7 +18,7 @@ XCryptoBase64::~XCryptoBase64() XANADU_NOTHROW
 
 
 /// Encoded in BASE64
-XByteArray XCryptoBase64::Encode(const void* _Memory, int64U _Length) XANADU_NOTHROW
+XByteArray XBase64::encode(const void* _Memory, int64U _Length) noexcept
 {
 	if(nullptr == _Memory || 0 == _Length)
 	{
@@ -83,13 +83,13 @@ XByteArray XCryptoBase64::Encode(const void* _Memory, int64U _Length) XANADU_NOT
 }
 
 /// Encoded in BASE64
-XByteArray XCryptoBase64::Encode(const XByteArray& _Bytes) XANADU_NOTHROW
+XByteArray XBase64::encode(const XByteArray& _Bytes) noexcept
 {
-	return XCryptoBase64::Encode(_Bytes.data(), _Bytes.size());
+	return XBase64::encode(_Bytes.data(), _Bytes.size());
 }
 
 /// Decoded in BASE64
-XByteArray XCryptoBase64::Decode(const void* _Memory, int64U _Length) XANADU_NOTHROW
+XByteArray XBase64::decode(const void* _Memory, int64U _Length) noexcept
 {
 	if(nullptr == _Memory || 0 == _Length || (_Length % 4))
 	{
@@ -150,7 +150,7 @@ XByteArray XCryptoBase64::Decode(const void* _Memory, int64U _Length) XANADU_NOT
 }
 
 /// Decoded in BASE64
-XByteArray XCryptoBase64::Decode(const XByteArray& _Bytes) XANADU_NOTHROW
+XByteArray XBase64::decode(const XByteArray& _Bytes) noexcept
 {
-	return XCryptoBase64::Decode(_Bytes.data(), _Bytes.size());
+	return XBase64::decode(_Bytes.data(), _Bytes.size());
 }

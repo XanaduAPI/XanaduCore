@@ -11,32 +11,32 @@
 
 
 
-XProcessInfo::XProcessInfo() XANADU_NOTHROW
+XProcessInfo::XProcessInfo() noexcept
 {
 	this->_process_id = 0;
 	this->_process_name = L"";
 }
 
-XProcessInfo::XProcessInfo(int64U _ID, const XString& _Name) XANADU_NOTHROW : _process_id(_ID), _process_name(_Name)
+XProcessInfo::XProcessInfo(int64U _ID, const XString& _Name) noexcept : _process_id(_ID), _process_name(_Name)
 {
 }
 
-XProcessInfo::~XProcessInfo() XANADU_NOTHROW
+XProcessInfo::~XProcessInfo() noexcept
 {
 }
 
-int64U XProcessInfo::GetID() const XANADU_NOTHROW
+int64U XProcessInfo::GetID() const noexcept
 {
 	return this->_process_id;
 }
 
-XString XProcessInfo::GetName() const XANADU_NOTHROW
+XString XProcessInfo::GetName() const noexcept
 {
 	return this->_process_name;
 }
 
 //结束进程
-bool XProcessInfo::Terminate() const XANADU_NOTHROW
+bool XProcessInfo::Terminate() const noexcept
 {
 	return XProcess::Terminate(_process_id);
 }
@@ -66,16 +66,16 @@ XString RegisterKeyValue(HKEY _Key, XString _Guid, XString _Name)
 	return vKeyValue;
 }
 
-XProcess::XProcess() XANADU_NOTHROW
+XProcess::XProcess() noexcept
 {
 }
 
-XProcess::~XProcess() XANADU_NOTHROW
+XProcess::~XProcess() noexcept
 {
 }
 
 /// 结束进程
-bool XProcess::Terminate(XString _ProcessName) XANADU_NOTHROW
+bool XProcess::Terminate(XString _ProcessName) noexcept
 {
 	XANADU_CHECK_RETURN(_ProcessName.size(), false);
 	auto			vResult = true;
@@ -182,7 +182,7 @@ bool XProcess::Terminate(XString _ProcessName) XANADU_NOTHROW
 }
 
 /// 结束进程
-bool XProcess::Terminate(int64U _ProcessID) XANADU_NOTHROW
+bool XProcess::Terminate(int64U _ProcessID) noexcept
 {
 	auto		vResult = true;
 #ifdef XANADU_SYSTEM_WINDOWS
@@ -203,7 +203,7 @@ bool XProcess::Terminate(int64U _ProcessID) XANADU_NOTHROW
 }
 
 /// 当前进程ID
-int64U XProcess::ProcessID() XANADU_NOTHROW
+int64U XProcess::ProcessID() noexcept
 {
 #ifdef XANADU_SYSTEM_WINDOWS
 	return static_cast<int64U>(GetCurrentProcessId());
@@ -213,7 +213,7 @@ int64U XProcess::ProcessID() XANADU_NOTHROW
 }
 
 /// 遍历
-bool XProcess::Traverse(std::function<bool(const XProcessInfo& _Info)> _Lambda) XANADU_NOTHROW
+bool XProcess::Traverse(std::function<bool(const XProcessInfo& _Info)> _Lambda) noexcept
 {
 	XANADU_CHECK_RETURN(_Lambda, false);
 
@@ -309,7 +309,7 @@ bool XProcess::Traverse(std::function<bool(const XProcessInfo& _Info)> _Lambda) 
 }
 
 /// 进程是否存在
-bool XProcess::IsExist(const XString& _ProcessName) XANADU_NOTHROW
+bool XProcess::IsExist(const XString& _ProcessName) noexcept
 {
 	XANADU_CHECK_RETURN(_ProcessName.size(), false);
 
@@ -321,7 +321,7 @@ bool XProcess::IsExist(const XString& _ProcessName) XANADU_NOTHROW
 }
 
 /// 同进程名的数量
-int32S XProcess::Number(const XString& _ProcessName) XANADU_NOTHROW
+int32S XProcess::Number(const XString& _ProcessName) noexcept
 {
 	XANADU_CHECK_RETURN(_ProcessName.size(), 0);
 
@@ -420,7 +420,7 @@ int32S XProcess::Number(const XString& _ProcessName) XANADU_NOTHROW
 }
 
 /// 运行并等待进程
-int64U XProcess::Execute(const XString& _Application, const XString& _Param, const XString& _Directory, bool _Wait, bool _UI) XANADU_NOTHROW
+int64U XProcess::Execute(const XString& _Application, const XString& _Param, const XString& _Directory, bool _Wait, bool _UI) noexcept
 {
 #ifdef XANADU_SYSTEM_WINDOWS
 	DWORD			vExitCode = STATUS_INVALID_HANDLE;
@@ -498,7 +498,7 @@ int64U XProcess::Execute(const XString& _Application, const XString& _Param, con
 }
 
 /// 枚举卸载列表
-bool XProcess::Program(std::function<void(const XANADU_CORE_PROCESS_UNINSTALL* _Info)> _Lambda) XANADU_NOTHROW
+bool XProcess::Program(std::function<void(const XANADU_CORE_PROCESS_UNINSTALL* _Info)> _Lambda) noexcept
 {
 	auto		vResult = false;
 #ifdef XANADU_SYSTEM_WINDOWS

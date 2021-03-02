@@ -24,58 +24,58 @@ private:
 	XString				_process_name;
 
 public:
-	XProcessInfo() XANADU_NOTHROW;
+	XProcessInfo() noexcept;
 
-	XProcessInfo(int64U _ID, const XString& _Name) XANADU_NOTHROW;
+	XProcessInfo(int64U _ID, const XString& _Name) noexcept;
 
-	virtual ~XProcessInfo() XANADU_NOTHROW;
+	virtual ~XProcessInfo() noexcept;
 
 public:
 	/// 进程ID
-	virtual int64U GetID() const XANADU_NOTHROW;
+	virtual int64U GetID() const noexcept;
 
 	/// 进程名称
-	virtual XString GetName() const XANADU_NOTHROW;
+	virtual XString GetName() const noexcept;
 
 public:
 	/// 结束进程
-	virtual bool Terminate() const XANADU_NOTHROW;
+	virtual bool Terminate() const noexcept;
 };
 
 /// Process
 class XANADU_CORE_EXPORT XProcess
 {
 public:
-	XProcess() XANADU_NOTHROW;
+	XProcess() noexcept;
 
-	virtual ~XProcess() XANADU_NOTHROW;
+	virtual ~XProcess() noexcept;
 
 public:
 	/// 结束进程
-	static bool Terminate(XString _ProcessName) XANADU_NOTHROW;
+	static bool Terminate(XString _ProcessName) noexcept;
 
 	/// 结束进程
-	static bool Terminate(int64U _ProcessID) XANADU_NOTHROW;
+	static bool Terminate(int64U _ProcessID) noexcept;
 
 public:
 	/// 当前进程ID
-	static int64U ProcessID() XANADU_NOTHROW;
+	static int64U ProcessID() noexcept;
 
 public:
 	/// 遍历
-	static bool Traverse(std::function<bool(const XProcessInfo& _Info)> _Lambda) XANADU_NOTHROW;
+	static bool Traverse(std::function<bool(const XProcessInfo& _Info)> _Lambda) noexcept;
 
 	/// 进程是否存在
-	static bool IsExist(const XString& _ProcessName) XANADU_NOTHROW;
+	static bool IsExist(const XString& _ProcessName) noexcept;
 
 	/// 同进程名的数量
-	static int32S Number(const XString& _ProcessName) XANADU_NOTHROW;
+	static int32S Number(const XString& _ProcessName) noexcept;
 
 	/// 运行并等待进程
-	static int64U Execute(const XString& _Application, const XString& _Param = XString(), const XString& _Directory = XString(), bool _Wait = true, bool _UI = false) XANADU_NOTHROW;
+	static int64U Execute(const XString& _Application, const XString& _Param = XString(), const XString& _Directory = XString(), bool _Wait = true, bool _UI = false) noexcept;
 
 	/// 枚举卸载列表
-	static bool Program(std::function<void(const XANADU_CORE_PROCESS_UNINSTALL* _Info)> _Lambda) XANADU_NOTHROW;
+	static bool Program(std::function<void(const XANADU_CORE_PROCESS_UNINSTALL* _Info)> _Lambda) noexcept;
 };
 
 #endif /// _XANADU_CORE_PROCESS_H_

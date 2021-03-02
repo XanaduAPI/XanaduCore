@@ -5,7 +5,7 @@
 #include <XanaduCore/XanaduCoreMutex.h>
 
 
-XMutex::XMutex(RecursionMode _Mode) XANADU_NOTHROW
+XMutex::XMutex(RecursionMode _Mode) noexcept
 {
 	XANADU_UNPARAMETER(_Mode);
 #ifdef XANADU_SYSTEM_WINDOWS
@@ -37,7 +37,7 @@ XMutex::XMutex(RecursionMode _Mode) XANADU_NOTHROW
 #endif//XANADU_SYSTEM_WINDOWS
 }
 
-XMutex::~XMutex() XANADU_NOTHROW
+XMutex::~XMutex() noexcept
 {
 	XANADU_CHECK_RETURN(_data_mutex);
 #ifdef XANADU_SYSTEM_WINDOWS
@@ -52,7 +52,7 @@ XMutex::~XMutex() XANADU_NOTHROW
 	_data_mutex = nullptr;
 }
 
-void XMutex::Lock() XANADU_NOTHROW
+void XMutex::lock() noexcept
 {
 	XANADU_CHECK_RETURN(_data_mutex);
 #ifdef XANADU_SYSTEM_WINDOWS
@@ -62,7 +62,7 @@ void XMutex::Lock() XANADU_NOTHROW
 #endif//XANADU_SYSTEM_WINDOWS
 }
 
-void XMutex::Unlock() XANADU_NOTHROW
+void XMutex::unlock() noexcept
 {
 	XANADU_CHECK_RETURN(_data_mutex);
 #ifdef XANADU_SYSTEM_WINDOWS
@@ -75,12 +75,12 @@ void XMutex::Unlock() XANADU_NOTHROW
 
 
 
-XMutexAuto::XMutexAuto(XMutex& _Mutex) XANADU_NOTHROW : _data_mutex(_Mutex)
+XMutexAuto::XMutexAuto(XMutex& _Mutex) noexcept : _data_mutex(_Mutex)
 {
-	_data_mutex.Lock();
+	_data_mutex.lock();
 }
 
-XMutexAuto::~XMutexAuto() XANADU_NOTHROW
+XMutexAuto::~XMutexAuto() noexcept
 {
-	_data_mutex.Unlock();
+	_data_mutex.unlock();
 }
