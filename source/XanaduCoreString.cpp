@@ -798,14 +798,14 @@ int32S XString::_string_compare(const wchar_t* _String, size_type _Size, Xanadu:
 /// 查找
 XString::XString::size_type XString::_find(const wchar_t* _String, size_type _Length, size_type _Pos) const noexcept
 {
-	auto		vReturn = npos;
-	if(_Pos == npos)
+	auto		vReturn = XString::npos;
+	if(_Pos >= this->_string_length || _Pos + _Length > this->_string_length)
 	{
-		_Pos = _string_length - 1;
+		return vReturn;
 	}
-	for(; _Pos <= _string_length - _Length; ++_Pos)
+	for(; _Pos < this->_string_length - _Length; ++_Pos)
 	{
-		if(operator[](_Pos) == *_String && _compare(_String, _Length, _Pos))
+		if(operator[](_Pos) == *_String && this->_compare(_String, _Length, _Pos))
 		{
 			vReturn = _Pos;
 			break;
@@ -1559,7 +1559,14 @@ XString XString::substr(size_type _Pos, size_type _Length) const noexcept
 {
 	if(_Pos < this->size())
 	{
-		return XString(this->data() + _Pos, this->size() > _Length ? _Length : XString::npos);
+		if(_Length == XString::npos)
+		{
+			return XString(this->data() + _Pos, this->size() - _Pos);
+		}
+		else
+		{
+			return XString(this->data() + _Pos, this->size() - _Pos > _Length ? _Length : this->size() - _Pos);
+		}
 	}
 	else
 	{
@@ -1667,7 +1674,8 @@ XString::XString::size_type XString::find(const wchar_t* _String, size_type _Len
 /// XString find(4)
 XString::XString::size_type XString::find(wchar_t _Char, size_type _Pos) const noexcept
 {
-	return this->_find(&_Char, 1, _Pos);
+	wchar_t		vBuffer[2] = { _Char, 0 };
+	return this->_find(vBuffer, 1, _Pos);
 }
 
 
@@ -1692,7 +1700,8 @@ XString::XString::size_type XString::rfind(const wchar_t* _String, size_type _Le
 /// Reverse find(4)
 XString::XString::size_type XString::rfind(wchar_t _Char, size_type _Pos) const noexcept
 {
-	return this->_rfind(&_Char, 1, _Pos);
+	wchar_t		vBuffer[2] = { _Char, 0 };
+	return this->_rfind(vBuffer, 1, _Pos);
 }
 
 
@@ -1717,7 +1726,8 @@ XString::XString::size_type XString::indexOf(const wchar_t* _String, size_type _
 /// Index Of (4)
 XString::XString::size_type XString::indexOf(wchar_t _Char, size_type _Pos) const noexcept
 {
-	return this->find(&_Char, 1, _Pos);
+	wchar_t		vBuffer[2] = { _Char, 0 };
+	return this->find(vBuffer, 1, _Pos);
 }
 
 
@@ -1742,7 +1752,8 @@ XString::XString::size_type XString::lastIndexOf(const wchar_t* _String, size_ty
 /// Last Index Of (4)
 XString::XString::size_type XString::lastIndexOf(wchar_t _Char, size_type _Pos) const noexcept
 {
-	return this->rfind(&_Char, 1, _Pos);
+	wchar_t		vBuffer[2] = { _Char, 0 };
+	return this->rfind(vBuffer, 1, _Pos);
 }
 
 
