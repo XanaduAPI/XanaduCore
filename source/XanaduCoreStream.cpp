@@ -66,7 +66,7 @@ void XStream::Output(const wchar_t* _Format, ...) noexcept
 	vswprintf(vBuffer, XANADU_LOG_MAX_LENGTH, _Format, vArgs);
 	va_end(vArgs);
 
-	auto		vOutputString = XString(L"[") + XDateTime::CurrentToString() + XString(L"]") + XString(L" ") + vBuffer + XString(L"\n");
+	auto		vOutputString = XString(L"[") + XDateTime::currentMillisecondToString() + XString(L"]") + XString(L" ") + vBuffer + XString(L"\n");
 	wprintf(vOutputString.data());
 #ifdef XANADU_SYSTEM_WINDOWS
 	OutputDebugStringW(vOutputString.data());

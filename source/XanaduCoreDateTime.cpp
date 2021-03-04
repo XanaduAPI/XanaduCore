@@ -7,53 +7,74 @@
 #include <sys/types.h>
 #include <sys/timeb.h>
 
-typedef struct _XANADU_TIME_HIGH_PRECISION
-{
-#ifdef XANADU_SYSTEM_WINDOWS
-	/// 开始时间
-	LARGE_INTEGER		vBeginTime;
-
-	/// 结束时间
-	LARGE_INTEGER		vEndTime;
-
-	/// CPU时间
-	LARGE_INTEGER		vCpuTime;
-#else
-	/// 开始时间
-	timeval			vBeginTime;
-
-	/// 结束时间
-	timeval			vEndTime;
-#endif//XANADU_SYSTEM_WINDOWS
-}XANADU_TIME_HIGH_PRECISION;
-
-
-
 XDateTime::XDateTime() noexcept
 {
-	_time_millisecond = XDateTime::CurrentMillisecond();
+	this->_info_datetime = XTime::currentTime();
+}
+
+XDateTime::XDateTime(const XDateTime& _Info) noexcept
+{
+	this->_info_datetime = _Info._info_datetime;
 }
 
 XDateTime::~XDateTime() noexcept
 {
 }
 
-/// UTC Second
-int64U XDateTime::CurrentSecond() noexcept
+
+
+
+
+XDateTime& XDateTime::operator = (const XDateTime& _Other)
 {
-	return static_cast<int64U>(time(nullptr));
+	this->_info_datetime = _Other._info_datetime;
+	return *this;
 }
 
-/// UTC Millisecond
-int64U XDateTime::CurrentMillisecond() noexcept
+
+
+
+
+
+XDateTime XDateTime::currentDateTimeUtc() noexcept
 {
-	struct timeb		vRawtime;
-	ftime(&vRawtime);
-	return vRawtime.time * 1000ULL + vRawtime.millitm;
+	auto		vDateTime = XDateTime();
+	vDateTime._info_datetime = XTime::currentTime();
+	return vDateTime;
 }
+
+int64U XDateTime::currentMillisecondSinceUtc() noexcept
+{
+	return XTime::currentTime().millisecond();
+}
+
+int64U XDateTime::currentSecondSinceUtc() noexcept
+{
+	return XTime::currentTime().second();
+}
+
+XDateTime XDateTime::fromMillisecondSinceUtc(int64U _Millisecond) noexcept
+{
+	auto		vDateTime = XDateTime();
+	vDateTime._info_datetime = XTime::fromMillisecond(_Millisecond);
+	return vDateTime;
+}
+
+XDateTime XDateTime::fromSecondSinceUtc(int64U _Second) noexcept
+{
+	auto		vDateTime = XDateTime();
+	vDateTime._info_datetime = XTime::fromMillisecond(_Second * 1000);
+	return vDateTime;
+}
+
+
+
+
+
+
 
 /// Second To String (1970-01-01 08:00:00)
-XString XDateTime::SecondToString(int64U _Second) noexcept
+XString XDateTime::secondToString(int64U _Second) noexcept
 {
 	auto		vValueSecond = static_cast<time_t>(_Second);
 	auto		vTM = Xanadu::localtime(&vValueSecond);
@@ -61,13 +82,13 @@ XString XDateTime::SecondToString(int64U _Second) noexcept
 }
 
 /// Millisecond To String (1970-01-01 08:00:00.000)
-XString XDateTime::MillisecondToString(int64U _Millisecond) noexcept
+XString XDateTime::millisecondToString(int64U _Millisecond) noexcept
 {
-	return SecondToString(_Millisecond / 1000) + L"." + XString::number(_Millisecond % 1000);
+	return secondToString(_Millisecond / 1000) + L"." + XString::number(_Millisecond % 1000);
 }
 
 /// Current To String (1970-01-01 08:00:00.000)
-XString XDateTime::CurrentToString() noexcept
+XString XDateTime::currentMillisecondToString() noexcept
 {
 	wchar_t		vBuffer[XANADU_PATH] = { 0 };
 #ifdef XANADU_SYSTEM_WINDOWS
@@ -82,66 +103,4 @@ XString XDateTime::CurrentToString() noexcept
 	swprintf(vBuffer, XANADU_PATH, L"%04d-%02d-%02dT%02d:%02d:%02d.%06dZ", vNowTime.tm_year + 1900, vNowTime.tm_mon + 1, vNowTime.tm_mday, vNowTime.tm_hour, vNowTime.tm_min, vNowTime.tm_sec, vTime.tv_nsec / 1000);
 #endif//XANADU_SYSTEM_WINDOWS
 	return vBuffer;
-}
-
-/// format
-XDateTime XDateTime::FormSecond(int64U _Second) noexcept
-{
-	return XDateTime::FormMillisecond(_Second * 1000);
-}
-
-/// format
-XDateTime XDateTime::FormMillisecond(int64U _Millisecond) noexcept
-{
-	auto		vTime = XDateTime();
-	vTime._time_millisecond = _Millisecond;
-	return vTime;
-}
-
-
-/// 高精度计时开始
-HANDLE XDateTime::HighPrecisionStart() noexcept
-{
-	auto		vHandle = XANADU_NEW XANADU_TIME_HIGH_PRECISION();
-	if (vHandle)
-	{
-		Xanadu::memset(vHandle, 0, sizeof(XANADU_TIME_HIGH_PRECISION));
-#ifdef XANADU_SYSTEM_WINDOWS
-		QueryPerformanceFrequency(&vHandle->vCpuTime);
-		QueryPerformanceCounter(&vHandle->vBeginTime);
-#else
-		gettimeofday(&vHandle->vBeginTime, NULL);
-#endif//XANADU_SYSTEM_WINDOWS
-	}
-	return vHandle;
-}
-
-/// 高精度计时结束
-int64U XDateTime::HighPrecisionStop(HANDLE _Handle) noexcept
-{
-	auto		vDifference = static_cast<int64U>(0);
-	auto		vHandle = static_cast<XANADU_TIME_HIGH_PRECISION*>(_Handle);
-	if (vHandle)
-	{
-#ifdef XANADU_SYSTEM_WINDOWS
-		QueryPerformanceCounter(&vHandle->vEndTime);
-
-		double		dbCpuTime = (double)vHandle->vCpuTime.QuadPart;
-		int64S		nTemp = vHandle->vEndTime.QuadPart - vHandle->vBeginTime.QuadPart;
-
-		double		dbDifference = (double)nTemp;
-		dbDifference *= 1000.0f;
-		double		dbMillisecond = dbDifference / dbCpuTime;
-
-		vDifference = (int64S)dbMillisecond;
-#else
-		gettimeofday(&vHandle->vEndTime, NULL);
-		int64S		nDelayedSecond = vHandle->vEndTime.tv_sec - vHandle->vBeginTime.tv_sec;
-		nDelayedSecond *= 1000000;
-		int64S		nDelayedMillisecond = vHandle->vEndTime.tv_usec - vHandle->vBeginTime.tv_usec;
-		vDifference += nDelayedSecond + nDelayedMillisecond;
-#endif//XANADU_SYSTEM_WINDOWS
-		XANADU_DELETE_PTR(vHandle);
-	}
-	return vDifference;
 }
