@@ -16,7 +16,7 @@ XFileSystem::~XFileSystem() noexcept
 }
 
 
-/// 路径:是否存在
+// 路径:是否存在
 bool XFileSystem::PathIsExist(const XString& _Path) noexcept
 {
 	if(_Path.empty())
@@ -26,7 +26,7 @@ bool XFileSystem::PathIsExist(const XString& _Path) noexcept
 	return XFileInfo::exists(_Path);
 }
 
-/// Path To Native(Windows:\)(MAC:/)(Linux:/)
+// Path To Native(Windows:\)(MAC:/)(Linux:/)
 XString XFileSystem::PathToNative(const XString& _Path) noexcept
 {
 	auto		vNativePath = _Path;
@@ -47,7 +47,7 @@ XString XFileSystem::PathToNative(const XString& _Path) noexcept
 	return vNativePath;
 }
 
-/// 格式化
+// 格式化
 XString XFileSystem::PathFormat(const XString& _Path) noexcept
 {
 	auto		vNewPath = _Path;
@@ -59,21 +59,21 @@ XString XFileSystem::PathFormat(const XString& _Path) noexcept
 	return vNewPath;
 }
 
-/// 路径:是否是文件
+// 路径:是否是文件
 bool XFileSystem::PathIsFile(const XString& _Path) noexcept
 {
 	XFileInfo	vFileInfo(XFileSystem::PathFormat(_Path));
 	return vFileInfo.isFile();
 }
 
-/// 路径:是否是目录
+// 路径:是否是目录
 bool XFileSystem::PathIsDirectory(const XString& _Path) noexcept
 {
 	XFileInfo	vFileInfo(XFileSystem::PathFormat(_Path));
 	return vFileInfo.isDir();
 }
 
-/// 名称是否正常
+// 名称是否正常
 bool XFileSystem::PathIsAllow(const XString& _Name) noexcept
 {
 	auto		vFullPath = XSystem::UserHome() + L"/" + _Name;
@@ -87,7 +87,7 @@ bool XFileSystem::PathIsAllow(const XString& _Name) noexcept
 	return false;
 }
 
-/// 路径获取目录
+// 路径获取目录
 XString XFileSystem::PathDirectory(const XString& _Path) noexcept
 {
 	auto			vFullPath = XFileSystem::PathFormat(_Path);
@@ -100,7 +100,7 @@ XString XFileSystem::PathDirectory(const XString& _Path) noexcept
 	return L"";
 }
 
-/// 获取名称
+// 获取名称
 XString XFileSystem::PathName(const XString& _Path, bool _Suffix) noexcept
 {
 	auto		vNPATH = XFileSystem::PathFormat(_Path);
@@ -125,7 +125,7 @@ XString XFileSystem::PathName(const XString& _Path, bool _Suffix) noexcept
 	}
 }
 
-/// 后缀
+// 后缀
 XString XFileSystem::PathSuffix(const XString& _Path, bool _Dot) noexcept
 {
 	auto		vName = XFileSystem::PathName(_Path);
@@ -141,7 +141,7 @@ XString XFileSystem::PathSuffix(const XString& _Path, bool _Dot) noexcept
 	}
 }
 
-/// 后缀匹配
+// 后缀匹配
 bool XFileSystem::PathSuffixMatch(const XString& _Path, const XString& _Suffix) noexcept
 {
 	if(_Path.length() >= _Suffix.length())
@@ -155,7 +155,7 @@ bool XFileSystem::PathSuffixMatch(const XString& _Path, const XString& _Suffix) 
 	return false;
 }
 
-/// 修复	\/:*?"<>|
+// 修复	\/:*?"<>|
 XString XFileSystem::PathRepair(const XString& _Path) noexcept
 {
 	auto		vPathNEW = _Path;
@@ -181,7 +181,7 @@ XString XFileSystem::PathRepair(const XString& _Path) noexcept
 	return vPathNEW;
 }
 
-/// 修复空格
+// 修复空格
 XString XFileSystem::PathSpaceRepair(const XString& _Path) noexcept
 {
 	if(_Path.contains(L" "))
@@ -191,7 +191,7 @@ XString XFileSystem::PathSpaceRepair(const XString& _Path) noexcept
 	return _Path;
 }
 
-/// 路径:移除文件或目录
+// 路径:移除文件或目录
 bool XFileSystem::PathRemove(const XString& _Path, std::function<bool(XFileInfo _Info, bool _Success)> _Lambda) noexcept
 {
 	if (XFileSystem::PathIsFile(_Path))
@@ -209,7 +209,7 @@ bool XFileSystem::PathRemove(const XString& _Path, std::function<bool(XFileInfo 
 
 
 
-/// 是否存在
+// 是否存在
 bool XFileSystem::FileIsExist(const XString& _File) noexcept
 {
 	if(_File.empty())
@@ -219,14 +219,14 @@ bool XFileSystem::FileIsExist(const XString& _File) noexcept
 	return XFileSystem::PathIsFile(_File) && XFileInfo::exists(_File);
 }
 
-/// 文件:大小
+// 文件:大小
 int64S XFileSystem::FileSize(const XString& _File) noexcept
 {
 	auto		vHandle = XFileInfo(XFileSystem::PathFormat(_File));
 	return vHandle.size();
 }
 
-/// 文件:打开
+// 文件:打开
 HANDLE XFileSystem::FileOpen(const XString& _File, const wchar_t* _Flags) noexcept
 {
 	XANADU_CHECK_RETURN(_Flags, nullptr);
@@ -235,7 +235,7 @@ HANDLE XFileSystem::FileOpen(const XString& _File, const wchar_t* _Flags) noexce
 	return Xanadu::wfopen(vFile.data(), _Flags);
 }
 
-/// 跳转
+// 跳转
 bool XFileSystem::FileSeek(HANDLE _Handle, int64S _Offset, int32S _Origin) noexcept
 {
 	XANADU_CHECK_RETURN(_Handle, false);
@@ -243,7 +243,7 @@ bool XFileSystem::FileSeek(HANDLE _Handle, int64S _Offset, int32S _Origin) noexc
 	return 0 == Xanadu::fseek(static_cast<FILE*>(_Handle), _Offset, _Origin);
 }
 
-/// 偏移
+// 偏移
 int64S XFileSystem::FileOffset(HANDLE _Handle) noexcept
 {
 	XANADU_CHECK_RETURN(_Handle, -1);
@@ -251,7 +251,7 @@ int64S XFileSystem::FileOffset(HANDLE _Handle) noexcept
 	return Xanadu::ftell(static_cast<FILE*>(_Handle));
 }
 
-/// 文件:是否结尾
+// 文件:是否结尾
 bool XFileSystem::FileEof(HANDLE _Handle) noexcept
 {
 	XANADU_CHECK_RETURN(_Handle, false);
@@ -259,7 +259,7 @@ bool XFileSystem::FileEof(HANDLE _Handle) noexcept
 	return Xanadu::feof(static_cast<FILE*>(_Handle));
 }
 
-/// 文件:读取
+// 文件:读取
 bool XFileSystem::FileRead(HANDLE _Handle, void* _Buffer, int64S _Length) noexcept
 {
 	XANADU_CHECK_RETURN(_Handle, false);
@@ -267,7 +267,7 @@ bool XFileSystem::FileRead(HANDLE _Handle, void* _Buffer, int64S _Length) noexce
 	return Xanadu::fread(static_cast<FILE*>(_Handle), _Buffer, _Length);
 }
 
-/// 文件:读取一行
+// 文件:读取一行
 XByteArray XFileSystem::FileReadLine(HANDLE _Handle) noexcept
 {
 	auto		vBytes = XByteArray();
@@ -283,7 +283,7 @@ XByteArray XFileSystem::FileReadLine(HANDLE _Handle) noexcept
 	return vBytes;
 }
 
-/// 文件:写入
+// 文件:写入
 int64S XFileSystem::FileRead(void* _Buffer, int64S _Size, int64S _Count, HANDLE _Handle) noexcept
 {
 	XANADU_CHECK_RETURN(_Handle, false);
@@ -291,7 +291,7 @@ int64S XFileSystem::FileRead(void* _Buffer, int64S _Size, int64S _Count, HANDLE 
 	return Xanadu::fread(_Buffer, _Size, _Count, static_cast<FILE*>(_Handle));
 }
 
-/// 文件:写入
+// 文件:写入
 bool XFileSystem::FileWrite(HANDLE _Handle, const void* _Buffer, int64S _Length) noexcept
 {
 	XANADU_CHECK_RETURN(_Handle, false);
@@ -299,7 +299,7 @@ bool XFileSystem::FileWrite(HANDLE _Handle, const void* _Buffer, int64S _Length)
 	return Xanadu::fwrite(static_cast<FILE*>(_Handle), _Buffer, _Length);
 }
 
-/// 文件:写入
+// 文件:写入
 bool XFileSystem::FileWrite(HANDLE _Handle, const XByteArray& _Buffer) noexcept
 {
 	XANADU_CHECK_RETURN(_Handle, false);
@@ -311,7 +311,7 @@ bool XFileSystem::FileWrite(HANDLE _Handle, const XByteArray& _Buffer) noexcept
 	return false;
 }
 
-/// 文件:写入
+// 文件:写入
 int64S XFileSystem::FileWrite(const void* _Buffer, int64S _Size, int64S _Count, HANDLE _Handle) noexcept
 {
 	XANADU_CHECK_RETURN(_Handle, false);
@@ -319,7 +319,7 @@ int64S XFileSystem::FileWrite(const void* _Buffer, int64S _Size, int64S _Count, 
 	return Xanadu::fwrite(_Buffer, _Size, _Count, static_cast<FILE*>(_Handle));
 }
 
-/// 文件:刷新缓存
+// 文件:刷新缓存
 bool XFileSystem::FileFlush(HANDLE _Handle) noexcept
 {
 	XANADU_CHECK_RETURN(_Handle, false);
@@ -327,7 +327,7 @@ bool XFileSystem::FileFlush(HANDLE _Handle) noexcept
 	return 0 == Xanadu::fflush(static_cast<FILE*>(_Handle));
 }
 
-/// 文件:关闭
+// 文件:关闭
 bool XFileSystem::FileClose(HANDLE _Handle) noexcept
 {
 	XANADU_CHECK_RETURN(_Handle, false);
@@ -335,7 +335,7 @@ bool XFileSystem::FileClose(HANDLE _Handle) noexcept
 	return 0 == Xanadu::fclose(static_cast<FILE*>(_Handle));
 }
 
-/// 文件:拷贝
+// 文件:拷贝
 bool XFileSystem::FileCopy(const XString& _Source, const XString& _Target, std::function<bool(int64S _CurrentByte, int64S _FullByte)> _Lambda) noexcept
 {
 	auto		vFormatSource = XFileSystem::PathFormat(_Source);
@@ -350,7 +350,7 @@ bool XFileSystem::FileCopy(const XString& _Source, const XString& _Target, std::
 	return 0 == Xanadu::wfcopy(vFormatSource.data(), vFormatTarget.data());
 }
 
-/// 文件:移动
+// 文件:移动
 bool XFileSystem::FileMove(const XString& _Source, const XString& _Target, std::function<bool(int64S _CurrentByte, int64S _FullByte)> _Lambda) noexcept
 {
 	auto		vFormatSource = XFileSystem::PathFormat(_Source);
@@ -370,7 +370,7 @@ bool XFileSystem::FileMove(const XString& _Source, const XString& _Target, std::
 	}
 }
 
-/// 文件:删除
+// 文件:删除
 bool XFileSystem::FileRemove(const XString& _File) noexcept
 {
 	if (XFileSystem::FileIsExist(_File))
@@ -397,7 +397,7 @@ bool XFileSystem::FileRemove(const XString& _File) noexcept
 	return true;
 }
 
-/// 文件:重命名
+// 文件:重命名
 bool XFileSystem::FileRename(const XString& _NameOLD, const XString& _NameNEW) noexcept
 {
 	XFileSystem::FileRemove(_NameNEW);
@@ -420,7 +420,7 @@ bool XFileSystem::FileRename(const XString& _NameOLD, const XString& _NameNEW) n
 	}
 }
 
-/// 文件:名称(是否有后缀)
+// 文件:名称(是否有后缀)
 XString XFileSystem::FileName(const XString& _File, bool _Suffix) noexcept
 {
 	auto		vHandle = XFileInfo(XFileSystem::PathFormat(_File));
@@ -434,14 +434,14 @@ XString XFileSystem::FileName(const XString& _File, bool _Suffix) noexcept
 	}
 }
 
-/// 文件:后缀
+// 文件:后缀
 XString XFileSystem::FileSuffix(const XString& _File) noexcept
 {
 	auto		vHandle = XFileInfo(XFileSystem::PathFormat(_File));
 	return vHandle.completeSuffix();
 }
 
-/// 文件:读取至缓存
+// 文件:读取至缓存
 XByteArray XFileSystem::FileToBytes(const XString& _File) noexcept
 {
 	auto		vBytes = XByteArray();
@@ -464,7 +464,7 @@ XByteArray XFileSystem::FileToBytes(const XString& _File) noexcept
 	return vBytes;
 }
 
-/// 文件:从缓存写入文件
+// 文件:从缓存写入文件
 bool XFileSystem::FileFromBytes(const XString& _File, const void* _Data, int64S _Legnth) noexcept
 {
 	XANADU_CHECK_RETURN(_Data, false);
@@ -480,13 +480,13 @@ bool XFileSystem::FileFromBytes(const XString& _File, const void* _Data, int64S 
 	return vSync;
 }
 
-/// 文件:从缓存写入文件
+// 文件:从缓存写入文件
 bool XFileSystem::FileFromBytes(const XString& _File, const XByteArray& _Data) noexcept
 {
 	return XFileSystem::FileFromBytes(_File, _Data.data(), _Data.size());
 }
 
-/// 文件:大小转字符串
+// 文件:大小转字符串
 XString XFileSystem::FileSizeToString(int64S vSize) noexcept
 {
 	double		vDivision = 1024.0f;
@@ -527,7 +527,7 @@ XString XFileSystem::FileSizeToString(int64S vSize) noexcept
 	return vBuffer;
 }
 
-/// 文件:从BASE64格式化
+// 文件:从BASE64格式化
 bool XFileSystem::FileFromBase64(const XString& _File, const void* _BASE64, int64S _Length) noexcept
 {
 	XANADU_CHECK_RETURN(_BASE64, false);
@@ -547,7 +547,7 @@ bool XFileSystem::FileFromBase64(const XString& _File, const void* _BASE64, int6
 	return vResult;
 }
 
-/// 文件:从BASE64格式化
+// 文件:从BASE64格式化
 bool XFileSystem::FileFromBase64(const XString& _File, const XByteArray& _BASE64) noexcept
 {
 	return XFileSystem::FileFromBase64(_File, _BASE64.data(), _BASE64.size());
@@ -557,7 +557,7 @@ bool XFileSystem::FileFromBase64(const XString& _File, const XByteArray& _BASE64
 
 
 
-/// 回调
+// 回调
 bool XANADUAPI FunctionTraverseDirectoryW(const XANADU_RUNTIME_FILE_INFO_W* _FileInfo, void* _UserData)
 {
 	XANADU_CHECK_RETURN(_FileInfo, false);
@@ -580,7 +580,7 @@ std::vector<XString> XanaduRuntimeDirectoryTraverse(const XString& _Directory)
 	return vPathArray;
 };
 
-/// 是否存在
+// 是否存在
 bool XFileSystem::DirectoryIsExist(const XString& _Directory) noexcept
 {
 	auto		vFileInfo = XFileInfo(XFileSystem::PathFormat(_Directory));
@@ -591,17 +591,17 @@ bool XFileSystem::DirectoryIsExist(const XString& _Directory) noexcept
 	return false;
 }
 
-/// 目录:创建
+// 目录:创建
 bool XFileSystem::DirectoryCreate(const XString& _Directory, int32S _Mode) noexcept
 {
 	auto		vDirectory = XFileSystem::PathFormat(_Directory);
 	return 0 == Xanadu::wmkpath(vDirectory.data(), _Mode);
 }
 
-/// 目录:遍历:实现
+// 目录:遍历:实现
 bool AchieveDirectoryTraverse(const XString& _Directory, int32S _Level, std::function<bool(const XFileInfo& _File, int32S _Level)> _Lambda) noexcept
 {
-	/// 路径不存在，则返回false
+	// 路径不存在，则返回false
 	if(false == XFileSystem::DirectoryIsExist(_Directory))
 	{
 		return false;
@@ -624,16 +624,16 @@ bool AchieveDirectoryTraverse(const XString& _Directory, int32S _Level, std::fun
 	return vSync;
 }
 
-/// 目录:遍历
+// 目录:遍历
 bool XFileSystem::DirectoryTraverse(const XString& _Directory, std::function<bool(const XFileInfo& _Info, int32S _Level)> _Lambda) noexcept
 {
 	return AchieveDirectoryTraverse(_Directory, 1, _Lambda);
 }
 
-/// 目录:列表
+// 目录:列表
 bool XFileSystem::DirectoryList(const XString& _Directory, std::function<bool(const XFileInfo& _Info)> _Lambda) noexcept
 {
-	/// 路径不存在，则返回false
+	// 路径不存在，则返回false
 	if(false == XFileSystem::DirectoryIsExist(_Directory))
 	{
 		return false;
@@ -652,10 +652,10 @@ bool XFileSystem::DirectoryList(const XString& _Directory, std::function<bool(co
 	return vSync;
 }
 
-/// 目录:移除
+// 目录:移除
 bool XFileSystem::DirectoryRemove(const XString& _Directory, std::function<bool(const XFileInfo& _Info, bool _Success)> _Lambda) noexcept
 {
-	/// 路径不存在，则返回false
+	// 路径不存在，则返回false
 	if(false == XFileSystem::DirectoryIsExist(_Directory))
 	{
 		return false;
@@ -686,7 +686,7 @@ bool XFileSystem::DirectoryRemove(const XString& _Directory, std::function<bool(
 	return vSync;
 }
 
-/// 目录:大小
+// 目录:大小
 int64S XFileSystem::DirectorySize(const XString& _Directory, std::function<bool(const XFileInfo& _Info)> _Lambda) noexcept
 {
 	if(false == XFileSystem::DirectoryIsExist(_Directory))
@@ -719,7 +719,7 @@ int64S XFileSystem::DirectorySize(const XString& _Directory, std::function<bool(
 	return vSize;
 }
 
-/// 目录:拷贝
+// 目录:拷贝
 bool XFileSystem::DirectoryCopy(const XString& _Source, const XString& _Target, std::function<bool(const XFileInfo& _Source, const XFileInfo& _Target, bool _Success)> _Lambda) noexcept
 {
 	if(false == XFileSystem::DirectoryIsExist(_Source))
@@ -754,7 +754,7 @@ bool XFileSystem::DirectoryCopy(const XString& _Source, const XString& _Target, 
 	return vSync;
 }
 
-/// 目录:移动
+// 目录:移动
 bool XFileSystem::DirectoryMove(const XString& _Source, const XString& _Target, std::function<bool(const XFileInfo& _Source, const XFileInfo& _Target, bool _Success)> _Lambda) noexcept
 {
 	if(false == XFileSystem::DirectoryIsExist(_Source))

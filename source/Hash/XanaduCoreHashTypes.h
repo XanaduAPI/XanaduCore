@@ -188,4 +188,4 @@ extern "C" {
 }
 #endif
 
-#endif /// _XANADU_CORE_HASH_TYPES_H_
+#endif // _XANADU_CORE_HASH_TYPES_H_

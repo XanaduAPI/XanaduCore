@@ -4,7 +4,7 @@
 #include <XanaduCore/XanaduCoreHeader.h>
 #include <XanaduCore/XanaduCoreString.h>
 
-/// Xanadu Class Shell
+// Xanadu Class Shell
 class XANADU_CORE_EXPORT XShell
 {
 public:
@@ -13,14 +13,14 @@ public:
 	virtual ~XShell() noexcept;
 
 public:
-	/// Async run shell
-	static int64S Run(const XString& _Shell) noexcept;
+	// Async run shell
+	static int64S run(const XString& _Shell) noexcept;
 
-	/// Sync run shell
-	static int64S Run(const XString& _Shell, std::function<bool(const XString& _Output)> _Lambda) noexcept;
+	// Sync run shell
+	static int64S run(const XString& _Shell, std::function<bool(const XString& _Output)> _Lambda) noexcept;
 
-	/// Native System
-	static int32S System(const XString& _Command) noexcept;
+	// Native system
+	static int32S system(const XString& _Command) noexcept;
 };
 
-#endif /// _XANADU_CORE_SHELL_H_
+#endif // _XANADU_CORE_SHELL_H_

@@ -5,27 +5,27 @@
 #include <XanaduCore/XanaduCoreString.h>
 #include <XanaduCore/XanaduCoreVariant.h>
 
-/// Xanadu Setting Private
+// Xanadu Setting Private
 class XSettingPrivate;
 
-/// Xanadu Class Setting
+// Xanadu Class Setting
 class XANADU_CORE_EXPORT XSetting
 {
 private:
 	XSettingPrivate*		_Info;
 
 public:
-	/// Overload Initialize
+	// Overload Initialize
 	XSetting() noexcept;
 
-	/// Overload Initialize
+	// Overload Initialize
 	XSetting(const XSetting& _Setting) noexcept;
 
-	/// Virtual destructor
+	// Virtual destructor
 	virtual ~XSetting() noexcept;
 
 public:
-	/// Overload Operator =
+	// Overload Operator =
 	XSetting& operator = (const XSetting& _Setting) noexcept;
 
 private:
@@ -52,30 +52,30 @@ private:
 
 public:
 	///加载
-	virtual bool Load(const XString& _File) noexcept;
+	virtual bool load(const XString& _File) noexcept;
 
-	/// 保存
-	virtual bool Save(const XString& _File) const noexcept;
-
-public:
-	/// 增
-	virtual bool Append(const XString& _Section, const XString& _Key, const XVariant& _Value) noexcept;
-
-	/// 删
-	virtual bool Remove(const XString& _Section, const XString& _Key) noexcept;
-
-	/// 改
-	virtual bool Modify(const XString& _Section, const XString& _Key, const XVariant& _Value) noexcept;
-
-	/// 查
-	virtual XVariant Select(const XString& _Section, const XString& _Key, const XVariant& _Default = XVariant()) const noexcept;
+	// 保存
+	virtual bool save(const XString& _File) const noexcept;
 
 public:
-	/// 写入
-	static bool Write(const XString& _File, const XString& _Section, const XString& _Key, const XVariant& _Value) noexcept;
+	// 增
+	virtual bool append(const XString& _Section, const XString& _Key, const XVariant& _Value) noexcept;
 
-	/// 读取
-	static XVariant Read(const XString& _File, const XString& _Section, const XString& _Key, const XVariant& _Default = XVariant()) noexcept;
+	// 删
+	virtual bool remove(const XString& _Section, const XString& _Key) noexcept;
+
+	// 改
+	virtual bool modify(const XString& _Section, const XString& _Key, const XVariant& _Value) noexcept;
+
+	// 查
+	virtual XVariant select(const XString& _Section, const XString& _Key, const XVariant& _Default = XVariant()) const noexcept;
+
+public:
+	// 写入
+	static bool write(const XString& _File, const XString& _Section, const XString& _Key, const XVariant& _Value) noexcept;
+
+	// 读取
+	static XVariant read(const XString& _File, const XString& _Section, const XString& _Key, const XVariant& _Default = XVariant()) noexcept;
 };
 
-#endif /// _XANADU_CORE_SETTING_H_
+#endif // _XANADU_CORE_SETTING_H_

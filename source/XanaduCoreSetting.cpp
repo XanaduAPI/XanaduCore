@@ -26,7 +26,7 @@ XSetting::XSetting() noexcept
 	this->_Info = nullptr;
 }
 
-/// Overload Initialize
+// Overload Initialize
 XSetting::XSetting(const XSetting& _Setting) noexcept
 {
 	this->_copy(_Setting);
@@ -37,7 +37,7 @@ XSetting::~XSetting() noexcept
 	this->_clear();
 }
 
-/// Overload Operator =
+// Overload Operator =
 XSetting& XSetting::operator = (const XSetting& _Setting) noexcept
 {
 	this->_copy(_Setting);
@@ -154,17 +154,17 @@ XSettingPrivate* XSetting::_find(const XString& _Section, const XString& _Key) c
 	auto		vSection = _Section.toBytes();
 	auto		vKey = _Key.toBytes();
 
-	/// 遍历整个列表
+	// 遍历整个列表
 	for (auto vNode = this->_Info; vNode; vNode = vNode->_Next)
 	{
 		if(vNode->_Type == EXSETTING_LINE_TYPE_SECTION && this->_section(vNode) == vSection)
 		{
-			/// 如果当前是 SECTION ，并且和 参数 相同，则查找子项
+			// 如果当前是 SECTION ，并且和 参数 相同，则查找子项
 			for (auto vKeyNode = vNode->_Next; vKeyNode; vKeyNode = vKeyNode->_Next)
 			{
 				if(vKeyNode->_Type == EXSETTING_LINE_TYPE_SECTION)
 				{
-					/// 当子项为SECTION时，表示已经结束，返回空值
+					// 当子项为SECTION时，表示已经结束，返回空值
 					return nullptr;
 				}
 				if(vKeyNode->_Type == EXSETTING_LINE_TYPE_KEY)
@@ -195,7 +195,7 @@ void XSetting::_remove(XSettingPrivate* _Node) noexcept
 			{
 				if(vNode == _Node)
 				{
-					/// 移除节点
+					// 移除节点
 					if(vNode->_Prve)
 					{
 						vNode->_Prve->_Next = vNode->_Next;
@@ -217,17 +217,17 @@ XSettingPrivate* XSetting::_section_end(const XString& _Section) noexcept
 	auto		vSection = _Section.toBytes();
 	auto		vEnd = static_cast<XSettingPrivate*>(nullptr);
 
-	/// 遍历整个列表
+	// 遍历整个列表
 	for (auto vNode = this->_Info; vNode; vNode = vNode->_Next)
 	{
 		if(vNode->_Type == EXSETTING_LINE_TYPE_SECTION && this->_section(vNode) == vSection)
 		{
-			/// 如果当前是 SECTION ，并且和 参数 相同，则查找子项
+			// 如果当前是 SECTION ，并且和 参数 相同，则查找子项
 			for (auto vKeyNode = vNode->_Next; vKeyNode; vKeyNode = vKeyNode->_Next)
 			{
 				if(vKeyNode->_Type == EXSETTING_LINE_TYPE_SECTION)
 				{
-					/// 当子项为SECTION时，表示已经结束
+					// 当子项为SECTION时，表示已经结束
 					break;
 				}
 				if(vKeyNode->_Type == EXSETTING_LINE_TYPE_KEY)
@@ -286,7 +286,7 @@ XByteArray XSetting::_right(const XSettingPrivate* _Node) const noexcept
 
 
 ///加载
-bool XSetting::Load(const XString& _File) noexcept
+bool XSetting::load(const XString& _File) noexcept
 {
 	this->_clear();
 
@@ -301,7 +301,7 @@ bool XSetting::Load(const XString& _File) noexcept
 				Xanadu::memset(vBuffer, 0, XANADU_SIZE_MB);
 				Xanadu::fgets(vBuffer, XANADU_SIZE_MB - 1, vHandle);
 
-				/// 添加一行数据
+				// 添加一行数据
 				auto		vNode = this->_format(vBuffer);
 				this->_append(vNode);
 
@@ -313,8 +313,8 @@ bool XSetting::Load(const XString& _File) noexcept
 	return false;
 }
 
-/// 保存
-bool XSetting::Save(const XString& _File) const noexcept
+// 保存
+bool XSetting::save(const XString& _File) const noexcept
 {
 	auto		vHandle = Xanadu::wfopen(_File.data(), L"w");
 	if(vHandle)
@@ -334,14 +334,14 @@ bool XSetting::Save(const XString& _File) const noexcept
 
 
 
-/// 增
-bool XSetting::Append(const XString& _Section, const XString& _Key, const XVariant& _Value) noexcept
+// 增
+bool XSetting::append(const XString& _Section, const XString& _Key, const XVariant& _Value) noexcept
 {
-	return this->Modify(_Section, _Key, _Value);
+	return this->modify(_Section, _Key, _Value);
 }
 
-/// 删
-bool XSetting::Remove(const XString& _Section, const XString& _Key) noexcept
+// 删
+bool XSetting::remove(const XString& _Section, const XString& _Key) noexcept
 {
 	auto		vNode = this->_find(_Section, _Key);
 	if(vNode)
@@ -352,8 +352,8 @@ bool XSetting::Remove(const XString& _Section, const XString& _Key) noexcept
 	return false;
 }
 
-/// 改
-bool XSetting::Modify(const XString& _Section, const XString& _Key, const XVariant& _Value) noexcept
+// 改
+bool XSetting::modify(const XString& _Section, const XString& _Key, const XVariant& _Value) noexcept
 {
 	auto		vNode = this->_find(_Section, _Key);
 	if(vNode)
@@ -369,7 +369,7 @@ bool XSetting::Modify(const XString& _Section, const XString& _Key, const XVaria
 			auto		vEnd = this->_section_end(_Section);
 			if(vEnd)
 			{
-				/// 当查找到存在的 Section 结尾时，把当前节点添加到结尾后
+				// 当查找到存在的 Section 结尾时，把当前节点添加到结尾后
 				if(vEnd->_Next)
 				{
 					vEnd->_Next->_Prve = vNode;
@@ -380,7 +380,7 @@ bool XSetting::Modify(const XString& _Section, const XString& _Key, const XVaria
 			}
 			else
 			{
-				/// 当没有同名Section存在时，创建一个Section与Key
+				// 当没有同名Section存在时，创建一个Section与Key
 				auto		vNodeSection = this->_format(XByteArray("[") + _Section.toBytes() + XByteArray("]"));
 				auto		vNodeKey = this->_format(_Key.toBytes() + "=" + _Value.toByteArray());
 				if(vNodeSection == vNodeKey)
@@ -395,8 +395,8 @@ bool XSetting::Modify(const XString& _Section, const XString& _Key, const XVaria
 	return false;
 }
 
-/// 查
-XVariant XSetting::Select(const XString& _Section, const XString& _Key, const XVariant& _Default) const noexcept
+// 查
+XVariant XSetting::select(const XString& _Section, const XString& _Key, const XVariant& _Default) const noexcept
 {
 	auto		vNode = this->_find(_Section, _Key);
 	if(vNode)
@@ -410,30 +410,30 @@ XVariant XSetting::Select(const XString& _Section, const XString& _Key, const XV
 
 
 
-/// 写入
-bool XSetting::Write(const XString& _File, const XString& _Section, const XString& _Key, const XVariant& _Value) noexcept
+// 写入
+bool XSetting::write(const XString& _File, const XString& _Section, const XString& _Key, const XVariant& _Value) noexcept
 {
 	auto		vSync = false;
 	auto		vSetting = XSetting();
-	if(vSetting.Load(_File))
+	if(vSetting.load(_File))
 	{
-		vSync = vSetting.Modify(_Section, _Key, _Value);
+		vSync = vSetting.modify(_Section, _Key, _Value);
 		if(vSync)
 		{
-			vSetting.Save(_File);
+			vSetting.save(_File);
 		}
 	}
 	return vSync;
 }
 
-/// 读取
-XVariant XSetting::Read(const XString& _File, const XString& _Section, const XString& _Key, const XVariant& _Default) noexcept
+// 读取
+XVariant XSetting::read(const XString& _File, const XString& _Section, const XString& _Key, const XVariant& _Default) noexcept
 {
 	auto		vSync = _Default;
 	auto		vSetting = XSetting();
-	if(vSetting.Load(_File))
+	if(vSetting.load(_File))
 	{
-		vSync = vSetting.Select(_Section, _Key);
+		vSync = vSetting.select(_Section, _Key);
 	}
 	return vSync;
 }

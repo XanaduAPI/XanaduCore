@@ -41,7 +41,7 @@
 #define			XANADU_OS_VERSION_MACOS_1100				0x00110000
 #define			XANADU_OS_VERSION_MACOS_1101				0x00110100
 
-/// Xanadu Class System
+// Xanadu Class system
 class XANADU_CORE_EXPORT XSystem
 {
 public:
@@ -50,44 +50,44 @@ public:
 	virtual ~XSystem() noexcept;
 
 public:
-	/// The current version of the operating system
+	// The current version of the operating system
 	static int64S SystemVersion() noexcept;
 
-	/// The name of the user who is now logged in
+	// The name of the user who is now logged in
 	static XString CurrentUser() noexcept;
 
-	/// Computer name
+	// Computer name
 	static XString HostName() noexcept;
 
-	/// Gets the directory for the current user
+	// Gets the directory for the current user
 	static XString UserHome() noexcept;
 
-	/// Whether the operating system is 32-bit
+	// Whether the operating system is 32-bit
 	static bool IsX86() noexcept;
 
-	/// Whether the operating system is 64-bit
+	// Whether the operating system is 64-bit
 	static bool IsX64() noexcept;
 
-	/// Whether the operating system is a server version
+	// Whether the operating system is a server version
 	static bool IsServer() noexcept;
 
-	/// Whether the operating system is a desktop version
+	// Whether the operating system is a desktop version
 	static bool IsDesktop() noexcept;
 
-	/// Native System String
+	// Native system String
 	static XString NativeString() noexcept;
 
-	/// Native Build Version
+	// Native Build Version
 	static XString BuildVersion() noexcept;
 
-	/// The CPUID of the current computer
+	// The CPUID of the current computer
 	static XString CPUID() noexcept;
 
-	/// The hard disk ID of the current computer
+	// The hard disk ID of the current computer
 	static XString DiskID() noexcept;
 
-	/// A string unique to the current computer
+	// A string unique to the current computer
 	static XString OnlyString() noexcept;
 };
 
-#endif /// _XANADU_CORE_SYSTEM_H_
+#endif // _XANADU_CORE_SYSTEM_H_

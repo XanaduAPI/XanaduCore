@@ -6,11 +6,11 @@
 #include <machine/endian.h>
 #else
 #include <endian.h>
-#endif /// XANADU_SYSTEM_MACOS
-#endif /// _MSC_VER
+#endif // XANADU_SYSTEM_MACOS
+#endif // _MSC_VER
 
 
-/// look-up table
+// look-up table
 static const int32U crc32Lookup[8][256] =
 {
 	{ 0x00000000,0x77073096,0xEE0E612C,0x990951BA,0x076DC419,0x706AF48F,0xE963A535,0x9E6495A3,
@@ -293,13 +293,13 @@ inline int32U swap(int32U x)
 	       (x << 24);
 }
 
-/// CRC32 initialization
+// CRC32 initialization
 XANADU_CORE_EXPORT void XANADUAPI Xanadu::CRC32_Init(XANADU_CORE_CRC32_CONTEXT* _Context) noexcept
 {
 	_Context->hash = 0;
 }
 
-/// CRC32 updates the data
+// CRC32 updates the data
 XANADU_CORE_EXPORT void XANADUAPI Xanadu::CRC32_Update(XANADU_CORE_CRC32_CONTEXT* _Context, const void* _Data, int64U _Size) noexcept
 {
 	auto		current = (int32U*)_Data;
@@ -343,7 +343,7 @@ XANADU_CORE_EXPORT void XANADUAPI Xanadu::CRC32_Update(XANADU_CORE_CRC32_CONTEXT
 	_Context->hash = ~crc;
 }
 
-/// CRC32 retrieves the results
+// CRC32 retrieves the results
 XANADU_CORE_EXPORT void XANADUAPI Xanadu::CRC32_Final(unsigned char* _Result, XANADU_CORE_CRC32_CONTEXT* _Context) noexcept
 {
 	_Result[0] = (_Context->hash >> 24) & 0xFF;

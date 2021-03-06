@@ -11,8 +11,8 @@ XShell::~XShell() noexcept
 
 
 
-/// Async run shell
-int64S XShell::Run(const XString& _Shell) noexcept
+// Async run shell
+int64S XShell::run(const XString& _Shell) noexcept
 {
 	XANADU_CHECK_RETURN(_Shell.size(), -1);
 
@@ -23,8 +23,8 @@ int64S XShell::Run(const XString& _Shell) noexcept
 #endif//XANADU_SYSTEM_WINDOWS
 }
 
-/// Sync run shell
-int64S XShell::Run(const XString& _Shell, std::function<bool(const XString& _Output)> _Lambda) noexcept
+// Sync run shell
+int64S XShell::run(const XString& _Shell, std::function<bool(const XString& _Output)> _Lambda) noexcept
 {
 	XANADU_CHECK_RETURN(_Shell.size(), -1);
 
@@ -46,8 +46,8 @@ int64S XShell::Run(const XString& _Shell, std::function<bool(const XString& _Out
 	return -1;
 }
 
-/// Native System
-int32S XShell::System(const XString& _Command) noexcept
+// Native system
+int32S XShell::system(const XString& _Command) noexcept
 {
 	XANADU_CHECK_RETURN(_Command.size(), -1);
 

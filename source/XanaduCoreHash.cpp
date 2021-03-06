@@ -21,7 +21,7 @@ public:
 	XByteArray				_Result;
 };
 
-/// Structure
+// Structure
 XHash::XHash(Algorithm _Algorithm) noexcept
 {
 	this->_Info = XANADU_NEW XHashPrivate();
@@ -29,7 +29,7 @@ XHash::XHash(Algorithm _Algorithm) noexcept
 	this->reset();
 }
 
-/// Virtual destructor
+// Virtual destructor
 XHash::~XHash() noexcept
 {
 	XANADU_DELETE_PTR(this->_Info);
@@ -38,7 +38,7 @@ XHash::~XHash() noexcept
 
 
 
-/// Empty data
+// Empty data
 void XHash::reset() noexcept
 {
 	switch (this->_Info->_Algorithm)
@@ -55,7 +55,7 @@ void XHash::reset() noexcept
 	}
 }
 
-/// Add Data
+// Add Data
 void XHash::append(const void* _Data, int64U _Length) noexcept
 {
 	switch (this->_Info->_Algorithm)
@@ -72,13 +72,13 @@ void XHash::append(const void* _Data, int64U _Length) noexcept
 	}
 }
 
-/// Add Data
+// Add Data
 void XHash::append(const XByteArray& _Bytes) noexcept
 {
 	XHash::append(_Bytes.data(), _Bytes.length());
 }
 
-/// View the results
+// View the results
 XByteArray XHash::result() const noexcept
 {
 	if (this->_Info->_Result.empty())
@@ -106,7 +106,7 @@ XByteArray XHash::result() const noexcept
 
 
 
-/// Static method: Calculates the hash value
+// Static method: Calculates the hash value
 XByteArray XHash::hash(const void* _Buffer, int64U _Length, Algorithm _Algorithm) noexcept
 {
 	auto		vClass = XHash(_Algorithm);
@@ -115,13 +115,13 @@ XByteArray XHash::hash(const void* _Buffer, int64U _Length, Algorithm _Algorithm
 	return vClass.result();
 }
 
-/// Static method: Calculates the hash value
+// Static method: Calculates the hash value
 XByteArray XHash::hash(const XByteArray& _Bytes, Algorithm _Algorithm) noexcept
 {
 	return XHash::hash(_Bytes.data(), _Bytes.size(), _Algorithm);
 }
 
-/// Static method: Calculates the hash value
+// Static method: Calculates the hash value
 XByteArray XHash::hash(const XString& _File, Algorithm _Algorithm) noexcept
 {
 	auto		vClass = XHash(_Algorithm);
@@ -150,7 +150,7 @@ XByteArray XHash::hash(const XString& _File, Algorithm _Algorithm) noexcept
 	return vResult;
 }
 
-/// Static method: Gets the result length of the specified algorithm
+// Static method: Gets the result length of the specified algorithm
 int32S XHash::hashLength(Algorithm _Algorithm) noexcept
 {
 	switch (_Algorithm)

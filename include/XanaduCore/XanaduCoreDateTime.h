@@ -4,7 +4,7 @@
 #include <XanaduCore/XanaduCoreHeader.h>
 #include <XanaduCore/XanaduCoreTime.h>
 
-/// 日期时间操作
+// 日期时间操作
 class XANADU_CORE_EXPORT XDateTime
 {
 private:
@@ -33,14 +33,14 @@ public:
 	static XDateTime fromSecondSinceUtc(int64U _Second) noexcept;
 
 public:
-	/// Second To String (1970-01-01 08:00:00)
+	// Second To String (1970-01-01 08:00:00)
 	static XString secondToString(int64U _Second) noexcept;
 
-	/// Millisecond To String (1970-01-01 08:00:00.000)
+	// Millisecond To String (1970-01-01 08:00:00.000)
 	static XString millisecondToString(int64U _Millisecond) noexcept;
 
-	/// Current To String (1970-01-01 08:00:00.000)
+	// Current To String (1970-01-01 08:00:00.000)
 	static XString currentMillisecondToString() noexcept;
 };
 
-#endif /// _XANADU_CORE_DATETIME_H_
+#endif // _XANADU_CORE_DATETIME_H_

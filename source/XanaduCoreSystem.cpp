@@ -7,7 +7,7 @@
 #include <XanaduCore/XanaduCoreLibrary.h>
 #ifndef XANADU_SYSTEM_WINDOWS
 #include <sys/utsname.h>
-#endif /// XANADU_SYSTEM_WINDOWS
+#endif // XANADU_SYSTEM_WINDOWS
 
 
 //static system version value
@@ -23,7 +23,7 @@ XSystem::~XSystem() noexcept
 {
 }
 
-/// The current version of the operating system
+// The current version of the operating system
 int64S XSystem::SystemVersion() noexcept
 {
 	if(!_StaticSystemVersion)
@@ -109,7 +109,7 @@ int64S XSystem::SystemVersion() noexcept
 	return _StaticSystemVersion;
 }
 
-/// The name of the user who is now logged in
+// The name of the user who is now logged in
 XString XSystem::CurrentUser() noexcept
 {
 #ifdef XANADU_SYSTEM_WINDOWS
@@ -119,10 +119,10 @@ XString XSystem::CurrentUser() noexcept
 	return XString(vUserName);
 #else
 	return XString::fromUString(getlogin());
-#endif /// XANADU_SYSTEM_WINDOWS
+#endif // XANADU_SYSTEM_WINDOWS
 }
 
-/// Computer name
+// Computer name
 XString XSystem::HostName() noexcept
 {
 #ifdef XANADU_SYSTEM_WINDOWS
@@ -137,27 +137,27 @@ XString XSystem::HostName() noexcept
 #endif//XANADU_SYSTEM_WINDOWS
 }
 
-/// Gets the directory for the current user
+// Gets the directory for the current user
 XString XSystem::UserHome() noexcept
 {
 #ifdef XANADU_SYSTEM_WINDOWS
 	return XString(L"C:/Users/") + XSystem::CurrentUser();
-#endif /// XANADU_SYSTEM_WINDOWS
+#endif // XANADU_SYSTEM_WINDOWS
 #ifdef XANADU_SYSTEM_LINUX
 	return XString(L"/home/") + XSystem::CurrentUser();
-#endif /// XANADU_SYSTEM_LINUX
+#endif // XANADU_SYSTEM_LINUX
 #ifdef XANADU_SYSTEM_MACOS
 	return XString(L"/Users/") + XSystem::CurrentUser();
-#endif /// XANADU_SYSTEM_MACOS
+#endif // XANADU_SYSTEM_MACOS
 }
 
-/// Whether the operating system is 32-bit
+// Whether the operating system is 32-bit
 bool XSystem::IsX86() noexcept
 {
 	return !XSystem::IsX64();
 }
 
-/// Whether the operating system is 64-bit
+// Whether the operating system is 64-bit
 bool XSystem::IsX64() noexcept
 {
 	static Xanadu::Boolean		vValue64Bit = Xanadu::VALUE_NULL;
@@ -184,7 +184,7 @@ bool XSystem::IsX64() noexcept
 	return Xanadu::VALUE_TRUE == vValue64Bit ? true : false;
 }
 
-/// Whether the operating system is a server version
+// Whether the operating system is a server version
 bool XSystem::IsServer() noexcept
 {
 	static Xanadu::Boolean		vValueServer = Xanadu::VALUE_NULL;
@@ -210,13 +210,13 @@ bool XSystem::IsServer() noexcept
 	return Xanadu::VALUE_TRUE == vValueServer ? true : false;
 }
 
-/// Whether the operating system is a desktop version
+// Whether the operating system is a desktop version
 bool XSystem::IsDesktop() noexcept
 {
 	return !XSystem::IsServer();
 }
 
-/// Native System String
+// Native system String
 XString XSystem::NativeString() noexcept
 {
 	static XString			_StaticNativeString;
@@ -359,7 +359,7 @@ XString XSystem::NativeString() noexcept
 	return _StaticNativeString;
 }
 
-/// Native Build Version
+// Native Build Version
 XString XSystem::BuildVersion() noexcept
 {
 #ifdef XANADU_SYSTEM_WINDOWS
@@ -391,7 +391,7 @@ XString XSystem::BuildVersion() noexcept
 #endif//XANADU_SYSTEM_MACOS
 }
 
-/// The CPUID of the current computer
+// The CPUID of the current computer
 XString XSystem::CPUID() noexcept
 {
 	static wchar_t			_StaticCpuID[XANADU_PATH] = { 0 };
@@ -419,14 +419,14 @@ XString XSystem::CPUID() noexcept
 				"movl %%eax, %1; \n\t"
 				: "=m"(vValue1), "=m"(vValue2)
 				);
-#endif /// XANADU_SYSTEM_ARM
-#endif /// XANADU_SYSTEM_WINDOWS
+#endif // XANADU_SYSTEM_ARM
+#endif // XANADU_SYSTEM_WINDOWS
 		swprintf(_StaticCpuID, XANADU_PATH, L"%08X%08X", vValue1, vValue2);
 	}
 	return XString(_StaticCpuID);
 }
 
-/// The hard disk ID of the current computer
+// The hard disk ID of the current computer
 XString XSystem::DiskID() noexcept
 {
 	static wchar_t				_StaticDiskID[XANADU_PATH] = { 0 };
@@ -478,7 +478,7 @@ XString XSystem::DiskID() noexcept
 #ifdef XANADU_SYSTEM_MACOS
 		//system_profiler SPSerialATADataType | grep Serial
 		/*
-		XShell::Run(L"system_profiler SPSerialATADataType | grep Serial", [&](XString _Output)->bool
+		XShell::run(L"system_profiler SPSerialATADataType | grep Serial", [&](XString _Output)->bool
 		{
 			_Output.remove(L"Serial Number:");
 			_Output.simplified();
@@ -493,7 +493,7 @@ XString XSystem::DiskID() noexcept
 	return XString(_StaticDiskID);
 }
 
-/// A string unique to the current computer
+// A string unique to the current computer
 XString XSystem::OnlyString() noexcept
 {
 	static XString			_StaticOnlyString;
@@ -501,7 +501,7 @@ XString XSystem::OnlyString() noexcept
 	{
 		auto		vTempOnlyString = XSystem::NativeString() + L"_CPU[" + XSystem::CPUID() + L"]_DISK[" + XSystem::DiskID() + L"]_MachineGuid[";
 #ifdef XANADU_SYSTEM_WINDOWS
-		/// 获取MachineGuid(重装系统后改变)
+		// 获取MachineGuid(重装系统后改变)
 		HKEY		vKey = NULL;
 		LSTATUS		vResult = ERROR_SUCCESS;
 		if(XSystem::IsX64())
@@ -527,7 +527,7 @@ XString XSystem::OnlyString() noexcept
 		}
 #else
 		vTempOnlyString += XString::format(L"%lld", gethostid());
-#endif /// XANADU_SYSTEM_WINDOWS
+#endif // XANADU_SYSTEM_WINDOWS
 		vTempOnlyString += L"]";
 		_StaticOnlyString = XString::fromBytes(XHash::hash(vTempOnlyString.toBytes(), XHash::MD5).toHex().toUpper());
 	}

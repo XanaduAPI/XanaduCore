@@ -34,15 +34,15 @@
 #define FILE_ATTRIBUTE_RECALL_ON_DATA_ACCESS		0x00400000
 #endif//
 
-/// Xanadu Filesystem Time
+// Xanadu Filesystem Time
 typedef struct _XANADU_FILESYSTEM_TIME
 {
-	int32U			_Sec;				/// 秒数		[0,59]
-	int32U			_Min;				/// 分钟		[0,59]
-	int32U			_Hour;				/// 小时		[0,23]
-	int32U			_Day;				/// 天数		[1,31]
-	int32U			_Month;				/// 月份		[0,11]
-	int32U			_Year;				/// 年份		[1980..2044]
+	int32U			_Sec;				// 秒数		[0,59]
+	int32U			_Min;				// 分钟		[0,59]
+	int32U			_Hour;				// 小时		[0,23]
+	int32U			_Day;				// 天数		[1,31]
+	int32U			_Month;				// 月份		[0,11]
+	int32U			_Year;				// 年份		[1980..2044]
 
 	_XANADU_FILESYSTEM_TIME()
 	{
@@ -58,45 +58,45 @@ typedef struct _XANADU_FILESYSTEM_TIME
 
 class XFileInfoPrivate;
 
-/// File information
+// File information
 class XANADU_CORE_EXPORT XFileInfo
 {
 private:
-	/// Private structures
+	// Private structures
 	XFileInfoPrivate*			_Info;
 
 public:
-	/// Overload Initialize
+	// Overload Initialize
 	XFileInfo() noexcept;
 
-	/// Overload Initialize
+	// Overload Initialize
 	XFileInfo(const XString& _Filepath) noexcept;
 
-	/// Overload Initialize
+	// Overload Initialize
 	XFileInfo(const XFileInfo& _Fileinfo) noexcept;
 
-	/// Virtual destructor
+	// Virtual destructor
 	virtual ~XFileInfo() noexcept;
 
 public:
-	/// Overload Operator =
+	// Overload Operator =
 	virtual XFileInfo& operator = (const XString& _Filepath) noexcept;
 
-	/// Overload Operator =
+	// Overload Operator =
 	virtual XFileInfo& operator = (const XFileInfo& _Fileinfo) noexcept;
 
-	/// move assignment
+	// move assignment
 	virtual XFileInfo& operator = (XFileInfo&& _Fileinfo) noexcept;
 
 public:
-	/// Convert to an absolute path
+	// Convert to an absolute path
 	static XString ToAbsolutePath(const XString& _Filepath) noexcept;
 
-	/// Convert to an relative path
+	// Convert to an relative path
 	static XString ToRelativePath(const XString& _Filepath) noexcept;
 
 public:
-	/// Check if the file exists
+	// Check if the file exists
 	virtual bool exists() const noexcept;
 
 	virtual XString filePath() const noexcept;
@@ -128,8 +128,8 @@ public:
 	virtual int64S size() const noexcept;
 
 public:
-	/// Check if the file exists
+	// Check if the file exists
 	static bool exists(const XString& _Filepath) noexcept;
 };
 
-#endif /// _XANADU_CORE_FILEINFO_H_
+#endif // _XANADU_CORE_FILEINFO_H_

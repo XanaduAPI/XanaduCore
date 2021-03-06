@@ -7,7 +7,7 @@
 
 static char				_StaticIndexBeyond = '\0';
 
-/// Check for Base64 characters
+// Check for Base64 characters
 bool XanaduByteArrayIsBase64(unsigned char _Char)
 {
 	return (isalnum(_Char) || (_Char == '+') || (_Char == '/'));
@@ -30,7 +30,7 @@ unsigned char XanaduByteArrayHexToInt8U(char _Char)
 	return 0;
 };
 
-/// Check if the character is blank
+// Check if the character is blank
 bool XanaduByteArrayIsSpace(char _Char)
 {
 	if(_Char == ' ' || _Char == '\t' || _Char == '\n' || _Char == '\v' || _Char == '\f' || _Char == '\r')
@@ -42,54 +42,54 @@ bool XanaduByteArrayIsSpace(char _Char)
 
 
 
-/// Constructors
+// Constructors
 XByteArray::XByteArray() noexcept : XAllocator()
 {
 }
 
-/// Constructors
+// Constructors
 XByteArray::XByteArray(const char* _Memory, size_type _Size) noexcept : XAllocator()
 {
 	XAllocator::MemoryAppend(_Memory, _Size == XByteArray::npos ? Xanadu::strlen(_Memory) : _Size);
 }
 
-/// Constructors
+// Constructors
 XByteArray::XByteArray(size_type _Size, char _Char) noexcept : XAllocator(_Size, _Char)
 {
 	XAllocator::MemoryAppend(_Size, _Char);
 }
 
-/// Constructors
+// Constructors
 XByteArray::XByteArray(size_type _Size) noexcept : XAllocator(_Size)
 {
 }
 
-/// Constructors
+// Constructors
 XByteArray::XByteArray(const XByteArray& _Bytes) noexcept : XAllocator(_Bytes.data(), _Bytes.size())
 {
 }
 
-/// Destructor
+// Destructor
 XByteArray::~XByteArray() noexcept
 {
 }
 
 
-/// operator overload =
+// operator overload =
 XByteArray& XByteArray::operator = (const char* _Memory) noexcept
 {
 	this->MemoryCopy(_Memory, Xanadu::strlen(_Memory));
 	return *this;
 }
 
-/// operator overload =
+// operator overload =
 XByteArray& XByteArray::operator = (const XByteArray& _Bytes) noexcept
 {
 	this->MemoryCopy(_Bytes);
 	return *this;
 }
 
-/// operator overload =
+// operator overload =
 XByteArray& XByteArray::operator = (XByteArray&& _Other) noexcept
 {
 	this->MemoryMove(_Other);
@@ -98,7 +98,7 @@ XByteArray& XByteArray::operator = (XByteArray&& _Other) noexcept
 
 
 
-/// operator overload +
+// operator overload +
 XByteArray XByteArray::operator + (char _Char) const noexcept
 {
 	auto		vTempBytes = *this;
@@ -106,7 +106,7 @@ XByteArray XByteArray::operator + (char _Char) const noexcept
 	return vTempBytes;
 }
 
-/// operator overload +
+// operator overload +
 XByteArray XByteArray::operator + (const char* _Memory) const noexcept
 {
 	auto		vTempBytes = *this;
@@ -114,7 +114,7 @@ XByteArray XByteArray::operator + (const char* _Memory) const noexcept
 	return vTempBytes;
 }
 
-/// operator overload +
+// operator overload +
 XByteArray XByteArray::operator + (const XByteArray& _Bytes) const noexcept
 {
 	auto		vTempBytes = *this;
@@ -124,21 +124,21 @@ XByteArray XByteArray::operator + (const XByteArray& _Bytes) const noexcept
 
 
 
-/// operator overload +=
+// operator overload +=
 XByteArray& XByteArray::operator += (char _Char) noexcept
 {
 	this->MemoryAppend(1, _Char);
 	return *this;
 }
 
-/// operator overload +=
+// operator overload +=
 XByteArray& XByteArray::operator += (const char* _Memory) noexcept
 {
 	this->MemoryAppend(_Memory, Xanadu::strlen(_Memory));
 	return *this;
 }
 
-/// operator overload +=
+// operator overload +=
 XByteArray& XByteArray::operator += (const XByteArray& _Bytes) noexcept
 {
 	this->MemoryAppend(_Bytes);
@@ -148,13 +148,13 @@ XByteArray& XByteArray::operator += (const XByteArray& _Bytes) noexcept
 
 
 
-/// operator overload ==
+// operator overload ==
 bool XByteArray::operator == (const char* _Memory)const  noexcept
 {
 	return 0 == this->compare(_Memory);
 }
 
-/// operator overload ==
+// operator overload ==
 bool XByteArray::operator == (const XByteArray& _Bytes)const  noexcept
 {
 	return 0 == this->compare(_Bytes);
@@ -164,43 +164,43 @@ bool XByteArray::operator == (const XByteArray& _Bytes)const  noexcept
 
 
 
-/// Get data pointer
+// Get data pointer
 char* XByteArray::data() noexcept
 {
 	return static_cast<char*>(XAllocator::MemoryAddress());
 }
 
-/// Get data const pointer
+// Get data const pointer
 const char* XByteArray::data() const noexcept
 {
 	return static_cast<const char*>(XAllocator::MemoryAddress());
 }
 
-/// Get data size
+// Get data size
 XByteArray::size_type XByteArray::size() const noexcept
 {
 	return XAllocator::MemoryLength();
 }
 
-/// Get Data size
+// Get Data size
 XByteArray::size_type XByteArray::length() const noexcept
 {
 	return this->size();
 }
 
-/// resize
+// resize
 void XByteArray::resize(size_type _Size) noexcept
 {
 	this->MemoryResize(_Size);
 }
 
-/// Truncates the byte array at index position pos. If pos is beyond the end of the array, nothing happens.
+// Truncates the byte array at index position pos. If pos is beyond the end of the array, nothing happens.
 void XByteArray::truncate(size_type _Index) noexcept
 {
 	this->MemoryTruncate(_Index);
 }
 
-/// Fills a character to the specified length of space, or if -1, all of it
+// Fills a character to the specified length of space, or if -1, all of it
 XByteArray& XByteArray::fill(char _Char, size_type _Size) noexcept
 {
 	if (_Size > this->size())
@@ -214,19 +214,19 @@ XByteArray& XByteArray::fill(char _Char, size_type _Size) noexcept
 	return *this;
 }
 
-/// Get the current capacity
+// Get the current capacity
 XByteArray::size_type XByteArray::capacity() const noexcept
 {
 	return this->MemoryCapacity();
 }
 
-/// Check for null values
+// Check for null values
 bool XByteArray::empty() const noexcept
 {
 	return this->MemoryIsEmpty();
 }
 
-/// Check if there is a value
+// Check if there is a value
 bool XByteArray::exist() const noexcept
 {
 	return this->MemoryIsExist();
@@ -236,7 +236,7 @@ bool XByteArray::exist() const noexcept
 
 
 
-/// Read by subscript
+// read by subscript
 char XByteArray::at(size_type _Index) const noexcept
 {
 	if (_Index < size())
@@ -246,31 +246,31 @@ char XByteArray::at(size_type _Index) const noexcept
 	return '\0';
 }
 
-/// Get the first one
+// Get the first one
 char& XByteArray::front() noexcept
 {
 	return operator[](0);
 }
 
-/// Get the first one
+// Get the first one
 char XByteArray::front() const noexcept
 {
 	return this->at(0);
 }
 
-/// Get the last one
+// Get the last one
 char& XByteArray::back() noexcept
 {
 	return operator[](this->size() - 1);
 }
 
-/// Get the last one
+// Get the last one
 char XByteArray::back() const noexcept
 {
 	return this->at(this->size() - 1);
 }
 
-/// Read by subscript
+// read by subscript
 char& XByteArray::operator [] (size_type _Index) noexcept
 {
 	if (_Index < size())
@@ -280,7 +280,7 @@ char& XByteArray::operator [] (size_type _Index) noexcept
 	return _StaticIndexBeyond;
 }
 
-/// Read by subscript
+// read by subscript
 char XByteArray::operator [] (size_type _Index) const noexcept
 {
 	return this->at(_Index);
@@ -290,85 +290,85 @@ char XByteArray::operator [] (size_type _Index) const noexcept
 
 
 
-/// Iterator operation
+// Iterator operation
 XByteArray::iterator XByteArray::begin() noexcept
 {
 	return this->data();
 }
 
-/// Iterator operation
+// Iterator operation
 XByteArray::const_iterator XByteArray::begin() const noexcept
 {
 	return this->data();
 }
 
-/// Iterator operation
+// Iterator operation
 XByteArray::const_iterator XByteArray::cbegin() const noexcept
 {
 	return this->data();
 }
 
-/// Iterator operation
+// Iterator operation
 XByteArray::const_iterator XByteArray::constBegin() const noexcept
 {
 	return this->data();
 }
 
-/// Iterator operation
+// Iterator operation
 XByteArray::iterator XByteArray::end() noexcept
 {
 	return this->data() + this->size();
 }
 
-/// Iterator operation
+// Iterator operation
 XByteArray::const_iterator XByteArray::end() const noexcept
 {
 	return this->data() + this->size();
 }
 
-/// Iterator operation
+// Iterator operation
 XByteArray::const_iterator XByteArray::cend() const noexcept
 {
 	return this->data() + this->size();
 }
 
-/// Iterator operation
+// Iterator operation
 XByteArray::const_iterator XByteArray::constEnd() const noexcept
 {
 	return this->data() + this->size();
 }
 
-/// Iterator operation
+// Iterator operation
 XByteArray::reverse_iterator XByteArray::rbegin() noexcept
 {
 	return reverse_iterator(end());
 }
 
-/// Iterator operation
+// Iterator operation
 XByteArray::reverse_iterator XByteArray::rend() noexcept
 {
 	return reverse_iterator(begin());
 }
 
-/// Iterator operation
+// Iterator operation
 XByteArray::const_reverse_iterator XByteArray::rbegin() const noexcept
 {
 	return const_reverse_iterator(end());
 }
 
-/// Iterator operation
+// Iterator operation
 XByteArray::const_reverse_iterator XByteArray::rend() const noexcept
 {
 	return const_reverse_iterator(begin());
 }
 
-/// Iterator operation
+// Iterator operation
 XByteArray::const_reverse_iterator XByteArray::crbegin() const noexcept
 {
 	return const_reverse_iterator(end());
 }
 
-/// Iterator operation
+// Iterator operation
 XByteArray::const_reverse_iterator XByteArray::crend() const noexcept
 {
 	return const_reverse_iterator(begin());
@@ -378,37 +378,37 @@ XByteArray::const_reverse_iterator XByteArray::crend() const noexcept
 
 
 
-/// Vector compatibility: increments to the last bit
+// Vector compatibility: increments to the last bit
 void XByteArray::push_back(char _Char) noexcept
 {
 	this->append(_Char);
 }
 
-/// Vector compatibility: increments to the last bit
+// Vector compatibility: increments to the last bit
 void XByteArray::push_back(const char* _Memory) noexcept
 {
 	this->append(_Memory);
 }
 
-/// Vector compatibility: increments to the last bit
+// Vector compatibility: increments to the last bit
 void XByteArray::push_back(const XByteArray& _Bytes) noexcept
 {
 	this->append(_Bytes);
 }
 
-/// Vector compatible: increments to the first
+// Vector compatible: increments to the first
 void XByteArray::push_front(char _Char) noexcept
 {
 	this->prepend(_Char);
 }
 
-/// Vector compatible: increments to the first
+// Vector compatible: increments to the first
 void XByteArray::push_front(const char* _Memory) noexcept
 {
 	this->prepend(_Memory);
 }
 
-/// Vector compatible: increments to the first
+// Vector compatible: increments to the first
 void XByteArray::push_front(const XByteArray& _Bytes) noexcept
 {
 	this->prepend(_Bytes);
@@ -418,73 +418,73 @@ void XByteArray::push_front(const XByteArray& _Bytes) noexcept
 
 
 
-/// Add at the front
+// Add at the front
 XByteArray& XByteArray::prepend(char _Char) noexcept
 {
 	return this->insert(0, _Char);
 }
 
-/// Add at the front
+// Add at the front
 XByteArray& XByteArray::prepend(size_type _Count, char _Char) noexcept
 {
 	return this->insert(0, _Count, _Char);
 }
 
-/// Add at the front
+// Add at the front
 XByteArray& XByteArray::prepend(const char* _String) noexcept
 {
 	return this->insert(0, _String);
 }
 
-/// Add at the front
+// Add at the front
 XByteArray& XByteArray::prepend(const char* _String, size_type _Length) noexcept
 {
 	return this->insert(0, _String, _Length);
 }
 
-/// Add at the front
+// Add at the front
 XByteArray& XByteArray::prepend(const XByteArray& _Bytes) noexcept
 {
 	return this->insert(0, _Bytes);
 }
 
-/// Add at the end
+// Add at the end
 XByteArray& XByteArray::append(char _Char) noexcept
 {
 	return this->insert(this->size(), _Char);
 }
 
-/// Add at the end
+// Add at the end
 XByteArray& XByteArray::append(size_type _Count, char _Char) noexcept
 {
 	return this->insert(this->size(), _Count, _Char);
 }
 
-/// Add at the end
+// Add at the end
 XByteArray& XByteArray::append(const char* _String) noexcept
 {
 	return this->insert(this->size(), _String);
 }
 
-/// Add at the end
+// Add at the end
 XByteArray& XByteArray::append(const char* _String, size_type _Length) noexcept
 {
 	return this->insert(this->size(), _String, _Length);
 }
 
-/// Add at the end
+// Add at the end
 XByteArray& XByteArray::append(const XByteArray& _Bytes) noexcept
 {
 	return this->insert(this->size(), _Bytes);
 }
 
-/// Insert by pos
+// Insert by pos
 XByteArray& XByteArray::insert(size_type _Index, char _Char) noexcept
 {
 	return this->insert(_Index, 1, _Char);
 }
 
-/// Insert by pos
+// Insert by pos
 XByteArray& XByteArray::insert(size_type _Index, size_type _Count, char _Char) noexcept
 {
 	if(_Count > 0)
@@ -502,13 +502,13 @@ XByteArray& XByteArray::insert(size_type _Index, size_type _Count, char _Char) n
 	return *this;
 }
 
-/// Insert by pos
+// Insert by pos
 XByteArray& XByteArray::insert(size_type _Index, const char* _String) noexcept
 {
 	return this->insert(_Index, _String, Xanadu::strlen(_String));
 }
 
-/// Insert by pos
+// Insert by pos
 XByteArray& XByteArray::insert(size_type _Index, const char* _String, size_type _Length) noexcept
 {
 	if (_String && _Length > 0)
@@ -519,7 +519,7 @@ XByteArray& XByteArray::insert(size_type _Index, const char* _String, size_type 
 	return *this;
 }
 
-/// Insert by pos
+// Insert by pos
 XByteArray& XByteArray::insert(size_type _Index, const XByteArray& _Bytes) noexcept
 {
 	return this->insert(_Index, _Bytes.data(), _Bytes.size());
@@ -530,14 +530,14 @@ XByteArray& XByteArray::insert(size_type _Index, const XByteArray& _Bytes) noexc
 
 
 
-/// Delete the specified length of data from the specified pos
+// Delete the specified length of data from the specified pos
 XByteArray& XByteArray::remove(size_type _Index, size_type _Length) noexcept
 {
 	this->MemoryRemove(_Index, _Length);
 	return *this;
 }
 
-/// Delete the specified length of data from the specified pos
+// Delete the specified length of data from the specified pos
 XByteArray& XByteArray::remove(const char _Char) noexcept
 {
 	char		vBuffer[2] = {0};
@@ -546,13 +546,13 @@ XByteArray& XByteArray::remove(const char _Char) noexcept
 	return this->remove(vBuffer);
 }
 
-/// Delete the specified length of data from the specified pos
+// Delete the specified length of data from the specified pos
 XByteArray& XByteArray::remove(const char* _Memory) noexcept
 {
 	return this->remove(_Memory, Xanadu::strlen(_Memory));
 }
 
-/// Delete the specified length of data from the specified pos
+// Delete the specified length of data from the specified pos
 XByteArray& XByteArray::remove(const char* _Memory, size_type _Size) noexcept
 {
 	if(_Size = XByteArray::npos)
@@ -571,7 +571,7 @@ XByteArray& XByteArray::remove(const char* _Memory, size_type _Size) noexcept
 	return *this;
 }
 
-/// Delete the specified length of data from the specified pos
+// Delete the specified length of data from the specified pos
 XByteArray& XByteArray::remove(const XByteArray& _Bytes) noexcept
 {
 	return this->remove(_Bytes.data(), _Bytes.size());
@@ -582,46 +582,46 @@ XByteArray& XByteArray::remove(const XByteArray& _Bytes) noexcept
 
 
 
-/// Replace data
+// Replace data
 XByteArray& XByteArray::replace(size_type _Index, size_type _Length, const char* _After) noexcept
 {
 	return this->replace(_Index, _Length, _After, Xanadu::strlen(_After));
 }
 
-/// Replace data
+// Replace data
 XByteArray& XByteArray::replace(size_type _Index, size_type _Length, const char* _After, size_type _Asize) noexcept
 {
 	this->MemoryReplace(_Index, _Length, _After, _Asize);
 	return *this;
 }
 
-/// Replace data
+// Replace data
 XByteArray& XByteArray::replace(size_type _Index, size_type _Length, const XByteArray& _Bytes) noexcept
 {
 	return this->replace(_Index, _Length, _Bytes.data(), _Bytes.size());
 }
 
-/// Replace data
+// Replace data
 XByteArray& XByteArray::replace(char _Before, const char* _After) noexcept
 {
 	char 		vBuffer[2] = {_Before, '\0'};
 	return this->replace(vBuffer, Xanadu::strlen(vBuffer), _After, Xanadu::strlen(_After));
 }
 
-/// Replace data
+// Replace data
 XByteArray& XByteArray::replace(char _Before, const XByteArray& _After) noexcept
 {
 	char 		vBuffer[2] = {_Before, '\0'};
 	return this->replace(vBuffer, Xanadu::strlen(vBuffer), _After.data(), _After.size());
 }
 
-/// Replace data
+// Replace data
 XByteArray& XByteArray::replace(const char* _Before, const char* _After) noexcept
 {
 	return this->replace(_Before, Xanadu::strlen(_Before), _After, Xanadu::strlen(_After));
 }
 
-/// Replace data
+// Replace data
 XByteArray& XByteArray::replace(const char* _Before, size_type _Bsize, const char* _After, size_type _Asize) noexcept
 {
 	auto		vIndex = 0LL;
@@ -638,25 +638,25 @@ XByteArray& XByteArray::replace(const char* _Before, size_type _Bsize, const cha
 	return *this;
 }
 
-/// Replace data
+// Replace data
 XByteArray& XByteArray::replace(const XByteArray& _Before, const XByteArray& _After) noexcept
 {
 	return this->replace(_Before.data(), _Before.size(), _After.data(), _After.size());
 }
 
-/// Replace data
+// Replace data
 XByteArray& XByteArray::replace(const XByteArray& _Before, const char* _After) noexcept
 {
 	return this->replace(_Before.data(), _Before.size(), _After, Xanadu::strlen(_After));
 }
 
-/// Replace data
+// Replace data
 XByteArray& XByteArray::replace(const char* _Before, const XByteArray& _After) noexcept
 {
 	return this->replace(_Before, Xanadu::strlen(_Before), _After.data(), _After.size());
 }
 
-/// Replace data
+// Replace data
 XByteArray& XByteArray::replace(char _Before, char _After) noexcept
 {
 	char 		vBuffer1[2] = {_Before, '\0'};
@@ -668,7 +668,7 @@ XByteArray& XByteArray::replace(char _Before, char _After) noexcept
 
 
 
-/// Get the data on the left by length
+// Get the data on the left by length
 XByteArray XByteArray::left(size_type _Length) const noexcept
 {
 	if (_Length > 0)
@@ -685,7 +685,7 @@ XByteArray XByteArray::left(size_type _Length) const noexcept
 	return XByteArray();
 }
 
-/// Get the data on the right by length
+// Get the data on the right by length
 XByteArray XByteArray::right(size_type _Length) const noexcept
 {
 	if (_Length > 0)
@@ -702,7 +702,7 @@ XByteArray XByteArray::right(size_type _Length) const noexcept
 	return XByteArray();
 }
 
-/// Retrieve the middle data by length
+// Retrieve the middle data by length
 XByteArray XByteArray::mid(size_type _Index, size_type _Length) const noexcept
 {
 	auto		vPos = XAllocator::MemoryPosFix(_Index);
@@ -717,19 +717,19 @@ XByteArray XByteArray::mid(size_type _Index, size_type _Length) const noexcept
 
 
 
-/// Check if the head is the same
+// Check if the head is the same
 bool XByteArray::startsWith(char _Char) const noexcept
 {
 	return this->startsWith(XByteArray(_Char));
 }
 
-/// Check if the head is the same
+// Check if the head is the same
 bool XByteArray::startsWith(const char* _Memory) const noexcept
 {
 	return this->startsWith(XByteArray(_Memory, Xanadu::strlen(_Memory)));
 }
 
-/// Check if the head is the same
+// Check if the head is the same
 bool XByteArray::startsWith(const XByteArray& _Bytes) const noexcept
 {
 	if (this->size() >= _Bytes.size() && _Bytes.exist())
@@ -746,19 +746,19 @@ bool XByteArray::startsWith(const XByteArray& _Bytes) const noexcept
 	return false;
 }
 
-/// Check if the tails are the same
+// Check if the tails are the same
 bool XByteArray::endsWith(char _Char) const noexcept
 {
 	return this->endsWith(XByteArray(_Char));
 }
 
-/// Check if the tails are the same
+// Check if the tails are the same
 bool XByteArray::endsWith(const char* _Memory) const noexcept
 {
 	return this->endsWith(XByteArray(_Memory, Xanadu::strlen(_Memory)));
 }
 
-/// Check if the tails are the same
+// Check if the tails are the same
 bool XByteArray::endsWith(const XByteArray& _Bytes) const noexcept
 {
 	if (this->size() >= _Bytes.size() && _Bytes.exist())
@@ -780,14 +780,14 @@ bool XByteArray::endsWith(const XByteArray& _Bytes) const noexcept
 
 
 
-/// find in positive order from the specified location
+// find in positive order from the specified location
 XByteArray::size_type XByteArray::find(char _Char, size_type _From) const noexcept
 {
 	char		vBuffer[2] = {_Char, '\0'};
 	return this->find(XByteArray(vBuffer, 1), _From);
 }
 
-/// find in positive order from the specified location
+// find in positive order from the specified location
 XByteArray::size_type XByteArray::find(const char* _Memory, size_type _From) const noexcept
 {
 	XANADU_CHECK_RETURN(_Memory, XByteArray::npos);
@@ -795,7 +795,7 @@ XByteArray::size_type XByteArray::find(const char* _Memory, size_type _From) con
 	return this->find(XByteArray(_Memory, Xanadu::strlen(_Memory)), _From);
 }
 
-/// find in positive order from the specified location
+// find in positive order from the specified location
 XByteArray::size_type XByteArray::find(const XByteArray& _Bytes, size_type _From) const noexcept
 {
 	XANADU_CHECK_RETURN(_Bytes.size(), XByteArray::npos);
@@ -803,14 +803,14 @@ XByteArray::size_type XByteArray::find(const XByteArray& _Bytes, size_type _From
 	return XAllocator::MemoryFind(_From, _Bytes.data(), _Bytes.size());
 }
 
-/// find in reverse order from the specified location
+// find in reverse order from the specified location
 XByteArray::size_type XByteArray::rfind(char _Char, size_type _From) const noexcept
 {
 	char		vBuffer[2] = {_Char, '\0'};
 	return this->rfind(XByteArray(vBuffer, 1), _From);
 }
 
-/// find in reverse order from the specified location
+// find in reverse order from the specified location
 XByteArray::size_type XByteArray::rfind(const char* _Memory, size_type _From) const noexcept
 {
 	XANADU_CHECK_RETURN(_Memory, XByteArray::npos);
@@ -818,7 +818,7 @@ XByteArray::size_type XByteArray::rfind(const char* _Memory, size_type _From) co
 	return this->rfind(XByteArray(_Memory, Xanadu::strlen(_Memory)), _From);
 }
 
-/// find in reverse order from the specified location
+// find in reverse order from the specified location
 XByteArray::size_type XByteArray::rfind(const XByteArray& _Bytes, size_type _From) const noexcept
 {
 	XANADU_CHECK_RETURN(_Bytes.size(), XByteArray::npos);
@@ -830,37 +830,37 @@ XByteArray::size_type XByteArray::rfind(const XByteArray& _Bytes, size_type _Fro
 
 
 
-/// find in positive order from the specified location
+// find in positive order from the specified location
 XByteArray::size_type XByteArray::indexOf(char _Char, size_type _From) const noexcept
 {
 	return this->find(_Char, _From);
 }
 
-/// find in positive order from the specified location
+// find in positive order from the specified location
 XByteArray::size_type XByteArray::indexOf(const char* _Memory, size_type _From) const noexcept
 {
 	return this->find(_Memory, _From);
 }
 
-/// find in positive order from the specified location
+// find in positive order from the specified location
 XByteArray::size_type XByteArray::indexOf(const XByteArray& _Bytes, size_type _From) const noexcept
 {
 	return this->find(_Bytes, _From);
 }
 
-/// find in reverse order from the specified location
+// find in reverse order from the specified location
 XByteArray::size_type XByteArray::lastIndexOf(char _Char, size_type _From) const noexcept
 {
 	return this->rfind(_Char, _From);
 }
 
-/// find in reverse order from the specified location
+// find in reverse order from the specified location
 XByteArray::size_type XByteArray::lastIndexOf(const char* _Memory, size_type _From) const noexcept
 {
 	return this->rfind(_Memory, _From);
 }
 
-/// find in reverse order from the specified location
+// find in reverse order from the specified location
 XByteArray::size_type XByteArray::lastIndexOf(const XByteArray& _Bytes, size_type _From) const noexcept
 {
 	return this->rfind(_Bytes, _From);
@@ -871,31 +871,31 @@ XByteArray::size_type XByteArray::lastIndexOf(const XByteArray& _Bytes, size_typ
 
 
 
-/// Check for inclusion
+// Check for inclusion
 bool XByteArray::contains(char _Char) const noexcept
 {
 	return this->find(_Char, 0);
 }
 
-/// Check for inclusion
+// Check for inclusion
 bool XByteArray::contains(const char* _Memory) const noexcept
 {
 	return this->find(_Memory, 0);
 }
 
-/// Check for inclusion
+// Check for inclusion
 bool XByteArray::contains(const XByteArray& _Bytes) const noexcept
 {
 	return this->find(_Bytes, 0);
 }
 
-/// Check if they are the same
+// Check if they are the same
 int XByteArray::compare(const char* _Memory, Xanadu::CaseSensitivity _XCS) const noexcept
 {
 	return this->compare(XByteArray(_Memory), _XCS);
 }
 
-/// Check if they are the same
+// Check if they are the same
 int XByteArray::compare(const XByteArray& _Bytes, Xanadu::CaseSensitivity _XCS) const noexcept
 {
 	if (this->empty() && _Bytes.empty())
@@ -932,7 +932,7 @@ int XByteArray::compare(const XByteArray& _Bytes, Xanadu::CaseSensitivity _XCS) 
 
 
 
-/// Check if it's lowercase
+// Check if it's lowercase
 bool XByteArray::isLower() const noexcept
 {
 	for (auto vIndex = 0ULL; vIndex < this->size(); ++vIndex)
@@ -945,7 +945,7 @@ bool XByteArray::isLower() const noexcept
 	return true;
 }
 
-/// Check if it's uppercase
+// Check if it's uppercase
 bool XByteArray::isUpper() const noexcept
 {
 	for (auto vIndex = 0ULL; vIndex < this->size(); ++vIndex)
@@ -958,7 +958,7 @@ bool XByteArray::isUpper() const noexcept
 	return true;
 }
 
-/// Convert to lowercase
+// Convert to lowercase
 XByteArray XByteArray::toLower() const noexcept
 {
 	auto		vBytes = XByteArray();
@@ -974,7 +974,7 @@ XByteArray XByteArray::toLower() const noexcept
 	return vBytes;
 }
 
-/// Convert to uppercase
+// Convert to uppercase
 XByteArray XByteArray::toUpper() const noexcept
 {
 	auto		vBytes = XByteArray();
@@ -990,12 +990,12 @@ XByteArray XByteArray::toUpper() const noexcept
 	return vBytes;
 }
 
-/// Remove start and end whitespace strings ('\t','\n','\v','\f','\r','_')
+// remove start and end whitespace strings ('\t','\n','\v','\f','\r','_')
 XByteArray XByteArray::trimmed() const noexcept
 {
 	auto		vBeginPos = 0ULL;
 	auto		vEndPos = this->size() - 1;
-	/// Positive sequence check
+	// Positive sequence check
 	for (vBeginPos = 0ULL; vBeginPos < this->size(); ++vBeginPos)
 	{
 		if (XanaduByteArrayIsSpace(this->operator[](vBeginPos)))
@@ -1003,7 +1003,7 @@ XByteArray XByteArray::trimmed() const noexcept
 			break;
 		}
 	}
-	/// Check order
+	// Check order
 	for (vEndPos = this->size() - 1; vEndPos >= 0; --vEndPos)
 	{
 		if (XanaduByteArrayIsSpace(this->operator[](vBeginPos)))
@@ -1018,7 +1018,7 @@ XByteArray XByteArray::trimmed() const noexcept
 	return XByteArray();
 }
 
-/// Remove beginning, middle, and end whitespace strings ('\t','\n','\v','\f','\r','_')
+// remove beginning, middle, and end whitespace strings ('\t','\n','\v','\f','\r','_')
 XByteArray XByteArray::simplified() const noexcept
 {
 	auto		vBytes = this->trimmed();
@@ -1043,8 +1043,8 @@ XByteArray XByteArray::simplified() const noexcept
 	return vResult;
 }
 
-/// split
-std::list<XByteArray> XByteArray::split(const char _Char) const noexcept
+// split
+std::list<XByteArray> XByteArray::split(char _Char) const noexcept
 {
 	char		vBuffer[2] = {0};
 	vBuffer[0] = _Char;
@@ -1052,19 +1052,19 @@ std::list<XByteArray> XByteArray::split(const char _Char) const noexcept
 	return this->split(vBuffer, 1ULL);
 }
 
-/// split
+// split
 std::list<XByteArray> XByteArray::split(const char* _Memory) const noexcept
 {
 	return this->split(XByteArray(_Memory, Xanadu::strlen(_Memory)));
 }
 
-/// split
+// split
 std::list<XByteArray> XByteArray::split(const char* _Memory, size_type _Size) const noexcept
 {
 	return this->split(XByteArray(_Memory, _Size));
 }
 
-/// split
+// split
 std::list<XByteArray> XByteArray::split(const XByteArray& _Bytes) const noexcept
 {
 	auto		vHeaderArray = std::list<XByteArray>();
@@ -1089,13 +1089,13 @@ std::list<XByteArray> XByteArray::split(const XByteArray& _Bytes) const noexcept
 
 
 
-/// Convert to Base64
+// Convert to Base64
 XByteArray XByteArray::toBase64() const noexcept
 {
 	return XBase64::encode(this->data(), this->size());
 }
 
-/// Convert to HEX
+// Convert to HEX
 XByteArray XByteArray::toHex() const noexcept
 {
 	auto		vTarget = XByteArray(this->size() * 2);
@@ -1109,25 +1109,25 @@ XByteArray XByteArray::toHex() const noexcept
 	return vTarget;
 }
 
-/// Format from memory
+// Format from memory
 XByteArray XANADUAPI XByteArray::fromMemory(const char* _Memory, size_type _Size) noexcept
 {
 	return XByteArray(_Memory, _Size);
 }
 
-/// Format from Base64
+// Format from Base64
 XByteArray XANADUAPI XByteArray::fromBase64(const void* _Memory, size_type _Size) noexcept
 {
 	return XBase64::decode(_Memory, _Size);
 }
 
-/// Format from Base64
+// Format from Base64
 XByteArray XANADUAPI XByteArray::fromBase64(const XByteArray& _Bytes) noexcept
 {
 	return XByteArray::fromBase64(_Bytes.data(), _Bytes.size());
 }
 
-/// Format from HEX
+// Format from HEX
 XByteArray XANADUAPI XByteArray::fromHex(const void* _Memory, size_type _Size) noexcept
 {
 	if (nullptr == _Memory)
@@ -1155,7 +1155,7 @@ XByteArray XANADUAPI XByteArray::fromHex(const void* _Memory, size_type _Size) n
 	return vTarget;
 }
 
-/// Format from HEX
+// Format from HEX
 XByteArray XANADUAPI XByteArray::fromHex(const XByteArray& _Bytes) noexcept
 {
 	return XByteArray::fromHex(_Bytes.data(), _Bytes.size());

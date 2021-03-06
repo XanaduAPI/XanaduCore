@@ -43,4 +43,4 @@ __attribute((destructor)) void Xanadu_Core_Dynamic_Library_Fini(void)
 {
 	Xanadu_Core_Release();
 };
-#endif /// XANADU_SYSTEM_WINDOWS
+#endif // XANADU_SYSTEM_WINDOWS

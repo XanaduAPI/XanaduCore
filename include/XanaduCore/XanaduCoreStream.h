@@ -12,7 +12,7 @@ enum ENUM_XANADU_DEBUG_LEVEL
 	EXANADU_DEBUG_LEVEL_ERROR,
 };
 
-/// Xanadu Class Stream
+// Xanadu Class Stream
 class XANADU_CORE_EXPORT XStream
 {
 public:
@@ -21,47 +21,47 @@ public:
 	virtual ~XStream() noexcept;
 
 public:
-	/// 启用日志级别
+	// 启用日志级别
 	static void setDebugLevel(ENUM_XANADU_DEBUG_LEVEL _Level = EXANADU_DEBUG_LEVEL_FULL) noexcept;
 
 public:
-	/// 输出日志
+	// 输出日志
 	static void Output(const char* _Format, ...) noexcept;
 
-	/// 输出日志
+	// 输出日志
 	static void Output(const wchar_t* _Format, ...) noexcept;
 
-	/// 输出日志
+	// 输出日志
 	static void Output(const XString& _Format) noexcept;
 
 public:
-	/// 输出日志:INFO
+	// 输出日志:INFO
 	static void Info(const char* _Format, ...) noexcept;
 
-	/// 输出日志:INFO
+	// 输出日志:INFO
 	static void Info(const wchar_t* _Format, ...) noexcept;
 
-	/// 输出日志:INFO
+	// 输出日志:INFO
 	static void Info(const XString& _Format) noexcept;;
 
 public:
-	/// 输出日志:WARNING
+	// 输出日志:WARNING
 	static void Warning(const char* _Format, ...) noexcept;
 
-	/// 输出日志:WARNING
+	// 输出日志:WARNING
 	static void Warning(const wchar_t* _Format, ...) noexcept;
 
-	/// 输出日志:WARNING
+	// 输出日志:WARNING
 	static void Warning(const XString& _Format) noexcept;
 
 public:
-	/// 输出日志:ERROR
+	// 输出日志:ERROR
 	static void Error(const char* _Format, ...) noexcept;
 
-	/// 输出日志:ERROR
+	// 输出日志:ERROR
 	static void Error(const wchar_t* _Format, ...) noexcept;
 
-	/// 输出日志:ERROR
+	// 输出日志:ERROR
 	static void Error(const XString& _Format) noexcept;
 };
 
@@ -75,6 +75,6 @@ public:
 #define			XANADU_INFO						XStream::Info
 #define			XANADU_WARNING						XStream::Warning
 #define			XANADU_ERROR						XStream::Error
-#endif /// XANADU_SYSTEM_WINDOWS
+#endif // XANADU_SYSTEM_WINDOWS
 
-#endif /// _XANADU_CORE_STREAM_H_
+#endif // _XANADU_CORE_STREAM_H_

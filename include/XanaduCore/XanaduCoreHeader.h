@@ -41,27 +41,27 @@
 #include <mutex>
 #include <thread>
 
-/// Macro needed by Xanadu series
+// Macro needed by Xanadu series
 #define			XANADU_NEW						new(std::nothrow)
 #define			XANADU_DELETE_ARR(_Value)				if(_Value){delete[] _Value;_Value = nullptr;}
 #define			XANADU_DELETE_PTR(_Value)				if(_Value){delete _Value;	_Value = nullptr;}
 
 namespace Xanadu
 {
-	/// Case Sensitivity Enum
+	// Case Sensitivity Enum
 	enum CaseSensitivity
 	{
-		CaseInsensitive,						/// no
-		CaseSensitive,							/// yes
+		CaseInsensitive,						// no
+		CaseSensitive,							// yes
 	};
 
-	/// Trinomial value
+	// Trinomial value
 	enum Boolean
 	{
-		VALUE_NULL = -1,						/// null value
-		VALUE_FALSE = 0,						/// false
-		VALUE_TRUE = 1,							/// true
+		VALUE_NULL = -1,						// null value
+		VALUE_FALSE = 0,						// false
+		VALUE_TRUE = 1,							// true
 	};
 };
 
-#endif /// _XANADU_CORE_HEADER_H_
+#endif // _XANADU_CORE_HEADER_H_

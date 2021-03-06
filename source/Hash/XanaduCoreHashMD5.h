@@ -8,7 +8,7 @@
 
 #include <XanaduCore/XanaduCoreHeader.h>
 
-/// MD5 context
+// MD5 context
 typedef struct _XANADU_CORE_MD5_CONTEXT
 {
 	int32U			lo;
@@ -23,14 +23,14 @@ typedef struct _XANADU_CORE_MD5_CONTEXT
 
 namespace Xanadu
 {
-	/// MD5 initialization
+	// MD5 initialization
 	XANADU_CORE_EXPORT void XANADUAPI MD5_Init(XANADU_CORE_MD5_CONTEXT* _Context) noexcept;
 
-	/// MD5 updates the data
+	// MD5 updates the data
 	XANADU_CORE_EXPORT void XANADUAPI MD5_Update(XANADU_CORE_MD5_CONTEXT* _Context, const void* _Data, int64U _Size) noexcept;
 
-	/// MD5 retrieves the results
+	// MD5 retrieves the results
 	XANADU_CORE_EXPORT void XANADUAPI MD5_Final(unsigned char* _Result, XANADU_CORE_MD5_CONTEXT* _Context) noexcept;
 };
 
-#endif /// _XANADU_CORE_HASH_MD5_H_
+#endif // _XANADU_CORE_HASH_MD5_H_

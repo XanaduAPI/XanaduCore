@@ -5,9 +5,9 @@
 #include <XanaduCore/XanaduCoreAllocator.h>
 #include <XanaduCore/XanaduCoreByteArray.h>
 
-/// <summary>
-/// Here are some string type name definitions for the Xanadu series
-/// </summary>
+// <summary>
+// Here are some string type name definitions for the Xanadu series
+// </summary>
 typedef			wchar_t							XChar;
 typedef			std::string						AString;
 typedef			std::wstring						WString;
@@ -17,17 +17,17 @@ typedef			std::string						LString;
 typedef			AString							NString;
 #else
 typedef			UString							NString;
-#endif/// XANADU_SYSTEM_WINDOWS
+#endif// XANADU_SYSTEM_WINDOWS
 
-/// The type of the Xanadu string
+// The type of the Xanadu string
 #define			XSTRING(_String)					L ## _String
 
 
-/// <summary>
-/// This string processing expects a better memory allocator
-/// I don't know how std::wstring makes Microsoft Visual Studio display only character contents and not member variables
-/// The iterator for this string class is not tested
-/// </summary>
+// <summary>
+// This string processing expects a better memory allocator
+// I don't know how std::wstring makes Microsoft Visual Studio display only character contents and not member variables
+// The iterator for this string class is not tested
+// </summary>
 class XANADU_CORE_EXPORT XString
 {
 public:
@@ -40,7 +40,7 @@ private:
 	size_type					_string_capacity = 0;
 
 public:
-	/// String_iterator_type
+	// String_iterator_type
 	struct String_iterator_type
 	{
 		wchar_t* first;
@@ -52,7 +52,7 @@ public:
 		};
 	};
 
-	/// const_iterator
+	// const_iterator
 	class const_iterator
 	{
 	public:
@@ -85,7 +85,7 @@ public:
 		friend class XString;
 	};
 
-	/// iterator
+	// iterator
 	class iterator : public const_iterator
 	{
 		using _myBase = const_iterator;
@@ -111,7 +111,7 @@ public:
 	using const_pointer = const_iterator;
 	using pointer = iterator;
 
-	/// const_reverse_iterator
+	// const_reverse_iterator
 	class const_reverse_iterator : public const_iterator
 	{
 		using _myBase = const_iterator;
@@ -139,7 +139,7 @@ public:
 
 	};
 
-	/// reverse_iterator
+	// reverse_iterator
 	class reverse_iterator : public const_reverse_iterator
 	{
 		using _myBase = const_reverse_iterator;
@@ -183,606 +183,606 @@ public:
 	virtual ~XString() noexcept;
 
 public:
-	/// copy assignment
+	// copy assignment
 	virtual XString& operator = (wchar_t _Char) noexcept;
 
-	/// copy assignment
+	// copy assignment
 	virtual XString& operator = (const wchar_t* _String) noexcept;
 
-	/// copy assignment
+	// copy assignment
 	virtual XString& operator = (const WString& _String) noexcept;
 
-	/// copy assignment
+	// copy assignment
 	virtual XString& operator = (const XString& _String) noexcept;
 
-	/// move assignment
+	// move assignment
 	virtual XString& operator = (XString&& _String) noexcept;
 
 private:
-	/// memory operator new
+	// memory operator new
 	virtual void _memory_malloc(size_type _Size) noexcept;
 
-	/// memory operator append
+	// memory operator append
 	virtual void _memory_append(size_type _Size) noexcept;
 
-	/// memory operator resize
+	// memory operator resize
 	virtual void _memory_resize(size_type _Size) noexcept;
 
-	/// memory operator delete
+	// memory operator delete
 	virtual void _memory_free() noexcept;
 
 private:
-	/// private append wchar_t
+	// private append wchar_t
 	virtual void _string_append(wchar_t _Char) noexcept;
 
-	/// private append const wchar_t*
+	// private append const wchar_t*
 	virtual void _string_append(const wchar_t* _String, size_type _Size = XString::npos) noexcept;
 
-	/// private search wchar_t
+	// private search wchar_t
 	virtual size_type _string_search(wchar_t _Char, size_type _Begin = 0LL, Xanadu::CaseSensitivity _XCS = Xanadu::CaseSensitive) const noexcept;
 
-	/// private search const wchar_t*
+	// private search const wchar_t*
 	virtual size_type _string_search(const wchar_t* _String, size_type _Size = XString::npos, size_type _Begin = 0LL, Xanadu::CaseSensitivity _XCS = Xanadu::CaseSensitive) const noexcept;
 
-	/// private insert wchar_t
+	// private insert wchar_t
 	virtual void _string_insert(size_type _Pos, wchar_t _Char) noexcept;
 
-	/// private insert const wchar_t*
+	// private insert const wchar_t*
 	virtual void _string_insert(size_type _Pos, const wchar_t* _String, size_type _Size = XString::npos) noexcept;
 
-	/// private remove
+	// private remove
 	virtual void _string_remove(size_type _Pos, size_type _Length) noexcept;
 
-	/// private compare
+	// private compare
 	virtual int32S _string_compare(const wchar_t* _String, size_type _Size = XString::npos, Xanadu::CaseSensitivity _XCS = Xanadu::CaseSensitive) const noexcept;
 
 private:
-	/// 查找
+	// 查找
 	virtual size_type _find(const wchar_t* _String, size_type _Length, size_type _Pos) const noexcept;
 
-	/// 反向查找
+	// 反向查找
 	virtual size_type _rfind(const wchar_t* _String, size_type _Length, size_type _Pos) const noexcept;
 
-	/// 查找并比较
+	// 查找并比较
 	virtual bool _compare(const wchar_t* _String, size_type _Length, size_type _Pos) const noexcept;
 
 private:
-	/// cxx iterator private
+	// cxx iterator private
 	virtual String_iterator_type _ibegin() const noexcept;
 
-	/// cxx iterator private
+	// cxx iterator private
 	virtual XString::String_iterator_type _rbegin() const noexcept;
 
-	/// cxx iterator private
+	// cxx iterator private
 	virtual String_iterator_type _end() const noexcept;
 
-	/// cxx iterator private
+	// cxx iterator private
 	virtual size_type _getLength(const const_iterator _First, const const_iterator _Second) noexcept;
 
 public:
-	/// cxx iterator function
+	// cxx iterator function
 	virtual iterator begin() noexcept;
 
-	/// cxx iterator function
+	// cxx iterator function
 	virtual const_iterator begin() const noexcept;
 
-	/// cxx iterator function
+	// cxx iterator function
 	virtual iterator end() noexcept;
 
-	/// cxx iterator function
+	// cxx iterator function
 	virtual const_iterator end() const noexcept;
 
-	/// cxx iterator function
+	// cxx iterator function
 	virtual const_iterator cbegin() const noexcept;
 
-	/// cxx iterator function
+	// cxx iterator function
 	virtual const_iterator cend() const noexcept;
 
-	/// cxx iterator function
+	// cxx iterator function
 	virtual reverse_iterator rbegin() noexcept;
 
-	/// cxx iterator function
+	// cxx iterator function
 	virtual const_reverse_iterator rbegin() const noexcept;
 
-	/// cxx iterator function
+	// cxx iterator function
 	virtual reverse_iterator rend() noexcept;
 
-	/// cxx iterator function
+	// cxx iterator function
 	virtual const_reverse_iterator rend() const noexcept;
 
-	/// cxx iterator function
+	// cxx iterator function
 	virtual const_reverse_iterator crbegin() const noexcept;
 
-	/// cxx iterator function
+	// cxx iterator function
 	virtual const_reverse_iterator crend() const noexcept;
 
 public:
-	/// string buffer
+	// string buffer
 	virtual wchar_t* data() noexcept;
 
-	/// string buffer
+	// string buffer
 	virtual const wchar_t* data() const noexcept;
 
-	/// string length
+	// string length
 	virtual size_type length() const noexcept;
 
-	/// string length
+	// string length
 	virtual size_type size() const noexcept;
 
-	/// buffer capacity
+	// buffer capacity
 	virtual size_type capacity() const noexcept;
 
-	/// buffer clear
+	// buffer clear
 	virtual void clear() noexcept;
 
-	/// buffer is null
+	// buffer is null
 	virtual bool empty() const noexcept;
 
-	/// Check if there is a value
+	// Check if there is a value
 	virtual bool exist() const noexcept;
 
-	/// swap string
+	// swap string
 	virtual void swap(XString& _String) noexcept;
 
-	/// max_size
+	// max_size
 	virtual size_type max_size() const noexcept;
 
-	/// resize
+	// resize
 	virtual void resize(size_type _Length) noexcept;
 
-	/// resize
+	// resize
 	virtual void resize(size_type _Length, wchar_t _Char) noexcept;
 
-	/// Truncates the byte array at index position pos. If pos is beyond the end of the array, nothing happens.
+	// Truncates the byte array at index position pos. If pos is beyond the end of the array, nothing happens.
 	virtual void truncate(size_type _Index) noexcept;
 
 public:
-	/// 元素访问 (1)
+	// 元素访问 (1)
 	const wchar_t& operator [] (size_type _Index) const;
 
-	/// 元素访问 (2)
+	// 元素访问 (2)
 	wchar_t& operator [] (size_type _Index);
 
-	/// 元素访问 (3)
+	// 元素访问 (3)
 	const wchar_t& at(size_type _Index) const;
 
-	/// 元素访问 (4)
+	// 元素访问 (4)
 	wchar_t& at(size_type _Index);
 
-	/// 元素访问 (5)
+	// 元素访问 (5)
 	const wchar_t& front() const;
 
-	/// 元素访问 (6)
+	// 元素访问 (6)
 	wchar_t& front();
 
-	/// 元素访问 (7)
+	// 元素访问 (7)
 	const wchar_t& back() const;
 
-	/// 元素访问 (8)
+	// 元素访问 (8)
 	wchar_t& back();
 
 public:
-	/// cxx push_back (1)
+	// cxx push_back (1)
 	virtual void push_back(wchar_t _Char) noexcept;
 
-	/// cxx push_back (2)
+	// cxx push_back (2)
 	virtual void push_back(const wchar_t* _String, size_type _Size = XString::npos) noexcept;
 
-	/// cxx push_back (3)
+	// cxx push_back (3)
 	virtual void push_back(const XString& _String) noexcept;
 
-	/// cxx 删除最后一个元素
+	// cxx 删除最后一个元素
 	virtual XString& pop_back() noexcept;
 
 public:
-	/// operator append (1)
+	// operator append (1)
 	virtual XString& operator += (wchar_t _Char) noexcept;
 
-	/// operator append (2)
+	// operator append (2)
 	virtual XString& operator += (const wchar_t* _String) noexcept;
 
-	/// operator append (3)
+	// operator append (3)
 	virtual XString& operator += (const XString& _String) noexcept;
 
 public:
-	/// 比较运算符 (1)
+	// 比较运算符 (1)
 	virtual bool operator == (const wchar_t* _String)const  noexcept;
 
-	/// 比较运算符 (1)
+	// 比较运算符 (1)
 	virtual bool operator == (const XString& _String)const  noexcept;
 
-	/// 比较运算符 (2)
+	// 比较运算符 (2)
 	virtual bool operator != (const wchar_t* _String)const  noexcept;
 
-	/// 比较运算符 (2)
+	// 比较运算符 (2)
 	virtual bool operator != (const XString& _String)const  noexcept;
 
-	/// 比较运算符 (3)
+	// 比较运算符 (3)
 	virtual bool operator < (const wchar_t* _String)const  noexcept;
 
-	/// 比较运算符 (3)
+	// 比较运算符 (3)
 	virtual bool operator < (const XString& _String)const  noexcept;
 
-	/// 比较运算符 (4)
+	// 比较运算符 (4)
 	virtual bool operator > (const wchar_t* _String) const  noexcept;
 
-	/// 比较运算符 (4)
+	// 比较运算符 (4)
 	virtual bool operator > (const XString& _String) const  noexcept;
 
-	/// 比较运算符 (5)
+	// 比较运算符 (5)
 	virtual bool operator <= (const wchar_t* _String) const  noexcept;
 
-	/// 比较运算符 (5)
+	// 比较运算符 (5)
 	virtual bool operator <= (const XString& _String) const  noexcept;
 
-	/// 比较运算符 (6)
+	// 比较运算符 (6)
 	virtual bool operator >= (const wchar_t* _String) const  noexcept;
 
-	/// 比较运算符 (6)
+	// 比较运算符 (6)
 	virtual bool operator >= (const XString& _String) const  noexcept;
 
 public:
-	/// Convert : To ASCII
+	// Convert : To ASCII
 	virtual AString toAString() const noexcept;
 
-	/// Convert : To UNICODE
+	// Convert : To UNICODE
 	virtual WString toWString() const noexcept;
 
-	/// Convert : To UTF-8
+	// Convert : To UTF-8
 	virtual UString toUString() const noexcept;
 
-	/// Convert : To Native String
+	// Convert : To Native String
 	virtual NString toNString() const noexcept;
 
-	/// Convert : To XByteArray
+	// Convert : To XByteArray
 	virtual XByteArray toBytes() const noexcept;
 
-	/// Convert : To URL encode
+	// Convert : To URL encode
 	virtual UString toURL() const noexcept;
 
-	/// Convert : To ASCII
+	// Convert : To ASCII
 	static AString XANADUAPI toAString(const XString& _String) noexcept;
 
-	/// Convert : To UNICODE
+	// Convert : To UNICODE
 	static WString XANADUAPI toWString(const XString& _String) noexcept;
 
-	/// Convert : To UTF-8
+	// Convert : To UTF-8
 	static UString XANADUAPI toUString(const XString& _String) noexcept;
 
-	/// Convert : To Native String
+	// Convert : To Native String
 	static NString XANADUAPI toNString(const XString& _String) noexcept;
 
-	/// Convert : To XByteArray
+	// Convert : To XByteArray
 	static XByteArray XANADUAPI toBytes(const XString& _String) noexcept;
 
-	/// Convert : To URL encode
+	// Convert : To URL encode
 	static UString XANADUAPI toURL(const XString& _String) noexcept;
 
-	/// Convert:From ASCII
+	// Convert:From ASCII
 	static XString XANADUAPI fromAString(const AString& _AString) noexcept;
 
-	/// Convert:From UNICODE
+	// Convert:From UNICODE
 	static XString XANADUAPI fromWString(const WString& _WString) noexcept;
 
-	/// Convert:From UTF-8
+	// Convert:From UTF-8
 	static XString XANADUAPI fromUString(const UString& _UString) noexcept;
 
-	/// Convert:From Latin_1(ISO 8859-1)
+	// Convert:From Latin_1(ISO 8859-1)
 	static XString XANADUAPI fromLString(const LString& _LString) noexcept;
 
-	/// Convert : From Native String
+	// Convert : From Native String
 	static XString XANADUAPI fromNString(const NString& _NString) noexcept;
 
-	/// Convert : From XByteArray
+	// Convert : From XByteArray
 	static XString XANADUAPI fromBytes(const XByteArray& _Bytes) noexcept;
 
-	/// Convert:From URL encode
+	// Convert:From URL encode
 	static XString XANADUAPI fromURL(const UString& _URL) noexcept;
 
-	/// convert to upper
+	// convert to upper
 	virtual XString toUpper() const noexcept;
 
-	/// convert to lower
+	// convert to lower
 	virtual XString toLower() const noexcept;
 
 public:
-	/// Format String (char* [%S]) (wchar_t* [%s][%ls][%ws])
+	// Format String (char* [%S]) (wchar_t* [%s][%ls][%ws])
 	static XString XANADUAPI format(const wchar_t* _Format, ...) noexcept;
 
 public:
-	/// Sub String
+	// Sub String
 	virtual XString substr(size_type _Pos = 0, size_type _Length = XString::npos) const noexcept;
 
-	/// Sub String
+	// Sub String
 	virtual XString left(size_type _Pos = XString::npos) const noexcept;
 
-	/// Sub String
+	// Sub String
 	virtual XString right(size_type _Pos = 0) const noexcept;
 
-	/// Retrieve the middle data by length
+	// Retrieve the middle data by length
 	virtual XString mid(size_type _Pos, size_type _Size = XString::npos) const noexcept;
 
-	/// Middle String
+	// Middle String
 	virtual XString middle(const XString& _Left, const XString& _Right, Xanadu::CaseSensitivity _XCS = Xanadu::CaseSensitive) const noexcept;
 
 public:
-	/// Check if the head is the same
+	// Check if the head is the same
 	virtual bool startsWith(wchar_t _Char, Xanadu::CaseSensitivity _XCS = Xanadu::CaseSensitive) const noexcept;
 
-	/// Check if the head is the same
+	// Check if the head is the same
 	virtual bool startsWith(const wchar_t* _Memory, Xanadu::CaseSensitivity _XCS = Xanadu::CaseSensitive) const noexcept;
 
-	/// Check if the head is the same
+	// Check if the head is the same
 	virtual bool startsWith(const XString& _String, Xanadu::CaseSensitivity _XCS = Xanadu::CaseSensitive) const noexcept;
 
-	/// Check if the tails are the same
+	// Check if the tails are the same
 	virtual bool endsWith(wchar_t _Char, Xanadu::CaseSensitivity _XCS = Xanadu::CaseSensitive) const noexcept;
 
-	/// Check if the tails are the same
+	// Check if the tails are the same
 	virtual bool endsWith(const wchar_t* _Memory, Xanadu::CaseSensitivity _XCS = Xanadu::CaseSensitive) const noexcept;
 
-	/// Check if the tails are the same
+	// Check if the tails are the same
 	virtual bool endsWith(const XString& _String, Xanadu::CaseSensitivity _XCS = Xanadu::CaseSensitive) const noexcept;
 
 public:
-	/// find (1)
+	// find (1)
 	virtual size_type find(const XString& _String, size_type _Pos = 0) const noexcept;
 
-	/// find (2)
+	// find (2)
 	virtual size_type find(const wchar_t* _String, size_type _Pos = 0) const noexcept;
 
-	/// find (3)
+	// find (3)
 	virtual size_type find(const wchar_t* _String, size_type _Length, size_type _Pos) const noexcept;
 
-	/// find (4)
+	// find (4)
 	virtual size_type find(wchar_t _Char, size_type _Pos = 0) const noexcept;
 
 
-	/// Reverse find (1)
+	// Reverse find (1)
 	virtual size_type rfind(const XString& _String, size_type _Pos = npos) const noexcept;
 
-	/// Reverse find (2)
+	// Reverse find (2)
 	virtual size_type rfind(const wchar_t* _String, size_type _Pos = npos) const noexcept;
 
-	/// Reverse find (3)
+	// Reverse find (3)
 	virtual size_type rfind(const wchar_t* _String, size_type _Length, size_type _Pos) const noexcept;
 
-	/// Reverse find (4)
+	// Reverse find (4)
 	virtual size_type rfind(wchar_t _Char, size_type _Pos = npos) const noexcept;
 
 
-	/// Index Of (1)
+	// Index Of (1)
 	virtual size_type indexOf(const XString& _String, size_type _Pos = 0) const noexcept;
 
-	/// Index Of (2)
+	// Index Of (2)
 	virtual size_type indexOf(const wchar_t* _String, size_type _Pos = 0) const noexcept;
 
-	/// Index Of (3)
+	// Index Of (3)
 	virtual size_type indexOf(const wchar_t* _String, size_type _Length, size_type _Pos) const noexcept;
 
-	/// Index Of (4)
+	// Index Of (4)
 	virtual size_type indexOf(wchar_t _Char, size_type _Pos = 0) const noexcept;
 
 
-	/// Last Index Of (1)
+	// Last Index Of (1)
 	virtual size_type lastIndexOf(const XString& _String, size_type _Pos = XString::npos) const noexcept;
 
-	/// Last Index Of (2)
+	// Last Index Of (2)
 	virtual size_type lastIndexOf(const wchar_t* _String, size_type _Pos = XString::npos) const noexcept;
 
-	/// Last Index Of (3)
+	// Last Index Of (3)
 	virtual size_type lastIndexOf(const wchar_t* _String, size_type _Length, size_type _Pos) const noexcept;
 
-	/// Last Index Of (4)
+	// Last Index Of (4)
 	virtual size_type lastIndexOf(wchar_t _Char, size_type _Pos = XString::npos) const noexcept;
 
 public:
-	/// contains substring
+	// contains substring
 	virtual bool contains(wchar_t _Char, Xanadu::CaseSensitivity _XCS = Xanadu::CaseSensitive) const noexcept;
 
-	/// contains substring
+	// contains substring
 	virtual bool contains(const wchar_t* _String, Xanadu::CaseSensitivity _XCS = Xanadu::CaseSensitive) const noexcept;
 
-	/// contains substring
+	// contains substring
 	virtual bool contains(const wchar_t* _String, size_type _Size, Xanadu::CaseSensitivity _XCS = Xanadu::CaseSensitive) const noexcept;
 
-	/// contains substring
+	// contains substring
 	virtual bool contains(const XString& _String, Xanadu::CaseSensitivity _XCS = Xanadu::CaseSensitive) const noexcept;
 
 public:
-	/// compare substring
+	// compare substring
 	virtual int compare(wchar_t _Char, Xanadu::CaseSensitivity _XCS = Xanadu::CaseSensitive) const noexcept;
 
-	/// compare substring
+	// compare substring
 	virtual int compare(const wchar_t* _String, Xanadu::CaseSensitivity _XCS = Xanadu::CaseSensitive) const noexcept;
 
-	/// compare substring
+	// compare substring
 	virtual int compare(const wchar_t* _String, size_type _Size, Xanadu::CaseSensitivity _XCS = Xanadu::CaseSensitive) const noexcept;
 
-	/// compare substring
+	// compare substring
 	virtual int compare(const XString& _String, Xanadu::CaseSensitivity _XCS = Xanadu::CaseSensitive) const noexcept;
 
 public:
-	/// append (1)
+	// append (1)
 	virtual XString& append(wchar_t _Char) noexcept;
 
-	/// append (2)
+	// append (2)
 	virtual XString& append(const wchar_t* _String, size_type _Size = XString::npos) noexcept;
 
-	/// append (3)
+	// append (3)
 	virtual XString& append(const XString& _String) noexcept;
 
 public:
-	/// string insert wchar_t
+	// string insert wchar_t
 	virtual XString& insert(size_type _Pos, wchar_t _Char) noexcept;
 
-	/// string insert wchar_t
+	// string insert wchar_t
 	virtual XString& insert(size_type _Pos, size_type _Count, wchar_t _Char) noexcept;
 
-	/// string insert const wchar_t*
+	// string insert const wchar_t*
 	virtual XString& insert(size_type _Pos, const wchar_t* _String, size_type _Length) noexcept;
 
-	/// string insert XString
+	// string insert XString
 	virtual XString& insert(size_type _Pos, const XString& _String) noexcept;
 
 public:
-	/// string remove (1)
+	// string remove (1)
 	virtual XString& remove(size_type _Pos, size_type _Length) noexcept;
 
-	/// string remove (2)
+	// string remove (2)
 	virtual XString& remove(wchar_t _Char, Xanadu::CaseSensitivity _XCS = Xanadu::CaseSensitive) noexcept;
 
-	/// string remove (3)
+	// string remove (3)
 	virtual XString& remove(const wchar_t* _String, size_type _Length = XString::npos, Xanadu::CaseSensitivity _XCS = Xanadu::CaseSensitive) noexcept;
 
-	/// string remove (4)
+	// string remove (4)
 	virtual XString& remove(const XString& _String, Xanadu::CaseSensitivity _XCS = Xanadu::CaseSensitive) noexcept;
 
 public:
-	/// string replace
+	// string replace
 	virtual XString& replace(size_type _Pos, size_type _Length, wchar_t _After) noexcept;
 
-	/// string replace
+	// string replace
 	virtual XString& replace(size_type _Pos, size_type _Length, const wchar_t* _After, size_type _LengthA) noexcept;
 
-	/// string replace
+	// string replace
 	virtual XString& replace(size_type _Pos, size_type _Length, const XString& _After) noexcept;
 
-	/// string replace
+	// string replace
 	virtual XString& replace(wchar_t _Before, wchar_t _After, Xanadu::CaseSensitivity _XCS = Xanadu::CaseSensitive) noexcept;
 
-	/// string replace
+	// string replace
 	virtual XString& replace(wchar_t _Before, const wchar_t* _After, size_type _LengthA, Xanadu::CaseSensitivity _XCS = Xanadu::CaseSensitive) noexcept;
 
-	/// string replace
+	// string replace
 	virtual XString& replace(wchar_t _Before, const XString& _After, Xanadu::CaseSensitivity _XCS = Xanadu::CaseSensitive) noexcept;
 
-	/// string replace
+	// string replace
 	virtual XString& replace(const wchar_t* _Before, size_type _LengthB, wchar_t _After, Xanadu::CaseSensitivity _XCS = Xanadu::CaseSensitive) noexcept;
 
-	/// string replace
+	// string replace
 	virtual XString& replace(const wchar_t* _Before, size_type _LengthB, const wchar_t* _After, size_type _LengthA, Xanadu::CaseSensitivity _XCS = Xanadu::CaseSensitive) noexcept;
 
-	/// string replace
+	// string replace
 	virtual XString& replace(const wchar_t* _Before, size_type _LengthB, const XString& _After, Xanadu::CaseSensitivity _XCS = Xanadu::CaseSensitive) noexcept;
 
-	/// string replace
+	// string replace
 	virtual XString& replace(const XString& _Before, wchar_t _After, Xanadu::CaseSensitivity _XCS = Xanadu::CaseSensitive) noexcept;
 
-	/// string replace
+	// string replace
 	virtual XString& replace(const XString& _Before, const wchar_t* _After, size_type _LengthA, Xanadu::CaseSensitivity _XCS = Xanadu::CaseSensitive) noexcept;
 
-	/// string replace
+	// string replace
 	virtual XString& replace(const XString& _Before, const XString& _After, Xanadu::CaseSensitivity _XCS = Xanadu::CaseSensitive) noexcept;
 
 public:
-	/// isSpace
+	// isSpace
 	static bool isSpace(wchar_t _Char) noexcept;
 
-	/// simplified
+	// simplified
 	virtual XString simplified() const noexcept;
 
 public:
-	/// string to int16S
+	// string to int16S
 	virtual int16S  toInt16S(bool* _Ok = nullptr, int _Base = 10) const noexcept;
 
-	/// string to int16U
+	// string to int16U
 	virtual int16U toInt16U(bool* _Ok = nullptr, int _Base = 10) const noexcept;
 
-	/// string to int32S
+	// string to int32S
 	virtual int32S toInt32S(bool* _Ok = nullptr, int _Base = 10) const noexcept;
 
-	/// string to int32U
+	// string to int32U
 	virtual int32U toInt32U(bool* _Ok = nullptr, int _Base = 10) const noexcept;
 
-	/// string to int64S
+	// string to int64S
 	virtual size_type toInt64S(bool* _Ok = nullptr, int _Base = 10) const noexcept;
 
-	/// string to size_type
+	// string to size_type
 	virtual size_type toInt64U(bool* _Ok = nullptr, int _Base = 10) const noexcept;
 
-	/// string to float
+	// string to float
 	virtual float toFloat(bool* _Ok = nullptr) const noexcept;
 
-	/// string to double
+	// string to double
 	virtual double toDouble(bool* _Ok = nullptr) const noexcept;
 
 public:
-	/// string form number
+	// string form number
 	virtual XString& setNumber(int16S _Value, int32S _Base = 10) noexcept;
 
-	/// string form number
+	// string form number
 	virtual XString& setNumber(int16U _Value, int32S _Base = 10) noexcept;
 
-	/// string form number
+	// string form number
 	virtual XString& setNumber(int32S _Value, int32S _Base = 10) noexcept;
 
-	/// string form number
+	// string form number
 	virtual XString& setNumber(int32U _Value, int32S _Base = 10) noexcept;
 
-	/// string form number
+	// string form number
 	virtual XString& setNumber(int64S _Value, int32S _Base = 10) noexcept;
 
-	/// string form number
+	// string form number
 	virtual XString& setNumber(int64U _Value, int32S _Base = 10) noexcept;
 
-	/// string form number
+	// string form number
 	virtual XString& setNumber(float _Value, char _Format = 'g', int32S _Prec = 6) noexcept;
 
-	/// string form number
+	// string form number
 	virtual XString& setNumber(double _Value, char _Format = 'g', int32S _Prec = 6) noexcept;
 
 public:
-	/// string form number
+	// string form number
 	static XString number(int16S _Value, int32S _Base = 10) noexcept;
 
-	/// string form number
+	// string form number
 	static XString number(int16U _Value, int32S _Base = 10) noexcept;
 
-	/// string form number
+	// string form number
 	static XString number(int32S _Value, int32S _Base = 10) noexcept;
 
-	/// string form number
+	// string form number
 	static XString number(int32U _Value, int32S _Base = 10) noexcept;
 
-	/// string form number
+	// string form number
 	static XString number(int64S _Value, int32S _Base = 10) noexcept;
 
-	/// string form number
+	// string form number
 	static XString number(size_type _Value, int32S _Base = 10) noexcept;
 
-	/// string form number
+	// string form number
 	static XString number(double _Value, char _Format = 'g', int32S _Prec = 6) noexcept;
 };
 
-/// XString Swap
+// XString Swap
 XANADU_CORE_EXPORT void swap(XString& _String1, XString& _String2) noexcept;
 
-/// XString Merged
+// XString Merged
 XANADU_CORE_EXPORT XString operator + (const XString& _StringLeft, const XString& _StringRight) noexcept;
 
-/// XString Merged
+// XString Merged
 XANADU_CORE_EXPORT XString operator + (const XString& _StringLeft, const wchar_t* _StringRight) noexcept;
 
-/// XString Merged
+// XString Merged
 XANADU_CORE_EXPORT XString operator + (const wchar_t* _StringLeft, const XString& _StringRight) noexcept;
 
-/// XString Merged
+// XString Merged
 XANADU_CORE_EXPORT XString operator + (const XString& _StringLeft, wchar_t _CharRight) noexcept;
 
-/// XString Merged
+// XString Merged
 XANADU_CORE_EXPORT XString operator + (wchar_t _CharLeft, const XString& _StringRight) noexcept;
 
-/// XString Out
+// XString Out
 XANADU_CORE_EXPORT std::wostream& operator << (std::wostream& _OStream, const XString& _String) noexcept;
 
-/// XString In
+// XString In
 XANADU_CORE_EXPORT std::wistream& operator >> (std::wistream& _IStream, XString& _String) noexcept;
 
-/// XString in line
+// XString in line
 XANADU_CORE_EXPORT std::wistream& getline(std::wistream& _IStream, XString& _String, wchar_t _Delim) noexcept;
 
-/// XString in line
+// XString in line
 XANADU_CORE_EXPORT std::wistream& getline(std::wistream& _IStream, XString& _String) noexcept;
 
-#endif/// _XANADU_CORE_STRING_H_
+#endif// _XANADU_CORE_STRING_H_

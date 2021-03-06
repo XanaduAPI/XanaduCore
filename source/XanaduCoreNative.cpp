@@ -1,11 +1,11 @@
 ﻿#include <XanaduCore/XanaduCoreNative.h>
 #include <XanaduCore/XanaduCoreMutex.h>
 
-/// Native platform variable declarations
+// Native platform variable declarations
 #ifndef XANADU_SYSTEM_WINDOWS
-std::map<DWORD, std::vector<MSG>>		_StaticMessageArray;			/// 全局线程消息队列
-XMutex						_StaticMessageMutex;			/// 消息队列互斥量
-#endif /// XANADU_SYSTEM_WINDOWS
+std::map<DWORD, std::vector<MSG>>		_StaticMessageArray;			// 全局线程消息队列
+XMutex						_StaticMessageMutex;			// 消息队列互斥量
+#endif // XANADU_SYSTEM_WINDOWS
 
 #ifndef XANADU_SYSTEM_WINDOWS
 //从调用线程的消息队列里取得一个消息并将其放于指定的结构。
@@ -90,9 +90,9 @@ XANADU_CORE_EXPORT BOOL XANADUAPI PostThreadMessageW(DWORD _ThreadID, UINT Msg, 
 	return FALSE;
 }
 
-#endif /// XANADU_SYSTEM_WINDOWS
+#endif // XANADU_SYSTEM_WINDOWS
 
-/// 创建注册表项
+// 创建注册表项
 XANADU_CORE_EXPORT bool PlatformRegeditCreate(HKEY _Key, const wchar_t* _SubKey)
 {
 #ifdef XANADU_SYSTEM_WINDOWS

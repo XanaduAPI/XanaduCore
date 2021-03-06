@@ -1,7 +1,7 @@
 ﻿#include <XanaduCore/XanaduCoreThread.h>
 #include <XanaduCore/XanaduCoreMutex.h>
 
-/// 线程结构
+// 线程结构
 typedef struct _PlatformThreadRunning
 {
 	//线程地址
@@ -11,7 +11,7 @@ typedef struct _PlatformThreadRunning
 	void*				_Data;
 }PlatformThreadRunning;
 
-/// 线程函数(WINDOWS)
+// 线程函数(WINDOWS)
 void Thread_Function_Windows(void* _Param)
 {
 	XANADU_CHECK_RETURN(_Param);
@@ -21,14 +21,14 @@ void Thread_Function_Windows(void* _Param)
 	XANADU_DELETE_PTR(vRunning);
 }
 
-/// 线程函数(LINUX)
+// 线程函数(LINUX)
 void* Thread_Function_Linux(void* _Param)
 {
 	Thread_Function_Windows(_Param);
 	return _Param;
 }
 
-/// 线程函数(MACOS)
+// 线程函数(MACOS)
 void* Thread_Function_Macos(void* _Param)
 {
 	Thread_Function_Windows(_Param);
@@ -43,7 +43,7 @@ XThread::~XThread() noexcept
 {
 }
 
-/// 创建
+// 创建
 HANDLE XThread::create(_Thread_StartAddress _Thread, void* _Param) noexcept
 {
 	XANADU_CHECK_RETURN(_Thread, nullptr);
@@ -54,7 +54,7 @@ HANDLE XThread::create(_Thread_StartAddress _Thread, void* _Param) noexcept
 
 #ifdef XANADU_SYSTEM_WINDOWS
 	auto		vHandle = (HANDLE)::_beginthread(Thread_Function_Windows, NULL, vRunning);
-#endif /// XANADU_SYSTEM_WINDOWS
+#endif // XANADU_SYSTEM_WINDOWS
 #ifdef XANADU_SYSTEM_LINUX
 	pthread_t	vThreadID = NULL;
 	if(::pthread_create(&vThreadID, nullptr, Thread_Function_Linux, vRunning) != 0)
@@ -63,7 +63,7 @@ HANDLE XThread::create(_Thread_StartAddress _Thread, void* _Param) noexcept
 		return nullptr;
 	}
 	auto		vHandle = (HANDLE)vThreadID;
-#endif /// XANADU_SYSTEM_LINUX
+#endif // XANADU_SYSTEM_LINUX
 #ifdef XANADU_SYSTEM_MACOS
 	pthread_t	vThreadID = NULL;
 	if(::pthread_create(&vThreadID, nullptr, Thread_Function_Macos, vRunning) != 0)
@@ -72,11 +72,11 @@ HANDLE XThread::create(_Thread_StartAddress _Thread, void* _Param) noexcept
 		return nullptr;
 	}
 	auto		vHandle = (HANDLE)vThreadID;
-#endif /// XANADU_SYSTEM_MACOS
+#endif // XANADU_SYSTEM_MACOS
 	return vHandle;
 }
 
-/// 等待
+// 等待
 void XThread::wait(HANDLE _Handle) noexcept
 {
 #ifdef XANADU_SYSTEM_WINDOWS
@@ -84,15 +84,15 @@ void XThread::wait(HANDLE _Handle) noexcept
 #else
 	void* vExitValue = nullptr;
 	::pthread_join((pthread_t)_Handle, &vExitValue);
-#endif /// XANADU_SYSTEM_WINDOWS
+#endif // XANADU_SYSTEM_WINDOWS
 }
 
-/// 结束
+// 结束
 void XThread::terminate(HANDLE _Handle) noexcept
 {
 #ifdef XANADU_SYSTEM_WINDOWS
 	::TerminateThread(_Handle, 4);
 #else
 	::pthread_cancel((pthread_t)_Handle);
-#endif /// XANADU_SYSTEM_WINDOWS
+#endif // XANADU_SYSTEM_WINDOWS
 }

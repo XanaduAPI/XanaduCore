@@ -4,7 +4,7 @@
 #include <XanaduCore/XanaduCoreHeader.h>
 #include <XanaduCore/XanaduCoreString.h>
 
-/// Xanadu Class Library
+// Xanadu Class Library
 class XANADU_CORE_EXPORT XLibrary
 {
 public:
@@ -20,4 +20,4 @@ public:
 	static void close(HANDLE _Handle) noexcept;
 };
 
-#endif /// _XANADU_CORE_LIBRARY_H_
+#endif // _XANADU_CORE_LIBRARY_H_

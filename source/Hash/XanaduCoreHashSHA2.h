@@ -154,6 +154,6 @@ XANADU_CORE_EXPORT void XANADUAPI sha2_hash(const unsigned char data[], unsigned
 XANADU_CORE_EXPORT void XANADUAPI sha2_end(unsigned char hval[], XANADU_CORE_SHA2_CONTEXT ctx[1]);
 XANADU_CORE_EXPORT int XANADUAPI  sha2(unsigned char hval[], unsigned long size, const unsigned char data[], unsigned long len);
 
-#endif /// SHA_64BIT
+#endif // SHA_64BIT
 
-#endif /// _XANADU_CORE_HASH_SHA2_H_
+#endif // _XANADU_CORE_HASH_SHA2_H_

@@ -3,7 +3,7 @@
 
 #include <XanaduCore/XanaduCoreHeader.h>
 
-/// Xanadu Class Mutex
+// Xanadu Class Mutex
 class XANADU_CORE_EXPORT XMutex
 {
 private:
@@ -42,4 +42,4 @@ public:
 
 #define				XANADU_MUTEX_AUTO(_Mutex)				XMutexAuto	_XanaduMutexAuto(_Mutex)
 
-#endif /// _XANADU_CORE_MUTEX_H_
+#endif // _XANADU_CORE_MUTEX_H_

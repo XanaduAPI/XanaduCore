@@ -202,7 +202,7 @@ XANADU_CORE_EXPORT void XANADUAPI Xanadu::sha1_hash(const unsigned char _Data[],
 	}
 }
 
-/// SHA1 final padding and digest calculation
+// SHA1 final padding and digest calculation
 XANADU_CORE_EXPORT void XANADUAPI Xanadu::sha1_end(unsigned char _Hval[], XANADU_CORE_SHA1_CONTEXT _Context[1]) noexcept
 {
 	auto		i = (int32U)((_Context->count[0] >> 3) & SHA1_MASK);

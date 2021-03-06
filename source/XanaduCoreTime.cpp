@@ -6,19 +6,19 @@
 typedef struct _XANADU_TIME_HIGH_PRECISION
 {
 #ifdef XANADU_SYSTEM_WINDOWS
-	/// 开始时间
+	// 开始时间
 	LARGE_INTEGER		vBeginTime;
 
-	/// 结束时间
+	// 结束时间
 	LARGE_INTEGER		vEndTime;
 
-	/// CPU时间
+	// CPU时间
 	LARGE_INTEGER		vCpuTime;
 #else
-	/// 开始时间
+	// 开始时间
 	timeval			vBeginTime;
 
-	/// 结束时间
+	// 结束时间
 	timeval			vEndTime;
 #endif//XANADU_SYSTEM_WINDOWS
 }XANADU_TIME_HIGH_PRECISION;
@@ -69,13 +69,13 @@ XTime& XTime::operator = (const XTime& _Other)
 
 
 
-/// Gets the total number of seconds
+// Gets the total number of seconds
 int64U XTime::second() const noexcept
 {
 	return this->millisecond() / 1000ULL;
 }
 
-/// Gets the total number of millisecond
+// Gets the total number of millisecond
 int64U XTime::millisecond() const noexcept
 {
 	return this->_time_millisecond;
@@ -85,13 +85,13 @@ int64U XTime::millisecond() const noexcept
 
 
 
-/// Get the current time
+// Get the current time
 XTime XTime::currentTime() noexcept
 {
 	return XTime::fromMillisecond(currentMillisecondUTC());
 }
 
-/// Sets the time to the specified number of milliseconds
+// Sets the time to the specified number of milliseconds
 XTime XTime::fromMillisecond(int64U _Millisecond) noexcept
 {
 	auto		vTime = XTime();
@@ -103,7 +103,7 @@ XTime XTime::fromMillisecond(int64U _Millisecond) noexcept
 
 
 
-/// 高精度计时开始
+// 高精度计时开始
 HANDLE XTime::HighPrecisionStart() noexcept
 {
 	auto		vHandle = XANADU_NEW XANADU_TIME_HIGH_PRECISION();
@@ -120,7 +120,7 @@ HANDLE XTime::HighPrecisionStart() noexcept
 	return vHandle;
 }
 
-/// 高精度计时结束
+// 高精度计时结束
 int64U XTime::HighPrecisionStop(HANDLE _Handle) noexcept
 {
 	auto		vDifference = static_cast<int64U>(0);

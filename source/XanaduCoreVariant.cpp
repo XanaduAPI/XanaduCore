@@ -1,7 +1,7 @@
 ﻿#include <XanaduCore/XanaduCoreVariant.h>
 
 
-/// The XVariant object copies the macro function
+// The XVariant object copies the macro function
 #define XANADU_VARIANT_OBJECT_CREATE(_Type, _Value)	{ \
 								this->_variant_data._VObject = XANADU_NEW _Type(); \
 								if(this->_variant_data._VObject) \
@@ -28,132 +28,132 @@
 
 
 
-/// Structure
+// Structure
 XVariant::XVariant() noexcept
 {
 	this->_variant_type = XVariant::EINVALID;
 	this->_variant_data._VNull = 0LL;
 }
 
-/// Overloading structure
+// Overloading structure
 XVariant::XVariant(Type _Type) noexcept
 {
 	this->_variant_type = _Type;
 	this->_variant_data._VNull = 0LL;
 }
 
-/// Overloading structure
+// Overloading structure
 XVariant::XVariant(const XVariant& _Other) noexcept
 {
 	this->Initialize(_Other);
 }
 
-/// Overloading structure
+// Overloading structure
 XVariant::XVariant(bool _Value) noexcept
 {
 	this->_variant_type = EBOOL;
 	this->_variant_data._VBool = _Value;
 }
 
-/// Overloading structure
+// Overloading structure
 XVariant::XVariant(int8S _Value) noexcept
 {
 	this->_variant_type = EINT8S;
 	this->_variant_data._VInt8S = _Value;
 }
 
-/// Overloading structure
+// Overloading structure
 XVariant::XVariant(int8U _Value) noexcept
 {
 	this->_variant_type = EINT8U;
 	this->_variant_data._VInt8U = _Value;
 }
 
-/// Overloading structure
+// Overloading structure
 XVariant::XVariant(int16S _Value) noexcept
 {
 	this->_variant_type = EINT16S;
 	this->_variant_data._VInt16S = _Value;
 }
 
-/// Overloading structure
+// Overloading structure
 XVariant::XVariant(int16U _Value) noexcept
 {
 	this->_variant_type = EINT16U;
 	this->_variant_data._VInt16U = _Value;
 }
 
-/// Overloading structure
+// Overloading structure
 XVariant::XVariant(int32S _Value) noexcept
 {
 	this->_variant_type = EINT32S;
 	this->_variant_data._VInt32S = _Value;
 }
 
-/// Overloading structure
+// Overloading structure
 XVariant::XVariant(int32U _Value) noexcept
 {
 	this->_variant_type = EINT32U;
 	this->_variant_data._VInt32U = _Value;
 }
 
-/// Overloading structure
+// Overloading structure
 XVariant::XVariant(int64S _Value) noexcept
 {
 	this->_variant_type = EINT64S;
 	this->_variant_data._VInt64S = _Value;
 }
 
-/// Overloading structure
+// Overloading structure
 XVariant::XVariant(int64U _Value) noexcept
 {
 	this->_variant_type = EINT64U;
 	this->_variant_data._VInt64U = _Value;
 }
 
-/// Overloading structure
+// Overloading structure
 XVariant::XVariant(float _Value) noexcept
 {
 	this->_variant_type = EFLOAT;
 	this->_variant_data._VFloat = _Value;
 }
 
-/// Overloading structure
+// Overloading structure
 XVariant::XVariant(double _Value) noexcept
 {
 	this->_variant_type = EDOUBLE;
 	this->_variant_data._VDouble = _Value;
 }
 
-/// Overloading structure
+// Overloading structure
 XVariant::XVariant(const wchar_t* _Value) noexcept
 {
 	this->_variant_type = ESTRING;
 	XANADU_VARIANT_OBJECT_CREATE(XString, _Value ? _Value : L"");
 }
 
-/// Overloading structure
+// Overloading structure
 XVariant::XVariant(const XString& _Value) noexcept
 {
 	this->_variant_type = ESTRING;
 	XANADU_VARIANT_OBJECT_CREATE(XString, _Value);
 }
 
-/// Overloading structure
+// Overloading structure
 XVariant::XVariant(const char* _Value) noexcept
 {
 	this->_variant_type = EBYTEARRAY;
 	XANADU_VARIANT_OBJECT_CREATE(XByteArray, _Value ? _Value : "");
 }
 
-/// Overloading structure
+// Overloading structure
 XVariant::XVariant(const XByteArray& _Value) noexcept
 {
 	this->_variant_type = EBYTEARRAY;
 	XANADU_VARIANT_OBJECT_CREATE(XByteArray, _Value);
 }
 
-/// Overloading structure
+// Overloading structure
 XVariant::XVariant(XVariant&& _Other) noexcept
 {
 	this->_variant_type = _Other._variant_type;
@@ -163,7 +163,7 @@ XVariant::XVariant(XVariant&& _Other) noexcept
 	_Other._variant_data._VObject = nullptr;
 }
 
-/// Virtual destructor
+// Virtual destructor
 XVariant::~XVariant() noexcept
 {
 	this->Release();
@@ -171,14 +171,14 @@ XVariant::~XVariant() noexcept
 
 
 
-/// Overload Operator =
+// Overload Operator =
 XVariant& XVariant::operator = (const XVariant& _Other) noexcept
 {
 	this->Initialize(_Other);
 	return *this;
 }
 
-/// Overload Operator =
+// Overload Operator =
 XVariant& XVariant::operator = (XVariant&& _Other) noexcept
 {
 	this->_variant_type = _Other._variant_type;
@@ -193,7 +193,7 @@ XVariant& XVariant::operator = (XVariant&& _Other) noexcept
 
 
 
-/// Data to construct
+// Data to construct
 void XVariant::Initialize(const XVariant& _Other) noexcept
 {
 	this->Release();
@@ -227,7 +227,7 @@ void XVariant::Initialize(const XVariant& _Other) noexcept
 	};
 }
 
-/// Data released
+// Data released
 void XVariant::Release() noexcept
 {
 	switch (this->_variant_type)
@@ -262,13 +262,13 @@ void XVariant::Release() noexcept
 
 
 
-/// Get the current type
+// Get the current type
 XVariant::Type XVariant::type() const noexcept
 {
 	return this->_variant_type;
 }
 
-/// Clear current content
+// Clear current content
 void XVariant::clear() noexcept
 {
 	this->Release();
@@ -278,7 +278,7 @@ void XVariant::clear() noexcept
 
 
 
-/// Convert to bool
+// Convert to bool
 bool XVariant::toBool() const noexcept
 {
 	switch (this->_variant_type)
@@ -314,43 +314,43 @@ bool XVariant::toBool() const noexcept
 	};
 }
 
-/// Convert to int8S
+// Convert to int8S
 int8S XVariant::toInt8S() const noexcept
 {
 	return static_cast<int8S>(this->toInt64S());
 }
 
-/// Convert to int8U
+// Convert to int8U
 int8U XVariant::toInt8U() const noexcept
 {
 	return static_cast<int8U>(this->toInt64S());
 }
 
-/// Convert to int16S
+// Convert to int16S
 int16S XVariant::toInt16S() const noexcept
 {
 	return static_cast<int16S>(this->toInt64S());
 }
 
-/// Convert to int16U
+// Convert to int16U
 int16U XVariant::toInt16U() const noexcept
 {
 	return static_cast<int16U>(this->toInt64S());
 }
 
-/// Convert to int32S
+// Convert to int32S
 int32S XVariant::toInt32S() const noexcept
 {
 	return static_cast<int32S>(this->toInt64S());
 }
 
-/// Convert to int32U
+// Convert to int32U
 int32U XVariant::toInt32U() const noexcept
 {
 	return static_cast<int32U>(this->toInt64S());
 }
 
-/// Convert to int64S
+// Convert to int64S
 int64S XVariant::toInt64S() const noexcept
 {
 	switch (this->_variant_type)
@@ -386,7 +386,7 @@ int64S XVariant::toInt64S() const noexcept
 	};
 }
 
-/// Convert to int64U
+// Convert to int64U
 int64U XVariant::toInt64U() const noexcept
 {
 	switch (this->_variant_type)
@@ -422,13 +422,13 @@ int64U XVariant::toInt64U() const noexcept
 	};
 }
 
-/// Convert to float
+// Convert to float
 float XVariant::toFloat() const noexcept
 {
 	return static_cast<float>(this->toDouble());
 }
 
-/// Convert to double
+// Convert to double
 double XVariant::toDouble() const noexcept
 {
 	switch (this->_variant_type)
@@ -464,7 +464,7 @@ double XVariant::toDouble() const noexcept
 	};
 }
 
-/// Convert to XString
+// Convert to XString
 XString XVariant::toString() const noexcept
 {
 	switch (this->_variant_type)
@@ -500,7 +500,7 @@ XString XVariant::toString() const noexcept
 	};
 }
 
-/// Convert to XByteArray
+// Convert to XByteArray
 XByteArray XVariant::toByteArray() const noexcept
 {
 	switch (this->_variant_type)

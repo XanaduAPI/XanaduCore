@@ -4,12 +4,12 @@
 
 #include <XanaduCore/XanaduCoreBase64.h>
 
-/// Structure
+// Structure
 XBase64::XBase64() noexcept
 {
 }
 
-/// Virtual destructor
+// Virtual destructor
 XBase64::~XBase64() noexcept
 {
 }
@@ -17,7 +17,7 @@ XBase64::~XBase64() noexcept
 
 
 
-/// Encoded in BASE64
+// Encoded in BASE64
 XByteArray XBase64::encode(const void* _Memory, int64U _Length) noexcept
 {
 	if(nullptr == _Memory || 0 == _Length)
@@ -82,13 +82,13 @@ XByteArray XBase64::encode(const void* _Memory, int64U _Length) noexcept
 	return vEncode;
 }
 
-/// Encoded in BASE64
+// Encoded in BASE64
 XByteArray XBase64::encode(const XByteArray& _Bytes) noexcept
 {
 	return XBase64::encode(_Bytes.data(), _Bytes.size());
 }
 
-/// Decoded in BASE64
+// Decoded in BASE64
 XByteArray XBase64::decode(const void* _Memory, int64U _Length) noexcept
 {
 	if(nullptr == _Memory || 0 == _Length || (_Length % 4))
@@ -149,7 +149,7 @@ XByteArray XBase64::decode(const void* _Memory, int64U _Length) noexcept
 	return vBytes;
 }
 
-/// Decoded in BASE64
+// Decoded in BASE64
 XByteArray XBase64::decode(const XByteArray& _Bytes) noexcept
 {
 	return XBase64::decode(_Bytes.data(), _Bytes.size());

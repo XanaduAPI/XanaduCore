@@ -3,7 +3,7 @@
 
 #include <XanaduCore/XanaduCoreHeader.h>
 
-/// define for bit or byte oriented SHA
+// define for bit or byte oriented SHA
 #if 1
 #  define SHA1_BITS		0   /* byte oriented */
 #else
@@ -13,7 +13,7 @@
 #define SHA1_BLOCK_SIZE		64
 #define SHA1_DIGEST_SIZE	20
 
-/// type to hold the SHA256 context
+// type to hold the SHA256 context
 typedef struct _XANADU_CORE_SHA1_CONTEXT
 {
 	int32U			count[2];
@@ -38,10 +38,10 @@ namespace Xanadu
 
 	XANADU_CORE_EXPORT void XANADUAPI sha1_hash(const unsigned char _Data[], int64U _Length, XANADU_CORE_SHA1_CONTEXT _Context[1]) noexcept;
 
-	/// SHA1 final padding and digest calculation
+	// SHA1 final padding and digest calculation
 	XANADU_CORE_EXPORT void XANADUAPI sha1_end(unsigned char _Hval[], XANADU_CORE_SHA1_CONTEXT _Context[1]) noexcept;
 
 	XANADU_CORE_EXPORT void XANADUAPI sha1(unsigned char _Hval[], const unsigned char _Data[], unsigned long _Length) noexcept;
 };
 
-#endif /// _XANADU_CORE_HASH_SHA1_H_
+#endif // _XANADU_CORE_HASH_SHA1_H_
