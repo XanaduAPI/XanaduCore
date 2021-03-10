@@ -480,7 +480,7 @@ XString XSystem::DiskID() noexcept
 		/*
 		XShell::run(L"system_profiler SPSerialATADataType | grep Serial", [&](XString _Output)->bool
 		{
-			_Output.remove(L"Serial Number:");
+			_Output.remove(L"Serial number:");
 			_Output.simplified();
 			if(!_Output.empty())
 			{

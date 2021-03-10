@@ -17,9 +17,9 @@ int64S XShell::run(const XString& _Shell) noexcept
 	XANADU_CHECK_RETURN(_Shell.size(), -1);
 
 #ifdef XANADU_SYSTEM_WINDOWS
-	return XProcess::Execute(L"cmd.exe", _Shell);
+	return XProcess::execute(L"cmd.exe", _Shell);
 #else
-	return XProcess::Execute(L"/bin/bash", XString(L"-c ") + _Shell);
+	return XProcess::execute(L"/bin/bash", XString(L"-c ") + _Shell);
 #endif//XANADU_SYSTEM_WINDOWS
 }
 

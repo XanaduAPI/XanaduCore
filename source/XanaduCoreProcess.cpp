@@ -11,37 +11,6 @@
 
 
 
-XProcessInfo::XProcessInfo() noexcept
-{
-	this->_process_id = 0;
-	this->_process_name = L"";
-}
-
-XProcessInfo::XProcessInfo(int64U _ID, const XString& _Name) noexcept : _process_id(_ID), _process_name(_Name)
-{
-}
-
-XProcessInfo::~XProcessInfo() noexcept
-{
-}
-
-int64U XProcessInfo::GetID() const noexcept
-{
-	return this->_process_id;
-}
-
-XString XProcessInfo::GetName() const noexcept
-{
-	return this->_process_name;
-}
-
-//结束进程
-bool XProcessInfo::Terminate() const noexcept
-{
-	return XProcess::Terminate(_process_id);
-}
-
-
 
 // 获取子项值
 XString RegisterKeyValue(HKEY _Key, XString _Guid, XString _Name)
@@ -75,114 +44,24 @@ XProcess::~XProcess() noexcept
 }
 
 // 结束进程
-bool XProcess::Terminate(XString _ProcessName) noexcept
+bool XProcess::terminate(const XString& _ProcessName) noexcept
 {
-	XANADU_CHECK_RETURN(_ProcessName.size(), false);
+	XANADU_CHECK_RETURN(_ProcessName.exist(), false);
+
 	auto			vResult = true;
-#ifdef XANADU_SYSTEM_WINDOWS
-	auto		vProcessEntry32 = PROCESSENTRY32W();
-	vProcessEntry32.dwSize = sizeof(vProcessEntry32);
-	// 给系统内的所有进程拍一个快照--改函数用于获取系统指定进程的快照，也可以传入不同参数获取被这些进程使用的堆、模块和线程的快照
-	auto		vSnapshotHandle = ::CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
-	if(vSnapshotHandle != INVALID_HANDLE_VALUE)
+	XProcess::traverse([&](const XProcessInfo& _ProcessInfo)->bool
 	{
-		// 遍历进程快照，轮流显示每个进程的信息
-		auto		vMore = ::Process32FirstW(vSnapshotHandle, &vProcessEntry32);
-		while(vMore)
+		if(_ProcessInfo.getProcessName() == _ProcessName)
 		{
-			if(!Xanadu::wcscmp(vProcessEntry32.szExeFile, _ProcessName.data()))
-			{
-				auto		vProcess = ::OpenProcess(PROCESS_ALL_ACCESS, FALSE, vProcessEntry32.th32ProcessID);
-				if(vProcess != NULL)
-				{
-					vResult = ::TerminateProcess(vProcess, 0) ? true : false;
-					CloseHandle(vProcess);
-				}
-			}
-			vMore = ::Process32NextW(vSnapshotHandle, &vProcessEntry32);
-		};
-		// 清除hProcessSnap对象
-		::CloseHandle(vSnapshotHandle);
-	}
-#endif // XANADU_SYSTEM_WINDOWS
-#ifdef XANADU_SYSTEM_LINUX
-	XFileSystem::DirectoryList(L"/proc", [&](const XFileInfo& _Info)->bool
-	{
-		if(_Info.isDir())
-		{
-			auto		vExepath = XString::format(L"/proc/%ls/exe", _Info.fileName().data());
-			auto		vApplication = vExepath.toUString();
-			char		vDirectory[XANADU_PATH] = { 0 };
-			auto		vCount = readlink(vApplication.data(), vDirectory, XANADU_PATH);
-			if(0 <= vCount || vCount <= XANADU_PATH)
-			{
-				if(Xanadu::strlen(vDirectory))
-				{
-					auto	vName = Xanadu::strrchr(vDirectory, '/') + 1;
-					if(vName && Xanadu::strlen(vName))
-					{
-						if(0 == _ProcessName.compare(XString::fromUString(vName)))
-						{
-							//在此终止进程并返回false
-							auto	vProcessID = _Info.fileName().toInt64S();
-							Xanadu::kill(vProcessID, 9);
-							return false;
-						}
-					}
-				}
-			}
+			vResult = _ProcessInfo.terminate();
 		}
 		return true;
 	});
-#endif // XANADU_SYSTEM_LINUX
-#ifdef XANADU_SYSTEM_MACOS
-	auto	vProcessString = _ProcessName.toUString();
-	auto	vProcessNumber = proc_listpids(PROC_ALL_PIDS, 0, NULL, 0) * 2;
-	if(vProcessNumber)
-	{
-		auto	vProcessArray = (pid_t*)Xanadu::malloc(sizeof(pid_t) * vProcessNumber);
-		if(vProcessArray)
-		{
-			vProcessNumber = proc_listpids(PROC_ALL_PIDS, 0, vProcessArray, sizeof(pid_t) * vProcessNumber);
-			if(vProcessNumber)
-			{
-				for(auto vIndex = 0; vIndex < vProcessNumber; ++vIndex)
-				{
-					pid_t           vProcessID = vProcessArray[vIndex];
-					if(vProcessID == 0)
-					{
-						continue;
-					}
-					char			vProcessNAME[1024] = { 0 };
-					//char			vProcessPATH[2048] = { 0 };
-					//struct proc_bsdinfo     vProcessINFO;
-					proc_name(vProcessID, vProcessNAME, 1024);
-					//proc_pidpath(vProcessID, vProcessPATH, 2048);
-					//proc_pidinfo(vProcessID, PROC_PIDTBSDINFO, 0, &vProcessINFO, PROC_PIDTBSDINFO_SIZE);
-
-					if(Xanadu::strcmp(vProcessString.data(), vProcessNAME) != 0)
-					{
-						continue;
-					}
-					Xanadu::kill(vProcessID, 9);
-					vResult = true;
-					//printf("\n----- %d -----\n", vProcessID);
-
-					//printf("NAME:%s\n", vProcessNAME);
-					//printf("PATH:%s\n", vProcessPATH);
-					//printf("INFO:%s/%s\n", vProcessINFO.pbi_comm, vProcessINFO.pbi_name);
-				}
-				//printf("Process Number : %d\n", vProcessNumber);
-			}
-			Xanadu::free(vProcessArray);
-		}
-	}
-#endif // XANADU_SYSTEM_MACOS
 	return vResult;
 }
 
 // 结束进程
-bool XProcess::Terminate(int64U _ProcessID) noexcept
+bool XProcess::terminate(int64U _ProcessID) noexcept
 {
 	auto		vResult = true;
 #ifdef XANADU_SYSTEM_WINDOWS
@@ -203,7 +82,7 @@ bool XProcess::Terminate(int64U _ProcessID) noexcept
 }
 
 // 当前进程ID
-int64U XProcess::ProcessID() noexcept
+int64U XProcess::currentProcessID() noexcept
 {
 #ifdef XANADU_SYSTEM_WINDOWS
 	return static_cast<int64U>(GetCurrentProcessId());
@@ -213,7 +92,7 @@ int64U XProcess::ProcessID() noexcept
 }
 
 // 遍历
-bool XProcess::Traverse(std::function<bool(const XProcessInfo& _Info)> _Lambda) noexcept
+bool XProcess::traverse(std::function<bool(const XProcessInfo& _Info)> _Lambda) noexcept
 {
 	XANADU_CHECK_RETURN(_Lambda, false);
 
@@ -231,7 +110,7 @@ bool XProcess::Traverse(std::function<bool(const XProcessInfo& _Info)> _Lambda) 
 		auto		vMore = ::Process32FirstW(vSnapshotHandle, &vProcessEntry32);
 		while(vMore)
 		{
-			if(false == _Lambda(XProcessInfo(static_cast<int64U>(vProcessEntry32.th32ProcessID), vProcessEntry32.szExeFile)))
+			if(!_Lambda(XProcessInfo(static_cast<int64U>(vProcessEntry32.th32ProcessID), vProcessEntry32.szExeFile)))
 			{
 				// 当取消时返回false
 				break;
@@ -309,11 +188,11 @@ bool XProcess::Traverse(std::function<bool(const XProcessInfo& _Info)> _Lambda) 
 }
 
 // 进程是否存在
-bool XProcess::IsExist(const XString& _ProcessName) noexcept
+bool XProcess::isExist(const XString& _ProcessName) noexcept
 {
-	XANADU_CHECK_RETURN(_ProcessName.size(), false);
+	XANADU_CHECK_RETURN(_ProcessName.exist(), false);
 
-	if(XProcess::Number(_ProcessName) > 0)
+	if(XProcess::number(_ProcessName) > 0)
 	{
 		return true;
 	}
@@ -321,106 +200,24 @@ bool XProcess::IsExist(const XString& _ProcessName) noexcept
 }
 
 // 同进程名的数量
-int32S XProcess::Number(const XString& _ProcessName) noexcept
+int64U XProcess::number(const XString& _ProcessName) noexcept
 {
-	XANADU_CHECK_RETURN(_ProcessName.size(), 0);
+	XANADU_CHECK_RETURN(_ProcessName.exist(), 0);
 
 	auto		vNumber = 0;
-#ifdef XANADU_SYSTEM_WINDOWS
-	auto		vProcessEntry32 = PROCESSENTRY32W();
-	vProcessEntry32.dwSize = sizeof(vProcessEntry32);
-	// 给系统内的所有进程拍一个快照--改函数用于获取系统指定进程的快照，也可以传入不同参数获取被这些进程使用的堆、模块和线程的快照
-	auto		hProcessSnap = ::CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
-	if(hProcessSnap != INVALID_HANDLE_VALUE)
+	XProcess::traverse([&](const XProcessInfo& _ProcessInfo)->bool
 	{
-		// 遍历进程快照，轮流显示每个进程的信息
-		BOOL bMore = ::Process32FirstW(hProcessSnap, &vProcessEntry32);
-		while(bMore)
+		if(_ProcessInfo.getProcessName() == _ProcessName)
 		{
-			if(!Xanadu::wcscmp(vProcessEntry32.szExeFile, _ProcessName.data()))
-			{
-				++vNumber;
-			}
-			bMore = ::Process32NextW(hProcessSnap, &vProcessEntry32);
-		};
-		// 清除hProcessSnap对象
-		::CloseHandle(hProcessSnap);
-	}
-#endif // XANADU_SYSTEM_WINDOWS
-#ifdef XANADU_SYSTEM_LINUX
-	XFileSystem::DirectoryList(L"/proc", [&](const XFileInfo& _Info)->bool
-	{
-		if(_Info.isDir())
-		{
-			auto		vExepath = XString::format(L"/proc/%ls/exe", _Info.fileName().data());
-			auto		vApplication = vExepath.toUString();
-			char		vDirectory[XANADU_PATH] = { 0 };
-			auto		vCount = readlink(vApplication.data(), vDirectory, XANADU_PATH);
-			if(0 <= vCount || vCount <= XANADU_PATH)
-			{
-				if(Xanadu::strlen(vDirectory))
-				{
-					auto	vName = Xanadu::strrchr(vDirectory, '/') + 1;
-					if(vName && Xanadu::strlen(vName))
-					{
-						if(0 == _ProcessName.compare(XString::fromUString(vName)))
-						{
-							++vNumber;
-						}
-					}
-				}
-			}
+			++vNumber;
 		}
 		return true;
 	});
-#endif // XANADU_SYSTEM_LINUX
-#ifdef XANADU_SYSTEM_MACOS
-	auto	vProcessString = _ProcessName.toUString();
-	auto	vProcessNumber = proc_listpids(PROC_ALL_PIDS, 0, NULL, 0) * 2;
-	if(vProcessNumber)
-	{
-		auto	vProcessArray = (pid_t*)Xanadu::malloc(sizeof(pid_t) * vProcessNumber);
-		if(vProcessArray)
-		{
-			vProcessNumber = proc_listpids(PROC_ALL_PIDS, 0, vProcessArray, sizeof(pid_t) * vProcessNumber);
-			if(vProcessNumber)
-			{
-				for(auto vIndex = 0; vIndex < vProcessNumber; ++vIndex)
-				{
-					pid_t           vProcessID = vProcessArray[vIndex];
-					if(vProcessID == 0)
-					{
-						continue;
-					}
-					char			vProcessNAME[1024] = { 0 };
-					//char			vProcessPATH[2048] = { 0 };
-					//struct proc_bsdinfo     vProcessINFO;
-					proc_name(vProcessID, vProcessNAME, 1024);
-					//proc_pidpath(vProcessID, vProcessPATH, 2048);
-					//proc_pidinfo(vProcessID, PROC_PIDTBSDINFO, 0, &vProcessINFO, PROC_PIDTBSDINFO_SIZE);
-
-					if(Xanadu::strcmp(vProcessString.data(), vProcessNAME) != 0)
-					{
-						continue;
-					}
-					++vNumber;
-					//printf("\n----- %d -----\n", vProcessID);
-
-					//printf("NAME:%s\n", vProcessNAME);
-					//printf("PATH:%s\n", vProcessPATH);
-					//printf("INFO:%s/%s\n", vProcessINFO.pbi_comm, vProcessINFO.pbi_name);
-				}
-				//printf("Process Number : %d\n", vProcessNumber);
-			}
-			Xanadu::free(vProcessArray);
-		}
-	}
-#endif//XANADU_SYSTEM_MACOS
 	return vNumber;
 }
 
 // 运行并等待进程
-int64U XProcess::Execute(const XString& _Application, const XString& _Param, const XString& _Directory, bool _Wait, bool _UI) noexcept
+int64U XProcess::execute(const XString& _Application, const XString& _Param, const XString& _Directory, bool _Wait, bool _UI) noexcept
 {
 #ifdef XANADU_SYSTEM_WINDOWS
 	DWORD			vExitCode = STATUS_INVALID_HANDLE;
@@ -498,7 +295,7 @@ int64U XProcess::Execute(const XString& _Application, const XString& _Param, con
 }
 
 // 枚举卸载列表
-bool XProcess::Program(std::function<void(const XANADU_CORE_PROCESS_UNINSTALL* _Info)> _Lambda) noexcept
+bool XProcess::program(std::function<void(const XANADU_CORE_PROCESS_UNINSTALL* _Info)> _Lambda) noexcept
 {
 	auto		vResult = false;
 #ifdef XANADU_SYSTEM_WINDOWS
