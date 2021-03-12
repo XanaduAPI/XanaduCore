@@ -98,7 +98,7 @@ XString XFileInfo::ToAbsolutePath(const XString& _Filepath) noexcept
 		}
 	}
 	// When the path is not absolute, preface it with the current directory
-	if(false == vStatusAbsolute)
+	if(!vStatusAbsolute)
 	{
 		wchar_t 	vDirectory[XANADU_PATH] = {0};
 		Xanadu::GetCurrentDirectoryW(XANADU_PATH, vDirectory);
@@ -205,7 +205,7 @@ XString XFileInfo::path() const noexcept
 
 XString XFileInfo::absolutePath() const noexcept
 {
-	if(false == this->_Info->_SourcePath.empty())
+	if(this->_Info->_SourcePath.exist())
 	{
 		auto		vPathSuffix = this->_Info->_SourcePath.at(this->_Info->_SourcePath.size() - 1);
 		if(vPathSuffix == L'/' || vPathSuffix == L'\\')
@@ -244,9 +244,8 @@ bool XFileInfo::isDir() const noexcept
 		return true;
 	}
 #else
-	struct stat64	vFileStatus;
-	auto		vUFilepath = this->_Info->_AbsolutePath.toNString();
-	if(0 == stat64(vUFilepath.data(),&vFileStatus))
+	XStat64		vFileStatus{};
+	if(0 == Xanadu::wstat64(this->_Info->_AbsolutePath.data(),&vFileStatus))
 	{
 		return S_ISDIR (vFileStatus.st_mode);
 	}
@@ -256,21 +255,7 @@ bool XFileInfo::isDir() const noexcept
 
 int64S XFileInfo::size() const noexcept
 {
-#ifdef XANADU_SYSTEM_WINDOWS
-	struct _stat64	vFileStatus;
-	if(0 == _wstat64(this->_Info->_AbsolutePath.data(),&vFileStatus))
-	{
-		return vFileStatus.st_size;
-	}
-#else
-	struct stat64	vFileStatus;
-	auto		vUFilepath = this->_Info->_AbsolutePath.toNString();
-	if(0 == stat64(vUFilepath.data(),&vFileStatus))
-	{
-		return vFileStatus.st_size;
-	}
-#endif // XANADU_SYSTEM_WINDOWS
-	return 0;
+	return Xanadu::wfsize(this->_Info->_AbsolutePath.data());
 }
 
 

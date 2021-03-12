@@ -68,10 +68,17 @@ public:
 
 public:
 	// operator overload ==
-	virtual bool operator == (const char* _Memory)const  noexcept;
+	virtual bool operator == (const char* _Memory) const  noexcept;
 
 	// operator overload ==
-	virtual bool operator == (const XByteArray& _Bytes)const  noexcept;
+	virtual bool operator == (const XByteArray& _Bytes) const  noexcept;
+
+public:
+	// operator overload !=
+	virtual bool operator != (const char* _Memory) const  noexcept;
+
+	// operator overload !=
+	virtual bool operator != (const XByteArray& _Bytes) const  noexcept;
 
 public:
 	// Get data pointer
@@ -393,6 +400,10 @@ public:
 
 	// remove beginning, middle, and end whitespace strings ('\t','\n','\v','\f','\r','_')
 	virtual XByteArray simplified() const noexcept;
+
+public:
+	// Format ByteArray (char* [%s]) (wchar_t* [%ls])
+	static XByteArray XANADUAPI format(const char* _Format, ...) noexcept;
 
 public:
 	// split

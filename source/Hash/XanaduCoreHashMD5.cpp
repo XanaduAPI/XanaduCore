@@ -190,7 +190,7 @@ XANADU_CORE_EXPORT void XANADUAPI Xanadu::MD5_Update(XANADU_CORE_MD5_CONTEXT* _C
 	{
 		_Context->hi++;
 	}
-	_Context->hi += _Size >> 29;
+	_Context->hi += static_cast<int32U>(_Size >> 29);
 
 	used = saved_lo & 0x3f;
 

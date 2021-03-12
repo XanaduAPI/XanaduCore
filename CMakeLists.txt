@@ -2,7 +2,7 @@
 cmake_minimum_required(VERSION 3.8)
 
 # 项目名称
-project(XanaduCore VERSION 0.8.1)
+project(XanaduCore VERSION 0.8.3)
 
 # 设置安装路径
 message(STATUS "Operation System : ${CMAKE_SYSTEM}")
@@ -35,6 +35,8 @@ link_directories(${XANADU_RUNTIME_LIBRARY})
 #add_definitions(-DXANADU_CORE_BUILD_STATIC)
 # 设置导出宏
 add_definitions(-DXANADU_CORE_LIB)
+# 屏蔽一些CRT警告
+add_definitions(-D_CRT_SECURE_NO_WARNINGS)
 
 # 包含源文件
 aux_source_directory(./source SRC)
@@ -63,7 +65,7 @@ endif ()
 add_library(${PROJECT_NAME} SHARED ${SRC})
 
 # 设置项目属性
-set_target_properties(${PROJECT_NAME} PROPERTIES VERSION 0.8.1 SOVERSION 0)
+set_target_properties(${PROJECT_NAME} PROPERTIES VERSION 0.8.3 SOVERSION 0)
 set_target_properties(${PROJECT_NAME} PROPERTIES DEBUG_POSTFIX D)
 
 # 设置安装文件(静态库)

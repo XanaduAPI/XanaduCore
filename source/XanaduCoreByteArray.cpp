@@ -149,15 +149,31 @@ XByteArray& XByteArray::operator += (const XByteArray& _Bytes) noexcept
 
 
 // operator overload ==
-bool XByteArray::operator == (const char* _Memory)const  noexcept
+bool XByteArray::operator == (const char* _Memory) const  noexcept
 {
 	return 0 == this->compare(_Memory);
 }
 
 // operator overload ==
-bool XByteArray::operator == (const XByteArray& _Bytes)const  noexcept
+bool XByteArray::operator == (const XByteArray& _Bytes) const  noexcept
 {
 	return 0 == this->compare(_Bytes);
+}
+
+
+
+
+
+// operator overload !=
+bool XByteArray::operator != (const char* _Memory) const  noexcept
+{
+	return 0 != this->compare(_Memory);
+}
+
+// operator overload !=
+bool XByteArray::operator != (const XByteArray& _Bytes) const  noexcept
+{
+	return 0 != this->compare(_Bytes);
 }
 
 
@@ -555,7 +571,7 @@ XByteArray& XByteArray::remove(const char* _Memory) noexcept
 // Delete the specified length of data from the specified pos
 XByteArray& XByteArray::remove(const char* _Memory, size_type _Size) noexcept
 {
-	if(_Size = XByteArray::npos)
+	if(_Size == XByteArray::npos)
 	{
 		_Size = Xanadu::strlen(_Memory);
 	}
@@ -625,7 +641,7 @@ XByteArray& XByteArray::replace(const char* _Before, const char* _After) noexcep
 XByteArray& XByteArray::replace(const char* _Before, size_type _Bsize, const char* _After, size_type _Asize) noexcept
 {
 	auto		vIndex = 0LL;
-	while (_Before && _Bsize > 0 && _After && _Asize >= 0)
+	while (_Before && _Bsize > 0 && _After && _Asize > 0)
 	{
 		auto		vPos = this->MemoryFind(vIndex, _Before, _Bsize);
 		if (XByteArray::npos == vPos)
@@ -1004,7 +1020,7 @@ XByteArray XByteArray::trimmed() const noexcept
 		}
 	}
 	// Check order
-	for (vEndPos = this->size() - 1; vEndPos >= 0; --vEndPos)
+	for (vEndPos = this->size() - 1; vEndPos != XByteArray::npos; --vEndPos)
 	{
 		if (XanaduByteArrayIsSpace(this->operator[](vBeginPos)))
 		{
@@ -1042,6 +1058,36 @@ XByteArray XByteArray::simplified() const noexcept
 	}
 	return vResult;
 }
+
+
+
+
+
+// Format ByteArray (char* [%s]) (wchar_t* [%ls])
+XByteArray XANADUAPI XByteArray::format(const char* _Format, ...) noexcept
+{
+	auto		vBytes = XByteArray();
+	auto		vBuffer = XANADU_NEW char[XANADU_SIZE_KB * 10];
+	if(vBuffer)
+	{
+		Xanadu::memset(vBuffer, 0, sizeof(char) * XANADU_SIZE_KB * 10);
+		va_list		vArgs;
+		va_start(vArgs, _Format);
+		vsnprintf(vBuffer, XANADU_SIZE_KB * 10 - 1, _Format, vArgs);
+		va_end(vArgs);
+
+		vBytes = vBuffer;
+		XANADU_DELETE_ARR(vBuffer);
+	}
+	return vBytes;
+}
+
+
+
+
+
+
+
 
 // split
 std::list<XByteArray> XByteArray::split(char _Char) const noexcept

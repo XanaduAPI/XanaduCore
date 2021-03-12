@@ -153,7 +153,7 @@ XANADU_CORE_EXPORT void XANADUAPI Xanadu::sha1_hash(const unsigned char _Data[],
 #else
 	_Length <<= 3;
 #endif
-	if((_Context->count[0] += _Length) < _Length)
+	if((_Context->count[0] += static_cast<int32U>(_Length)) < _Length)
 	{
 		++(_Context->count[1]);
 	}

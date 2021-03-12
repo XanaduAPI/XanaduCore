@@ -125,7 +125,7 @@ bool XAllocator::MemoryAllocator(size_type _Length) noexcept
 	XANADU_ALLOCATOR_DELETE(this->_memory_address);
 
 	// When the value passed in is less than 0, the default size is assigned
-	this->_memory_length = _Length < 0 ? 0 : _Length;
+	this->_memory_length = _Length == XAllocator::npos ? 0 : _Length;
 	this->_memory_capacity = XanaduAllocatorCalculateCapacity(this->_memory_length);
 	this->_memory_address = XanaduAllocatorMallocMemory(this->_memory_capacity);
 	if(this->_memory_address)
@@ -456,7 +456,7 @@ XAllocator::size_type XAllocator::MemoryReverseFind(size_type _Pos, const void* 
 		auto		vSourceBegin = this->_memory_length - _Length > _Pos ? _Pos : this->_memory_length - _Length;
 		auto		vTargetMemory = static_cast<const char*>(_Memory);
 
-		for (auto vSourceIndex = vSourceBegin; vSourceIndex >= 0; --vSourceIndex)
+		for (auto vSourceIndex = vSourceBegin; vSourceIndex != XAllocator::npos; --vSourceIndex)
 		{
 			auto		vFind = true;
 			for (auto vTargetIndex = 0; vTargetIndex < _Length && vFind; ++vTargetIndex)

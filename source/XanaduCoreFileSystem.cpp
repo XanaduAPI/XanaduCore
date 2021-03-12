@@ -91,11 +91,10 @@ bool XFileSystem::PathIsAllow(const XString& _Name) noexcept
 XString XFileSystem::PathDirectory(const XString& _Path) noexcept
 {
 	auto			vFullPath = XFileSystem::PathFormat(_Path);
-	auto			vPos = vFullPath.lastIndexOf(L'/');
-	if(vPos >= 0)
+	auto			vPos = vFullPath.rfind(L'/');
+	if(vPos != XString::npos)
 	{
-		XString		vSub(_Path.substr(0, vPos));
-		return vSub;
+		return _Path.substr(0, vPos);
 	}
 	return L"";
 }
@@ -104,15 +103,15 @@ XString XFileSystem::PathDirectory(const XString& _Path) noexcept
 XString XFileSystem::PathName(const XString& _Path, bool _Suffix) noexcept
 {
 	auto		vNPATH = XFileSystem::PathFormat(_Path);
-	auto		vPOS = vNPATH.lastIndexOf(L"/");
-	if(vPOS >= 0)
+	auto		vPOS = vNPATH.rfind(L"/");
+	if(vPOS != XString::npos)
 	{
 		auto	vName = vNPATH.right(vNPATH.size() - vPOS - 1);
 		if(_Suffix)
 		{
 			return vName;
 		}
-		vPOS = vName.lastIndexOf(L".");
+		vPOS = vName.rfind(L".");
 		if(vPOS > 0)
 		{
 			vName = vName.left(vPOS);
@@ -129,7 +128,7 @@ XString XFileSystem::PathName(const XString& _Path, bool _Suffix) noexcept
 XString XFileSystem::PathSuffix(const XString& _Path, bool _Dot) noexcept
 {
 	auto		vName = XFileSystem::PathName(_Path);
-	auto		vPOS = vName.lastIndexOf(L".");
+	auto		vPOS = vName.rfind(L".");
 	if(vPOS > 0)
 	{
 		auto	vSuffix = vName.right(vName.size() - vPOS - (_Dot ? 0 : 1));
@@ -159,7 +158,7 @@ bool XFileSystem::PathSuffixMatch(const XString& _Path, const XString& _Suffix) 
 XString XFileSystem::PathRepair(const XString& _Path) noexcept
 {
 	auto		vPathNEW = _Path;
-	auto		vPos = vPathNEW.lastIndexOf(L'/');
+	auto		vPos = vPathNEW.rfind(L'/');
 	for(auto vIndex = vPos; vIndex < vPathNEW.size(); ++vIndex)
 	{
 		switch(_Path[vIndex])

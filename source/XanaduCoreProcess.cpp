@@ -15,17 +15,17 @@
 // 获取子项值
 XString RegisterKeyValue(HKEY _Key, XString _Guid, XString _Name)
 {
-	XString		vKeyValue = L"";
+	auto		vKeyValue = XString(L"");
 #ifdef XANADU_SYSTEM_WINDOWS
-	HKEY		vLocalKey = NULL;
-	LSTATUS		vResult = RegOpenKeyExW(_Key, _Guid.data(), NULL, KEY_READ, &vLocalKey);
+	auto		vLocalKey = static_cast<HKEY>(nullptr);
+	auto		vResult = RegOpenKeyExW(_Key, _Guid.data(), NULL, KEY_READ, &vLocalKey);
 	if(vResult == ERROR_SUCCESS)
 	{
 		wchar_t		vBuffer[MAX_PATH] = { 0 };
-		DWORD		vLength = MAX_PATH;
-		DWORD		vType = REG_SZ;
+		auto		vLength = DWORD(MAX_PATH);
+		auto		vType = DWORD(REG_SZ);
 		Xanadu::memset(vBuffer, 0, sizeof(wchar_t) * MAX_PATH);
-		LSTATUS		vQuery = RegQueryValueExW(vLocalKey, _Name.data(), NULL, &vType, (byte*)vBuffer, &vLength);
+		auto		vQuery = RegQueryValueExW(vLocalKey, _Name.data(), NULL, &vType, (byte*)vBuffer, &vLength);
 		if(vQuery == ERROR_SUCCESS)
 		{
 			vKeyValue = vBuffer;
@@ -66,9 +66,9 @@ bool XProcess::terminate(int64U _ProcessID) noexcept
 	auto		vResult = true;
 #ifdef XANADU_SYSTEM_WINDOWS
 	auto		vProcess = ::OpenProcess(PROCESS_ALL_ACCESS, FALSE, static_cast<DWORD>(_ProcessID));
-	if(vProcess != NULL)
+	if(vProcess != nullptr)
 	{
-		vResult = ::TerminateProcess(vProcess, 0) ? true : false;
+		vResult = ::TerminateProcess(vProcess, 0);
 		::CloseHandle(vProcess);
 	}
 #endif // XANADU_SYSTEM_LINUX
@@ -287,10 +287,7 @@ int64U XProcess::execute(const XString& _Application, const XString& _Param, con
 			Xanadu::exit(0);
 		}
 	}
-	else
-	{
-		return -1;
-	}
+	return -1;
 #endif // XANADU_SYSTEM_WINDOWS
 }
 

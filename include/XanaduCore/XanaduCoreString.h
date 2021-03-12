@@ -467,9 +467,6 @@ public:
 	// Convert:From UTF-8
 	static XString XANADUAPI fromUString(const UString& _UString) noexcept;
 
-	// Convert:From Latin_1(ISO 8859-1)
-	static XString XANADUAPI fromLString(const LString& _LString) noexcept;
-
 	// Convert : From Native String
 	static XString XANADUAPI fromNString(const NString& _NString) noexcept;
 

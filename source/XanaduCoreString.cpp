@@ -97,7 +97,7 @@ void XString::const_iterator::_decrement()
 
 wchar_t& XString::const_iterator::_randomAccess(size_type i) const
 {
-	if(i < 0 || i >= *current.size)
+	if(i >= *current.size)
 	{
 		throw;
 	}
@@ -822,7 +822,7 @@ XString::XString::size_type XString::_rfind(const wchar_t* _String, size_type _L
 	{
 		_Pos = _string_length - _Length + 1;
 	}
-	for(auto vIndex = _Pos; 0 <= vIndex; --vIndex)
+	for(auto vIndex = _Pos; vIndex != XString::npos; --vIndex)
 	{
 		if(operator[](vIndex) == *_String && _compare(_String, _Length, vIndex))
 		{
@@ -1252,21 +1252,11 @@ bool XString::operator >= (const XString& _String) const noexcept
 AString XString::toAString() const noexcept
 {
 	auto		vAString = AString("");
-	if(data() && size())
+	auto		vChangeStr = Xanadu::strwtou(this->data());
+	if(vChangeStr)
 	{
-		auto	vCurrLocale = AString(Xanadu::setlocale(LC_ALL, NULL));
-
-		Xanadu::setlocale(LC_ALL, "chs");
-
-		auto	_DestSize = static_cast<unsigned int>(4 * size() + 1);
-		auto	_Dest = XANADU_NEW char[_DestSize];
-		Xanadu::memset(_Dest, 0, _DestSize);
-		Xanadu::wcstombs(_Dest, data(), _DestSize);
-
-		vAString = _Dest;
-		XANADU_DELETE_ARR(_Dest);
-
-		Xanadu::setlocale(LC_ALL, vCurrLocale.data());
+		vAString = vChangeStr;
+		Xanadu::strfree(vChangeStr);
 	}
 	return vAString;
 }
@@ -1280,17 +1270,14 @@ WString XString::toWString() const noexcept
 // Convert : To UTF-8
 UString XString::toUString() const noexcept
 {
-	auto	vReturn = UString("");
-	try
+	auto		vUString = UString("");
+	auto		vChangeStr = Xanadu::strwtou(this->data());
+	if(vChangeStr)
 	{
-		std::wstring_convert<std::codecvt_utf8<wchar_t>> vConvert;
-		vReturn = vConvert.to_bytes(data() ? data() : L"");
+		vUString = vChangeStr;
+		Xanadu::strfree(vChangeStr);
 	}
-	catch(const std::exception& _Except)
-	{
-		std::cerr << _Except.what() << std::endl;
-	}
-	return vReturn;
+	return vUString;
 }
 
 // Convert : To Native String
@@ -1315,9 +1302,8 @@ UString XString::toURL() const noexcept
 {
 	auto		vDecode = toUString();
 	auto		vEncode = UString();
-	for(auto vIterator = vDecode.begin(); vIterator != vDecode.end(); ++vIterator)
+	for(char vChar : vDecode)
 	{
-		auto	vChar = (*vIterator);
 		if(((vChar >= 'A') && (vChar <= 'Z')) || ((vChar >= 'a') && (vChar <= 'z')) || ((vChar >= '0') && (vChar <= '9')))
 		{
 			vEncode.append(1, vChar);
@@ -1384,21 +1370,11 @@ UString XANADUAPI XString::toURL(const XString& _String) noexcept
 XString XANADUAPI XString::fromAString(const AString& _AString) noexcept
 {
 	auto		vXString = XString(L"");
-	if(_AString.data() && _AString.size())
+	auto		vChangeStr = Xanadu::stratow(_AString.data());
+	if(vChangeStr)
 	{
-		auto	vCurrLocale = AString(Xanadu::setlocale(LC_ALL, NULL));
-
-		Xanadu::setlocale(LC_ALL, "chs");
-
-		auto	_Dsize = static_cast<unsigned int>(_AString.size() + 1);
-		auto	_Dest = XANADU_NEW wchar_t[_Dsize];
-		Xanadu::wmemset(_Dest, 0, _Dsize);
-		Xanadu::mbstowcs(_Dest, _AString.data(), _Dsize);
-
-		vXString = _Dest;
-		XANADU_DELETE_ARR(_Dest);
-
-		Xanadu::setlocale(LC_ALL, vCurrLocale.data());
+		vXString = vChangeStr;
+		Xanadu::wcsfree(vChangeStr);
 	}
 	return vXString;
 }
@@ -1412,37 +1388,14 @@ XString XANADUAPI XString::fromWString(const WString& _XString) noexcept
 // Convert : From UTF-8
 XString XANADUAPI XString::fromUString(const UString& _UString) noexcept
 {
-	auto		vReturn = XString(L"");
-	try
+	auto		vXString = XString(L"");
+	auto		vChangeStr = Xanadu::strutow(_UString.data());
+	if(vChangeStr)
 	{
-		std::wstring_convert<std::codecvt_utf8<wchar_t>> vConvert;
-		vReturn = vConvert.from_bytes(_UString);
+		vXString = vChangeStr;
+		Xanadu::wcsfree(vChangeStr);
 	}
-	catch(const std::exception& _Except)
-	{
-		std::cerr << _Except.what() << std::endl;
-	}
-	return vReturn;
-}
-
-// Convert:From Latin_1(ISO 8859-1)
-XString XANADUAPI XString::fromLString(const LString& _LString) noexcept
-{
-	auto		_UString = UString();
-	for(auto vIterator = _LString.begin(); vIterator != _LString.end(); ++vIterator)
-	{
-		auto	vChar = (*vIterator);
-		if(vChar < 0x80)
-		{
-			_UString.push_back(vChar);
-		}
-		else
-		{
-			_UString.push_back(0xc0 | (vChar & 0xc0) >> 6);
-			_UString.push_back(0x80 | (vChar & 0x3f));
-		}
-	}
-	return fromUString(_UString);
+	return vXString;
 }
 
 // Convert : From Native String
@@ -1458,7 +1411,7 @@ XString XANADUAPI XString::fromNString(const NString& _NString) noexcept
 // Convert : From XByteArray
 XString XANADUAPI XString::fromBytes(const XByteArray& _Bytes) noexcept
 {
-	return XString::fromUString(UString(_Bytes.data(), _Bytes.size()));
+	return XString::fromUString(UString(_Bytes.data(), static_cast<UString::size_type>(_Bytes.size())));
 }
 
 // Convert:From URL encode
