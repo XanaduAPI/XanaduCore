@@ -19,8 +19,12 @@ int64S XShell::run(const XString& _Shell) noexcept
 #ifdef XANADU_SYSTEM_WINDOWS
 	return XProcess::execute(L"cmd.exe", _Shell);
 #else
+#ifdef XANADU_SYSTEM_ARM
+	return XProcess::execute(L"/bin/sh", XString(L"-c ") + _Shell);
+#else
 	return XProcess::execute(L"/bin/bash", XString(L"-c ") + _Shell);
-#endif//XANADU_SYSTEM_WINDOWS
+#endif // XANADU_SYSTEM_ARM
+#endif // XANADU_SYSTEM_WINDOWS
 }
 
 // Sync run shell

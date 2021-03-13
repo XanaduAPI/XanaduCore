@@ -9,17 +9,17 @@
 #define			XANADU_CORE_EXPORT					__declspec(dllexport)
 #else
 #define			XANADU_CORE_EXPORT					__attribute__((visibility("default")))
-#endif//XANADU_SYSTEM_WINDOWS
+#endif // XANADU_SYSTEM_WINDOWS
 #else
 #ifdef XANADU_SYSTEM_WINDOWS
 #define			XANADU_CORE_EXPORT					__declspec(dllimport)
 #else
 #define			XANADU_CORE_EXPORT					__attribute__((visibility("default")))
-#endif//XANADU_SYSTEM_WINDOWS
-#endif//XANADU_CORE_LIB
+#endif // XANADU_SYSTEM_WINDOWS
+#endif // XANADU_CORE_LIB
 #else
 #define			XANADU_CORE_EXPORT
-#endif//XANADU_CORE_BUILD_STATIC
+#endif // XANADU_CORE_BUILD_STATIC
 #define			XANADU_CORE_LOCAL
 
 //一些C++头文件

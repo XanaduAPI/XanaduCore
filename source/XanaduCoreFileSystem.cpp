@@ -42,7 +42,7 @@ XString XFileSystem::PathToNative(const XString& _Path) noexcept
 		{
 			vNativePath[vIndex] = L'/';
 		}
-#endif//XANADU_SYSTEM_WINDOWS
+#endif // XANADU_SYSTEM_WINDOWS
 	}
 	return vNativePath;
 }
@@ -345,7 +345,7 @@ bool XFileSystem::FileCopy(const XString& _Source, const XString& _Target, std::
 	{
 		return true;
 	}
-#endif//XANADU_SYSTEM_WINDOWS
+#endif // XANADU_SYSTEM_WINDOWS
 	return 0 == Xanadu::wfcopy(vFormatSource.data(), vFormatTarget.data());
 }
 
@@ -388,7 +388,7 @@ bool XFileSystem::FileRemove(const XString& _File) noexcept
 				XANADU_INFO(L"[REMOVE] [%ls] SUCCESS", vFile.data());
 				return true;
 			}
-#endif//XANADU_SYSTEM_WINDOWS
+#endif // XANADU_SYSTEM_WINDOWS
 			XANADU_ERROR(L"[REMOVE] [%ls] FAILURE", vFile.data());
 			return XFileSystem::FileRename(vFile, vFile + XANADU_FILESYSTEM_REMOVE_SUFFIX);
 		}
@@ -414,7 +414,7 @@ bool XFileSystem::FileRename(const XString& _NameOLD, const XString& _NameNEW) n
 		{
 			return true;
 		}
-#endif//XANADU_SYSTEM_WINDOWS
+#endif // XANADU_SYSTEM_WINDOWS
 		return false;
 	}
 }

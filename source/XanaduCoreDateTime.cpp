@@ -101,6 +101,6 @@ XString XDateTime::currentMillisecondToString() noexcept
 	struct tm		vNowTime;
 	localtime_r(&vTime.tv_sec, &vNowTime);
 	swprintf(vBuffer, XANADU_PATH, L"%04d-%02d-%02dT%02d:%02d:%02d.%06dZ", vNowTime.tm_year + 1900, vNowTime.tm_mon + 1, vNowTime.tm_mday, vNowTime.tm_hour, vNowTime.tm_min, vNowTime.tm_sec, vTime.tv_nsec / 1000);
-#endif//XANADU_SYSTEM_WINDOWS
+#endif // XANADU_SYSTEM_WINDOWS
 	return vBuffer;
 }

@@ -103,6 +103,6 @@ XANADU_CORE_EXPORT bool PlatformRegeditCreate(HKEY _Key, const wchar_t* _SubKey)
 		::RegCloseKey(vNewKey);
 		return true;
 	}
-#endif//XANADU_SYSTEM_WINDOWS
+#endif // XANADU_SYSTEM_WINDOWS
 	return false;
 }

@@ -31,7 +31,7 @@ XString RegisterKeyValue(HKEY _Key, XString _Guid, XString _Name)
 			vKeyValue = vBuffer;
 		}
 	}
-#endif//XANADU_SYSTEM_WINDOWS
+#endif // XANADU_SYSTEM_WINDOWS
 	return vKeyValue;
 }
 
@@ -148,7 +148,7 @@ bool XProcess::traverse(std::function<bool(const XProcessInfo& _Info)> _Lambda) 
 		}
 		return true;
 	});
-#endif//XANADU_SYSTEM_LINUX
+#endif // XANADU_SYSTEM_LINUX
 #ifdef XANADU_SYSTEM_MACOS
 	auto		vProcessNumber = proc_listpids(PROC_ALL_PIDS, 0, NULL, 0) * 2;
 	if(vProcessNumber)
@@ -183,7 +183,7 @@ bool XProcess::traverse(std::function<bool(const XProcessInfo& _Info)> _Lambda) 
 			Xanadu::free(vProcessArray);
 		}
 	}
-#endif//XANADU_SYSTEM_MACOS
+#endif // XANADU_SYSTEM_MACOS
 	return vResult;
 }
 
@@ -350,9 +350,9 @@ bool XProcess::program(std::function<void(const XANADU_CORE_PROCESS_UNINSTALL* _
 			vResult = true;
 		}
 	}
-#endif//XANADU_SYSTEM_WINDOWS
+#endif // XANADU_SYSTEM_WINDOWS
 #ifdef XANADU_SYSTEM_LINUX
-#endif//XANADU_SYSTEM_MACOS
+#endif // XANADU_SYSTEM_MACOS
 #ifdef XANADU_SYSTEM_MACOS
 	/*
 	XFileSystem::DirectoryList(L"/Applications", [&](const XFileInfo& _Info)->bool
@@ -381,6 +381,6 @@ bool XProcess::program(std::function<void(const XANADU_CORE_PROCESS_UNINSTALL* _
 		return true;
 	});
 	*/
-#endif//XANADU_SYSTEM_MACOS
+#endif // XANADU_SYSTEM_MACOS
 	return vResult;
 }

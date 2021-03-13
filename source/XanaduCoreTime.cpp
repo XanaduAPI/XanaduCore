@@ -20,7 +20,7 @@ typedef struct _XANADU_TIME_HIGH_PRECISION
 
 	// 结束时间
 	timeval			vEndTime;
-#endif//XANADU_SYSTEM_WINDOWS
+#endif // XANADU_SYSTEM_WINDOWS
 }XANADU_TIME_HIGH_PRECISION;
 
 
@@ -115,7 +115,7 @@ HANDLE XTime::HighPrecisionStart() noexcept
 		QueryPerformanceCounter(&vHandle->vBeginTime);
 #else
 		gettimeofday(&vHandle->vBeginTime, NULL);
-#endif//XANADU_SYSTEM_WINDOWS
+#endif // XANADU_SYSTEM_WINDOWS
 	}
 	return vHandle;
 }
@@ -144,7 +144,7 @@ int64U XTime::HighPrecisionStop(HANDLE _Handle) noexcept
 		nDelayedSecond *= 1000000;
 		int64S		nDelayedMillisecond = vHandle->vEndTime.tv_usec - vHandle->vBeginTime.tv_usec;
 		vDifference += nDelayedSecond + nDelayedMillisecond;
-#endif//XANADU_SYSTEM_WINDOWS
+#endif // XANADU_SYSTEM_WINDOWS
 		XANADU_DELETE_PTR(vHandle);
 	}
 	return vDifference;

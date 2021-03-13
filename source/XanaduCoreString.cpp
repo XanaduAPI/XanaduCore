@@ -1252,7 +1252,7 @@ bool XString::operator >= (const XString& _String) const noexcept
 AString XString::toAString() const noexcept
 {
 	auto		vAString = AString("");
-	auto		vChangeStr = Xanadu::strwtou(this->data());
+	auto		vChangeStr = Xanadu::strwtoa(this->data());
 	if(vChangeStr)
 	{
 		vAString = vChangeStr;

@@ -34,7 +34,7 @@ XMutex::XMutex(RecursionMode _Mode) noexcept
 		default:
 			break;
 	}
-#endif//XANADU_SYSTEM_WINDOWS
+#endif // XANADU_SYSTEM_WINDOWS
 }
 
 XMutex::~XMutex() noexcept
@@ -48,7 +48,7 @@ XMutex::~XMutex() noexcept
 	auto		vMutex = static_cast<pthread_mutex_t*>(_data_mutex);
 	pthread_mutex_destroy(vMutex);
 	XANADU_DELETE_PTR(vMutex);
-#endif//XANADU_SYSTEM_WINDOWS
+#endif // XANADU_SYSTEM_WINDOWS
 	_data_mutex = nullptr;
 }
 
@@ -59,7 +59,7 @@ void XMutex::lock() noexcept
 	EnterCriticalSection(static_cast<CRITICAL_SECTION*>(_data_mutex));
 #else
 	pthread_mutex_lock(static_cast<pthread_mutex_t*>(_data_mutex));
-#endif//XANADU_SYSTEM_WINDOWS
+#endif // XANADU_SYSTEM_WINDOWS
 }
 
 void XMutex::unlock() noexcept
@@ -69,7 +69,7 @@ void XMutex::unlock() noexcept
 	LeaveCriticalSection(static_cast<CRITICAL_SECTION*>(_data_mutex));
 #else
 	pthread_mutex_unlock(static_cast<pthread_mutex_t*>(_data_mutex));
-#endif//XANADU_SYSTEM_WINDOWS
+#endif // XANADU_SYSTEM_WINDOWS
 }
 
 
