@@ -1,26 +1,26 @@
 ﻿#ifndef			_XANADU_CORE_H_
 #define			_XANADU_CORE_H_
 
-#include <XanaduCore/XanaduCoreAllocator.h>
-#include <XanaduCore/XanaduCoreBase64.h>
-#include <XanaduCore/XanaduCoreByteArray.h>
-#include <XanaduCore/XanaduCoreDateTime.h>
-#include <XanaduCore/XanaduCoreEndian.h>
-#include <XanaduCore/XanaduCoreException.h>
-#include <XanaduCore/XanaduCoreFileInfo.h>
-#include <XanaduCore/XanaduCoreFileSystem.h>
-#include <XanaduCore/XanaduCoreHash.h>
-#include <XanaduCore/XanaduCoreLibrary.h>
-#include <XanaduCore/XanaduCoreMutex.h>
-#include <XanaduCore/XanaduCoreNative.h>
-#include <XanaduCore/XanaduCoreProcess.h>
-#include <XanaduCore/XanaduCoreThread.h>
-#include <XanaduCore/XanaduCoreTime.h>
-#include <XanaduCore/XanaduCoreSetting.h>
-#include <XanaduCore/XanaduCoreShell.h>
-#include <XanaduCore/XanaduCoreStream.h>
-#include <XanaduCore/XanaduCoreString.h>
-#include <XanaduCore/XanaduCoreSystem.h>
-#include <XanaduCore/XanaduCoreVariant.h>
+#include <XanaduCore/XAllocator.h>
+#include <XanaduCore/XBase64.h>
+#include <XanaduCore/XByteArray.h>
+#include <XanaduCore/XDateTime.h>
+#include <XanaduCore/XEndian.h>
+#include <XanaduCore/XException.h>
+#include <XanaduCore/XFileInfo.h>
+#include <XanaduCore/XFileSystem.h>
+#include <XanaduCore/XHash.h>
+#include <XanaduCore/XLibrary.h>
+#include <XanaduCore/XMutex.h>
+#include <XanaduCore/XNative.h>
+#include <XanaduCore/XProcess.h>
+#include <XanaduCore/XThread.h>
+#include <XanaduCore/XTime.h>
+#include <XanaduCore/XSetting.h>
+#include <XanaduCore/XShell.h>
+#include <XanaduCore/XStream.h>
+#include <XanaduCore/XString.h>
+#include <XanaduCore/XSystem.h>
+#include <XanaduCore/XVariant.h>
 
 #endif // _XANADU_CORE_H_
