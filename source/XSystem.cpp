@@ -113,7 +113,7 @@ XString XSystem::CurrentUser() noexcept
 	GetUserNameW(vUserName, &vUserLength);
 	return XString(vUserName);
 #else
-	return XString::fromUString(getlogin());
+	return XString::fromUString(getenv("USER"));
 #endif // XANADU_SYSTEM_WINDOWS
 }
 
