@@ -13,6 +13,50 @@
 
 static ENUM_XANADU_DEBUG_LEVEL			_StaticDebugLevel = EXANADU_DEBUG_LEVEL_FULL;
 
+// 输出日志
+void XanaduStreamOutput(ENUM_XANADU_DEBUG_LEVEL _Level, const wchar_t* _Format, ...) noexcept
+{
+#ifdef XANADU_OUTPUT_ENABLED
+	if(_Level < _StaticDebugLevel)
+	{
+		return;
+	}
+
+	wchar_t		vBuffer[XANADU_LOG_MAX_LENGTH] = { 0 };
+	Xanadu::memset(vBuffer, 0, sizeof(wchar_t) * XANADU_LOG_MAX_LENGTH);
+	va_list		vArgs;
+	va_start(vArgs, _Format);
+	vswprintf(vBuffer, XANADU_LOG_MAX_LENGTH, _Format, vArgs);
+	va_end(vArgs);
+
+	auto		vDebugString = XString(L"[") + XDateTime::currentMillisecondToString() + XString(L"]");
+	switch (_Level)
+	{
+		case EXANADU_DEBUG_LEVEL_INFO:
+			vDebugString += L" [INFO]";
+			break;
+		case EXANADU_DEBUG_LEVEL_WARNING:
+			vDebugString += L" [WARNING]";
+			break;
+		case EXANADU_DEBUG_LEVEL_ERROR:
+			vDebugString += L" [ERROR]";
+			break;
+		default:
+			vDebugString += L" [UNKNOWN]";
+			break;
+	}
+	vDebugString += XString(L" ") + vBuffer + XString(L"\n");
+	wprintf(vDebugString.data());
+#ifdef XANADU_SYSTEM_WINDOWS
+	OutputDebugStringW(vDebugString.data());
+#endif
+
+#else
+	XANADU_UNPARAMETER(_Format);
+#endif // XANADU_OUTPUT_ENABLED
+}
+
+
 XStream::XStream() noexcept
 {
 }
@@ -30,54 +74,6 @@ void XStream::setDebugLevel(ENUM_XANADU_DEBUG_LEVEL _Level) noexcept
 	_StaticDebugLevel = _Level;
 }
 
-
-
-
-// 输出日志
-XANADU_DEPRECATED void XStream::Output(const char* _Format, ...) noexcept
-{
-#ifdef XANADU_OUTPUT_ENABLED
-	char		vBuffer[XANADU_LOG_MAX_LENGTH] = { 0 };
-	Xanadu::memset(vBuffer, 0, sizeof(char) * XANADU_LOG_MAX_LENGTH);
-	va_list		vArgs;
-	va_start(vArgs, _Format);
-	vsnprintf(vBuffer, XANADU_LOG_MAX_LENGTH, _Format, vArgs);
-	va_end(vArgs);
-
-	XStream::Output(XString::fromNString(vBuffer));
-#else
-	XANADU_UNPARAMETER(_Format);
-#endif // XANADU_OUTPUT_ENABLED
-}
-
-
-// 输出日志
-void XStream::Output(const wchar_t* _Format, ...) noexcept
-{
-#ifdef XANADU_OUTPUT_ENABLED
-	wchar_t		vBuffer[XANADU_LOG_MAX_LENGTH] = { 0 };
-	Xanadu::memset(vBuffer, 0, sizeof(wchar_t) * XANADU_LOG_MAX_LENGTH);
-	va_list		vArgs;
-	va_start(vArgs, _Format);
-	vswprintf(vBuffer, XANADU_LOG_MAX_LENGTH, _Format, vArgs);
-	va_end(vArgs);
-
-	auto		vOutputString = XString(L"[") + XDateTime::currentMillisecondToString() + XString(L"]") + XString(L" ") + vBuffer + XString(L"\n");
-	wprintf(vOutputString.data());
-#ifdef XANADU_SYSTEM_WINDOWS
-	OutputDebugStringW(vOutputString.data());
-#endif // XANADU_SYSTEM_WINDOWS
-
-#else
-	XANADU_UNPARAMETER(_Format);
-#endif // XANADU_OUTPUT_ENABLED
-}
-
-// 输出日志
-void XStream::Output(const XString& _Format) noexcept
-{
-	XStream::Output(_Format.data());
-}
 
 
 
@@ -111,7 +107,7 @@ void XStream::Info(const wchar_t* _Format, ...) noexcept
 	vswprintf(vBuffer, XANADU_LOG_MAX_LENGTH, _Format, vArgs);
 	va_end(vArgs);
 
-	XStream::Output(XString(L"[INFO]") + XString(L" ") + vBuffer);
+	XanaduStreamOutput(EXANADU_DEBUG_LEVEL_INFO, vBuffer);
 #else
 	XANADU_UNPARAMETER(_Format);
 #endif // XANADU_OUTPUT_ENABLED
@@ -155,10 +151,10 @@ void XStream::Warning(const wchar_t* _Format, ...) noexcept
 	vswprintf(vBuffer, XANADU_LOG_MAX_LENGTH, _Format, vArgs);
 	va_end(vArgs);
 
-	XStream::Output(XString(L"[WARNING]") + XString(L" ") + vBuffer);
+	XanaduStreamOutput(EXANADU_DEBUG_LEVEL_WARNING, vBuffer);
 #else
 	XANADU_UNPARAMETER(_Format);
-#endif // XANADU_OUTPUT_ENABLED
+#endif
 }
 
 // 输出日志:WARNING
@@ -185,12 +181,13 @@ XANADU_DEPRECATED void XStream::Error(const char* _Format, ...) noexcept
 	XStream::Error(XString::fromNString(vBuffer));
 #else
 	XANADU_UNPARAMETER(_Format);
-#endif // XANADU_OUTPUT_ENABLED
+#endif
 }
 
 // 输出日志:ERROR
 void XStream::Error(const wchar_t* _Format, ...) noexcept
 {
+#ifdef XANADU_OUTPUT_ENABLED
 	wchar_t		vBuffer[XANADU_LOG_MAX_LENGTH] = { 0 };
 	Xanadu::memset(vBuffer, 0, sizeof(wchar_t) * XANADU_LOG_MAX_LENGTH);
 	va_list		vArgs;
@@ -198,7 +195,10 @@ void XStream::Error(const wchar_t* _Format, ...) noexcept
 	vswprintf(vBuffer, XANADU_LOG_MAX_LENGTH, _Format, vArgs);
 	va_end(vArgs);
 
-	XStream::Output(XString(L"[ERROR]") + XString(L" ") + vBuffer);
+	XanaduStreamOutput(EXANADU_DEBUG_LEVEL_ERROR, vBuffer);
+#else
+	XANADU_UNPARAMETER(_Format);
+#endif
 }
 
 // 输出日志:ERROR

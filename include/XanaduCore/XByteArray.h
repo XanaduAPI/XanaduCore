@@ -330,13 +330,13 @@ public:
 
 public:
 	// find in positive order from the specified location
-	virtual size_type find(char _Char, size_type _From = 0) const noexcept;
+	virtual size_type find(char _Char, size_type _From = 0U) const noexcept;
 
 	// find in positive order from the specified location
-	virtual size_type find(const char* _Memory, size_type _From = 0) const noexcept;
+	virtual size_type find(const char* _Memory, size_type _From = 0U) const noexcept;
 
 	// find in positive order from the specified location
-	virtual size_type find(const XByteArray& _Bytes, size_type _From = 0) const noexcept;
+	virtual size_type find(const XByteArray& _Bytes, size_type _From = 0U) const noexcept;
 
 	// find in reverse order from the specified location
 	virtual size_type rfind(char _Char, size_type _From = XByteArray::npos) const noexcept;
@@ -349,13 +349,13 @@ public:
 
 public:
 	// find in positive order from the specified location
-	virtual size_type indexOf(char _Char, size_type _From = 0) const noexcept;
+	virtual size_type indexOf(char _Char, size_type _From = 0U) const noexcept;
 
 	// find in positive order from the specified location
-	virtual size_type indexOf(const char* _Memory, size_type _From = 0) const noexcept;
+	virtual size_type indexOf(const char* _Memory, size_type _From = 0U) const noexcept;
 
 	// find in positive order from the specified location
-	virtual size_type indexOf(const XByteArray& _Bytes, size_type _From = 0) const noexcept;
+	virtual size_type indexOf(const XByteArray& _Bytes, size_type _From = 0U) const noexcept;
 
 	// find in reverse order from the specified location
 	virtual size_type lastIndexOf(char _Char, size_type _From = XByteArray::npos) const noexcept;

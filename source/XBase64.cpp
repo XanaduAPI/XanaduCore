@@ -1,5 +1,13 @@
 ﻿#include <XanaduCore/XBase64.h>
 
+// Check for Base64 characters
+bool XanaduByteArrayIsBase64(unsigned char _Char)
+{
+	return (isalnum(_Char) || (_Char == '+') || (_Char == '/'));
+}
+
+
+
 // Structure
 XBase64::XBase64() noexcept
 {

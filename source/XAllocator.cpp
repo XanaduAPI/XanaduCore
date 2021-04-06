@@ -2,49 +2,49 @@
 
 #define XANADU_ALLOCATOR_DELETE(_Address)			if((_Address)){ delete[] static_cast<char*>(_Address); _Address = nullptr;}
 
-// Calculate the appropriate capacity according to the length of the input
+// 根据输入长度计算合适的容量
 XAllocator::size_type XanaduAllocatorCalculateCapacity(XAllocator::size_type _Length)
 {
-	// The default is to add 128 bytes to the length
+	// 缺省情况下，长度增加128个字节
 	return _Length + 128;
 };
 
-// Xanadu memory allocator requests memory
+// Xanadu内存分配器请求内存
 char* XanaduAllocatorMallocMemory(XAllocator::size_type _Size)
 {
-	auto		vSize = static_cast<unsigned int>(_Size);
+	auto		vSize = static_cast<size_t>(_Size);
 	return XANADU_NEW char[vSize];
 }
 
 // Constructors
 XAllocator::XAllocator() noexcept
 {
-	MemoryAllocator(0);
+	this->memoryAllocator(0);
 }
 
 // Constructors
 XAllocator::XAllocator(size_type _Length) noexcept
 {
-	MemoryAllocator(_Length);
+	this->memoryAllocator(_Length);
 }
 
 // Constructors
 XAllocator::XAllocator(size_type _Length, char _Char) noexcept
 {
-	MemoryAllocator(_Length);
+	this->memoryAllocator(_Length);
 	Xanadu::memset(this->_memory_address, _Char, this->_memory_length);
 }
 
 // Constructors
 XAllocator::XAllocator(const void* _Memory, size_type _Length) noexcept
 {
-	MemoryAllocator(_Memory, _Length);
+	this->memoryAllocator(_Memory, _Length);
 }
 
 // Constructors
 XAllocator::XAllocator(const XAllocator& _Allocator) noexcept
 {
-	MemoryAllocator(_Allocator._memory_address, _Allocator._memory_length);
+	this->memoryAllocator(_Allocator._memory_address, _Allocator._memory_length);
 }
 
 // Destructor
@@ -60,7 +60,7 @@ XAllocator::~XAllocator() noexcept
 // operator overload =
 XAllocator& XAllocator::operator = (const XAllocator& _Allocator) noexcept
 {
-	this->MemoryCopy(_Allocator);
+	this->memoryCopy(_Allocator);
 	return *this;
 }
 
@@ -68,14 +68,14 @@ XAllocator& XAllocator::operator = (const XAllocator& _Allocator) noexcept
 XAllocator XAllocator::operator + (const XAllocator& _Allocator) noexcept
 {
 	auto		vResult = *this;
-	vResult.MemoryAppend(_Allocator);
+	vResult.memoryAppend(_Allocator);
 	return vResult;
 }
 
 // operator overload +=
 XAllocator& XAllocator::operator += (const XAllocator& _Allocator) noexcept
 {
-	this->MemoryAppend(_Allocator);
+	this->memoryAppend(_Allocator);
 	return *this;
 }
 
@@ -84,11 +84,11 @@ XAllocator& XAllocator::operator += (const XAllocator& _Allocator) noexcept
 
 
 // Fix Pos
-XAllocator::size_type XAllocator::MemoryPosFix(size_type _Pos) const noexcept
+XAllocator::size_type XAllocator::memoryFixSize(size_type _Pos) const noexcept
 {
 	if (_Pos == XAllocator::npos)
 	{
-		return 0;
+		return 0U;
 	}
 	else if(_Pos > this->_memory_length)
 	{
@@ -98,15 +98,15 @@ XAllocator::size_type XAllocator::MemoryPosFix(size_type _Pos) const noexcept
 }
 
 // Check for null values
-bool XAllocator::MemoryIsEmpty() const noexcept
+bool XAllocator::memoryIsEmpty() const noexcept
 {
-	return this->_memory_length <= 0;
+	return this->_memory_length == 0;
 }
 
 // Check if there is a value
-bool XAllocator::MemoryIsExist() const noexcept
+bool XAllocator::memoryIsExist() const noexcept
 {
-	return this->_memory_length > 0;
+	return !this->memoryIsEmpty();
 }
 
 
@@ -116,11 +116,11 @@ bool XAllocator::MemoryIsExist() const noexcept
 
 
 // Allocator memory
-bool XAllocator::MemoryAllocator(size_type _Length) noexcept
+bool XAllocator::memoryAllocator(size_type _Length) noexcept
 {
 	XANADU_ALLOCATOR_DELETE(this->_memory_address);
 
-	// When the value passed in is less than 0, the default size is assigned
+	// 当传入的值不是一个正确的大小时，分配一个默认的大小
 	this->_memory_length = _Length == XAllocator::npos ? 0 : _Length;
 	this->_memory_capacity = XanaduAllocatorCalculateCapacity(this->_memory_length);
 	this->_memory_address = XanaduAllocatorMallocMemory(this->_memory_capacity);
@@ -132,20 +132,19 @@ bool XAllocator::MemoryAllocator(size_type _Length) noexcept
 	}
 	else
 	{
-		this->_memory_length = 0;
-		this->_memory_capacity = 0;
+		this->_memory_length = 0U;
+		this->_memory_capacity = 0U;
 		return false;
 	}
 }
 
 // Allocator memory
-bool XAllocator::MemoryAllocator(const void* _Memory, size_type _Length) noexcept
+bool XAllocator::memoryAllocator(const void* _Memory, size_type _Length) noexcept
 {
-	if(this->MemoryAllocator(_Length))
+	if(this->memoryAllocator(_Length))
 	{
 		if(_Length > 0 && _Memory)
 		{
-			// write the incoming value from the beginning
 			Xanadu::memcpy(this->_memory_address, _Memory, _Length);
 			return true;
 		}
@@ -154,123 +153,126 @@ bool XAllocator::MemoryAllocator(const void* _Memory, size_type _Length) noexcep
 }
 
 // Release memory
-void XAllocator::MemoryRelease() noexcept
+void XAllocator::memoryRelease() noexcept
 {
 	XANADU_ALLOCATOR_DELETE(this->_memory_address);
-	this->_memory_length = 0;
-	this->_memory_capacity = 0;
-	this->MemoryAllocator(0);
+	this->_memory_length = 0U;
+	this->_memory_capacity = 0U;
+	this->memoryAllocator(0);
 }
 
 // append memory
-bool XAllocator::MemoryAppend(size_type _Length) noexcept
+bool XAllocator::memoryAppend(size_type _Length) noexcept
 {
-	XANADU_CHECK_RETURN(_Length > 0, false);
-
-	// When the remaining capacity is sufficient, memory is not reallocated
-	if(this->_memory_capacity - this->_memory_length > _Length)
+	if(_Length > 0)
 	{
-		this->_memory_length += _Length;
-		return true;
-	}
+		// 当剩余容量足够时，不会重新分配内存
+		if(this->_memory_capacity - this->_memory_length > _Length)
+		{
+			this->_memory_length += _Length;
+			return true;
+		}
 
-	// Reallocate memory and move the original value
-	auto		vTempLength = this->_memory_length + _Length;
-	auto		vTempCapacity = XanaduAllocatorCalculateCapacity(vTempLength);
-	auto		vTempAddress = XanaduAllocatorMallocMemory(vTempCapacity);
-	if (vTempAddress)
-	{
-		Xanadu::memcpy(vTempAddress, this->_memory_address, this->_memory_length);
-		Xanadu::memset(vTempAddress + this->_memory_length, 0, vTempCapacity - this->_memory_length);
+		// 重新分配内存并移动原始值
+		auto		vTempLength = this->_memory_length + _Length;
+		auto		vTempCapacity = XanaduAllocatorCalculateCapacity(vTempLength);
+		auto		vTempAddress = XanaduAllocatorMallocMemory(vTempCapacity);
+		if (vTempAddress)
+		{
+			Xanadu::memcpy(vTempAddress, this->_memory_address, this->_memory_length);
+			Xanadu::memset(vTempAddress + this->_memory_length, 0, vTempCapacity - this->_memory_length);
 
-		XANADU_ALLOCATOR_DELETE(this->_memory_address);
-		this->_memory_address = vTempAddress;
-		this->_memory_length = vTempLength;
-		this->_memory_capacity = vTempCapacity;
-		return true;
-	}
-	return false;
-}
-
-// append memory
-bool XAllocator::MemoryAppend(size_type _Length, char _Char) noexcept
-{
-	XANADU_CHECK_RETURN(_Length > 0, false);
-
-	// save the original length
-	auto		vTempLength = this->_memory_length;
-	if(this->MemoryAppend(_Length))
-	{
-		// write the incoming value from the original length
-		Xanadu::memset(static_cast<char*>(this->_memory_address) + vTempLength, _Char, _Length);
-		return true;
+			XANADU_ALLOCATOR_DELETE(this->_memory_address);
+			this->_memory_address = vTempAddress;
+			this->_memory_length = vTempLength;
+			this->_memory_capacity = vTempCapacity;
+			return true;
+		}
 	}
 	return false;
 }
 
 // append memory
-bool XAllocator::MemoryAppend(const void* _Memory, size_type _Length) noexcept
+bool XAllocator::memoryAppend(size_type _Length, char _Char) noexcept
 {
-	XANADU_CHECK_RETURN(_Memory, false);
-	XANADU_CHECK_RETURN(_Length > 0, false);
-
-	// save the original length
-	auto		vTempLength = this->_memory_length;
-	if(this->MemoryAppend(_Length))
+	if(_Length > 0)
 	{
-		// write the incoming value from the original length
-		Xanadu::memcpy(static_cast<char*>(this->_memory_address) + vTempLength, _Memory, _Length);
-		return true;
+		// 保留原始长度
+		auto		vTempLength = this->_memory_length;
+		if(this->memoryAppend(_Length))
+		{
+			// 从原始长度写入传入值
+			Xanadu::memset(static_cast<char*>(this->_memory_address) + vTempLength, _Char, _Length);
+			return true;
+		}
 	}
 	return false;
 }
 
 // append memory
-bool XAllocator::MemoryAppend(const XAllocator& _Allocator) noexcept
+bool XAllocator::memoryAppend(const void* _Memory, size_type _Length) noexcept
 {
-	return this->MemoryAppend(_Allocator._memory_address, _Allocator._memory_length);
+	if(_Memory && _Length > 0)
+	{
+		// 保留原始长度
+		auto		vTempLength = this->_memory_length;
+		if(this->memoryAppend(_Length))
+		{
+			// 从原始长度写入传入值
+			Xanadu::memcpy(static_cast<char*>(this->_memory_address) + vTempLength, _Memory, _Length);
+			return true;
+		}
+	}
+	return false;
+}
+
+// append memory
+bool XAllocator::memoryAppend(const XAllocator& _Allocator) noexcept
+{
+	return this->memoryAppend(_Allocator._memory_address, _Allocator._memory_length);
 }
 
 // Reduce memory
-bool XAllocator::MemoryReduce(size_type _Length) noexcept
+bool XAllocator::memoryReduce(size_type _Length) noexcept
 {
-	XANADU_CHECK_RETURN(_Length > 0, false);
-
-	// If the reduced value is greater than the length, remove all
-	if (_Length >= this->_memory_length)
+	if(_Length > 0U)
 	{
-		MemoryRelease();
-		return true;
-	}
+		// 如果缩小后的值大于长度，则删除所有
+		if (_Length >= this->_memory_length)
+		{
+			memoryRelease();
+			return true;
+		}
 
-	// Rebuild memory and move source
-	auto		vTempLength = this->_memory_length - _Length;
-	auto		vTempCapacity = XanaduAllocatorCalculateCapacity(vTempLength);
-	auto		vTempAddress = XanaduAllocatorMallocMemory(vTempCapacity);
-	if (vTempAddress)
-	{
-		Xanadu::memcpy(vTempAddress, this->_memory_address, vTempLength);
-		Xanadu::memset(vTempAddress + vTempLength, 0, vTempCapacity - vTempLength);
+		// 重建内存并移动源
+		auto		vTempLength = this->_memory_length - _Length;
+		auto		vTempCapacity = XanaduAllocatorCalculateCapacity(vTempLength);
+		auto		vTempAddress = XanaduAllocatorMallocMemory(vTempCapacity);
+		if (vTempAddress)
+		{
+			Xanadu::memcpy(vTempAddress, this->_memory_address, vTempLength);
+			Xanadu::memset(vTempAddress + vTempLength, 0, vTempCapacity - vTempLength);
 
-		XANADU_ALLOCATOR_DELETE(this->_memory_address);
-		this->_memory_address = vTempAddress;
-		this->_memory_length = vTempLength;
-		this->_memory_capacity = vTempCapacity;
-		return true;
+			XANADU_ALLOCATOR_DELETE(this->_memory_address);
+			this->_memory_address = vTempAddress;
+			this->_memory_length = vTempLength;
+			this->_memory_capacity = vTempCapacity;
+			return true;
+		}
 	}
 	return false;
 }
 
 // Resize memory
-bool XAllocator::MemoryResize(size_type _Length) noexcept
+bool XAllocator::memoryResize(size_type _Length) noexcept
 {
 	if (_Length > this->_memory_length)
 	{
-		return this->MemoryAppend(_Length - this->_memory_length);
+		return this->memoryAppend(_Length - this->_memory_length);
 	}
 	else if(_Length < this->_memory_length)
 	{
-		return this->MemoryReduce(this->_memory_length - _Length);
+		return this->memoryReduce(this->_memory_length - _Length);
 	}
 	else
 	{
@@ -279,113 +281,118 @@ bool XAllocator::MemoryResize(size_type _Length) noexcept
 }
 
 // truncate memory
-void XAllocator::MemoryTruncate(size_type _Pos) noexcept
+void XAllocator::memoryTruncate(size_type _Pos) noexcept
 {
 	if (_Pos < this->_memory_length)
 	{
-		this->MemoryResize(_Pos);
+		this->memoryResize(_Pos);
 	}
 }
 
 // Insert memory
-bool XAllocator::MemoryInsert(size_type _Pos, size_type _Length) noexcept
+bool XAllocator::memoryInsert(size_type _Pos, size_type _Length) noexcept
 {
-	XANADU_CHECK_RETURN(_Length > 0, false);
-
-	_Pos = this->MemoryPosFix(_Pos);
-
-	// When the position is greater than or equal to the length, add at the end
-	if(_Pos >= this->_memory_length)
+	if(_Length > 0U)
 	{
-		return this->MemoryAppend(_Length);
-	}
+		_Pos = this->memoryFixSize(_Pos);
 
-	// Build new memory and copy old data and incoming data
-	auto		vTempLength = this->_memory_length + _Length;
-	auto		vTempCapacity = XanaduAllocatorCalculateCapacity(vTempLength);
-	auto		vTempAddress = XanaduAllocatorMallocMemory(vTempCapacity);
-	if (vTempAddress)
-	{
-		Xanadu::memcpy(vTempAddress, this->_memory_address, _Pos);
-		Xanadu::memset(vTempAddress + _Pos, 0, _Length);
-		Xanadu::memcpy(vTempAddress + _Pos + _Length, static_cast<char*>(this->_memory_address) + _Pos, this->_memory_length - _Pos);
-		Xanadu::memset(vTempAddress + this->_memory_length + _Length, 0, vTempCapacity - this->_memory_length - _Length);
+		// 当位置大于或等于长度时，在末尾添加
+		if(_Pos >= this->_memory_length)
+		{
+			return this->memoryAppend(_Length);
+		}
 
-		XANADU_ALLOCATOR_DELETE(this->_memory_address);
-		this->_memory_address = vTempAddress;
-		this->_memory_length = vTempLength;
-		this->_memory_capacity = vTempCapacity;
-		return true;
+		// 构建新的内存并复制旧数据和传入数据
+		auto		vTempLength = this->_memory_length + _Length;
+		auto		vTempCapacity = XanaduAllocatorCalculateCapacity(vTempLength);
+		auto		vTempAddress = XanaduAllocatorMallocMemory(vTempCapacity);
+		if (vTempAddress)
+		{
+			Xanadu::memcpy(vTempAddress, this->_memory_address, _Pos);
+			Xanadu::memset(vTempAddress + _Pos, 0, _Length);
+			Xanadu::memcpy(vTempAddress + _Pos + _Length, static_cast<char*>(this->_memory_address) + _Pos, this->_memory_length - _Pos);
+			Xanadu::memset(vTempAddress + this->_memory_length + _Length, 0, vTempCapacity - this->_memory_length - _Length);
+
+			XANADU_ALLOCATOR_DELETE(this->_memory_address);
+			this->_memory_address = vTempAddress;
+			this->_memory_length = vTempLength;
+			this->_memory_capacity = vTempCapacity;
+			return true;
+		}
 	}
 	return false;
 }
 
 // Insert memory
-bool XAllocator::MemoryInsert(size_type _Pos, const void* _Memory, size_type _Length) noexcept
+bool XAllocator::memoryInsert(size_type _Pos, const void* _Memory, size_type _Length) noexcept
 {
-	XANADU_CHECK_RETURN(_Length > 0, false);
-
-	_Pos = this->MemoryPosFix(_Pos);
-	if(this->MemoryInsert(_Pos, _Length))
+	if(_Length > 0U)
 	{
-		if(_Memory)
+		_Pos = this->memoryFixSize(_Pos);
+		if(this->memoryInsert(_Pos, _Length))
 		{
-			Xanadu::memcpy(static_cast<char*>(this->_memory_address) + _Pos, _Memory, _Length);
+			if(_Memory)
+			{
+				Xanadu::memcpy(static_cast<char*>(this->_memory_address) + _Pos, _Memory, _Length);
+			}
+			return true;
 		}
-		return true;
 	}
 	return false;
 }
 
 // remove memory
-bool XAllocator::MemoryRemove(size_type _Pos, size_type _Length) noexcept
+bool XAllocator::memoryRemove(size_type _Pos, size_type _Length) noexcept
 {
-	XANADU_CHECK_RETURN(_Length > 0, false);
-
-	_Pos = this->MemoryPosFix(_Pos);
-	// If it is removed from the end, the MemoryReduce function is called
-	if (this->_memory_length - _Pos <= _Length)
+	if(_Length > 0U)
 	{
-		return this->MemoryReduce(this->_memory_length - _Pos);
-	}
+		_Pos = this->memoryFixSize(_Pos);
+		// 如果从末尾删除，则调用MemoryReduce函数
+		if (this->_memory_length - _Pos <= _Length)
+		{
+			return this->memoryReduce(this->_memory_length - _Pos);
+		}
 
-	// Build new memory and copy the rest
-	auto		vTempLength = this->_memory_length - _Length;
-	auto		vTempCapacity = XanaduAllocatorCalculateCapacity(vTempLength);
-	auto		vTempAddress = XanaduAllocatorMallocMemory(vTempCapacity);
-	if (vTempAddress)
-	{
-		Xanadu::memcpy(vTempAddress, this->_memory_address, _Pos);
-		Xanadu::memcpy(vTempAddress + _Pos, static_cast<const char*>(this->_memory_address) + _Pos + _Length, this->_memory_length - _Pos - _Length);
-		Xanadu::memset(vTempAddress + vTempLength, 0, vTempCapacity - vTempLength);
+		// 构建新的内存并复制其余的内存
+		auto		vTempLength = this->_memory_length - _Length;
+		auto		vTempCapacity = XanaduAllocatorCalculateCapacity(vTempLength);
+		auto		vTempAddress = XanaduAllocatorMallocMemory(vTempCapacity);
+		if (vTempAddress)
+		{
+			Xanadu::memcpy(vTempAddress, this->_memory_address, _Pos);
+			Xanadu::memcpy(vTempAddress + _Pos, static_cast<const char*>(this->_memory_address) + _Pos + _Length, this->_memory_length - _Pos - _Length);
+			Xanadu::memset(vTempAddress + vTempLength, 0, vTempCapacity - vTempLength);
 
-		XANADU_ALLOCATOR_DELETE(this->_memory_address);
-		this->_memory_address = vTempAddress;
-		this->_memory_length = vTempLength;
-		this->_memory_capacity = vTempCapacity;
-		return true;
+			XANADU_ALLOCATOR_DELETE(this->_memory_address);
+			this->_memory_address = vTempAddress;
+			this->_memory_length = vTempLength;
+			this->_memory_capacity = vTempCapacity;
+			return true;
+		}
 	}
 	return false;
 }
 
 // Copy Memory
-bool XAllocator::MemoryCopy(const void* _Memory, size_type _Length) noexcept
+bool XAllocator::memoryCopy(const void* _Memory, size_type _Length) noexcept
 {
-	this->MemoryRelease();
+	this->memoryRelease();
 
-	XANADU_CHECK_RETURN(_Length > 0, false);
-
-	return this->MemoryAllocator(_Memory, _Length);
+	if(_Length > 0U)
+	{
+		return this->memoryAllocator(_Memory, _Length);
+	}
+	return false;
 }
 
 // Copy Memory
-bool XAllocator::MemoryCopy(const XAllocator& _Allocator) noexcept
+bool XAllocator::memoryCopy(const XAllocator& _Allocator) noexcept
 {
-	return this->MemoryCopy(_Allocator._memory_address, _Allocator._memory_length);
+	return this->memoryCopy(_Allocator._memory_address, _Allocator._memory_length);
 }
 
 // Move Memory
-bool XAllocator::MemoryMove(XAllocator& _Allocator) noexcept
+bool XAllocator::memoryMove(XAllocator& _Allocator) noexcept
 {
 	XANADU_ALLOCATOR_DELETE(this->_memory_address);
 
@@ -396,25 +403,23 @@ bool XAllocator::MemoryMove(XAllocator& _Allocator) noexcept
 	_Allocator._memory_address = nullptr;
 	_Allocator._memory_length = 0LL;
 	_Allocator._memory_capacity = 0LL;
-	_Allocator.MemoryAllocator(0);
-	return true;
+	return _Allocator.memoryAllocator(0);
 }
 
 // find Memory
-XAllocator::size_type XAllocator::MemoryFind(size_type _Pos, const void* _Memory, size_type _Length) const noexcept
+XAllocator::size_type XAllocator::memoryFind(size_type _Pos, const void* _Memory, size_type _Length) const noexcept
 {
-	_Pos = this->MemoryPosFix(_Pos);
-	auto		vPos = XAllocator::npos;
-	if (_Memory && _Length > 0 && _Pos < this->_memory_length)
+	_Pos = this->memoryFixSize(_Pos);
+	if (_Memory && _Length > 0U && _Pos < this->_memory_length)
 	{
 		auto		vSourceMemory = static_cast<const char*>(this->_memory_address) + _Pos;
 		auto		vSourceLength = this->_memory_length - _Pos;
 		auto		vTargetMemory = static_cast<const char*>(_Memory);
 
-		for (auto vSourceIndex = 0; vSourceIndex < vSourceLength; ++vSourceIndex)
+		for (auto vSourceIndex = 0U; vSourceIndex < vSourceLength; ++vSourceIndex)
 		{
 			auto		vFind = true;
-			for (auto vTargetIndex = 0; vTargetIndex < _Length && vFind; ++vTargetIndex)
+			for (auto vTargetIndex = 0U; vTargetIndex < _Length && vFind; ++vTargetIndex)
 			{
 				if(vSourceIndex + vTargetIndex >= vSourceLength)
 				{
@@ -431,22 +436,21 @@ XAllocator::size_type XAllocator::MemoryFind(size_type _Pos, const void* _Memory
 			}
 		}
 	}
-	return vPos;
+	return XAllocator::npos;
 }
 
 // find Memory
-XAllocator::size_type XAllocator::MemoryFind(size_type _Pos, const XAllocator& _Allocator) const noexcept
+XAllocator::size_type XAllocator::memoryFind(size_type _Pos, const XAllocator& _Allocator) const noexcept
 {
-	_Pos = this->MemoryPosFix(_Pos);
-	return this->MemoryFind(_Pos, _Allocator._memory_address, _Allocator._memory_length);
+	_Pos = this->memoryFixSize(_Pos);
+	return this->memoryFind(_Pos, _Allocator._memory_address, _Allocator._memory_length);
 }
 
 // Reverse find Memory
-XAllocator::size_type XAllocator::MemoryReverseFind(size_type _Pos, const void* _Memory, size_type _Length) const noexcept
+XAllocator::size_type XAllocator::memoryReverseFind(size_type _Pos, const void* _Memory, size_type _Length) const noexcept
 {
-	_Pos = this->MemoryPosFix(_Pos);
-	auto		vPos = XAllocator::npos;
-	if (_Memory && _Length > 0 && _Pos < this->_memory_length)
+	_Pos = this->memoryFixSize(_Pos);
+	if (_Memory && _Length > 0U && _Pos < this->_memory_length)
 	{
 		auto		vSourceMemory = static_cast<const char*>(this->_memory_address) + _Pos;
 		auto		vSourceBegin = this->_memory_length - _Length > _Pos ? _Pos : this->_memory_length - _Length;
@@ -455,7 +459,7 @@ XAllocator::size_type XAllocator::MemoryReverseFind(size_type _Pos, const void* 
 		for (auto vSourceIndex = vSourceBegin; vSourceIndex != XAllocator::npos; --vSourceIndex)
 		{
 			auto		vFind = true;
-			for (auto vTargetIndex = 0; vTargetIndex < _Length && vFind; ++vTargetIndex)
+			for (auto vTargetIndex = 0U; vTargetIndex < _Length && vFind; ++vTargetIndex)
 			{
 				if(vSourceIndex + vTargetIndex >= this->_memory_length)
 				{
@@ -472,49 +476,49 @@ XAllocator::size_type XAllocator::MemoryReverseFind(size_type _Pos, const void* 
 			}
 		}
 	}
-	return vPos;
+	return XAllocator::npos;
 }
 
 // Reverse find Memory
-XAllocator::size_type XAllocator::MemoryReverseFind(size_type _Pos, const XAllocator& _Allocator) const noexcept
+XAllocator::size_type XAllocator::memoryReverseFind(size_type _Pos, const XAllocator& _Allocator) const noexcept
 {
-	_Pos = this->MemoryPosFix(_Pos);
-	return this->MemoryReverseFind(_Pos, _Allocator._memory_address, _Allocator._memory_length);
+	_Pos = this->memoryFixSize(_Pos);
+	return this->memoryReverseFind(_Pos, _Allocator._memory_address, _Allocator._memory_length);
 }
 
 // Replace Memory
-bool XAllocator::MemoryReplace(size_type _Pos, size_type _Length, const void* _Memory, size_type _Size) noexcept
+bool XAllocator::memoryReplace(size_type _Pos, size_type _Length, const void* _Memory, size_type _Size) noexcept
 {
-	XANADU_CHECK_RETURN(_Length > 0, false);
-	XANADU_CHECK_RETURN(_Size >= 0, false);
-
-	_Pos = this->MemoryPosFix(_Pos);
-	if(_Pos < this->_memory_length && (_Pos + _Length) < this->_memory_length && _Memory)
+	if(_Length > 0 && _Size != XAllocator::npos)
 	{
-		// If the source and target are of the same length, no memory is allocated
-		if (_Length == _Size)
+		_Pos = this->memoryFixSize(_Pos);
+		if(_Pos < this->_memory_length && (_Pos + _Length) < this->_memory_length && _Memory)
 		{
-			Xanadu::memcpy(static_cast<char*>(this->_memory_address) + _Pos, _Memory, _Size);
-			return true;
-		}
-		else
-		{
-			// Reallocate memory and copy the source and replacement values
-			auto		vTempLength = this->_memory_length - _Length + _Size;
-			auto		vTempCapacity = XanaduAllocatorCalculateCapacity(vTempLength);
-			auto		vTempAddress = XanaduAllocatorMallocMemory(vTempCapacity);
-			if (vTempAddress)
+			// 如果源和目标的长度相同，则不分配内存
+			if (_Length == _Size)
 			{
-				Xanadu::memcpy(vTempAddress, this->_memory_address, _Pos);
-				Xanadu::memcpy(vTempAddress + _Pos, _Memory, _Size);
-				Xanadu::memcpy(vTempAddress + _Pos + _Size, static_cast<const char*>(this->_memory_address) + _Pos + _Length, this->_memory_length - _Pos - _Length);
-				Xanadu::memset(vTempAddress + vTempLength, 0, vTempCapacity - vTempLength);
-
-				XANADU_ALLOCATOR_DELETE(this->_memory_address);
-				this->_memory_address = vTempAddress;
-				this->_memory_length = vTempLength;
-				this->_memory_capacity = vTempCapacity;
+				Xanadu::memcpy(static_cast<char*>(this->_memory_address) + _Pos, _Memory, _Size);
 				return true;
+			}
+			else
+			{
+				// 重新分配内存并复制源值和替换值
+				auto		vTempLength = this->_memory_length - _Length + _Size;
+				auto		vTempCapacity = XanaduAllocatorCalculateCapacity(vTempLength);
+				auto		vTempAddress = XanaduAllocatorMallocMemory(vTempCapacity);
+				if (vTempAddress)
+				{
+					Xanadu::memcpy(vTempAddress, this->_memory_address, _Pos);
+					Xanadu::memcpy(vTempAddress + _Pos, _Memory, _Size);
+					Xanadu::memcpy(vTempAddress + _Pos + _Size, static_cast<const char*>(this->_memory_address) + _Pos + _Length, this->_memory_length - _Pos - _Length);
+					Xanadu::memset(vTempAddress + vTempLength, 0, vTempCapacity - vTempLength);
+
+					XANADU_ALLOCATOR_DELETE(this->_memory_address);
+					this->_memory_address = vTempAddress;
+					this->_memory_length = vTempLength;
+					this->_memory_capacity = vTempCapacity;
+					return true;
+				}
 			}
 		}
 	}
@@ -522,35 +526,35 @@ bool XAllocator::MemoryReplace(size_type _Pos, size_type _Length, const void* _M
 }
 
 // Replace Memory
-bool XAllocator::MemoryReplace(size_type _Pos, size_type _Length, const XAllocator& _Allocator) noexcept
+bool XAllocator::memoryReplace(size_type _Pos, size_type _Length, const XAllocator& _Allocator) noexcept
 {
-	_Pos = this->MemoryPosFix(_Pos);
-	return this->MemoryReplace(_Pos, _Length, _Allocator._memory_address, _Allocator._memory_length);
+	_Pos = this->memoryFixSize(_Pos);
+	return this->memoryReplace(_Pos, _Length, _Allocator._memory_address, _Allocator._memory_length);
 }
 
 
 
 
 // Get the address of the memory
-void* XAllocator::MemoryAddress() noexcept
+char* XAllocator::memoryAddress() noexcept
 {
 	return this->_memory_address;
 }
 
 // Get the address of the memory
-const void* XAllocator::MemoryAddress() const noexcept
+const char* XAllocator::memoryAddress() const noexcept
 {
 	return this->_memory_address;
 }
 
 // Get the length of the memory
-XAllocator::size_type XAllocator::MemoryLength() const noexcept
+XAllocator::size_type XAllocator::memoryLength() const noexcept
 {
 	return this->_memory_length;
 }
 
 // Get the capacity of the memory
-XAllocator::size_type XAllocator::MemoryCapacity() const noexcept
+XAllocator::size_type XAllocator::memoryCapacity() const noexcept
 {
 	return this->_memory_capacity;
 }

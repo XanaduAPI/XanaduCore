@@ -1,6 +1,8 @@
 ﻿#include <XanaduCore/XSystem.h>
 #include <XanaduCore/XHash.h>
 #include <XanaduCore/XLibrary.h>
+#include <XanaduCore/XShell.h>
+#include <XanaduCore/XStream.h>
 #ifndef XANADU_SYSTEM_WINDOWS
 #include <sys/utsname.h>
 #endif // XANADU_SYSTEM_WINDOWS
@@ -401,18 +403,6 @@ XString XSystem::CPUID() noexcept
 			mov vValue1, edx;
 			mov vValue2, eax;
 		}
-#else
-#ifndef XANADU_SYSTEM_ARM
-		asm volatile
-			(
-				"movl $0x01, %%eax; \n\t"
-				"xorl %%edx, %%edx; \n\t"
-				"cpuid; \n\t"
-				"movl %%edx, %0; \n\t"
-				"movl %%eax, %1; \n\t"
-				: "=m"(vValue1), "=m"(vValue2)
-				);
-#endif // XANADU_SYSTEM_ARM
 #endif // XANADU_SYSTEM_WINDOWS
 		swprintf(_StaticCpuID, XANADU_PATH, L"%08X%08X", vValue1, vValue2);
 	}
@@ -470,17 +460,18 @@ XString XSystem::DiskID() noexcept
 #endif // XANADU_SYSTEM_LINUX
 #ifdef XANADU_SYSTEM_MACOS
 		//system_profiler SPSerialATADataType | grep Serial
-		/*
-		XShell::run(L"system_profiler SPSerialATADataType | grep Serial", [&](XString _Output)->bool
+		XShell::run(L"system_profiler SPSerialATADataType | grep Serial", [&](const XString& _Output)->bool
 		{
-			_Output.remove(L"Serial number:");
-			_Output.simplified();
-			if(!_Output.empty())
+			auto		vSPSerialATADataType = _Output;
+			vSPSerialATADataType.remove(L"Serial number:");
+			vSPSerialATADataType.remove(L"Serial Number:");
+			vSPSerialATADataType.simplified();
+			if(vSPSerialATADataType.exist())
 			{
-				Xanadu::wcscpy(_StaticDiskID, _Output.data());
+				Xanadu::wcscpy(_StaticDiskID, vSPSerialATADataType.data());
 			}
+			return true;
 		});
-		 */
 #endif // XANADU_SYSTEM_MACOS
 	}
 	return XString(_StaticDiskID);
@@ -492,10 +483,10 @@ XString XSystem::OnlyString() noexcept
 	static XString			_StaticOnlyString;
 	if(_StaticOnlyString.empty())
 	{
-		auto		vTempOnlyString = XSystem::NativeString() + L"_CPU[" + XSystem::CPUID() + L"]_DISK[" + XSystem::DiskID() + L"]_MachineGuid[";
 #ifdef XANADU_SYSTEM_WINDOWS
+		auto		vTempOnlyString = XSystem::NativeString() + L"_CPU[" + XSystem::CPUID() + L"]_DISK[" + XSystem::DiskID() + L"]_MachineGuid[";
 		// 获取MachineGuid(重装系统后改变)
-		HKEY		vKey = NULL;
+		HKEY		vKey = nullptr;
 		LSTATUS		vResult = ERROR_SUCCESS;
 		if(XSystem::IsX64())
 		{
@@ -511,16 +502,32 @@ XString XSystem::OnlyString() noexcept
 			DWORD		vLength = MAX_PATH;
 			DWORD		vType = REG_SZ;
 			Xanadu::memset(vBuffer, 0, sizeof(wchar_t) * MAX_PATH);
-			LSTATUS		vQuery = RegQueryValueExW(vKey, L"MachineGuid", NULL, &vType, (byte*)vBuffer, &vLength);
+			LSTATUS		vQuery = RegQueryValueExW(vKey, L"MachineGuid", nullptr, &vType, (byte*)vBuffer, &vLength);
 			if(vQuery == ERROR_SUCCESS)
 			{
 				vTempOnlyString += vBuffer;
 			}
 			RegCloseKey(vKey);
 		}
-#else
-		vTempOnlyString += XString::format(L"%lld", gethostid());
-#endif // XANADU_SYSTEM_WINDOWS
+#endif
+#ifdef XANADU_SYSTEM_LINUX
+		auto		vTempOnlyString = XSystem::NativeString() + XSystem::DiskID() + L"]_MachineGuid[";
+		vTempOnlyString += XString::format(L"%lld", static_cast<int64S>(gethostid()));
+#endif
+#ifdef XANADU_SYSTEM_MACOS
+		auto		vTempOnlyString = XSystem::NativeString() + XSystem::DiskID() + L"]_MachineGuid[";
+		vTempOnlyString += XString::format(L"%lld", static_cast<int64S>(gethostid()));
+		// 获取macOS计算机序列号
+		XShell::run(L"ioreg -rd1 -c IOPlatformExpertDevice |  awk \'/IOPlatformSerialNumber/ { print $3; }\'", [&](const XString& _Output)->bool
+		{
+			auto		vIOPlatformSerialNumber = _Output;
+			vIOPlatformSerialNumber.remove(L"\"");
+			vIOPlatformSerialNumber.simplified();
+			vTempOnlyString += L"-";
+			vTempOnlyString += vIOPlatformSerialNumber;
+			return true;
+		});
+#endif
 		vTempOnlyString += L"]";
 		_StaticOnlyString = XString::fromBytes(XHash::hash(vTempOnlyString.toBytes(), XHash::MD5).toHex().toUpper());
 	}

@@ -36,8 +36,8 @@ public:
 
 private:
 	wchar_t*					_string_data = nullptr;
-	size_type					_string_length = 0;
-	size_type					_string_capacity = 0;
+	size_type					_string_length = 0U;
+	size_type					_string_capacity = 0U;
 
 public:
 	// String_iterator_type
@@ -488,13 +488,13 @@ public:
 
 public:
 	// Sub String
-	virtual XString substr(size_type _Pos = 0, size_type _Length = XString::npos) const noexcept;
+	virtual XString substr(size_type _Pos = 0ULL, size_type _Length = XString::npos) const noexcept;
 
 	// Sub String
 	virtual XString left(size_type _Pos = XString::npos) const noexcept;
 
 	// Sub String
-	virtual XString right(size_type _Pos = 0) const noexcept;
+	virtual XString right(size_type _Pos = 0ULL) const noexcept;
 
 	// Retrieve the middle data by length
 	virtual XString mid(size_type _Pos, size_type _Size = XString::npos) const noexcept;
@@ -693,10 +693,10 @@ public:
 	virtual int32U toInt32U(bool* _Ok = nullptr, int _Base = 10) const noexcept;
 
 	// string to int64S
-	virtual size_type toInt64S(bool* _Ok = nullptr, int _Base = 10) const noexcept;
+	virtual int64S toInt64S(bool* _Ok = nullptr, int _Base = 10) const noexcept;
 
-	// string to size_type
-	virtual size_type toInt64U(bool* _Ok = nullptr, int _Base = 10) const noexcept;
+	// string to int64U
+	virtual int64U toInt64U(bool* _Ok = nullptr, int _Base = 10) const noexcept;
 
 	// string to float
 	virtual float toFloat(bool* _Ok = nullptr) const noexcept;
@@ -746,7 +746,7 @@ public:
 	static XString number(int64S _Value, int32S _Base = 10) noexcept;
 
 	// string form number
-	static XString number(size_type _Value, int32S _Base = 10) noexcept;
+	static XString number(int64U _Value, int32S _Base = 10) noexcept;
 
 	// string form number
 	static XString number(double _Value, char _Format = 'g', int32S _Prec = 6) noexcept;

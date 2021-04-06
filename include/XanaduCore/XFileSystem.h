@@ -78,22 +78,22 @@ public:
 	static bool FileEof(HANDLE _Handle) noexcept;
 
 	// 文件:读取
-	static bool FileRead(HANDLE _Handle, void* _Buffer, int64S _Length) noexcept;
+	static bool FileRead(HANDLE _Handle, void* _Buffer, int64U _Length) noexcept;
 
 	// 文件:读取一行
 	static XByteArray FileReadLine(HANDLE _Handle) noexcept;
 
-	// 文件:写入
-	static int64S FileRead(void* _Buffer, int64S _Size, int64S _Count, HANDLE _Handle) noexcept;
+	// 文件:读取
+	static int64U FileRead(void* _Buffer, int64U _Size, int64U _Count, HANDLE _Handle) noexcept;
 
 	// 文件:写入
-	static bool FileWrite(HANDLE _Handle, const void* _Buffer, int64S _Length) noexcept;
+	static bool FileWrite(HANDLE _Handle, const void* _Buffer, int64U _Length) noexcept;
 
 	// 文件:写入
 	static bool FileWrite(HANDLE _Handle, const XByteArray& _Buffer) noexcept;
 
 	// 文件:写入
-	static int64S FileWrite(const void* _Buffer, int64S _Size, int64S _Count, HANDLE _Handle) noexcept;
+	static int64U FileWrite(const void* _Buffer, int64U _Size, int64U _Count, HANDLE _Handle) noexcept;
 
 	// 文件:刷新缓存
 	static bool FileFlush(HANDLE _Handle) noexcept;
@@ -102,10 +102,10 @@ public:
 	static bool FileClose(HANDLE _Handle) noexcept;
 
 	// 文件:拷贝
-	static bool FileCopy(const XString& _Source, const XString& _Target, std::function<bool(int64S _CurrentByte, int64S _FullByte)> _Lambda = nullptr) noexcept;
+	static bool FileCopy(const XString& _Source, const XString& _Target, std::function<bool(int64U _CurrentByte, int64U _FullByte)> _Lambda = nullptr) noexcept;
 
 	// 文件:移动
-	static bool FileMove(const XString& _Source, const XString& _Target, std::function<bool(int64S _CurrentByte, int64S _FullByte)> _Lambda = nullptr) noexcept;
+	static bool FileMove(const XString& _Source, const XString& _Target, std::function<bool(int64U _CurrentByte, int64U _FullByte)> _Lambda = nullptr) noexcept;
 
 	// 文件:删除
 	static bool FileRemove(const XString& _File) noexcept;
@@ -123,16 +123,16 @@ public:
 	static XByteArray FileToBytes(const XString& _File) noexcept;
 
 	// 文件:从缓存写入文件
-	static bool FileFromBytes(const XString& _File, const void* _Data, int64S _Legnth) noexcept;
+	static bool FileFromBytes(const XString& _File, const void* _Data, int64U _Legnth) noexcept;
 
 	// 文件:从缓存写入文件
 	static bool FileFromBytes(const XString& _File, const XByteArray& _Data) noexcept;
 
 	// 文件:大小转字符串
-	static XString FileSizeToString(int64S vSize) noexcept;
+	static XString FileSizeToString(int64U vSize) noexcept;
 
 	// 文件:从BASE64格式化
-	static bool FileFromBase64(const XString& _File, const void* _BASE64, int64S _Length) noexcept;
+	static bool FileFromBase64(const XString& _File, const void* _BASE64, int64U _Length) noexcept;
 
 	// 文件:从BASE64格式化
 	static bool FileFromBase64(const XString& _File, const XByteArray& _BASE64) noexcept;

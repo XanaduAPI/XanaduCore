@@ -3,8 +3,8 @@
 
 #include <XanaduRuntime/XanaduRuntime.h>
 
-#ifndef			XANADU_CORE_BUILD_STATIC
-#ifdef			XANADU_CORE_LIB
+#ifndef			_XANADU_CORE_BUILD_STATIC
+#ifdef			_XANADU_CORE_BUILD_SHARED
 #ifdef XANADU_SYSTEM_WINDOWS
 #define			XANADU_CORE_EXPORT					__declspec(dllexport)
 #else
@@ -16,10 +16,10 @@
 #else
 #define			XANADU_CORE_EXPORT					__attribute__((visibility("default")))
 #endif // XANADU_SYSTEM_WINDOWS
-#endif // XANADU_CORE_LIB
+#endif // _XANADU_CORE_BUILD_SHARED
 #else
 #define			XANADU_CORE_EXPORT
-#endif // XANADU_CORE_BUILD_STATIC
+#endif // _XANADU_CORE_BUILD_STATIC
 #define			XANADU_CORE_LOCAL
 
 //一些C++头文件
@@ -45,6 +45,11 @@
 #define			XANADU_NEW						new(std::nothrow)
 #define			XANADU_DELETE_ARR(_Value)				if(_Value){delete[] _Value;_Value = nullptr;}
 #define			XANADU_DELETE_PTR(_Value)				if(_Value){delete _Value;	_Value = nullptr;}
+
+// Xanadu.Core 的类型定义
+#define			XVector							std::vector
+#define			XList							std::list
+#define			XArray							std::array
 
 namespace Xanadu
 {

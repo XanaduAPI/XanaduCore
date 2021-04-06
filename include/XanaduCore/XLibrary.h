@@ -1,5 +1,5 @@
-﻿#ifndef			_XANADU_CORE_LIBRARY_H_
-#define			_XANADU_CORE_LIBRARY_H_
+﻿#ifndef			__XANADU_CORE_BUILD_SHAREDRARY_H_
+#define			__XANADU_CORE_BUILD_SHAREDRARY_H_
 
 #include <XanaduCore/XHeader.h>
 #include <XanaduCore/XString.h>
@@ -20,4 +20,4 @@ public:
 	static void close(HANDLE _Handle) noexcept;
 };
 
-#endif // _XANADU_CORE_LIBRARY_H_
+#endif // __XANADU_CORE_BUILD_SHAREDRARY_H_

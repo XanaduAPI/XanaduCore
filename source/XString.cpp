@@ -1027,7 +1027,7 @@ void XString::swap(XString& _String) noexcept
 // max_size
 XString::size_type XString::max_size() const noexcept
 {
-	return 0xFFFFFFFFFFLL;
+	return 0xFFFFFFFFULL;
 }
 
 // resize
@@ -1040,7 +1040,7 @@ void XString::resize(size_type _Length) noexcept
 void XString::resize(size_type _Length, wchar_t _Char) noexcept
 {
 	this->_memory_resize(_Length);
-	for(auto vIndex = 0ULL; vIndex < this->_string_length && this->_string_data; ++vIndex)
+	for(auto vIndex = 0U; vIndex < this->_string_length && this->_string_data; ++vIndex)
 	{
 		operator[](vIndex) = _Char;
 	}
@@ -2045,11 +2045,11 @@ int32U XString::toInt32U(bool* _Ok, int _Base) const noexcept
 	return static_cast<int32U>(this->toInt64U(_Ok, _Base));
 }
 
-// string to size_type
-XString::size_type XString::toInt64S(bool* _Ok, int _Base) const noexcept
+// string to int64S
+int64S XString::toInt64S(bool* _Ok, int _Base) const noexcept
 {
 	auto		vEnd = static_cast<wchar_t*>(nullptr);
-	auto		vValue = static_cast<size_type>(std::wcstol(data(), &vEnd, _Base));
+	auto		vValue = static_cast<int64S>(std::wcstoll(this->data(), &vEnd, _Base));
 
 	if(_Ok)
 	{
@@ -2066,11 +2066,11 @@ XString::size_type XString::toInt64S(bool* _Ok, int _Base) const noexcept
 	return vValue;
 }
 
-// string to size_type
-XString::size_type XString::toInt64U(bool* _Ok, int _Base) const noexcept
+// string to int64U
+int64U XString::toInt64U(bool* _Ok, int _Base) const noexcept
 {
 	auto		vEnd = static_cast<wchar_t*>(nullptr);
-	auto		vValue = static_cast<size_type>(std::wcstoul(data(), &vEnd, _Base));
+	auto		vValue = static_cast<int64U>(std::wcstoull(this->data(), &vEnd, _Base));
 
 	if(_Ok)
 	{
@@ -2135,28 +2135,28 @@ double XString::toDouble(bool* _Ok) const noexcept
 // string form number
 XString& XString::setNumber(int16S _Value, int32S _Base) noexcept
 {
-	this->setNumber(static_cast<size_type>(_Value), _Base);
+	this->setNumber(static_cast<int64S>(_Value), _Base);
 	return *this;
 }
 
 // string form number
 XString& XString::setNumber(int16U _Value, int32S _Base) noexcept
 {
-	this->setNumber(static_cast<size_type>(_Value), _Base);
+	this->setNumber(static_cast<int64U>(_Value), _Base);
 	return *this;
 }
 
 // string form number
 XString& XString::setNumber(int32S _Value, int32S _Base) noexcept
 {
-	this->setNumber(static_cast<size_type>(_Value), _Base);
+	this->setNumber(static_cast<int64S>(_Value), _Base);
 	return *this;
 }
 
 // string form number
 XString& XString::setNumber(int32U _Value, int32S _Base) noexcept
 {
-	this->setNumber(static_cast<size_type>(_Value), _Base);
+	this->setNumber(static_cast<int64U>(_Value), _Base);
 	return *this;
 }
 
@@ -2244,7 +2244,7 @@ XString XString::number(int64S _Value, int32S _Base) noexcept
 }
 
 // string form number
-XString XString::number(size_type _Value, int32S _Base) noexcept
+XString XString::number(int64U _Value, int32S _Base) noexcept
 {
 	auto		vValue = XString();
 	vValue.setNumber(_Value, _Base);
@@ -2319,7 +2319,7 @@ XANADU_CORE_EXPORT XString operator+ (wchar_t _CharLeft, const XString& _StringR
 // XString Out
 XANADU_CORE_EXPORT std::wostream& operator<< (std::wostream& _OStream, const XString& _String) noexcept
 {
-	for(auto vIndex = 0ULL; vIndex < _String.length(); ++vIndex)
+	for(auto vIndex = 0U; vIndex < _String.length(); ++vIndex)
 	{
 		_OStream << _String[vIndex];
 	}

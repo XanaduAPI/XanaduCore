@@ -3,14 +3,14 @@
 #include <XanaduCore/XStream.h>
 #include <XanaduCore/XBase64.h>
 
-#define				XANADU_FILESYSTEM_REMOVE_SUFFIX			L".xrm"
+#define			XANADU_FILESYSTEM_REMOVE_SUFFIX					L".xrm"
 
-///
+//
 XFileSystem::XFileSystem() noexcept
 {
 }
 
-///
+//
 XFileSystem::~XFileSystem() noexcept
 {
 }
@@ -30,7 +30,7 @@ bool XFileSystem::PathIsExist(const XString& _Path) noexcept
 XString XFileSystem::PathToNative(const XString& _Path) noexcept
 {
 	auto		vNativePath = _Path;
-	for (auto vIndex = 0; vIndex < vNativePath.size(); ++vIndex)
+	for (XString::size_type vIndex = 0U; vIndex < vNativePath.size(); ++vIndex)
 	{
 #ifdef XANADU_SYSTEM_WINDOWS
 		if (vNativePath[vIndex] == L'/')
@@ -52,7 +52,7 @@ XString XFileSystem::PathFormat(const XString& _Path) noexcept
 {
 	auto		vNewPath = _Path;
 	vNewPath.replace(L"\\", L"/");
-	if(vNewPath.size() > 0 && vNewPath.at(vNewPath.size() - 1) == L'/')
+	if(vNewPath.exist() && vNewPath.at(vNewPath.size() - 1) == L'/')
 	{
 		vNewPath = vNewPath.left(vNewPath.size() - 1);
 	}
@@ -94,7 +94,7 @@ XString XFileSystem::PathDirectory(const XString& _Path) noexcept
 	auto			vPos = vFullPath.rfind(L'/');
 	if(vPos != XString::npos)
 	{
-		return _Path.substr(0, vPos);
+		return _Path.substr(0ULL, vPos);
 	}
 	return L"";
 }
@@ -129,9 +129,9 @@ XString XFileSystem::PathSuffix(const XString& _Path, bool _Dot) noexcept
 {
 	auto		vName = XFileSystem::PathName(_Path);
 	auto		vPOS = vName.rfind(L".");
-	if(vPOS > 0)
+	if(vPOS > 0ULL)
 	{
-		auto	vSuffix = vName.right(vName.size() - vPOS - (_Dot ? 0 : 1));
+		auto	vSuffix = vName.right(vName.size() - vPOS - (_Dot ? 0ULL : 1ULL));
 		return vSuffix;
 	}
 	else
@@ -228,42 +228,64 @@ int64S XFileSystem::FileSize(const XString& _File) noexcept
 // 文件:打开
 HANDLE XFileSystem::FileOpen(const XString& _File, const wchar_t* _Flags) noexcept
 {
-	XANADU_CHECK_RETURN(_Flags, nullptr);
-
-	auto		vFile = XFileSystem::PathFormat(_File);
-	return Xanadu::wfopen(vFile.data(), _Flags);
+	if(_Flags)
+	{
+		auto		vFile = XFileSystem::PathFormat(_File);
+		return Xanadu::wfopen(vFile.data(), _Flags);
+	}
+	else
+	{
+		return nullptr;
+	}
 }
 
 // 跳转
 bool XFileSystem::FileSeek(HANDLE _Handle, int64S _Offset, int32S _Origin) noexcept
 {
-	XANADU_CHECK_RETURN(_Handle, false);
-
-	return 0 == Xanadu::fseek(static_cast<FILE*>(_Handle), _Offset, _Origin);
+	if(_Handle)
+	{
+		return 0 == Xanadu::fseek(static_cast<FILE*>(_Handle), _Offset, _Origin);
+	}
+	else
+	{
+		return false;
+	}
 }
 
 // 偏移
 int64S XFileSystem::FileOffset(HANDLE _Handle) noexcept
 {
-	XANADU_CHECK_RETURN(_Handle, -1);
-
-	return Xanadu::ftell(static_cast<FILE*>(_Handle));
+	if(_Handle)
+	{
+		return Xanadu::ftell(static_cast<FILE*>(_Handle));
+	}
+	return -1;
 }
 
 // 文件:是否结尾
 bool XFileSystem::FileEof(HANDLE _Handle) noexcept
 {
-	XANADU_CHECK_RETURN(_Handle, false);
-
-	return Xanadu::feof(static_cast<FILE*>(_Handle));
+	if(_Handle)
+	{
+		return Xanadu::feof(static_cast<FILE*>(_Handle));
+	}
+	else
+	{
+		return false;
+	}
 }
 
 // 文件:读取
-bool XFileSystem::FileRead(HANDLE _Handle, void* _Buffer, int64S _Length) noexcept
+bool XFileSystem::FileRead(HANDLE _Handle, void* _Buffer, int64U _Length) noexcept
 {
-	XANADU_CHECK_RETURN(_Handle, false);
-
-	return Xanadu::fread(static_cast<FILE*>(_Handle), _Buffer, _Length);
+	if(_Handle)
+	{
+		return Xanadu::fread(static_cast<FILE*>(_Handle), _Buffer, static_cast<size_t>(_Length));
+	}
+	else
+	{
+		return false;
+	}
 }
 
 // 文件:读取一行
@@ -282,20 +304,24 @@ XByteArray XFileSystem::FileReadLine(HANDLE _Handle) noexcept
 	return vBytes;
 }
 
-// 文件:写入
-int64S XFileSystem::FileRead(void* _Buffer, int64S _Size, int64S _Count, HANDLE _Handle) noexcept
+// 文件:读取
+int64U XFileSystem::FileRead(void* _Buffer, int64U _Size, int64U _Count, HANDLE _Handle) noexcept
 {
-	XANADU_CHECK_RETURN(_Handle, false);
-
-	return Xanadu::fread(_Buffer, _Size, _Count, static_cast<FILE*>(_Handle));
+	if(_Handle)
+	{
+		return Xanadu::fread(_Buffer, static_cast<size_t>(_Size), static_cast<size_t>(_Count), static_cast<FILE*>(_Handle));
+	}
+	return false;
 }
 
 // 文件:写入
-bool XFileSystem::FileWrite(HANDLE _Handle, const void* _Buffer, int64S _Length) noexcept
+bool XFileSystem::FileWrite(HANDLE _Handle, const void* _Buffer, int64U _Length) noexcept
 {
-	XANADU_CHECK_RETURN(_Handle, false);
-
-	return Xanadu::fwrite(static_cast<FILE*>(_Handle), _Buffer, _Length);
+	if(_Handle)
+	{
+		return Xanadu::fwrite(static_cast<FILE*>(_Handle), _Buffer, static_cast<size_t>(_Length));
+	}
+	return false;
 }
 
 // 文件:写入
@@ -303,7 +329,7 @@ bool XFileSystem::FileWrite(HANDLE _Handle, const XByteArray& _Buffer) noexcept
 {
 	XANADU_CHECK_RETURN(_Handle, false);
 
-	if(_Buffer.size())
+	if(_Handle && _Buffer.exist())
 	{
 		return XFileSystem::FileWrite(_Handle, _Buffer.data(), _Buffer.size());
 	}
@@ -311,47 +337,57 @@ bool XFileSystem::FileWrite(HANDLE _Handle, const XByteArray& _Buffer) noexcept
 }
 
 // 文件:写入
-int64S XFileSystem::FileWrite(const void* _Buffer, int64S _Size, int64S _Count, HANDLE _Handle) noexcept
+int64U XFileSystem::FileWrite(const void* _Buffer, int64U _Size, int64U _Count, HANDLE _Handle) noexcept
 {
-	XANADU_CHECK_RETURN(_Handle, false);
-
-	return Xanadu::fwrite(_Buffer, _Size, _Count, static_cast<FILE*>(_Handle));
+	if(_Handle)
+	{
+		return Xanadu::fwrite(_Buffer, static_cast<size_t>(_Size), static_cast<size_t>(_Count), static_cast<FILE*>(_Handle));
+	}
+	return 0ULL;
 }
 
 // 文件:刷新缓存
 bool XFileSystem::FileFlush(HANDLE _Handle) noexcept
 {
-	XANADU_CHECK_RETURN(_Handle, false);
-
-	return 0 == Xanadu::fflush(static_cast<FILE*>(_Handle));
+	if(_Handle)
+	{
+		return 0 == Xanadu::fflush(static_cast<FILE*>(_Handle));
+	}
+	return false;
 }
 
 // 文件:关闭
 bool XFileSystem::FileClose(HANDLE _Handle) noexcept
 {
-	XANADU_CHECK_RETURN(_Handle, false);
-
-	return 0 == Xanadu::fclose(static_cast<FILE*>(_Handle));
+	if(_Handle)
+	{
+		return 0 == Xanadu::fclose(static_cast<FILE*>(_Handle));
+	}
+	return false;
 }
 
 // 文件:拷贝
-bool XFileSystem::FileCopy(const XString& _Source, const XString& _Target, std::function<bool(int64S _CurrentByte, int64S _FullByte)> _Lambda) noexcept
+bool XFileSystem::FileCopy(const XString& _Source, const XString& _Target, std::function<bool(int64U _CurrentByte, int64U _FullByte)> _Lambda) noexcept
 {
-	auto		vFormatSource = XFileSystem::PathFormat(_Source);
-	auto		vFormatTarget = XFileSystem::PathFormat(_Target);
-	XFileSystem::FileRemove(vFormatTarget);
+	XANADU_UNPARAMETER(_Lambda);
+
+	auto		vFSource = XFileSystem::PathFormat(_Source);
+	auto		vFTarget = XFileSystem::PathFormat(_Target);
+	XFileSystem::FileRemove(vFTarget);
 #ifdef XANADU_SYSTEM_WINDOWS
-	if(::CopyFileW(vFormatSource.data(), vFormatTarget.data(), FALSE))
+	if(::CopyFileW(vFSource.data(), vFTarget.data(), FALSE))
 	{
 		return true;
 	}
 #endif // XANADU_SYSTEM_WINDOWS
-	return 0 == Xanadu::wfcopy(vFormatSource.data(), vFormatTarget.data());
+	return 0 == Xanadu::wfcopy(vFSource.data(), vFTarget.data());
 }
 
 // 文件:移动
-bool XFileSystem::FileMove(const XString& _Source, const XString& _Target, std::function<bool(int64S _CurrentByte, int64S _FullByte)> _Lambda) noexcept
+bool XFileSystem::FileMove(const XString& _Source, const XString& _Target, std::function<bool(int64U _CurrentByte, int64U _FullByte)> _Lambda) noexcept
 {
+	XANADU_UNPARAMETER(_Lambda);
+
 	auto		vFormatSource = XFileSystem::PathFormat(_Source);
 	auto		vFormatTarget = XFileSystem::PathFormat(_Target);
 	XFileSystem::FileRemove(vFormatTarget);
@@ -377,7 +413,6 @@ bool XFileSystem::FileRemove(const XString& _File) noexcept
 		auto		vFile = XFileSystem::PathFormat(_File);
 		if(0 == Xanadu::wremove(vFile.data()))
 		{
-			XANADU_INFO(L"[REMOVE] [%ls] SUCCESS", vFile.data());
 			return true;
 		}
 		else
@@ -385,11 +420,9 @@ bool XFileSystem::FileRemove(const XString& _File) noexcept
 #ifdef XANADU_SYSTEM_WINDOWS
 			if(::DeleteFileW(vFile.data()))
 			{
-				XANADU_INFO(L"[REMOVE] [%ls] SUCCESS", vFile.data());
 				return true;
 			}
 #endif // XANADU_SYSTEM_WINDOWS
-			XANADU_ERROR(L"[REMOVE] [%ls] FAILURE", vFile.data());
 			return XFileSystem::FileRename(vFile, vFile + XANADU_FILESYSTEM_REMOVE_SUFFIX);
 		}
 	}
@@ -446,15 +479,15 @@ XByteArray XFileSystem::FileToBytes(const XString& _File) noexcept
 	auto		vBytes = XByteArray();
 	auto		vSize = XFileSystem::FileSize(_File);
 	auto		vHandle = XFileSystem::FileOpen(_File, L"rb");
-	if(vHandle && vSize > 0)
+	if(vHandle && vSize > 0ULL)
 	{
-		auto		vSize32 = static_cast<unsigned int>(vSize);
+		auto		vSize32 = static_cast<size_t>(vSize);
 		auto		vBuffer = XANADU_NEW char[vSize32];
 		if (vBuffer)
 		{
 			if(XFileSystem::FileRead(vHandle, vBuffer, vSize))
 			{
-				vBytes = XByteArray(vBuffer, vSize);
+				vBytes = XByteArray(vBuffer, static_cast<XByteArray::size_type>(vSize));
 			}
 			XANADU_DELETE_ARR(vBuffer);
 		}
@@ -464,17 +497,17 @@ XByteArray XFileSystem::FileToBytes(const XString& _File) noexcept
 }
 
 // 文件:从缓存写入文件
-bool XFileSystem::FileFromBytes(const XString& _File, const void* _Data, int64S _Legnth) noexcept
+bool XFileSystem::FileFromBytes(const XString& _File, const void* _Data, int64U _Legnth) noexcept
 {
-	XANADU_CHECK_RETURN(_Data, false);
-	XANADU_CHECK_RETURN(_Legnth > 0, false);
-
 	auto		vSync = false;
-	auto		vHandle = XFileSystem::FileOpen(_File, L"wb");
-	if(vHandle)
+	if(_Data && _Legnth > 0ULL)
 	{
-		vSync = XFileSystem::FileWrite(vHandle, _Data, _Legnth);
-		XFileSystem::FileClose(vHandle);
+		auto		vHandle = XFileSystem::FileOpen(_File, L"wb");
+		if(vHandle)
+		{
+			vSync = XFileSystem::FileWrite(vHandle, _Data, _Legnth);
+			XFileSystem::FileClose(vHandle);
+		}
 	}
 	return vSync;
 }
@@ -486,13 +519,13 @@ bool XFileSystem::FileFromBytes(const XString& _File, const XByteArray& _Data) n
 }
 
 // 文件:大小转字符串
-XString XFileSystem::FileSizeToString(int64S vSize) noexcept
+XString XFileSystem::FileSizeToString(int64U vSize) noexcept
 {
 	double		vDivision = 1024.0f;
 	wchar_t		vBuffer[XANADU_PATH] = { 0 };
 	if(vSize > 1024)
 	{
-		double		vFileSize = (double)vSize;
+		auto		vFileSize = (double)vSize;
 		vFileSize /= vDivision;
 		if(vFileSize > vDivision)
 		{
@@ -527,23 +560,23 @@ XString XFileSystem::FileSizeToString(int64S vSize) noexcept
 }
 
 // 文件:从BASE64格式化
-bool XFileSystem::FileFromBase64(const XString& _File, const void* _BASE64, int64S _Length) noexcept
+bool XFileSystem::FileFromBase64(const XString& _File, const void* _BASE64, int64U _Length) noexcept
 {
-	XANADU_CHECK_RETURN(_BASE64, false);
-	XANADU_CHECK_RETURN(_Length > 0, false);
-
-	auto		vResult = false;
-	auto		vData = XBase64::decode(_BASE64, _Length);
-	if(vData.size())
+	auto		vSync = false;
+	if(_BASE64 && _Length > 0ULL)
 	{
-		auto	vHandle = XFileSystem::FileOpen(XFileSystem::PathFormat(_File), L"wb");
-		if(vHandle)
+		auto		vData = XBase64::decode(_BASE64, _Length);
+		if(vData.exist())
 		{
-			vResult = XFileSystem::FileWrite(vHandle, vData.data(), vData.size());
-			XFileSystem::FileClose(vHandle);
+			auto	vHandle = XFileSystem::FileOpen(XFileSystem::PathFormat(_File), L"wb");
+			if(vHandle)
+			{
+				vSync = XFileSystem::FileWrite(vHandle, vData.data(), vData.size());
+				XFileSystem::FileClose(vHandle);
+			}
 		}
 	}
-	return vResult;
+	return vSync;
 }
 
 // 文件:从BASE64格式化
@@ -601,16 +634,16 @@ bool XFileSystem::DirectoryCreate(const XString& _Directory, int32S _Mode) noexc
 bool AchieveDirectoryTraverse(const XString& _Directory, int32S _Level, std::function<bool(const XFileInfo& _File, int32S _Level)> _Lambda) noexcept
 {
 	// 路径不存在，则返回false
-	if(false == XFileSystem::DirectoryIsExist(_Directory))
+	if(!XFileSystem::DirectoryIsExist(_Directory))
 	{
 		return false;
 	}
 
 	auto			vSync = true;
 	auto			vArrayInfo = XanaduRuntimeDirectoryTraverse(_Directory);
-	for(auto vIndex = 0U; vIndex < vArrayInfo.size() && vSync; ++vIndex)
+	for(auto vIndex = 0ULL; vIndex < vArrayInfo.size() && vSync; ++vIndex)
 	{
-		auto		vItemInfo = XFileInfo(vArrayInfo.at(vIndex));
+		auto		vItemInfo = XFileInfo(vArrayInfo.at(static_cast<size_t>(vIndex)));
 		if(vItemInfo.isDir())
 		{
 			vSync = AchieveDirectoryTraverse(vItemInfo.filePath(), ++_Level, _Lambda);
@@ -633,16 +666,16 @@ bool XFileSystem::DirectoryTraverse(const XString& _Directory, std::function<boo
 bool XFileSystem::DirectoryList(const XString& _Directory, std::function<bool(const XFileInfo& _Info)> _Lambda) noexcept
 {
 	// 路径不存在，则返回false
-	if(false == XFileSystem::DirectoryIsExist(_Directory))
+	if(!XFileSystem::DirectoryIsExist(_Directory))
 	{
 		return false;
 	}
 
-	auto			vSync = true;
-	auto			vArrayInfo = XanaduRuntimeDirectoryTraverse(_Directory);
-	for(auto vIndex = 0U; vIndex < vArrayInfo.size() && vSync; ++vIndex)
+	auto		vSync = true;
+	auto		vArrayInfo = XanaduRuntimeDirectoryTraverse(_Directory);
+	for(auto vIndex = 0ULL; vIndex < vArrayInfo.size() && vSync; ++vIndex)
 	{
-		auto		vItemInfo = vArrayInfo.at(vIndex);
+		auto		vItemInfo = vArrayInfo.at(static_cast<size_t>(vIndex));
 		if(vSync && _Lambda)
 		{
 			vSync = _Lambda(vItemInfo);
@@ -655,13 +688,13 @@ bool XFileSystem::DirectoryList(const XString& _Directory, std::function<bool(co
 bool XFileSystem::DirectoryRemove(const XString& _Directory, std::function<bool(const XFileInfo& _Info, bool _Success)> _Lambda) noexcept
 {
 	// 路径不存在，则返回false
-	if(false == XFileSystem::DirectoryIsExist(_Directory))
+	if(!XFileSystem::DirectoryIsExist(_Directory))
 	{
 		return false;
 	}
 
-	auto			vSync = true;
-	auto			vArrayInfo = XanaduRuntimeDirectoryTraverse(_Directory);
+	auto		vSync = true;
+	auto		vArrayInfo = XanaduRuntimeDirectoryTraverse(_Directory);
 	for(auto vIndex = 0U; vIndex < vArrayInfo.size() && vSync; ++vIndex)
 	{
 		auto		vItemInfo = XFileInfo(vArrayInfo.at(vIndex));
@@ -688,17 +721,16 @@ bool XFileSystem::DirectoryRemove(const XString& _Directory, std::function<bool(
 // 目录:大小
 int64S XFileSystem::DirectorySize(const XString& _Directory, std::function<bool(const XFileInfo& _Info)> _Lambda) noexcept
 {
-	if(false == XFileSystem::DirectoryIsExist(_Directory))
+	if(!XFileSystem::DirectoryIsExist(_Directory))
 	{
 		return 0;
 	}
 
-	auto			vSize = 0LL;
-	auto			vSync = true;
-	auto			vArrayInfo = XanaduRuntimeDirectoryTraverse(_Directory);
-	for(auto vIndex = 0U; vIndex < vArrayInfo.size(); ++vIndex)
+	auto		vSize = 0LL;
+	auto		vArrayInfo = XanaduRuntimeDirectoryTraverse(_Directory);
+	for(auto & vIndex : vArrayInfo)
 	{
-		auto		vItemInfo = XFileInfo(vArrayInfo.at(vIndex));
+		auto		vItemInfo = XFileInfo(vIndex);
 		if(vItemInfo.isFile())
 		{
 			vSize += XFileSystem::FileSize(vItemInfo.filePath());
@@ -721,13 +753,13 @@ int64S XFileSystem::DirectorySize(const XString& _Directory, std::function<bool(
 // 目录:拷贝
 bool XFileSystem::DirectoryCopy(const XString& _Source, const XString& _Target, std::function<bool(const XFileInfo& _Source, const XFileInfo& _Target, bool _Success)> _Lambda) noexcept
 {
-	if(false == XFileSystem::DirectoryIsExist(_Source))
+	if(!XFileSystem::DirectoryIsExist(_Source))
 	{
 		return false;
 	}
 
-	auto			vSync = true;
-	auto			vFormatTarget = XFileSystem::PathFormat(_Target);
+	auto		vSync = true;
+	auto		vFTarget = XFileSystem::PathFormat(_Target);
 	if(!XFileSystem::DirectoryCreate(_Target))
 	{
 		return false;
@@ -736,7 +768,7 @@ bool XFileSystem::DirectoryCopy(const XString& _Source, const XString& _Target, 
 	for(auto vIndex = 0U; vIndex < vArrayInfo.size() && vSync; ++vIndex)
 	{
 		auto		vItemInfo = XFileInfo(vArrayInfo.at(vIndex));
-		auto		vTargetPath = vFormatTarget + L"/" + vItemInfo.fileName();
+		auto		vTargetPath = vFTarget + L"/" + vItemInfo.fileName();
 		if(vItemInfo.isFile())
 		{
 			vSync = XFileSystem::FileCopy(vItemInfo.filePath(), vTargetPath);
@@ -756,22 +788,22 @@ bool XFileSystem::DirectoryCopy(const XString& _Source, const XString& _Target, 
 // 目录:移动
 bool XFileSystem::DirectoryMove(const XString& _Source, const XString& _Target, std::function<bool(const XFileInfo& _Source, const XFileInfo& _Target, bool _Success)> _Lambda) noexcept
 {
-	if(false == XFileSystem::DirectoryIsExist(_Source))
+	if(!XFileSystem::DirectoryIsExist(_Source))
 	{
 		return false;
 	}
 
-	auto			vSync = true;
-	auto			vFormatTarget = XFileSystem::PathFormat(_Target);
+	auto		vSync = true;
+	auto		vFTarget = XFileSystem::PathFormat(_Target);
 	if(!XFileSystem::DirectoryCreate(_Target))
 	{
 		return false;
 	}
-	auto			vArrayInfo = XanaduRuntimeDirectoryTraverse(_Source);
+	auto		vArrayInfo = XanaduRuntimeDirectoryTraverse(_Source);
 	for(auto vIndex = 0U; vIndex < vArrayInfo.size() && vSync; ++vIndex)
 	{
 		auto		vItemInfo = XFileInfo(vArrayInfo.at(vIndex));
-		auto		vTargetPath = vFormatTarget + L"/" + vItemInfo.fileName();
+		auto		vTargetPath = vFTarget + L"/" + vItemInfo.fileName();
 		if(vItemInfo.isFile())
 		{
 			vSync = XFileSystem::FileMove(vItemInfo.filePath(), vTargetPath);
