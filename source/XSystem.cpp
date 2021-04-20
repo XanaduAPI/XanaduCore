@@ -512,11 +512,11 @@ XString XSystem::OnlyString() noexcept
 #endif
 #ifdef XANADU_SYSTEM_LINUX
 		auto		vTempOnlyString = XSystem::NativeString() + XSystem::DiskID() + L"]_MachineGuid[";
-		vTempOnlyString += XString::format(L"%lld", static_cast<int64S>(gethostid()));
+		vTempOnlyString += XString::number(gethostid());
 #endif
 #ifdef XANADU_SYSTEM_MACOS
 		auto		vTempOnlyString = XSystem::NativeString() + XSystem::DiskID() + L"]_MachineGuid[";
-		vTempOnlyString += XString::format(L"%lld", static_cast<int64S>(gethostid()));
+		vTempOnlyString += XString::number(gethostid());
 		// 获取macOS计算机序列号
 		XShell::run(L"ioreg -rd1 -c IOPlatformExpertDevice |  awk \'/IOPlatformSerialNumber/ { print $3; }\'", [&](const XString& _Output)->bool
 		{

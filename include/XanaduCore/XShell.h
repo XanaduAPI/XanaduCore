@@ -14,10 +14,10 @@ public:
 
 public:
 	// Async run shell
-	static int64S run(const XString& _Shell) noexcept;
+	static int32S run(const XString& _Shell) noexcept;
 
 	// Sync run shell
-	static int64S run(const XString& _Shell, std::function<bool(const XString& _Output)> _Lambda) noexcept;
+	static int32S run(const XString& _Shell, std::function<bool(const XString& _Output)> _Lambda) noexcept;
 
 	// Native system
 	static int32S system(const XString& _Command) noexcept;

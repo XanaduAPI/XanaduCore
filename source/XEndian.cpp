@@ -15,15 +15,20 @@ XEndian::~XEndian() noexcept
 // 判断系统是否大端字节序
 bool XEndian::IsBig() noexcept
 {
-	int		_Value = static_cast<int>(1);
-	return ((*(char*)&_Value)) == static_cast<char>(1);
+	return !XEndian::IsLittle();
 }
 
 // 判断系统是否小端字节序
 bool XEndian::IsLittle() noexcept
 {
-	int		_Value = static_cast<int>(1);
-	return ((*(char*)&_Value)) == static_cast<char>(0);
+	union UCheck_Little
+	{
+		int		_VALUE4;
+		char		_VALUE1;
+	}_ValueLittle{};
+	_ValueLittle._VALUE4 = 1;
+	// 大端返回0，小端返回1
+	return _ValueLittle._VALUE1 == 1;
 }
 
 
