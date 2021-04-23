@@ -631,7 +631,7 @@ XString::size_type XString::_string_search(wchar_t _Char, size_type _Begin, Xana
 		_Char = ::towupper(_Char);
 	}
 	auto		vPos = XString::npos;
-	if(this->_string_data && this->_string_length < _Begin)
+	if(this->_string_data && this->_string_length > _Begin)
 	{
 		for(auto vIndex = _Begin; vIndex < this->_string_length; ++vIndex)
 		{
