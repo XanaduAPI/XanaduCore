@@ -509,16 +509,18 @@ XString XSystem::OnlyString() noexcept
 			}
 			RegCloseKey(vKey);
 		}
+		vTempOnlyString += L"]";
 #endif
 #ifdef XANADU_SYSTEM_LINUX
 		auto		vTempOnlyString = XSystem::NativeString() + XSystem::DiskID() + L"]_MachineGuid[";
 		vTempOnlyString += XString::number(static_cast<int64S>(gethostid()));
+		vTempOnlyString += L"]";
 #endif
 #ifdef XANADU_SYSTEM_MACOS
 		auto		vTempOnlyString = XSystem::NativeString() + XSystem::DiskID() + L"]_MachineGuid[";
 		vTempOnlyString += XString::number(static_cast<int64S>(gethostid()));
 		// 获取macOS计算机序列号
-		XShell::run(L"ioreg -rd1 -c IOPlatformExpertDevice |  awk \'/IOPlatformSerialNumber/ { print $3; }\'", [&](const XString& _Output)->bool
+		XShell::run(L"ioreg -rd1 -c IOPlatformExpertDevice | awk \'/IOPlatformSerialNumber/ { print $3; }\'", [&](const XString& _Output)->bool
 		{
 			auto		vIOPlatformSerialNumber = _Output;
 			vIOPlatformSerialNumber.remove(L"\"");
@@ -527,8 +529,15 @@ XString XSystem::OnlyString() noexcept
 			vTempOnlyString += vIOPlatformSerialNumber;
 			return true;
 		});
-#endif
+		// Get Hardware UUID in Mac OS X
+		XShell::run(L"system_profiler SPHardwareDataType | awk \'/UUID/ { print $3; }\'", [&](const XString& _Output)->bool
+		{
+			vTempOnlyString += L"-";
+			vTempOnlyString += _Output;
+			return true;
+		});
 		vTempOnlyString += L"]";
+#endif
 		_StaticOnlyString = XString::fromBytes(XHash::hash(vTempOnlyString.toBytes(), XHash::MD5).toHex().toUpper());
 	}
 	return _StaticOnlyString;

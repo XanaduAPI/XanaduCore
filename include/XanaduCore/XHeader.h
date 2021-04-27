@@ -50,6 +50,7 @@
 #define			XVector							std::vector
 #define			XList							std::list
 #define			XArray							std::array
+#define			XMap							std::map
 
 namespace Xanadu
 {
