@@ -1,6 +1,6 @@
 # Xanadu.Core
 
-*一个跨平台的C++扩展库*
+*一个跨平台的C++扩展库，Xanadu系列的核心*
 
 
 ## 说明 / Explain
