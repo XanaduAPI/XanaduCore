@@ -59,7 +59,7 @@ XFileInfo& XFileInfo::operator = (const XFileInfo& _Fileinfo) noexcept
 	return *this;
 }
 
-// move assignment
+// 操作符重载 =
 XFileInfo& XFileInfo::operator = (XFileInfo&& _Fileinfo) noexcept
 {
 	XANADU_DELETE_PTR(this->_Info);

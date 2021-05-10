@@ -85,7 +85,7 @@ public:
 	// Overload Operator =
 	virtual XFileInfo& operator = (const XFileInfo& _Fileinfo) noexcept;
 
-	// move assignment
+	// 操作符重载 =
 	virtual XFileInfo& operator = (XFileInfo&& _Fileinfo) noexcept;
 
 public:

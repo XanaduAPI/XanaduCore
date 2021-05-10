@@ -302,7 +302,7 @@ bool XSetting::load(const XString& _File) noexcept
 				Xanadu::fgets(vBuffer, XANADU_SIZE_MB - 1, vHandle);
 
 				// 添加一行数据
-				auto		vNode = this->_format(vBuffer);
+				auto		vNode = this->_format(XByteArray(vBuffer));
 				this->_append(vNode);
 
 			};

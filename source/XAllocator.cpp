@@ -16,32 +16,32 @@ char* XanaduAllocatorMallocMemory(XAllocator::size_type _Size)
 	return XANADU_NEW char[vSize];
 }
 
-// Constructors
+// 构造
 XAllocator::XAllocator() noexcept
 {
 	this->memoryAllocator(0);
 }
 
-// Constructors
+// 构造
 XAllocator::XAllocator(size_type _Length) noexcept
 {
 	this->memoryAllocator(_Length);
 }
 
-// Constructors
+// 构造
 XAllocator::XAllocator(size_type _Length, char _Char) noexcept
 {
 	this->memoryAllocator(_Length);
 	Xanadu::memset(this->_memory_address, _Char, this->_memory_length);
 }
 
-// Constructors
+// 构造
 XAllocator::XAllocator(const void* _Memory, size_type _Length) noexcept
 {
 	this->memoryAllocator(_Memory, _Length);
 }
 
-// Constructors
+// 构造
 XAllocator::XAllocator(const XAllocator& _Allocator) noexcept
 {
 	this->memoryAllocator(_Allocator._memory_address, _Allocator._memory_length);
@@ -57,14 +57,14 @@ XAllocator::~XAllocator() noexcept
 
 
 
-// operator overload =
+// 操作符重载 =
 XAllocator& XAllocator::operator = (const XAllocator& _Allocator) noexcept
 {
 	this->memoryCopy(_Allocator);
 	return *this;
 }
 
-// operator overload +
+// 操作符重载 +
 XAllocator XAllocator::operator + (const XAllocator& _Allocator) noexcept
 {
 	auto		vResult = *this;
@@ -72,7 +72,7 @@ XAllocator XAllocator::operator + (const XAllocator& _Allocator) noexcept
 	return vResult;
 }
 
-// operator overload +=
+// 操作符重载 +=
 XAllocator& XAllocator::operator += (const XAllocator& _Allocator) noexcept
 {
 	this->memoryAppend(_Allocator);
@@ -97,13 +97,13 @@ XAllocator::size_type XAllocator::memoryFixSize(size_type _Pos) const noexcept
 	return _Pos;
 }
 
-// Check for null values
+// 检查是否为空，当长度为0时返回true
 bool XAllocator::memoryIsEmpty() const noexcept
 {
 	return this->_memory_length == 0;
 }
 
-// Check if there is a value
+// 检查是否有值，当长度不为0时返回true
 bool XAllocator::memoryIsExist() const noexcept
 {
 	return !this->memoryIsEmpty();

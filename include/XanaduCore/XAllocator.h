@@ -24,42 +24,42 @@ private:
 	size_type					_memory_capacity = 0;
 
 public:
-	// Constructors
+	// 构造
 	XAllocator() noexcept;
 
-	// Constructors
+	// 构造
 	XAllocator(size_type _Length) noexcept;
 
-	// Constructors
+	// 构造
 	XAllocator(size_type _Length, char _Char) noexcept;
 
-	// Constructors
+	// 构造
 	XAllocator(const void* _Memory, size_type _Length) noexcept;
 
-	// Constructors
+	// 构造
 	XAllocator(const XAllocator& _Allocator) noexcept;
 
 	// Destructor
 	virtual ~XAllocator() noexcept;
 
 public:
-	// operator overload =
+	// 操作符重载 =
 	XAllocator& operator = (const XAllocator& _Allocator) noexcept;
 
-	// operator overload +
+	// 操作符重载 +
 	XAllocator operator + (const XAllocator& _Allocator) noexcept;
 
-	// operator overload +=
+	// 操作符重载 +=
 	XAllocator& operator += (const XAllocator& _Allocator) noexcept;
 
 public:
 	// Fix Pos
 	virtual size_type memoryFixSize(size_type _Pos) const noexcept;
 
-	// Check for null values
+	// 检查是否为空，当长度为0时返回true
 	virtual bool memoryIsEmpty() const noexcept;
 
-	// Check if there is a value
+	// 检查是否有值，当长度不为0时返回true
 	virtual bool memoryIsExist() const noexcept;
 
 public:
