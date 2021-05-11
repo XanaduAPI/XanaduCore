@@ -5,11 +5,11 @@
 
 ## 说明 / Explain
 
-这是一些CXX的扩展类集合，可以使一些C++调用更加方便。
+这是一些C++的扩展类集合，可以使一些C++调用更加方便。
 
 
 ### 提供的功能 / Function
-    XString         : Unicode编码的字符串处理类，提供较 std::wstring 便捷的调用
+    XString         : Unicode编码的字符串处理类，提供比 std::wstring 便捷的调用
     XByteArray      : 字节数组处理类，提供比 std::vector<char> 便捷的调用
     XBase64         : Base64编解码，来源于QT
     XLibrary        : 根据平台调用相关函数的动态库加载类
