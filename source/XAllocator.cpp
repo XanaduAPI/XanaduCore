@@ -486,6 +486,21 @@ XAllocator::size_type XAllocator::memoryReverseFind(size_type _Pos, const XAlloc
 	return this->memoryReverseFind(_Pos, _Allocator._memory_address, _Allocator._memory_length);
 }
 
+// compare
+int XAllocator::memoryCompare(const void* _Memory, size_type _Length) const noexcept
+{
+	if(this->_memory_address == _Memory)
+	{
+		return 0;
+	}
+	auto		vCompare = Xanadu::memcmp(this->_memory_address, _Memory, this->_memory_length > _Length ? _Length : this->_memory_length);
+	if(vCompare == 0)
+	{
+		return this->_memory_length > _Length ? 1 : -1;
+	}
+	return vCompare;
+}
+
 // Replace Memory
 bool XAllocator::memoryReplace(size_type _Pos, size_type _Length, const void* _Memory, size_type _Size) noexcept
 {

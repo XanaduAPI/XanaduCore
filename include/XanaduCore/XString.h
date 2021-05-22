@@ -393,40 +393,40 @@ public:
 
 public:
 	// 操作符重载 ==
-	virtual bool operator == (const wchar_t* _String)const  noexcept;
+	virtual bool operator == (const wchar_t* _String)const noexcept;
 
 	// 操作符重载 ==
-	virtual bool operator == (const XString& _String)const  noexcept;
+	virtual bool operator == (const XString& _String)const noexcept;
 
 	// 操作符重载 !=
-	virtual bool operator != (const wchar_t* _String)const  noexcept;
+	virtual bool operator != (const wchar_t* _String)const noexcept;
 
 	// 操作符重载 !=
-	virtual bool operator != (const XString& _String)const  noexcept;
+	virtual bool operator != (const XString& _String)const noexcept;
 
 	// 操作符重载 <
-	virtual bool operator < (const wchar_t* _String)const  noexcept;
+	virtual bool operator < (const wchar_t* _String)const noexcept;
 
 	// 操作符重载 <
-	virtual bool operator < (const XString& _String)const  noexcept;
+	virtual bool operator < (const XString& _String)const noexcept;
 
 	// 操作符重载 >
-	virtual bool operator > (const wchar_t* _String) const  noexcept;
+	virtual bool operator > (const wchar_t* _String) const noexcept;
 
 	// 操作符重载 >
-	virtual bool operator > (const XString& _String) const  noexcept;
+	virtual bool operator > (const XString& _String) const noexcept;
 
 	// 操作符重载 <=
-	virtual bool operator <= (const wchar_t* _String) const  noexcept;
+	virtual bool operator <= (const wchar_t* _String) const noexcept;
 
 	// 操作符重载 <=
-	virtual bool operator <= (const XString& _String) const  noexcept;
+	virtual bool operator <= (const XString& _String) const noexcept;
 
 	// 操作符重载 >=
-	virtual bool operator >= (const wchar_t* _String) const  noexcept;
+	virtual bool operator >= (const wchar_t* _String) const noexcept;
 
 	// 操作符重载 >=
-	virtual bool operator >= (const XString& _String) const  noexcept;
+	virtual bool operator >= (const XString& _String) const noexcept;
 
 public:
 	// 转换至 ASCII 编码的字符串

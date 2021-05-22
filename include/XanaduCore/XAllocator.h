@@ -123,6 +123,9 @@ public:
 	// Reverse find Memory
 	virtual size_type memoryReverseFind(size_type _Pos, const XAllocator& _Allocator) const noexcept;
 
+	// compare
+	virtual int memoryCompare(const void* _Memory, size_type _Length) const noexcept;
+
 	// Replace Memory
 	virtual bool memoryReplace(size_type _Pos, size_type _Length, const void* _Memory, size_type _Size) noexcept;
 
@@ -143,4 +146,4 @@ public:
 	virtual size_type memoryCapacity() const noexcept;
 };
 
-#endif // _XANADU_CORE_ALLOCATOR_H_
+#endif

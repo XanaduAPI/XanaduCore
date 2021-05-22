@@ -68,17 +68,40 @@ public:
 
 public:
 	// 操作符重载 ==
-	virtual bool operator == (const char* _Memory) const  noexcept;
+	virtual bool operator == (const char* _Memory) const noexcept;
 
 	// 操作符重载 ==
-	virtual bool operator == (const XByteArray& _Bytes) const  noexcept;
-
-public:
-	// 操作符重载 !=
-	virtual bool operator != (const char* _Memory) const  noexcept;
+	virtual bool operator == (const XByteArray& _Bytes) const noexcept;
 
 	// 操作符重载 !=
-	virtual bool operator != (const XByteArray& _Bytes) const  noexcept;
+	virtual bool operator != (const char* _Memory) const noexcept;
+
+	// 操作符重载 !=
+	virtual bool operator != (const XByteArray& _Bytes) const noexcept;
+
+	// 操作符重载 <
+	virtual bool operator < (const char* _Memory)const noexcept;
+
+	// 操作符重载 <
+	virtual bool operator < (const XByteArray& _Bytes)const noexcept;
+
+	// 操作符重载 >
+	virtual bool operator > (const char* _Memory) const noexcept;
+
+	// 操作符重载 >
+	virtual bool operator > (const XByteArray& _Bytes) const noexcept;
+
+	// 操作符重载 <=
+	virtual bool operator <= (const char* _Memory) const noexcept;
+
+	// 操作符重载 <=
+	virtual bool operator <= (const XByteArray& _Bytes) const noexcept;
+
+	// 操作符重载 >=
+	virtual bool operator >= (const char* _Memory) const noexcept;
+
+	// 操作符重载 >=
+	virtual bool operator >= (const XByteArray& _Bytes) const noexcept;
 
 public:
 	// 获取数据指针

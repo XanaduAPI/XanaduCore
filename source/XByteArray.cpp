@@ -129,13 +129,13 @@ XByteArray& XByteArray::operator += (const XByteArray& _Bytes) noexcept
 
 
 // 操作符重载 ==
-bool XByteArray::operator == (const char* _Memory) const  noexcept
+bool XByteArray::operator == (const char* _Memory) const noexcept
 {
 	return 0 == this->compare(_Memory);
 }
 
 // 操作符重载 ==
-bool XByteArray::operator == (const XByteArray& _Bytes) const  noexcept
+bool XByteArray::operator == (const XByteArray& _Bytes) const noexcept
 {
 	return 0 == this->compare(_Bytes);
 }
@@ -145,18 +145,65 @@ bool XByteArray::operator == (const XByteArray& _Bytes) const  noexcept
 
 
 // 操作符重载 !=
-bool XByteArray::operator != (const char* _Memory) const  noexcept
+bool XByteArray::operator != (const char* _Memory) const noexcept
 {
 	return 0 != this->compare(_Memory);
 }
 
 // 操作符重载 !=
-bool XByteArray::operator != (const XByteArray& _Bytes) const  noexcept
+bool XByteArray::operator != (const XByteArray& _Bytes) const noexcept
 {
 	return 0 != this->compare(_Bytes);
 }
 
 
+// 操作符重载 <
+bool XByteArray::operator < (const char* _Memory) const noexcept
+{
+	return this->memoryCompare(_Memory, Xanadu::strlen(_Memory)) < 0;
+}
+
+// 操作符重载 <
+bool XByteArray::operator < (const XByteArray& _Bytes) const noexcept
+{
+	return this->memoryCompare(_Bytes.data(), _Bytes.length()) < 0;
+}
+
+// 操作符重载 >
+bool XByteArray::operator > (const char* _Memory) const noexcept
+{
+	return this->memoryCompare(_Memory, Xanadu::strlen(_Memory)) > 0;
+}
+
+// 操作符重载 >
+bool XByteArray::operator > (const XByteArray& _Bytes) const noexcept
+{
+	return this->memoryCompare(_Bytes.data(), _Bytes.length()) > 0;
+}
+
+// 操作符重载 <=
+bool XByteArray::operator <= (const char* _Memory) const noexcept
+{
+	return this->memoryCompare(_Memory, Xanadu::strlen(_Memory)) <= 0;
+}
+
+// 操作符重载 <=
+bool XByteArray::operator <= (const XByteArray& _Bytes) const noexcept
+{
+	return this->memoryCompare(_Bytes.data(), _Bytes.length()) <= 0;
+}
+
+// 操作符重载 >=
+bool XByteArray::operator >= (const char* _Memory) const noexcept
+{
+	return this->memoryCompare(_Memory, Xanadu::strlen(_Memory)) >= 0;
+}
+
+// 操作符重载 >=
+bool XByteArray::operator >= (const XByteArray& _Bytes) const noexcept
+{
+	return this->memoryCompare(_Bytes.data(), _Bytes.length()) >= 0;
+}
 
 
 
