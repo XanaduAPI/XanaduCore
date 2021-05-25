@@ -131,78 +131,73 @@ XByteArray& XByteArray::operator += (const XByteArray& _Bytes) noexcept
 // 操作符重载 ==
 bool XByteArray::operator == (const char* _Memory) const noexcept
 {
-	return 0 == this->compare(_Memory);
+	return this->compare(_Memory) == 0;
 }
 
 // 操作符重载 ==
 bool XByteArray::operator == (const XByteArray& _Bytes) const noexcept
 {
-	return 0 == this->compare(_Bytes);
+	return this->compare(_Bytes) == 0;
 }
-
-
-
-
 
 // 操作符重载 !=
 bool XByteArray::operator != (const char* _Memory) const noexcept
 {
-	return 0 != this->compare(_Memory);
+	return this->compare(_Memory) != 0;
 }
 
 // 操作符重载 !=
 bool XByteArray::operator != (const XByteArray& _Bytes) const noexcept
 {
-	return 0 != this->compare(_Bytes);
+	return this->compare(_Bytes) != 0;
 }
-
 
 // 操作符重载 <
 bool XByteArray::operator < (const char* _Memory) const noexcept
 {
-	return this->memoryCompare(_Memory, Xanadu::strlen(_Memory)) < 0;
+	return this->compare(_Memory) < 0;
 }
 
 // 操作符重载 <
 bool XByteArray::operator < (const XByteArray& _Bytes) const noexcept
 {
-	return this->memoryCompare(_Bytes.data(), _Bytes.length()) < 0;
+	return this->compare(_Bytes) < 0;
 }
 
 // 操作符重载 >
 bool XByteArray::operator > (const char* _Memory) const noexcept
 {
-	return this->memoryCompare(_Memory, Xanadu::strlen(_Memory)) > 0;
+	return this->compare(_Memory) > 0;
 }
 
 // 操作符重载 >
 bool XByteArray::operator > (const XByteArray& _Bytes) const noexcept
 {
-	return this->memoryCompare(_Bytes.data(), _Bytes.length()) > 0;
+	return this->compare(_Bytes) > 0;
 }
 
 // 操作符重载 <=
 bool XByteArray::operator <= (const char* _Memory) const noexcept
 {
-	return this->memoryCompare(_Memory, Xanadu::strlen(_Memory)) <= 0;
+	return this->compare(_Memory) <= 0;
 }
 
 // 操作符重载 <=
 bool XByteArray::operator <= (const XByteArray& _Bytes) const noexcept
 {
-	return this->memoryCompare(_Bytes.data(), _Bytes.length()) <= 0;
+	return this->compare(_Bytes) <= 0;
 }
 
 // 操作符重载 >=
 bool XByteArray::operator >= (const char* _Memory) const noexcept
 {
-	return this->memoryCompare(_Memory, Xanadu::strlen(_Memory)) >= 0;
+	return this->compare(_Memory) >= 0;
 }
 
 // 操作符重载 >=
 bool XByteArray::operator >= (const XByteArray& _Bytes) const noexcept
 {
-	return this->memoryCompare(_Bytes.data(), _Bytes.length()) >= 0;
+	return this->compare(_Bytes) >= 0;
 }
 
 
@@ -746,9 +741,16 @@ XByteArray XByteArray::right(size_type _Length) const noexcept
 XByteArray XByteArray::mid(size_type _Index, size_type _Length) const noexcept
 {
 	auto		vPos = XAllocator::memoryFixSize(_Index);
-	if (_Length >= this->size() || _Index + _Length >= this->size())
+	if(vPos < this->size())
 	{
-		return XByteArray(this->data() + _Index, this->size() - _Index);
+		if(_Length == XByteArray::npos || vPos + _Length >= this->size())
+		{
+			return XByteArray(this->data() + vPos, this->size() - vPos);
+		}
+		else
+		{
+			return XByteArray(this->data() + vPos, _Length);
+		}
 	}
 	return XByteArray(this->data() + vPos, _Length);
 }
