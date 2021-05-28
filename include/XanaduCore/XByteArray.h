@@ -333,6 +333,13 @@ public:
 	virtual XByteArray mid(size_type _Index, size_type _Length = XByteArray::npos) const noexcept;
 
 public:
+	// 倒序
+	virtual XByteArray& reverse() noexcept;
+
+	// 倒序
+	virtual XByteArray reverse() const noexcept;
+
+public:
 	// 检查头部是否相同
 	virtual bool startsWith(char _Char) const noexcept;
 

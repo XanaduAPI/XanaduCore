@@ -757,6 +757,39 @@ XByteArray XByteArray::mid(size_type _Index, size_type _Length) const noexcept
 
 
 
+// 倒序
+XByteArray& XByteArray::reverse() noexcept
+{
+	if(this->size() <= 1)
+	{
+		return *this;
+	}
+	auto		vSize = this->size() / 2;
+	auto		vTemp = static_cast<char>(0);
+	for(auto vIndex = 0U; vIndex <= vSize; ++vIndex)
+	{
+		vTemp = this->data()[vIndex];
+		this->data()[vIndex] = this->data()[this->size() - 1 - vIndex];
+		this->data()[this->size() - 1 - vIndex] = vTemp;
+	}
+	return *this;
+}
+
+// 倒序
+XByteArray XByteArray::reverse() const noexcept
+{
+	if(this->size() <= 1)
+	{
+		return *this;
+	}
+	auto		vBytes = XByteArray(this->size());
+	for(auto vIndex = 0U; vIndex != this->size(); ++vIndex)
+	{
+		vBytes[this->size() - 1 - vIndex] = this->data()[vIndex];
+	}
+	return vBytes;
+}
+
 
 
 // 检查头部是否相同
