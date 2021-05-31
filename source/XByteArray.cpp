@@ -36,7 +36,6 @@ XByteArray::XByteArray(const char* _Memory, size_type _Size) noexcept : XAllocat
 // 构造
 XByteArray::XByteArray(size_type _Size, char _Char) noexcept : XAllocator(_Size, _Char)
 {
-	XAllocator::memoryAppend(_Size, _Char);
 }
 
 // 构造
