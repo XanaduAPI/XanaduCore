@@ -531,7 +531,7 @@ XByteArray& XByteArray::insert(size_type _Index, size_type _Count, char _Char) n
 		{
 			Xanadu::memset(vBuffer, _Char, _Count);
 			vBuffer[_Count] = '\0';
-			this->insert(_Index, vBuffer);
+			this->insert(_Index, vBuffer, _Count);
 			XANADU_DELETE_ARR(vBuffer);
 		}
 	}
