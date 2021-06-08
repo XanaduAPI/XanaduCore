@@ -1,11 +1,11 @@
 ﻿#include <XanaduCore/Xanadu.h>
 
-bool XANADUAPI Xanadu_Core_Initialize() noexcept
+bool XANADUAPI _Xanadu_Core_Initialize() noexcept
 {
 	return true;
 };
 
-void XANADUAPI Xanadu_Core_Release() noexcept
+void XANADUAPI _Xanadu_Core_Release() noexcept
 {
 };
 
@@ -19,14 +19,14 @@ BOOL WINAPI DllMain(HANDLE _HDllHandle, DWORD _Reason, LPVOID _Reserved)
 	switch(_Reason)
 	{
 		case DLL_PROCESS_ATTACH:
-			Xanadu_Core_Initialize();
+			_Xanadu_Core_Initialize();
 			break;
 		case DLL_THREAD_ATTACH:
 			break;
 		case DLL_THREAD_DETACH:
 			break;
 		case DLL_PROCESS_DETACH:
-			Xanadu_Core_Release();
+			_Xanadu_Core_Release();
 			break;
 		default:
 			break;
@@ -34,13 +34,13 @@ BOOL WINAPI DllMain(HANDLE _HDllHandle, DWORD _Reason, LPVOID _Reserved)
 	return vResult;
 }
 #else
-__attribute((constructor)) void Xanadu_Core_Dynamic_Library_Init(void)
+__attribute((constructor)) void _Xanadu_Core_Dynamic_Library_Init(void)
 {
-	Xanadu_Core_Initialize();
+	_Xanadu_Core_Initialize();
 };
 
-__attribute((destructor)) void Xanadu_Core_Dynamic_Library_Fini(void)
+__attribute((destructor)) void _Xanadu_Core_Dynamic_Library_Fini(void)
 {
-	Xanadu_Core_Release();
+	_Xanadu_Core_Release();
 };
 #endif
