@@ -44,11 +44,6 @@ set shiftwidth=8
 
 首先安装所有必需的依赖项和生成工具:
 ```shell
-sudo apt install git
-sudo apt install autoconf
-sudo apt install automake
-sudo apt install libtool-bin
-sudo apt install cmake
 sudo apt install XanaduRuntime
 ```
 
@@ -71,4 +66,4 @@ sudo make install
 This library is licensed under the [GNU Lesser General Public License v2.1](https://www.gnu.org/licenses/lgpl-2.1.en.html),
 also included in the repository in the `LICENSE` file.
 
-自述文件更新时间 / README Updated on: 2021-05-10
+自述文件更新时间 / README Updated on: 2021-06-08
