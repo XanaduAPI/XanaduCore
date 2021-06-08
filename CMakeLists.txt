@@ -1,9 +1,9 @@
-﻿# CMake最低版本号要求
+# CMake最低版本号要求
 cmake_minimum_required(VERSION 3.8)
 
 
 # 项目名称
-project(XanaduCore VERSION 0.9.4)
+project(XanaduRuntime VERSION 1.0.0)
 
 
 # 输出提示信息
@@ -17,37 +17,27 @@ configure_file("${CMAKE_SOURCE_DIR}/config/${PROJECT_NAME}.pc.in" "${CMAKE_BINAR
 configure_file("${CMAKE_SOURCE_DIR}/config/VersionInfo.rc.in" "${CMAKE_BINARY_DIR}/VersionInfo.rc")
 
 
-# 设置模块搜索路径
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_INSTALL_PREFIX}/lib/cmake)
-
-
-# 项目依赖
-find_package(XanaduRuntime REQUIRED)
-
-
 # C++支持
 set(CMAKE_CXX_STANDARD 17)
 
 
 # 头文件搜索目录
 include_directories(${PROJECT_SOURCE_DIR}/include)
-include_directories(${XANADU_RUNTIME_INCLUDE})
-
-
-# 链接库搜索目录
-link_directories(${XANADU_RUNTIME_LIBRARY})
 
 
 # 设置静态编译宏
-#add_definitions(-D_XANADU_CORE_BUILD_STATIC)
+#add_definitions(-D_XANADU_RUNTIME_BUILD_STATIC)
 # 设置导出宏
-add_definitions(-D_XANADU_CORE_BUILD_SHARED)
-# 启用64位文件操作
-add_definitions(-D_FILE_OFFSET_BITS=64)
+add_definitions(-D_XANADU_RUNTIME_BUILD_SHARED)
 # 设置异常输出宏
 add_definitions(-D_XANADU_EXCEPTION_OUTPUT)
-# 屏蔽一些CRT警告
+# 启用64位文件操作
+add_definitions(-D_FILE_OFFSET_BITS=64)
+# 去除一些Windows的警告
 add_definitions(-D_CRT_SECURE_NO_WARNINGS)
+add_definitions(-D_WINSOCK_DEPRECATED_NO_WARNINGS)
+# 去除一些C++警告
+add_definitions(-D_SILENCE_CXX17_CODECVT_HEADER_DEPRECATION_WARNING)
 # 设置 Debug 宏
 if (CMAKE_BUILD_TYPE STREQUAL "Debug")
 	add_definitions(-D_DEBUG)
@@ -59,10 +49,9 @@ endif ()
 
 # 包含源文件
 aux_source_directory(./source SRC)
-aux_source_directory(./source/Hash SRC)
-if (MSVC)
+if(MSVC)
 	list(APPEND SRC ${CMAKE_BINARY_DIR}/VersionInfo.rc)
-endif ()
+endif()
 
 
 # 设置输出目录
@@ -70,16 +59,16 @@ set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
 
 
 # 链接库
-if (MINGW)
+if (WIN32)
+	link_libraries("Ws2_32.lib")
+	link_libraries("Iphlpapi.lib")
+elseif (MINGW)
+	link_libraries("Ws2_32")
+	link_libraries("Iphlpapi")
 	link_libraries("stdc++")
-endif()
-if (UNIX)
-	link_libraries("pthread")
-endif ()
-if (CMAKE_BUILD_TYPE STREQUAL "Debug")
-	link_libraries(XanaduRuntimeD)
 else ()
-	link_libraries(XanaduRuntime)
+	link_libraries("pthread")
+	link_libraries("dl")
 endif ()
 
 
@@ -88,7 +77,7 @@ add_library(${PROJECT_NAME} SHARED ${SRC})
 
 
 # 设置项目属性
-set_target_properties(${PROJECT_NAME} PROPERTIES VERSION 0.9.4 SOVERSION 0)
+set_target_properties(${PROJECT_NAME} PROPERTIES VERSION 1.0.0 SOVERSION 1)
 set_target_properties(${PROJECT_NAME} PROPERTIES DEBUG_POSTFIX D)
 
 
