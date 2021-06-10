@@ -5,22 +5,23 @@
 
 #ifndef			_XANADU_CORE_BUILD_STATIC
 #ifdef			_XANADU_CORE_BUILD_SHARED
-#ifdef XANADU_SYSTEM_WINDOWS
+#if defined(_XANADU_SYSTEM_WINDOWS)
 #define			XANADU_CORE_EXPORT					__declspec(dllexport)
 #else
 #define			XANADU_CORE_EXPORT					__attribute__((visibility("default")))
-#endif // XANADU_SYSTEM_WINDOWS
+#endif
 #else
-#ifdef XANADU_SYSTEM_WINDOWS
+#if defined(_XANADU_SYSTEM_WINDOWS)
 #define			XANADU_CORE_EXPORT					__declspec(dllimport)
 #else
 #define			XANADU_CORE_EXPORT					__attribute__((visibility("default")))
-#endif // XANADU_SYSTEM_WINDOWS
+#endif
 #endif // _XANADU_CORE_BUILD_SHARED
 #else
 #define			XANADU_CORE_EXPORT
 #endif // _XANADU_CORE_BUILD_STATIC
 #define			XANADU_CORE_LOCAL
+
 
 //一些C++头文件
 #include <iostream>

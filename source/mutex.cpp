@@ -1,0 +1,104 @@
+﻿#include <XanaduCore/mutex.h>
+
+
+// constructor
+Xanadu::mutex::mutex(RecursionMode _Mode) noexcept
+{
+	this->_mutex_mode = _Mode;
+#if defined(_XANADU_SYSTEM_WINDOWS)
+	XANADU_UNPARAMETER(_Mode);
+	this->_mutex_data = XANADU_NEW CRITICAL_SECTION;
+	XANADU_CHECK_RETURN(_mutex_data);
+	InitializeCriticalSection(static_cast<CRITICAL_SECTION*>(this->_mutex_data));
+#else
+	this->_mutex_data = XANADU_NEW pthread_mutex_t;
+	XANADU_CHECK_RETURN(this->_mutex_data);
+
+	switch(_Mode)
+	{
+		case Xanadu::mutex::Recursive:
+			{
+				pthread_mutexattr_t	vAttr;
+				pthread_mutexattr_init(&vAttr);
+				pthread_mutexattr_settype(&vAttr, PTHREAD_MUTEX_RECURSIVE);
+				pthread_mutex_init(static_cast<pthread_mutex_t*>(this->_mutex_data), &vAttr);
+			}
+			break;
+		case Xanadu::mutex::NonRecursive:
+			{
+				pthread_mutex_init(static_cast<pthread_mutex_t*>(this->_mutex_data), nullptr);
+			}
+			break;
+		default:
+			break;
+	}
+#endif
+}
+
+// destructor
+Xanadu::mutex::~mutex() noexcept
+{
+	XANADU_CHECK_RETURN(this->_mutex_data);
+#if defined(_XANADU_SYSTEM_WINDOWS)
+	auto		vMutex = static_cast<CRITICAL_SECTION*>(this->_mutex_data);
+	DeleteCriticalSection(vMutex);
+	XANADU_DELETE_PTR(vMutex);
+#else
+	auto		vMutex = static_cast<pthread_mutex_t*>(this->_mutex_data);
+	pthread_mutex_destroy(vMutex);
+	XANADU_DELETE_PTR(vMutex);
+#endif
+	this->_mutex_data = nullptr;
+}
+
+
+
+
+
+// Gets the type of the lock
+Xanadu::mutex::RecursionMode Xanadu::mutex::type() const noexcept
+{
+	return this->_mutex_mode;
+}
+
+
+
+
+
+// Lock
+void Xanadu::mutex::lock() noexcept
+{
+	XANADU_CHECK_RETURN(this->_mutex_data);
+#if defined(_XANADU_SYSTEM_WINDOWS)
+	EnterCriticalSection(static_cast<CRITICAL_SECTION*>(this->_mutex_data));
+#else
+	pthread_mutex_lock(static_cast<pthread_mutex_t*>(this->_mutex_data));
+#endif
+}
+
+// Unlock
+void Xanadu::mutex::unlock() noexcept
+{
+	XANADU_CHECK_RETURN(this->_mutex_data);
+#if defined(_XANADU_SYSTEM_WINDOWS)
+	LeaveCriticalSection(static_cast<CRITICAL_SECTION*>(this->_mutex_data));
+#else
+	pthread_mutex_unlock(static_cast<pthread_mutex_t*>(this->_mutex_data));
+#endif
+}
+
+
+
+
+
+// constructor
+Xanadu::mutex_auto::mutex_auto(Xanadu::mutex& _Mutex) noexcept : _data_mutex(_Mutex)
+{
+	this->_data_mutex.lock();
+}
+
+// destructor
+Xanadu::mutex_auto::~mutex_auto() noexcept
+{
+	this->_data_mutex.unlock();
+}

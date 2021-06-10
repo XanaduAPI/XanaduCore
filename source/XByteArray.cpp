@@ -1,5 +1,5 @@
 ﻿#include <XanaduCore/XByteArray.h>
-#include <XanaduCore/XBase64.h>
+#include <XanaduCore/base64.h>
 
 static char				_StaticIndexBeyond = '\0';
 
@@ -1159,7 +1159,7 @@ std::list<XByteArray> XByteArray::split(const XByteArray& _Bytes) const noexcept
 // 转换至 Base64
 XByteArray XByteArray::toBase64() const noexcept
 {
-	return XBase64::encode(this->data(), this->size());
+	return Xanadu::base64::encode(this->data(), this->size());
 }
 
 // 转换至 HEX ，默认大写
@@ -1185,7 +1185,7 @@ XByteArray XANADUAPI XByteArray::fromMemory(const char* _Memory, size_type _Size
 // 从 Base64 构建对象
 XByteArray XANADUAPI XByteArray::fromBase64(const void* _Memory, size_type _Size) noexcept
 {
-	return XBase64::decode(_Memory, _Size);
+	return Xanadu::base64::decode(_Memory, _Size);
 }
 
 // 从 Base64 构建对象

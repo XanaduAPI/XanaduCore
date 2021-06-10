@@ -3,13 +3,13 @@
 
 #define			XANADU_LOG_MAX_LENGTH			10240
 
-#ifdef XANADU_SYSTEM_WINDOWS
+#if defined(_XANADU_SYSTEM_WINDOWS)
 #ifdef _DEBUG
 #define			XANADU_OUTPUT_ENABLED
 #endif // _DEBUG
 #else
 #define			XANADU_OUTPUT_ENABLED
-#endif // XANADU_SYSTEM_WINDOWS
+#endif
 
 static ENUM_XANADU_DEBUG_LEVEL			_StaticDebugLevel = EXANADU_DEBUG_LEVEL_FULL;
 
@@ -47,7 +47,7 @@ void XanaduStreamOutput(ENUM_XANADU_DEBUG_LEVEL _Level, const wchar_t* _Format, 
 	}
 	vDebugString += XString(L" ") + vBuffer + XString(L"\n");
 	wprintf(vDebugString.data());
-#ifdef XANADU_SYSTEM_WINDOWS
+#if defined(_XANADU_SYSTEM_WINDOWS)
 	OutputDebugStringW(vDebugString.data());
 #endif
 

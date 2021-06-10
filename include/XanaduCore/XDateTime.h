@@ -54,4 +54,4 @@ public:
 	static XString currentMillisecondToString() noexcept;
 };
 
-#endif // _XANADU_CORE_DATETIME_H_
+#endif

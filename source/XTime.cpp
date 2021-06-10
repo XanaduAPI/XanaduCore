@@ -5,7 +5,7 @@
 
 typedef struct _XANADU_TIME_HIGH_PRECISION
 {
-#ifdef XANADU_SYSTEM_WINDOWS
+#if defined(_XANADU_SYSTEM_WINDOWS)
 	// 开始时间
 	LARGE_INTEGER		vBeginTime;
 
@@ -20,7 +20,7 @@ typedef struct _XANADU_TIME_HIGH_PRECISION
 
 	// 结束时间
 	timeval			vEndTime;
-#endif // XANADU_SYSTEM_WINDOWS
+#endif
 }XANADU_TIME_HIGH_PRECISION;
 
 
@@ -110,12 +110,12 @@ HANDLE XTime::HighPrecisionStart() noexcept
 	if (vHandle)
 	{
 		Xanadu::memset(vHandle, 0, sizeof(XANADU_TIME_HIGH_PRECISION));
-#ifdef XANADU_SYSTEM_WINDOWS
+#if defined(_XANADU_SYSTEM_WINDOWS)
 		QueryPerformanceFrequency(&vHandle->vCpuTime);
 		QueryPerformanceCounter(&vHandle->vBeginTime);
 #else
 		gettimeofday(&vHandle->vBeginTime, NULL);
-#endif // XANADU_SYSTEM_WINDOWS
+#endif
 	}
 	return vHandle;
 }
@@ -127,7 +127,7 @@ int64U XTime::HighPrecisionStop(HANDLE _Handle) noexcept
 	auto		vHandle = static_cast<XANADU_TIME_HIGH_PRECISION*>(_Handle);
 	if (vHandle)
 	{
-#ifdef XANADU_SYSTEM_WINDOWS
+#if defined(_XANADU_SYSTEM_WINDOWS)
 		QueryPerformanceCounter(&vHandle->vEndTime);
 
 		double		dbCpuTime = (double)vHandle->vCpuTime.QuadPart;
@@ -144,7 +144,7 @@ int64U XTime::HighPrecisionStop(HANDLE _Handle) noexcept
 		nDelayedSecond *= 1000000;
 		int64S		nDelayedMillisecond = vHandle->vEndTime.tv_usec - vHandle->vBeginTime.tv_usec;
 		vDifference += nDelayedSecond + nDelayedMillisecond;
-#endif // XANADU_SYSTEM_WINDOWS
+#endif
 		XANADU_DELETE_PTR(vHandle);
 	}
 	return vDifference;

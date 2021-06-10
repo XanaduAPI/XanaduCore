@@ -1,7 +1,7 @@
 ﻿#include <XanaduCore/XFileSystem.h>
 #include <XanaduCore/XSystem.h>
 #include <XanaduCore/XStream.h>
-#include <XanaduCore/XBase64.h>
+#include <XanaduCore/base64.h>
 
 #define			XANADU_FILESYSTEM_REMOVE_SUFFIX					L".xrm"
 
@@ -32,7 +32,7 @@ XString XFileSystem::PathToNative(const XString& _Path) noexcept
 	auto		vNativePath = _Path;
 	for (XString::size_type vIndex = 0U; vIndex < vNativePath.size(); ++vIndex)
 	{
-#ifdef XANADU_SYSTEM_WINDOWS
+#if defined(_XANADU_SYSTEM_WINDOWS)
 		if (vNativePath[vIndex] == L'/')
 		{
 			vNativePath[vIndex] = L'\\';
@@ -42,7 +42,7 @@ XString XFileSystem::PathToNative(const XString& _Path) noexcept
 		{
 			vNativePath[vIndex] = L'/';
 		}
-#endif // XANADU_SYSTEM_WINDOWS
+#endif
 	}
 	return vNativePath;
 }
@@ -374,12 +374,12 @@ bool XFileSystem::FileCopy(const XString& _Source, const XString& _Target, std::
 	auto		vFSource = XFileSystem::PathFormat(_Source);
 	auto		vFTarget = XFileSystem::PathFormat(_Target);
 	XFileSystem::FileRemove(vFTarget);
-#ifdef XANADU_SYSTEM_WINDOWS
+#if defined(_XANADU_SYSTEM_WINDOWS)
 	if(::CopyFileW(vFSource.data(), vFTarget.data(), FALSE))
 	{
 		return true;
 	}
-#endif // XANADU_SYSTEM_WINDOWS
+#endif
 	return 0 == Xanadu::wfcopy(vFSource.data(), vFTarget.data());
 }
 
@@ -417,12 +417,12 @@ bool XFileSystem::FileRemove(const XString& _File) noexcept
 		}
 		else
 		{
-#ifdef XANADU_SYSTEM_WINDOWS
+#if defined(_XANADU_SYSTEM_WINDOWS)
 			if(::DeleteFileW(vFile.data()))
 			{
 				return true;
 			}
-#endif // XANADU_SYSTEM_WINDOWS
+#endif
 			return XFileSystem::FileRename(vFile, vFile + XANADU_FILESYSTEM_REMOVE_SUFFIX);
 		}
 	}
@@ -442,12 +442,12 @@ bool XFileSystem::FileRename(const XString& _NameOLD, const XString& _NameNEW) n
 	}
 	else
 	{
-#ifdef XANADU_SYSTEM_WINDOWS
+#if defined(_XANADU_SYSTEM_WINDOWS)
 		if(::MoveFileW(vFileOLD.data(), vFileNEW.data()))
 		{
 			return true;
 		}
-#endif // XANADU_SYSTEM_WINDOWS
+#endif
 		return false;
 	}
 }
@@ -565,7 +565,7 @@ bool XFileSystem::FileFromBase64(const XString& _File, const void* _BASE64, int6
 	auto		vSync = false;
 	if(_BASE64 && _Length > 0ULL)
 	{
-		auto		vData = XBase64::decode(_BASE64, _Length);
+		auto		vData = Xanadu::base64::decode(_BASE64, _Length);
 		if(vData.exist())
 		{
 			auto	vHandle = XFileSystem::FileOpen(XFileSystem::PathFormat(_File), L"wb");

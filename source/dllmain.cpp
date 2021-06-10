@@ -9,7 +9,7 @@ void XANADUAPI _Xanadu_Core_Release() noexcept
 {
 };
 
-#ifdef XANADU_SYSTEM_WINDOWS
+#if defined(_XANADU_SYSTEM_WINDOWS)
 BOOL WINAPI DllMain(HANDLE _HDllHandle, DWORD _Reason, LPVOID _Reserved)
 {
 	XANADU_UNPARAMETER(_HDllHandle);

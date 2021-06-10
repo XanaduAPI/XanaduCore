@@ -1,13 +1,13 @@
 ﻿#include <XanaduCore/XNative.h>
-#include <XanaduCore/XMutex.h>
+#include <XanaduCore/mutex.h>
 
 // Native platform variable declarations
-#ifndef XANADU_SYSTEM_WINDOWS
+#ifndef _XANADU_SYSTEM_WINDOWS
 std::map<DWORD, std::vector<MSG>>		_StaticMessageArray;			// 全局线程消息队列
 XMutex						_StaticMessageMutex;			// 消息队列互斥量
-#endif // XANADU_SYSTEM_WINDOWS
+#endif
 
-#ifndef XANADU_SYSTEM_WINDOWS
+#ifndef _XANADU_SYSTEM_WINDOWS
 //从调用线程的消息队列里取得一个消息并将其放于指定的结构。
 //此函数可取得与指定窗口联系的消息和由PostThreadMessage寄送的线程消息。
 //此函数接收一定范围的消息值。GetMessage不接收属于其他线程或应用程序的消息。
@@ -90,12 +90,12 @@ XANADU_CORE_EXPORT BOOL XANADUAPI PostThreadMessageW(DWORD _ThreadID, UINT Msg, 
 	return FALSE;
 }
 
-#endif // XANADU_SYSTEM_WINDOWS
+#endif
 
 // 创建注册表项
 XANADU_CORE_EXPORT bool PlatformRegeditCreate(HKEY _Key, const wchar_t* _SubKey)
 {
-#ifdef XANADU_SYSTEM_WINDOWS
+#if defined(_XANADU_SYSTEM_WINDOWS)
 	HKEY			vNewKey = NULL;
 	::RegCreateKeyW(_Key, _SubKey, &vNewKey);
 	if(vNewKey)
@@ -103,6 +103,6 @@ XANADU_CORE_EXPORT bool PlatformRegeditCreate(HKEY _Key, const wchar_t* _SubKey)
 		::RegCloseKey(vNewKey);
 		return true;
 	}
-#endif // XANADU_SYSTEM_WINDOWS
+#endif
 	return false;
 }

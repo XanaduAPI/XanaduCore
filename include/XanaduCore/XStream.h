@@ -55,7 +55,7 @@ public:
 	static void Error(const XString& _Format) noexcept;
 };
 
-#ifdef XANADU_SYSTEM_WINDOWS
+#if defined(_XANADU_SYSTEM_WINDOWS)
 #define			XANADU_INFO(_Format, ...)				XStream::Info(_Format, __VA_ARGS__)
 #define			XANADU_WARNING(_Format, ...)				XStream::Warning(_Format, __VA_ARGS__)
 #define			XANADU_ERROR(_Format, ...)				XStream::Error(_Format, __VA_ARGS__)

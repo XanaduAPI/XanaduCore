@@ -4,7 +4,7 @@
 #include <XanaduCore/XHeader.h>
 
 // Native platform type definition
-#ifndef XANADU_SYSTEM_WINDOWS
+#ifndef _XANADU_SYSTEM_WINDOWS
 typedef signed char			INT8;
 typedef signed char*			PINT8;
 typedef signed short			INT16;
@@ -80,13 +80,13 @@ typedef struct _FILETIME
 	DWORD				dwLowDateTime;
 	DWORD				dwHighDateTime;
 }FILETIME, *PFILETIME, *LPFILETIME;
-#endif // XANADU_SYSTEM_WINDOWS
-#ifdef XANADU_SYSTEM_LINUX
+#endif
+#if defined(_XANADU_SYSTEM_LINUX)
 typedef unsigned int 			BOOL;
-#endif // XANADU_SYSTEM_LINUX
+#endif
 
 // Native platform macro definition
-#ifndef XANADU_SYSTEM_WINDOWS
+#ifndef _XANADU_SYSTEM_WINDOWS
 #define			WM_USER							0x0400
 #define			PM_NOREMOVE						0x0000
 #define			PM_REMOVE						0x0001
@@ -96,14 +96,14 @@ typedef unsigned int 			BOOL;
 #define			ERROR_SUCCESS						0L
 #define			S_OK							((HRESULT)0L)
 #define			S_FALSE							((HRESULT)1L)
-#endif // XANADU_SYSTEM_WINDOWS
-#ifdef XANADU_SYSTEM_LINUX
+#endif
+#if defined(_XANADU_SYSTEM_LINUX)
 #define			TRUE							1
 #define			FALSE							0
-#endif // XANADU_SYSTEM_LINUX
+#endif
 
 // Native platform-dependent function implementation
-#ifndef XANADU_SYSTEM_WINDOWS
+#ifndef _XANADU_SYSTEM_WINDOWS
 // 从调用线程的消息队列里取得一个消息并将其放于指定的结构。
 // 此函数可取得与指定窗口联系的消息和由PostThreadMessage寄送的线程消息。
 // 此函数接收一定范围的消息值。GetMessage不接收属于其他线程或应用程序的消息。
@@ -117,7 +117,7 @@ XANADU_CORE_EXPORT BOOL XANADUAPI PeekMessageW(LPMSG lpMsg, HWND hWnd, UINT wMsg
 // 将一个队列消息放入（寄送）到指定线程的消息队列里，不等待线程处理消息就返回
 XANADU_CORE_EXPORT BOOL XANADUAPI PostThreadMessageW(DWORD _ThreadID, UINT Msg, WPARAM wParam, LPARAM lParam);
 
-#endif // XANADU_SYSTEM_WINDOWS
+#endif
 
 ///创建注册表项
 XANADU_CORE_EXPORT bool PlatformRegeditCreate(HKEY _Key, const wchar_t* _SubKey);

@@ -1,11 +1,11 @@
 ﻿#include <XanaduCore/XSystem.h>
 #include <XanaduCore/XHash.h>
-#include <XanaduCore/XLibrary.h>
+#include <XanaduCore/library.h>
 #include <XanaduCore/XShell.h>
 #include <XanaduCore/XStream.h>
-#ifndef XANADU_SYSTEM_WINDOWS
+#ifndef _XANADU_SYSTEM_WINDOWS
 #include <sys/utsname.h>
-#endif // XANADU_SYSTEM_WINDOWS
+#endif
 
 
 //static system version value
@@ -26,16 +26,16 @@ int64S XSystem::SystemVersion() noexcept
 {
 	if(!_StaticSystemVersion)
 	{
-#ifdef XANADU_SYSTEM_WINDOWS
+#if defined(_XANADU_SYSTEM_WINDOWS)
 		typedef void(WINAPI* _Function_GetVersionNumbers)(long*, long*, long*);
 		auto		vVersion_1 = static_cast<long>(0);
 		auto		vVersion_2 = static_cast<long>(0);
 		auto		vVersion_3 = static_cast<long>(0);
 		auto		vIsServer = IsServer();
-		auto		vModule = XLibrary::open(L"ntdll.dll");
+		auto		vModule = Xanadu::library::open(L"ntdll.dll");
 		if(vModule)
 		{
-			auto		GetVersionNumbers = (_Function_GetVersionNumbers) XLibrary::find(vModule, "RtlGetNtVersionNumbers");
+			auto		GetVersionNumbers = (_Function_GetVersionNumbers) Xanadu::library::find(vModule, "RtlGetNtVersionNumbers");
 			if(GetVersionNumbers)
 			{
 				GetVersionNumbers(&vVersion_1, &vVersion_2, &vVersion_3);
@@ -68,13 +68,13 @@ int64S XSystem::SystemVersion() noexcept
 						break;
 				}
 			}
-			XLibrary::close(vModule);
+			Xanadu::library::close(vModule);
 		}
-#endif // XANADU_SYSTEM_WINDOWS
-#ifdef XANADU_SYSTEM_LINUX
+#endif
+#if defined(_XANADU_SYSTEM_LINUX)
 		//XANADU_PLATFORM_NOSUPPORT;
-#endif // XANADU_SYSTEM_LINUX
-#ifdef XANADU_SYSTEM_MACOS
+#endif
+#if defined(_XANADU_SYSTEM_MACOS)
 		struct utsname		vVersion;
 		if(0 == uname(&vVersion))
 		{
@@ -101,7 +101,7 @@ int64S XSystem::SystemVersion() noexcept
 					break;
 			}
 		}
-#endif // XANADU_SYSTEM_MACOS
+#endif
 	}
 	return _StaticSystemVersion;
 }
@@ -109,20 +109,20 @@ int64S XSystem::SystemVersion() noexcept
 // The name of the user who is now logged in
 XString XSystem::CurrentUser() noexcept
 {
-#ifdef XANADU_SYSTEM_WINDOWS
+#if defined(_XANADU_SYSTEM_WINDOWS)
 	wchar_t		vUserName[XANADU_SIZE_KB] = { 0 };
 	DWORD		vUserLength = XANADU_SIZE_KB - 1;
 	GetUserNameW(vUserName, &vUserLength);
 	return XString(vUserName);
 #else
 	return XString::fromUString(getenv("USER"));
-#endif // XANADU_SYSTEM_WINDOWS
+#endif
 }
 
 // Computer name
 XString XSystem::HostName() noexcept
 {
-#ifdef XANADU_SYSTEM_WINDOWS
+#if defined(_XANADU_SYSTEM_WINDOWS)
 	wchar_t		vHostName[XANADU_PATH] = { 0 };
 	DWORD		vLength = XANADU_PATH;
 	GetComputerNameW(vHostName, &vLength);
@@ -131,21 +131,21 @@ XString XSystem::HostName() noexcept
 	char		vHostName[XANADU_PATH] = { 0 };
 	gethostname(vHostName, XANADU_PATH);
 	return XString::fromUString(vHostName);
-#endif // XANADU_SYSTEM_WINDOWS
+#endif
 }
 
 // Gets the directory for the current user
 XString XSystem::UserHome() noexcept
 {
-#ifdef XANADU_SYSTEM_WINDOWS
+#if defined(_XANADU_SYSTEM_WINDOWS)
 	return XString(L"C:/Users/") + XSystem::CurrentUser();
-#endif // XANADU_SYSTEM_WINDOWS
-#ifdef XANADU_SYSTEM_LINUX
+#endif
+#if defined(_XANADU_SYSTEM_LINUX)
 	return XString(L"/home/") + XSystem::CurrentUser();
-#endif // XANADU_SYSTEM_LINUX
-#ifdef XANADU_SYSTEM_MACOS
+#endif
+#if defined(_XANADU_SYSTEM_MACOS)
 	return XString(L"/Users/") + XSystem::CurrentUser();
-#endif // XANADU_SYSTEM_MACOS
+#endif
 }
 
 // Whether the operating system is 32-bit
@@ -160,7 +160,7 @@ bool XSystem::IsX64() noexcept
 	static Xanadu::Boolean		vValue64Bit = Xanadu::VALUE_NULL;
 	if(Xanadu::VALUE_NULL == vValue64Bit)
 	{
-#ifdef XANADU_SYSTEM_WINDOWS
+#if defined(_XANADU_SYSTEM_WINDOWS)
 		SYSTEM_INFO	vSystemInfo;
 		GetNativeSystemInfo(&vSystemInfo);
 		switch(vSystemInfo.wProcessorArchitecture)
@@ -176,7 +176,7 @@ bool XSystem::IsX64() noexcept
 		}
 #else
 		vValue64Bit = Xanadu::VALUE_TRUE;
-#endif // XANADU_SYSTEM_WINDOWS
+#endif
 	}
 	return Xanadu::VALUE_TRUE == vValue64Bit;
 }
@@ -187,21 +187,21 @@ bool XSystem::IsServer() noexcept
 	static Xanadu::Boolean		vValueServer = Xanadu::VALUE_NULL;
 	if(Xanadu::VALUE_NULL == vValueServer)
 	{
-#ifdef XANADU_SYSTEM_WINDOWS
+#if defined(_XANADU_SYSTEM_WINDOWS)
 		typedef BOOL(WINAPI* _Function_IsWindowsServer)();
-		auto		vHandle = XLibrary::open(L"Kernel32.dll");
+		auto		vHandle = Xanadu::library::open(L"Kernel32.dll");
 		if(vHandle)
 		{
-			auto	vIsWindowsServer = (_Function_IsWindowsServer) XLibrary::find(vHandle, "IsWindowsServer");
+			auto	vIsWindowsServer = (_Function_IsWindowsServer) Xanadu::library::find(vHandle, "IsWindowsServer");
 			if(vIsWindowsServer)
 			{
 				vValueServer = vIsWindowsServer() ? Xanadu::VALUE_TRUE : Xanadu::VALUE_FALSE;
 			}
-			XLibrary::close(vHandle);
+			Xanadu::library::close(vHandle);
 		}
 #else
 		vValueServer = Xanadu::VALUE_FALSE;
-#endif // XANADU_SYSTEM_WINDOWS
+#endif
 	}
 	return Xanadu::VALUE_TRUE == vValueServer;
 }
@@ -218,19 +218,19 @@ XString XSystem::NativeString() noexcept
 	static XString			_StaticNativeString;
 	if (_StaticNativeString.empty())
 	{
-#ifdef XANADU_SYSTEM_WINDOWS
+#if defined(_XANADU_SYSTEM_WINDOWS)
 		auto		vSystemString = XString(L"Microsoft Windows ");
-#endif // XANADU_SYSTEM_WINDOWS
-#ifdef XANADU_SYSTEM_LINUX
+#endif
+#if defined(_XANADU_SYSTEM_LINUX)
 		auto		vSystemString = XString(L"Linux ");
-#endif // XANADU_SYSTEM_LINUX
-#ifdef XANADU_SYSTEM_MACOS
+#endif
+#if defined(_XANADU_SYSTEM_MACOS)
 		auto		vSystemString = XString(L"Mac OS ");
-#endif // XANADU_SYSTEM_MACOS
+#endif
 		//拼接系统版本
 		switch(XSystem::SystemVersion())
 		{
-#ifdef XANADU_SYSTEM_WINDOWS
+#if defined(_XANADU_SYSTEM_WINDOWS)
 			case XANADU_OS_VERSION_WINDOWS_VISTA:
 				vSystemString += L"Vista";
 				break;
@@ -261,8 +261,8 @@ XString XSystem::NativeString() noexcept
 			case XANADU_OS_VERSION_WINDOWS_2016:
 				vSystemString += L"Server 2016";
 				break;
-#endif // XANADU_SYSTEM_WINDOWS
-#ifdef XANADU_SYSTEM_LINUX
+#endif
+#if defined(_XANADU_SYSTEM_LINUX)
 				case XANADU_OS_VERSION_LINUX_1404:
 				vSystemString += L"Linux 14.04";
 				break;
@@ -311,8 +311,8 @@ XString XSystem::NativeString() noexcept
 			case XANADU_OS_VERSION_LINUX_2110:
 				vSystemString += L"Linux 2110";
 				break;
-#endif // XANADU_SYSTEM_LINUX
-#ifdef XANADU_SYSTEM_MACOS
+#endif
+#if defined(_XANADU_SYSTEM_MACOS)
 				case XANADU_OS_VERSION_MACOS_1012:
 				vSystemString += L"10.12 Sierra";
 				break;
@@ -331,7 +331,7 @@ XString XSystem::NativeString() noexcept
 			case XANADU_OS_VERSION_MACOS_1101:
 				vSystemString += L"11.01 Big Sur";
 				break;
-#endif // XANADU_SYSTEM_MACOS
+#endif
 			default:
 				vSystemString += L"Unknown";
 				break;
@@ -358,32 +358,32 @@ XString XSystem::NativeString() noexcept
 // Native Build Version
 XString XSystem::BuildVersion() noexcept
 {
-#ifdef XANADU_SYSTEM_WINDOWS
+#if defined(_XANADU_SYSTEM_WINDOWS)
 	auto		vBuildVersion = XString();
-	auto		vModule = XLibrary::open(L"ntdll.dll");
+	auto		vModule = Xanadu::library::open(L"ntdll.dll");
 	if(vModule)
 	{
 		auto		vValue1 = static_cast<long>(0);
 		auto		vValue2 = static_cast<long>(0);
 		auto		vValue3 = static_cast<long>(0);
 		typedef void(WINAPI* LP_GetVersionNumbers)(long*, long*, long*);
-		auto		GetVersionNumbers = (LP_GetVersionNumbers)XLibrary::find(vModule, "RtlGetNtVersionNumbers");
+		auto		GetVersionNumbers = (LP_GetVersionNumbers)Xanadu::library::find(vModule, "RtlGetNtVersionNumbers");
 		if(GetVersionNumbers)
 		{
 			GetVersionNumbers(&vValue1, &vValue2, &vValue3);
 			vBuildVersion = XString::format(L"%d", vValue3);
 
 		}
-		XLibrary::close(vModule);
+		Xanadu::library::close(vModule);
 	}
 	return vBuildVersion;
-#endif // XANADU_SYSTEM_WINDOWS
-#ifdef XANADU_SYSTEM_LINUX
+#endif
+#if defined(_XANADU_SYSTEM_LINUX)
 	return XString(L"Unknown");
-#endif // XANADU_SYSTEM_LINUX
-#ifdef XANADU_SYSTEM_MACOS
+#endif
+#if defined(_XANADU_SYSTEM_MACOS)
 	return XString(L"Unknown");
-#endif // XANADU_SYSTEM_MACOS
+#endif
 }
 
 // The CPUID of the current computer
@@ -395,7 +395,7 @@ XString XSystem::CPUID() noexcept
 		unsigned long		vValue1 = 0;
 		unsigned long		vValue2 = 0;
 
-#ifdef XANADU_SYSTEM_WINDOWS
+#if defined(_XANADU_SYSTEM_WINDOWS)
 		__asm {
 			mov eax, 01h;
 			xor edx, edx;
@@ -403,7 +403,7 @@ XString XSystem::CPUID() noexcept
 			mov vValue1, edx;
 			mov vValue2, eax;
 		}
-#endif // XANADU_SYSTEM_WINDOWS
+#endif
 		swprintf(_StaticCpuID, XANADU_PATH, L"%08X%08X", vValue1, vValue2);
 	}
 	return XString(_StaticCpuID);
@@ -415,7 +415,7 @@ XString XSystem::DiskID() noexcept
 	static wchar_t				_StaticDiskID[XANADU_PATH] = { 0 };
 	if(0LL == Xanadu::wcslen(_StaticDiskID))
 	{
-#ifdef XANADU_SYSTEM_WINDOWS
+#if defined(_XANADU_SYSTEM_WINDOWS)
 		auto		vHandle = ::CreateFileA("\\\\.\\PhysicalDrive0", GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ, NULL, OPEN_EXISTING, NULL, NULL);
 		if(!vHandle)
 		{
@@ -455,10 +455,10 @@ XString XSystem::DiskID() noexcept
 			}
 			::CloseHandle(vHandle);
 		}
-#endif // XANADU_SYSTEM_WINDOWS
-#ifdef XANADU_SYSTEM_LINUX
-#endif // XANADU_SYSTEM_LINUX
-#ifdef XANADU_SYSTEM_MACOS
+#endif
+#if defined(_XANADU_SYSTEM_LINUX)
+#endif
+#if defined(_XANADU_SYSTEM_MACOS)
 		//system_profiler SPSerialATADataType | grep Serial
 		XShell::run(L"system_profiler SPSerialATADataType | grep Serial", [&](const XString& _Output)->bool
 		{
@@ -472,7 +472,7 @@ XString XSystem::DiskID() noexcept
 			}
 			return true;
 		});
-#endif // XANADU_SYSTEM_MACOS
+#endif
 	}
 	return XString(_StaticDiskID);
 }
@@ -483,7 +483,7 @@ XString XSystem::OnlyString() noexcept
 	static XString			_StaticOnlyString;
 	if(_StaticOnlyString.empty())
 	{
-#ifdef XANADU_SYSTEM_WINDOWS
+#if defined(_XANADU_SYSTEM_WINDOWS)
 		auto		vTempOnlyString = XSystem::NativeString() + L"_CPU[" + XSystem::CPUID() + L"]_DISK[" + XSystem::DiskID() + L"]_MachineGuid[";
 		// 获取MachineGuid(重装系统后改变)
 		HKEY		vKey = nullptr;
@@ -511,12 +511,12 @@ XString XSystem::OnlyString() noexcept
 		}
 		vTempOnlyString += L"]";
 #endif
-#ifdef XANADU_SYSTEM_LINUX
+#if defined(_XANADU_SYSTEM_LINUX)
 		auto		vTempOnlyString = XSystem::NativeString() + XSystem::DiskID() + L"]_MachineGuid[";
 		vTempOnlyString += XString::number(static_cast<int64S>(gethostid()));
 		vTempOnlyString += L"]";
 #endif
-#ifdef XANADU_SYSTEM_MACOS
+#if defined(_XANADU_SYSTEM_MACOS)
 		auto		vTempOnlyString = XSystem::NativeString() + XSystem::DiskID() + L"]_MachineGuid[";
 		vTempOnlyString += XString::number(static_cast<int64S>(gethostid()));
 		// 获取macOS计算机序列号

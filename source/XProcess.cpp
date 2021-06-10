@@ -2,12 +2,12 @@
 #include <XanaduCore/XFileSystem.h>
 #include <XanaduCore/XNative.h>
 #include <XanaduCore/XSystem.h>
-#ifdef XANADU_SYSTEM_WINDOWS
+#if defined(_XANADU_SYSTEM_WINDOWS)
 #include <tlhelp32.h>
-#endif // XANADU_SYSTEM_WINDOWS
-#ifdef XANADU_SYSTEM_MACOS
+#endif
+#if defined(_XANADU_SYSTEM_MACOS)
 #include <libproc.h>
-#endif // XANADU_SYSTEM_MACOS
+#endif
 
 
 
@@ -16,7 +16,7 @@
 XString RegisterKeyValue(HKEY _Key, XString _Guid, XString _Name)
 {
 	auto		vKeyValue = XString(L"");
-#ifdef XANADU_SYSTEM_WINDOWS
+#if defined(_XANADU_SYSTEM_WINDOWS)
 	auto		vLocalKey = static_cast<HKEY>(nullptr);
 	auto		vResult = RegOpenKeyExW(_Key, _Guid.data(), NULL, KEY_READ, &vLocalKey);
 	if(vResult == ERROR_SUCCESS)
@@ -31,7 +31,7 @@ XString RegisterKeyValue(HKEY _Key, XString _Guid, XString _Name)
 			vKeyValue = vBuffer;
 		}
 	}
-#endif // XANADU_SYSTEM_WINDOWS
+#endif
 	return vKeyValue;
 }
 
@@ -64,31 +64,31 @@ bool XProcess::terminate(const XString& _ProcessName) noexcept
 bool XProcess::terminate(int64U _ProcessID) noexcept
 {
 	auto		vResult = true;
-#ifdef XANADU_SYSTEM_WINDOWS
+#if defined(_XANADU_SYSTEM_WINDOWS)
 	auto		vProcess = ::OpenProcess(PROCESS_ALL_ACCESS, FALSE, static_cast<DWORD>(_ProcessID));
 	if(vProcess != nullptr)
 	{
 		vResult = ::TerminateProcess(vProcess, 0);
 		::CloseHandle(vProcess);
 	}
-#endif // XANADU_SYSTEM_LINUX
-#ifdef XANADU_SYSTEM_LINUX
+#endif
+#if defined(_XANADU_SYSTEM_LINUX)
 	vResult = (Xanadu::kill(_ProcessID, 9) == 0) ? true : false;
-#endif // XANADU_SYSTEM_LINUX
-#ifdef XANADU_SYSTEM_MACOS
+#endif
+#if defined(_XANADU_SYSTEM_MACOS)
 	vResult = (Xanadu::kill(_ProcessID, 9) == 0) ? true : false;
-#endif // XANADU_SYSTEM_MACOS
+#endif
 	return vResult;
 }
 
 // 当前进程ID
 int64U XProcess::currentProcessID() noexcept
 {
-#ifdef XANADU_SYSTEM_WINDOWS
+#if defined(_XANADU_SYSTEM_WINDOWS)
 	return static_cast<int64U>(GetCurrentProcessId());
 #else
 	return static_cast<int64U>(getpid());
-#endif // XANADU_SYSTEM_WINDOWS
+#endif
 }
 
 // 遍历
@@ -98,7 +98,7 @@ bool XProcess::traverse(std::function<bool(const XProcessInfo& _Info)> _Lambda) 
 
 	auto		vResult = false;
 
-#ifdef XANADU_SYSTEM_WINDOWS
+#if defined(_XANADU_SYSTEM_WINDOWS)
 	// 给系统内的所有进程拍一个快照--改函数用于获取系统指定进程的快照，也可以传入不同参数获取被这些进程使用的堆、模块和线程的快照
 	auto		vProcessEntry32 = PROCESSENTRY32W();
 	vProcessEntry32.dwSize = sizeof(vProcessEntry32);
@@ -121,7 +121,7 @@ bool XProcess::traverse(std::function<bool(const XProcessInfo& _Info)> _Lambda) 
 		::CloseHandle(vSnapshotHandle);
 	}
 #endif//
-#ifdef XANADU_SYSTEM_LINUX
+#if defined(_XANADU_SYSTEM_LINUX)
 	vResult = XFileSystem::DirectoryList(L"/proc", [&](const XFileInfo& _Info)->bool
 	{
 		if(_Info.isDir())
@@ -148,8 +148,8 @@ bool XProcess::traverse(std::function<bool(const XProcessInfo& _Info)> _Lambda) 
 		}
 		return true;
 	});
-#endif // XANADU_SYSTEM_LINUX
-#ifdef XANADU_SYSTEM_MACOS
+#endif
+#if defined(_XANADU_SYSTEM_MACOS)
 	auto		vProcessNumber = proc_listpids(PROC_ALL_PIDS, 0, NULL, 0) * 2;
 	if(vProcessNumber)
 	{
@@ -183,7 +183,7 @@ bool XProcess::traverse(std::function<bool(const XProcessInfo& _Info)> _Lambda) 
 			Xanadu::free(vProcessArray);
 		}
 	}
-#endif // XANADU_SYSTEM_MACOS
+#endif
 	return vResult;
 }
 
@@ -219,7 +219,7 @@ int64U XProcess::number(const XString& _ProcessName) noexcept
 // 运行并等待进程
 int64U XProcess::execute(const XString& _Application, const XString& _Param, const XString& _Directory, bool _Wait, bool _UI) noexcept
 {
-#ifdef XANADU_SYSTEM_WINDOWS
+#if defined(_XANADU_SYSTEM_WINDOWS)
 	DWORD			vExitCode = STATUS_INVALID_HANDLE;
 	SHELLEXECUTEINFOW	vInfo = { sizeof(SHELLEXECUTEINFOW) };
 	if (_UI)
@@ -288,14 +288,14 @@ int64U XProcess::execute(const XString& _Application, const XString& _Param, con
 		}
 	}
 	return -1;
-#endif // XANADU_SYSTEM_WINDOWS
+#endif
 }
 
 // 枚举卸载列表
 bool XProcess::program(std::function<void(const XANADU_CORE_PROCESS_UNINSTALL* _Info)> _Lambda) noexcept
 {
 	auto		vResult = false;
-#ifdef XANADU_SYSTEM_WINDOWS
+#if defined(_XANADU_SYSTEM_WINDOWS)
 	XANADU_CHECK_RETURN(_Lambda, vResult);
 	auto		FunctionEnumItem = [&](HKEY _Key, bool _X86)
 	{
@@ -350,10 +350,10 @@ bool XProcess::program(std::function<void(const XANADU_CORE_PROCESS_UNINSTALL* _
 			vResult = true;
 		}
 	}
-#endif // XANADU_SYSTEM_WINDOWS
-#ifdef XANADU_SYSTEM_LINUX
-#endif // XANADU_SYSTEM_MACOS
-#ifdef XANADU_SYSTEM_MACOS
+#endif
+#if defined(_XANADU_SYSTEM_LINUX)
+#endif
+#if defined(_XANADU_SYSTEM_MACOS)
 	/*
 	XFileSystem::DirectoryList(L"/Applications", [&](const XFileInfo& _Info)->bool
 	{
@@ -381,6 +381,6 @@ bool XProcess::program(std::function<void(const XANADU_CORE_PROCESS_UNINSTALL* _
 		return true;
 	});
 	*/
-#endif // XANADU_SYSTEM_MACOS
+#endif
 	return vResult;
 }

@@ -1,5 +1,5 @@
 ﻿#include <XanaduCore/XThread.h>
-#include <XanaduCore/XMutex.h>
+#include <XanaduCore/mutex.h>
 
 // 线程结构
 typedef struct _PlatformThreadRunning
@@ -52,10 +52,10 @@ HANDLE XThread::create(_Thread_StartAddress _Thread, void* _Param) noexcept
 	vRunning->_Address = _Thread;
 	vRunning->_Data = _Param;
 
-#ifdef XANADU_SYSTEM_WINDOWS
+#if defined(_XANADU_SYSTEM_WINDOWS)
 	auto		vHandle = (HANDLE)::_beginthread(Thread_Function_Windows, NULL, vRunning);
-#endif // XANADU_SYSTEM_WINDOWS
-#ifdef XANADU_SYSTEM_LINUX
+#endif
+#if defined(_XANADU_SYSTEM_LINUX)
 	pthread_t	vThreadID = NULL;
 	if(::pthread_create(&vThreadID, nullptr, Thread_Function_Linux, vRunning) != 0)
 	{
@@ -63,8 +63,8 @@ HANDLE XThread::create(_Thread_StartAddress _Thread, void* _Param) noexcept
 		return nullptr;
 	}
 	auto		vHandle = (HANDLE)vThreadID;
-#endif // XANADU_SYSTEM_LINUX
-#ifdef XANADU_SYSTEM_MACOS
+#endif
+#if defined(_XANADU_SYSTEM_MACOS)
 	pthread_t	vThreadID = NULL;
 	if(::pthread_create(&vThreadID, nullptr, Thread_Function_Macos, vRunning) != 0)
 	{
@@ -72,27 +72,27 @@ HANDLE XThread::create(_Thread_StartAddress _Thread, void* _Param) noexcept
 		return nullptr;
 	}
 	auto		vHandle = (HANDLE)vThreadID;
-#endif // XANADU_SYSTEM_MACOS
+#endif
 	return vHandle;
 }
 
 // 等待
 void XThread::wait(HANDLE _Handle) noexcept
 {
-#ifdef XANADU_SYSTEM_WINDOWS
+#if defined(_XANADU_SYSTEM_WINDOWS)
 	::WaitForSingleObject(_Handle, INFINITE);
 #else
 	void* vExitValue = nullptr;
 	::pthread_join((pthread_t)_Handle, &vExitValue);
-#endif // XANADU_SYSTEM_WINDOWS
+#endif
 }
 
 // 结束
 void XThread::terminate(HANDLE _Handle) noexcept
 {
-#ifdef XANADU_SYSTEM_WINDOWS
+#if defined(_XANADU_SYSTEM_WINDOWS)
 	::TerminateThread(_Handle, 4);
 #else
 	::pthread_cancel((pthread_t)_Handle);
-#endif // XANADU_SYSTEM_WINDOWS
+#endif
 }

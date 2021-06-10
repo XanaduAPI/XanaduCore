@@ -79,7 +79,7 @@ XString XFileInfo::ToAbsolutePath(const XString& _Filepath) noexcept
 	auto		vFilepath = _Filepath;
 	vFilepath.replace(L'\\', L'/');
 	auto		vStatusAbsolute = false;
-#ifdef XANADU_SYSTEM_WINDOWS
+#if defined(_XANADU_SYSTEM_WINDOWS)
 	if(vFilepath.size() >= 2 && vFilepath[1] == L':')
 	{
 		vStatusAbsolute = true;
@@ -89,7 +89,7 @@ XString XFileInfo::ToAbsolutePath(const XString& _Filepath) noexcept
 	{
 		vStatusAbsolute = true;
 	}
-#endif // XANADU_SYSTEM_WINDOWS
+#endif
 	if(vFilepath.size() >= 1)
 	{
 		if(vFilepath[vFilepath.size() - 1] == L'/')
@@ -238,7 +238,7 @@ bool XFileInfo::isFile() const noexcept
 
 bool XFileInfo::isDir() const noexcept
 {
-#ifdef XANADU_SYSTEM_WINDOWS
+#if defined(_XANADU_SYSTEM_WINDOWS)
 	if(::GetFileAttributesW(this->_Info->_AbsolutePath.data()) & FILE_ATTRIBUTE_DIRECTORY)
 	{
 		return true;
@@ -249,7 +249,7 @@ bool XFileInfo::isDir() const noexcept
 	{
 		return S_ISDIR (vFileStatus.st_mode);
 	}
-#endif // XANADU_SYSTEM_WINDOWS
+#endif
 	return false;
 }
 

@@ -1,4 +1,4 @@
-﻿#include <XanaduCore/XBase64.h>
+﻿#include <XanaduCore/base64.h>
 
 // Check for Base64 characters
 bool XanaduByteArrayIsBase64(unsigned char _Char)
@@ -7,22 +7,22 @@ bool XanaduByteArrayIsBase64(unsigned char _Char)
 }
 
 
-
-// Structure
-XBase64::XBase64() noexcept
+// constructor
+Xanadu::base64::base64() noexcept
 {
 }
 
-// Virtual destructor
-XBase64::~XBase64() noexcept
+// destructor
+Xanadu::base64::~base64() noexcept
 {
 }
 
 
 
 
-// Encoded in BASE64
-XByteArray XBase64::encode(const void* _Memory, int64U _Length) noexcept
+
+// Encode the memory of the specified length as Base64
+XByteArray Xanadu::base64::encode(const void* _Memory, size_t _Length) noexcept
 {
 	if(nullptr == _Memory || 0 == _Length)
 	{
@@ -33,7 +33,7 @@ XByteArray XBase64::encode(const void* _Memory, int64U _Length) noexcept
 	auto		vByteArray = static_cast<const unsigned char*>(_Memory);
 	auto		vPadchar = static_cast<const char>('=');
 	auto		vPadLength = static_cast<int>(0);
-	auto		vIndex = static_cast<int>(0);
+	auto		vIndex = static_cast<size_t>(0);
 	auto		vEncode = XByteArray((_Length + 2) / 3 * 4);
 	char*		vBuffer = vEncode.data();
 	while(vIndex < _Length)
@@ -86,14 +86,18 @@ XByteArray XBase64::encode(const void* _Memory, int64U _Length) noexcept
 	return vEncode;
 }
 
-// Encoded in BASE64
-XByteArray XBase64::encode(const XByteArray& _Bytes) noexcept
+// Encode a byte array as Base64
+XByteArray Xanadu::base64::encode(const XByteArray& _Bytes) noexcept
 {
-	return XBase64::encode(_Bytes.data(), _Bytes.size());
+	return Xanadu::base64::encode(_Bytes.data(), _Bytes.size());
 }
 
-// Decoded in BASE64
-XByteArray XBase64::decode(const void* _Memory, int64U _Length) noexcept
+
+
+
+
+// Decode a segment of Base64 memory
+XByteArray Xanadu::base64::decode(const void* _Memory, size_t _Length) noexcept
 {
 	if(nullptr == _Memory || 0 == _Length || (_Length % 4))
 	{
@@ -106,7 +110,7 @@ XByteArray XBase64::decode(const void* _Memory, int64U _Length) noexcept
 	auto		vOffset = static_cast<int>(0);
 	auto		vBytes = XByteArray((_Length * 3) / 4);
 
-	for(auto vIndex = 0; vIndex < _Length; ++vIndex)
+	for(size_t vIndex = 0; vIndex < _Length; ++vIndex)
 	{
 		auto		vChar = static_cast<int>(vBase64[vIndex]);
 		auto		vValue = static_cast<int>(0);
@@ -153,8 +157,8 @@ XByteArray XBase64::decode(const void* _Memory, int64U _Length) noexcept
 	return vBytes;
 }
 
-// Decoded in BASE64
-XByteArray XBase64::decode(const XByteArray& _Bytes) noexcept
+// Decode a byte array of Base64
+XByteArray Xanadu::base64::decode(const XByteArray& _Bytes) noexcept
 {
-	return XBase64::decode(_Bytes.data(), _Bytes.size());
+	return Xanadu::base64::decode(_Bytes.data(), _Bytes.size());
 }

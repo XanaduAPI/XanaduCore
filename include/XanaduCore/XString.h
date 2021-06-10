@@ -12,7 +12,7 @@ typedef			std::string						AString;
 typedef			std::wstring						WString;
 typedef			std::string						UString;
 typedef			std::string						LString;
-#if defined(XANADU_SYSTEM_WINDOWS)
+#if defined(_XANADU_SYSTEM_WINDOWS)
 typedef			AString							NString;
 #else
 typedef			UString							NString;

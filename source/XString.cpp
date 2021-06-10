@@ -1288,7 +1288,7 @@ UString XString::toUString() const noexcept
 // 转换至 本机( Windows : ASCII / Other : UTF-8 ) 编码的字符串
 NString XString::toNString() const noexcept
 {
-#if defined(XANADU_SYSTEM_WINDOWS)
+#if defined(_XANADU_SYSTEM_WINDOWS)
 	return toAString();
 #else
 	return toUString();
@@ -1406,7 +1406,7 @@ XString XANADUAPI XString::fromUString(const UString& _UString) noexcept
 // 从 本机( Windows : ASCII / Other : UTF-8) 编码的字符串格式化
 XString XANADUAPI XString::fromNString(const NString& _NString) noexcept
 {
-#if defined(XANADU_SYSTEM_WINDOWS)
+#if defined(_XANADU_SYSTEM_WINDOWS)
 	return XString::fromAString(_NString);
 #else
 	return XString::fromUString(_NString);

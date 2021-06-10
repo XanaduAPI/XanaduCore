@@ -7,8 +7,10 @@
 
 class XHashPrivate;
 
-// A public class that evaluates the hash value.
-// Contains common algorithm such as MD5, SHA1, SHA256.
+///  <summary>
+/// A public class that evaluates the hash value.
+/// Contains common algorithm such as MD5, SHA1, SHA256.
+///  </summary>
 class XANADU_CORE_EXPORT XHash
 {
 public:
@@ -58,4 +60,4 @@ public:
 	static int32S hashLength(Algorithm _Algorithm) noexcept;
 };
 
-#endif // _XANADU_CORE_HASH_H_
+#endif

@@ -16,15 +16,15 @@ int32S XShell::run(const XString& _Shell) noexcept
 {
 	XANADU_CHECK_RETURN(_Shell.size(), -1);
 
-#ifdef XANADU_SYSTEM_WINDOWS
+#if defined(_XANADU_SYSTEM_WINDOWS)
 	return static_cast<int32S>(XProcess::execute(L"cmd.exe", _Shell));
 #else
-#ifdef XANADU_SYSTEM_ARM
+#ifdef _XANADU_SYSTEM_ARM
 	return static_cast<int32S>(XProcess::execute(L"/bin/sh", XString(L"-c ") + _Shell));
 #else
 	return static_cast<int32S>(XProcess::execute(L"/bin/bash", XString(L"-c ") + _Shell));
-#endif // XANADU_SYSTEM_ARM
-#endif // XANADU_SYSTEM_WINDOWS
+#endif // _XANADU_SYSTEM_ARM
+#endif
 }
 
 // Sync run shell
@@ -32,7 +32,7 @@ int32S XShell::run(const XString& _Shell, std::function<bool(const XString& _Out
 {
 	XANADU_CHECK_RETURN(_Shell.exist(), -1);
 
-#ifdef XANADU_SYSTEM_WINDOWS
+#if defined(_XANADU_SYSTEM_WINDOWS)
 	SECURITY_ATTRIBUTES sa;
 	HANDLE			vRHandle = nullptr;
 	HANDLE			vWHandle = nullptr;
