@@ -401,7 +401,7 @@ XVariant XSetting::select(const XString& _Section, const XString& _Key, const XV
 	auto		vNode = this->_find(_Section, _Key);
 	if(vNode)
 	{
-		return this->_right(vNode);
+		return XVariant(this->_right(vNode));
 	}
 	return _Default;
 }

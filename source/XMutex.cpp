@@ -16,7 +16,7 @@ XMutex::XMutex(RecursionMode _Mode) noexcept
 
 	switch(_Mode)
 	{
-		case Xanadu::XMutex::Recursive:
+		case XMutex::Recursive:
 			{
 				pthread_mutexattr_t	vAttr;
 				pthread_mutexattr_init(&vAttr);
@@ -24,7 +24,7 @@ XMutex::XMutex(RecursionMode _Mode) noexcept
 				pthread_mutex_init(static_cast<pthread_mutex_t*>(this->_mutex_data), &vAttr);
 			}
 			break;
-		case Xanadu::XMutex::NonRecursive:
+		case XMutex::NonRecursive:
 			{
 				pthread_mutex_init(static_cast<pthread_mutex_t*>(this->_mutex_data), nullptr);
 			}

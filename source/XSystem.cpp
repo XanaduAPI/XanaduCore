@@ -32,10 +32,10 @@ int64S XSystem::SystemVersion() noexcept
 		auto		vVersion_2 = static_cast<long>(0);
 		auto		vVersion_3 = static_cast<long>(0);
 		auto		vIsServer = IsServer();
-		auto		vModule = Xanadu::XLibrary::open(L"ntdll.dll");
+		auto		vModule = XLibrary::open(L"ntdll.dll");
 		if(vModule)
 		{
-			auto		GetVersionNumbers = (_Function_GetVersionNumbers) Xanadu::XLibrary::find(vModule, "RtlGetNtVersionNumbers");
+			auto		GetVersionNumbers = (_Function_GetVersionNumbers) XLibrary::find(vModule, "RtlGetNtVersionNumbers");
 			if(GetVersionNumbers)
 			{
 				GetVersionNumbers(&vVersion_1, &vVersion_2, &vVersion_3);
@@ -68,7 +68,7 @@ int64S XSystem::SystemVersion() noexcept
 						break;
 				}
 			}
-			Xanadu::XLibrary::close(vModule);
+			XLibrary::close(vModule);
 		}
 #endif
 #if defined(_XANADU_SYSTEM_LINUX)
@@ -189,15 +189,15 @@ bool XSystem::IsServer() noexcept
 	{
 #if defined(_XANADU_SYSTEM_WINDOWS)
 		typedef BOOL(WINAPI* _Function_IsWindowsServer)();
-		auto		vHandle = Xanadu::XLibrary::open(L"Kernel32.dll");
+		auto		vHandle = XLibrary::open(L"Kernel32.dll");
 		if(vHandle)
 		{
-			auto	vIsWindowsServer = (_Function_IsWindowsServer) Xanadu::XLibrary::find(vHandle, "IsWindowsServer");
+			auto	vIsWindowsServer = (_Function_IsWindowsServer) XLibrary::find(vHandle, "IsWindowsServer");
 			if(vIsWindowsServer)
 			{
 				vValueServer = vIsWindowsServer() ? Xanadu::VALUE_TRUE : Xanadu::VALUE_FALSE;
 			}
-			Xanadu::XLibrary::close(vHandle);
+			XLibrary::close(vHandle);
 		}
 #else
 		vValueServer = Xanadu::VALUE_FALSE;
@@ -360,21 +360,21 @@ XString XSystem::BuildVersion() noexcept
 {
 #if defined(_XANADU_SYSTEM_WINDOWS)
 	auto		vBuildVersion = XString();
-	auto		vModule = Xanadu::XLibrary::open(L"ntdll.dll");
+	auto		vModule = XLibrary::open(L"ntdll.dll");
 	if(vModule)
 	{
 		auto		vValue1 = static_cast<long>(0);
 		auto		vValue2 = static_cast<long>(0);
 		auto		vValue3 = static_cast<long>(0);
 		typedef void(WINAPI* LP_GetVersionNumbers)(long*, long*, long*);
-		auto		GetVersionNumbers = (LP_GetVersionNumbers)Xanadu::XLibrary::find(vModule, "RtlGetNtVersionNumbers");
+		auto		GetVersionNumbers = (LP_GetVersionNumbers)XLibrary::find(vModule, "RtlGetNtVersionNumbers");
 		if(GetVersionNumbers)
 		{
 			GetVersionNumbers(&vValue1, &vValue2, &vValue3);
 			vBuildVersion = XString::format(L"%d", vValue3);
 
 		}
-		Xanadu::XLibrary::close(vModule);
+		XLibrary::close(vModule);
 	}
 	return vBuildVersion;
 #endif

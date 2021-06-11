@@ -3,9 +3,9 @@
 // big XEndian architectures need #define __BYTE_ORDER __BIG_ENDIAN
 #ifndef _MSC_VER
 #if defined(_XANADU_SYSTEM_MACOS)
-#include <machine/XEndian.h>
+#include <machine/endian.h>
 #else
-#include <XEndian.h>
+#include <endian.h>
 #endif
 #endif // _MSC_VER
 

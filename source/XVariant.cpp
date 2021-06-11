@@ -166,6 +166,7 @@ XVariant& XVariant::operator = (bool _Value) noexcept
 	this->_clear();
 	this->_variant_type = kBOOLEAN;
 	this->_variant_data._VBool = _Value;
+	return *this;
 }
 
 // Operator overload =
@@ -174,6 +175,7 @@ XVariant& XVariant::operator = (char _Value) noexcept
 	this->_clear();
 	this->_variant_type = kCHAR;
 	this->_variant_data._VInt64S = _Value;
+	return *this;
 }
 
 // Operator overload =
@@ -182,6 +184,7 @@ XVariant& XVariant::operator = (unsigned char _Value) noexcept
 	this->_clear();
 	this->_variant_type = kUCHAR;
 	this->_variant_data._VInt64U = _Value;
+	return *this;
 }
 
 // Operator overload =
@@ -190,6 +193,7 @@ XVariant& XVariant::operator = (short _Value) noexcept
 	this->_clear();
 	this->_variant_type = kSHORT;
 	this->_variant_data._VInt64S = _Value;
+	return *this;
 }
 
 // Operator overload =
@@ -198,6 +202,7 @@ XVariant& XVariant::operator = (unsigned short _Value) noexcept
 	this->_clear();
 	this->_variant_type = kUSHORT;
 	this->_variant_data._VInt64U = _Value;
+	return *this;
 }
 
 // Operator overload =
@@ -206,6 +211,7 @@ XVariant& XVariant::operator = (int _Value) noexcept
 	this->_clear();
 	this->_variant_type = kINT;
 	this->_variant_data._VInt64S = _Value;
+	return *this;
 }
 
 // Operator overload =
@@ -214,6 +220,7 @@ XVariant& XVariant::operator = (unsigned int _Value) noexcept
 	this->_clear();
 	this->_variant_type = kUINT;
 	this->_variant_data._VInt64U = _Value;
+	return *this;
 }
 
 // Operator overload =
@@ -222,6 +229,7 @@ XVariant& XVariant::operator = (long _Value) noexcept
 	this->_clear();
 	this->_variant_type = kLONG;
 	this->_variant_data._VInt64S = _Value;
+	return *this;
 }
 
 // Operator overload =
@@ -230,6 +238,7 @@ XVariant& XVariant::operator = (unsigned long _Value) noexcept
 	this->_clear();
 	this->_variant_type = kULONG;
 	this->_variant_data._VInt64U = _Value;
+	return *this;
 }
 
 // Operator overload =
@@ -238,6 +247,7 @@ XVariant& XVariant::operator = (long long _Value) noexcept
 	this->_clear();
 	this->_variant_type = kLLONG;
 	this->_variant_data._VInt64S = _Value;
+	return *this;
 }
 
 // Operator overload =
@@ -246,6 +256,7 @@ XVariant& XVariant::operator = (unsigned long long _Value) noexcept
 	this->_clear();
 	this->_variant_type = kULLONG;
 	this->_variant_data._VInt64U = _Value;
+	return *this;
 }
 
 // Operator overload =
@@ -254,6 +265,7 @@ XVariant& XVariant::operator = (float _Value) noexcept
 	this->_clear();
 	this->_variant_type = kFLOAT;
 	this->_variant_data._VDouble = _Value;
+	return *this;
 }
 
 // Operator overload =
@@ -262,6 +274,7 @@ XVariant& XVariant::operator = (double _Value) noexcept
 	this->_clear();
 	this->_variant_type = kDOUBLE;
 	this->_variant_data._VDouble = _Value;
+	return *this;
 }
 
 // Operator overload =
@@ -270,6 +283,7 @@ XVariant& XVariant::operator = (const wchar_t* _Value) noexcept
 	this->_clear();
 	this->_variant_type = kSTRING;
 	this->_variant_data._VObject = XANADU_NEW XString(_Value);
+	return *this;
 }
 
 // Operator overload =
@@ -278,6 +292,7 @@ XVariant& XVariant::operator = (const XString& _Value) noexcept
 	this->_clear();
 	this->_variant_type = kSTRING;
 	this->_variant_data._VObject = XANADU_NEW XString(_Value);
+	return *this;
 }
 
 // Operator overload =
@@ -286,6 +301,7 @@ XVariant& XVariant::operator = (const char* _Value) noexcept
 	this->_clear();
 	this->_variant_type = kBYTES;
 	this->_variant_data._VObject = XANADU_NEW XByteArray(_Value);
+	return *this;
 }
 
 // Operator overload =
@@ -294,6 +310,7 @@ XVariant& XVariant::operator = (const XByteArray& _Value) noexcept
 	this->_clear();
 	this->_variant_type = kBYTES;
 	this->_variant_data._VObject = XANADU_NEW XByteArray(_Value);
+	return *this;
 }
 
 // Operator overload =
