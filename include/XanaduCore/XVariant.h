@@ -47,58 +47,58 @@ public:
 	XVariant() noexcept;
 
 	// constructor
-	explicit XVariant(Type _Type) noexcept;
+	XVariant(Type _Type) noexcept;
 
 	// constructor
-	explicit XVariant(bool _Value) noexcept;
+	XVariant(bool _Value) noexcept;
 
 	// constructor
-	explicit XVariant(char _Value) noexcept;
+	XVariant(char _Value) noexcept;
 
 	// constructor
-	explicit XVariant(unsigned char _Value) noexcept;
+	XVariant(unsigned char _Value) noexcept;
 
 	// constructor
-	explicit XVariant(short _Value) noexcept;
+	XVariant(short _Value) noexcept;
 
 	// constructor
-	explicit XVariant(unsigned short _Value) noexcept;
+	XVariant(unsigned short _Value) noexcept;
 
 	// constructor
-	explicit XVariant(int _Value) noexcept;
+	XVariant(int _Value) noexcept;
 
 	// constructor
-	explicit XVariant(unsigned int _Value) noexcept;
+	XVariant(unsigned int _Value) noexcept;
 
 	// constructor
-	explicit XVariant(long _Value) noexcept;
+	XVariant(long _Value) noexcept;
 
 	// constructor
-	explicit XVariant(unsigned long _Value) noexcept;
+	XVariant(unsigned long _Value) noexcept;
 
 	// constructor
-	explicit XVariant(long long _Value) noexcept;
+	XVariant(long long _Value) noexcept;
 
 	// constructor
-	explicit XVariant(unsigned long long _Value) noexcept;
+	XVariant(unsigned long long _Value) noexcept;
 
 	// constructor
-	explicit XVariant(float _Value) noexcept;
+	XVariant(float _Value) noexcept;
 
 	// constructor
-	explicit XVariant(double _Value) noexcept;
+	XVariant(double _Value) noexcept;
 
 	// constructor
-	explicit XVariant(const wchar_t* _Value) noexcept;
+	XVariant(const wchar_t* _Value) noexcept;
 
 	// constructor
-	explicit XVariant(const XString& _Value) noexcept;
+	XVariant(const XString& _Value) noexcept;
 
 	// constructor
-	explicit XVariant(const char* _Value) noexcept;
+	XVariant(const char* _Value) noexcept;
 
 	// constructor
-	explicit XVariant(const XByteArray& _Value) noexcept;
+	XVariant(const XByteArray& _Value) noexcept;
 
 	// constructor
 	XVariant(const XVariant& _Other) noexcept;
