@@ -1,7 +1,7 @@
 ﻿#include <XanaduCore/XFileSystem.h>
 #include <XanaduCore/XSystem.h>
 #include <XanaduCore/XStream.h>
-#include <XanaduCore/base64.h>
+#include <XanaduCore/XBase64.h>
 
 #define			XANADU_FILESYSTEM_REMOVE_SUFFIX					L".xrm"
 
@@ -565,7 +565,7 @@ bool XFileSystem::FileFromBase64(const XString& _File, const void* _BASE64, int6
 	auto		vSync = false;
 	if(_BASE64 && _Length > 0ULL)
 	{
-		auto		vData = Xanadu::base64::decode(_BASE64, _Length);
+		auto		vData = XBase64::decode(_BASE64, _Length);
 		if(vData.exist())
 		{
 			auto	vHandle = XFileSystem::FileOpen(XFileSystem::PathFormat(_File), L"wb");

@@ -107,7 +107,7 @@ const uint32_t k256[64] =
 /* NOTE: this routine assumes that the byte order in the    */
 /* ctx->wbuf[] at this point is such that low address bytes */
 /* in the ORIGINAL byte stream will go into the high end of */
-/* words on BOTH big and little endian systems              */
+/* words on BOTH big and little XEndian systems              */
 
 XANADU_CORE_EXPORT void XANADUAPI sha256_compile(XANADU_CORE_SHA256_CONTEXT ctx[1])
 {
@@ -301,7 +301,7 @@ static void sha_end1(unsigned char hval[], XANADU_CORE_SHA256_CONTEXT ctx[1], co
 
 	/* put bytes in the buffer in an order in which references to   */
 	/* 32-bit words will put bytes with lower addresses into the    */
-	/* top of 32 bit words on BOTH big and little endian machines   */
+	/* top of 32 bit words on BOTH big and little XEndian machines   */
 	bsw_32(ctx->wbuf, (i + 3 + SHA2_BITS) >> 2)
 
 	/* we now need to mask valid bytes and add the padding which is */
@@ -335,7 +335,7 @@ static void sha_end1(unsigned char hval[], XANADU_CORE_SHA256_CONTEXT ctx[1], co
 	}
 
 	/* the following 32-bit length fields are assembled in the      */
-	/* wrong byte order on little endian machines but this is       */
+	/* wrong byte order on little XEndian machines but this is       */
 	/* corrected later since they are only ever used as 32-bit      */
 	/* word values.                                                 */
 	ctx->wbuf[14] = ctx->count[1];
@@ -547,7 +547,7 @@ const uint64_t  k512[80] =
 /* NOTE: this routine assumes that the byte order in the    */
 /* ctx->wbuf[] at this point is such that low address bytes */
 /* in the ORIGINAL byte stream will go into the high end of */
-/* words on BOTH big and little endian systems              */
+/* words on BOTH big and little XEndian systems              */
 
 XANADU_CORE_EXPORT void XANADUAPI sha512_compile(XANADU_CORE_SHA512_CONTEXT ctx[1])
 {
@@ -591,7 +591,7 @@ XANADU_CORE_EXPORT void XANADUAPI sha512_compile(XANADU_CORE_SHA512_CONTEXT ctx[
 /* ctx->wbuf[] at this point is in such an order that low   */
 /* address bytes in the ORIGINAL byte stream placed in this */
 /* buffer will now go to the high end of words on BOTH big  */
-/* and little endian systems                                */
+/* and little XEndian systems                                */
 
 XANADU_CORE_EXPORT void XANADUAPI sha512_hash(const unsigned char data[], unsigned long len, XANADU_CORE_SHA512_CONTEXT ctx[1])
 {
@@ -660,7 +660,7 @@ static void sha_end2(unsigned char hval[], XANADU_CORE_SHA512_CONTEXT ctx[1], co
 
 	/* put bytes in the buffer in an order in which references to   */
 	/* 32-bit words will put bytes with lower addresses into the    */
-	/* top of 32 bit words on BOTH big and little endian machines   */
+	/* top of 32 bit words on BOTH big and little XEndian machines   */
 	bsw_64(ctx->wbuf, (i + 7 + SHA2_BITS) >> 3);
 
 	/* we now need to mask valid bytes and add the padding which is */
@@ -694,7 +694,7 @@ static void sha_end2(unsigned char hval[], XANADU_CORE_SHA512_CONTEXT ctx[1], co
 	}
 
 	/* the following 64-bit length fields are assembled in the      */
-	/* wrong byte order on little endian machines but this is       */
+	/* wrong byte order on little XEndian machines but this is       */
 	/* corrected later since they are only ever used as 64-bit      */
 	/* word values.                                                 */
 	ctx->wbuf[14] = ctx->count[1];

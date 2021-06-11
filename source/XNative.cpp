@@ -1,5 +1,5 @@
 ﻿#include <XanaduCore/XNative.h>
-#include <XanaduCore/mutex.h>
+#include <XanaduCore/XMutex.h>
 
 // Native platform variable declarations
 #ifndef _XANADU_SYSTEM_WINDOWS

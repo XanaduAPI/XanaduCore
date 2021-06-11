@@ -494,163 +494,163 @@ public:
 
 public:
 	// 取出子字符串
-	virtual XString substr(size_type _Pos = 0ULL, size_type _Length = XString::npos) const noexcept;
+	XString substr(size_type _Pos = 0ULL, size_type _Length = XString::npos) const noexcept;
 
 	// 按长度获取左边的数据
-	virtual XString left(size_type _Pos = XString::npos) const noexcept;
+	XString left(size_type _Pos = XString::npos) const noexcept;
 
 	// 按长度获取右边的数据
-	virtual XString right(size_type _Pos = 0ULL) const noexcept;
+	XString right(size_type _Pos = 0ULL) const noexcept;
 
 	// 按长度获取中间的数据
-	virtual XString mid(size_type _Pos, size_type _Size = XString::npos) const noexcept;
+	XString mid(size_type _Pos, size_type _Size = XString::npos) const noexcept;
 
 	// 按匹配字符串获取中间的数据
-	virtual XString middle(const XString& _Left, const XString& _Right, Xanadu::CaseSensitivity _XCS = Xanadu::CaseSensitive) const noexcept;
+	XString middle(const XString& _Left, const XString& _Right, Xanadu::CaseSensitivity _XCS = Xanadu::CaseSensitive) const noexcept;
 
 public:
 	// 检查头部是否相同
-	virtual bool startsWith(wchar_t _Char, Xanadu::CaseSensitivity _XCS = Xanadu::CaseSensitive) const noexcept;
+	bool startsWith(wchar_t _Char, Xanadu::CaseSensitivity _XCS = Xanadu::CaseSensitive) const noexcept;
 
 	// 检查头部是否相同
-	virtual bool startsWith(const wchar_t* _Memory, Xanadu::CaseSensitivity _XCS = Xanadu::CaseSensitive) const noexcept;
+	bool startsWith(const wchar_t* _Memory, Xanadu::CaseSensitivity _XCS = Xanadu::CaseSensitive) const noexcept;
 
 	// 检查头部是否相同
-	virtual bool startsWith(const XString& _String, Xanadu::CaseSensitivity _XCS = Xanadu::CaseSensitive) const noexcept;
+	bool startsWith(const XString& _String, Xanadu::CaseSensitivity _XCS = Xanadu::CaseSensitive) const noexcept;
 
 	// 检查尾部是否相同
-	virtual bool endsWith(wchar_t _Char, Xanadu::CaseSensitivity _XCS = Xanadu::CaseSensitive) const noexcept;
+	bool endsWith(wchar_t _Char, Xanadu::CaseSensitivity _XCS = Xanadu::CaseSensitive) const noexcept;
 
 	// 检查尾部是否相同
-	virtual bool endsWith(const wchar_t* _Memory, Xanadu::CaseSensitivity _XCS = Xanadu::CaseSensitive) const noexcept;
+	bool endsWith(const wchar_t* _Memory, Xanadu::CaseSensitivity _XCS = Xanadu::CaseSensitive) const noexcept;
 
 	// 检查尾部是否相同
-	virtual bool endsWith(const XString& _String, Xanadu::CaseSensitivity _XCS = Xanadu::CaseSensitive) const noexcept;
+	bool endsWith(const XString& _String, Xanadu::CaseSensitivity _XCS = Xanadu::CaseSensitive) const noexcept;
 
 public:
 	// 从指定位置按正序查找
-	virtual size_type find(const XString& _String, size_type _Pos = 0) const noexcept;
+	size_type find(const XString& _String, size_type _Pos = 0) const noexcept;
 
 	// 从指定位置按正序查找
-	virtual size_type find(const wchar_t* _String, size_type _Pos = 0) const noexcept;
+	size_type find(const wchar_t* _String, size_type _Pos = 0) const noexcept;
 
 	// 从指定位置按正序查找
-	virtual size_type find(const wchar_t* _String, size_type _Length, size_type _Pos) const noexcept;
+	size_type find(const wchar_t* _String, size_type _Length, size_type _Pos) const noexcept;
 
 	// 从指定位置按正序查找
-	virtual size_type find(wchar_t _Char, size_type _Pos = 0) const noexcept;
+	size_type find(wchar_t _Char, size_type _Pos = 0) const noexcept;
 
 
 	// 从指定位置按倒序查找
-	virtual size_type rfind(const XString& _String, size_type _Pos = npos) const noexcept;
+	size_type rfind(const XString& _String, size_type _Pos = npos) const noexcept;
 
 	// 从指定位置按倒序查找
-	virtual size_type rfind(const wchar_t* _String, size_type _Pos = npos) const noexcept;
+	size_type rfind(const wchar_t* _String, size_type _Pos = npos) const noexcept;
 
 	// 从指定位置按倒序查找
-	virtual size_type rfind(const wchar_t* _String, size_type _Length, size_type _Pos) const noexcept;
+	size_type rfind(const wchar_t* _String, size_type _Length, size_type _Pos) const noexcept;
 
 	// 从指定位置按倒序查找
-	virtual size_type rfind(wchar_t _Char, size_type _Pos = npos) const noexcept;
+	size_type rfind(wchar_t _Char, size_type _Pos = npos) const noexcept;
 
 public:
 	// 检查是否包含指定的内容
-	virtual bool contains(wchar_t _Char, Xanadu::CaseSensitivity _XCS = Xanadu::CaseSensitive) const noexcept;
+	bool contains(wchar_t _Char, Xanadu::CaseSensitivity _XCS = Xanadu::CaseSensitive) const noexcept;
 
 	// 检查是否包含指定的内容
-	virtual bool contains(const wchar_t* _String, Xanadu::CaseSensitivity _XCS = Xanadu::CaseSensitive) const noexcept;
+	bool contains(const wchar_t* _String, Xanadu::CaseSensitivity _XCS = Xanadu::CaseSensitive) const noexcept;
 
 	// 检查是否包含指定的内容
-	virtual bool contains(const wchar_t* _String, size_type _Size, Xanadu::CaseSensitivity _XCS = Xanadu::CaseSensitive) const noexcept;
+	bool contains(const wchar_t* _String, size_type _Size, Xanadu::CaseSensitivity _XCS = Xanadu::CaseSensitive) const noexcept;
 
 	// 检查是否包含指定的内容
-	virtual bool contains(const XString& _String, Xanadu::CaseSensitivity _XCS = Xanadu::CaseSensitive) const noexcept;
+	bool contains(const XString& _String, Xanadu::CaseSensitivity _XCS = Xanadu::CaseSensitive) const noexcept;
 
 public:
 	// 检查它们是否相同 (默认大小写敏感)
-	virtual int compare(wchar_t _Char, Xanadu::CaseSensitivity _XCS = Xanadu::CaseSensitive) const noexcept;
+	int compare(wchar_t _Char, Xanadu::CaseSensitivity _XCS = Xanadu::CaseSensitive) const noexcept;
 
 	// 检查它们是否相同 (默认大小写敏感)
-	virtual int compare(const wchar_t* _String, Xanadu::CaseSensitivity _XCS = Xanadu::CaseSensitive) const noexcept;
+	int compare(const wchar_t* _String, Xanadu::CaseSensitivity _XCS = Xanadu::CaseSensitive) const noexcept;
 
 	// 检查它们是否相同 (默认大小写敏感)
-	virtual int compare(const wchar_t* _String, size_type _Size, Xanadu::CaseSensitivity _XCS = Xanadu::CaseSensitive) const noexcept;
+	int compare(const wchar_t* _String, size_type _Size, Xanadu::CaseSensitivity _XCS = Xanadu::CaseSensitive) const noexcept;
 
 	// 检查它们是否相同 (默认大小写敏感)
-	virtual int compare(const XString& _String, Xanadu::CaseSensitivity _XCS = Xanadu::CaseSensitive) const noexcept;
+	int compare(const XString& _String, Xanadu::CaseSensitivity _XCS = Xanadu::CaseSensitive) const noexcept;
 
 public:
 	// 从结尾添加数据
-	virtual XString& append(wchar_t _Char) noexcept;
+	XString& append(wchar_t _Char) noexcept;
 
 	// 从结尾添加数据
-	virtual XString& append(const wchar_t* _String, size_type _Size = XString::npos) noexcept;
+	XString& append(const wchar_t* _String, size_type _Size = XString::npos) noexcept;
 
 	// 从结尾添加数据
-	virtual XString& append(const XString& _String) noexcept;
+	XString& append(const XString& _String) noexcept;
 
 public:
 	// 从指定的位置插入数据 wchar_t
-	virtual XString& insert(size_type _Pos, wchar_t _Char) noexcept;
+	XString& insert(size_type _Pos, wchar_t _Char) noexcept;
 
 	// 从指定的位置插入数据 wchar_t
-	virtual XString& insert(size_type _Pos, size_type _Count, wchar_t _Char) noexcept;
+	XString& insert(size_type _Pos, size_type _Count, wchar_t _Char) noexcept;
 
 	// 从指定的位置插入数据 const wchar_t*
-	virtual XString& insert(size_type _Pos, const wchar_t* _String, size_type _Length) noexcept;
+	XString& insert(size_type _Pos, const wchar_t* _String, size_type _Length) noexcept;
 
 	// 从指定的位置插入数据 XString
-	virtual XString& insert(size_type _Pos, const XString& _String) noexcept;
+	XString& insert(size_type _Pos, const XString& _String) noexcept;
 
 public:
 	// 从指定的位置删除指定长度的数据
-	virtual XString& remove(size_type _Pos, size_type _Length) noexcept;
+	XString& remove(size_type _Pos, size_type _Length) noexcept;
 
 	// 删除与参数相同的数据
-	virtual XString& remove(wchar_t _Char, Xanadu::CaseSensitivity _XCS = Xanadu::CaseSensitive) noexcept;
+	XString& remove(wchar_t _Char, Xanadu::CaseSensitivity _XCS = Xanadu::CaseSensitive) noexcept;
 
 	// 删除与参数相同的数据
-	virtual XString& remove(const wchar_t* _String, size_type _Length = XString::npos, Xanadu::CaseSensitivity _XCS = Xanadu::CaseSensitive) noexcept;
+	XString& remove(const wchar_t* _String, size_type _Length = XString::npos, Xanadu::CaseSensitivity _XCS = Xanadu::CaseSensitive) noexcept;
 
 	// 删除与参数相同的数据
-	virtual XString& remove(const XString& _String, Xanadu::CaseSensitivity _XCS = Xanadu::CaseSensitive) noexcept;
+	XString& remove(const XString& _String, Xanadu::CaseSensitivity _XCS = Xanadu::CaseSensitive) noexcept;
 
 public:
 	// 替换指定的数据
-	virtual XString& replace(size_type _Pos, size_type _Length, wchar_t _After) noexcept;
+	XString& replace(size_type _Pos, size_type _Length, wchar_t _After) noexcept;
 
 	// 替换指定的数据
-	virtual XString& replace(size_type _Pos, size_type _Length, const wchar_t* _After, size_type _LengthA) noexcept;
+	XString& replace(size_type _Pos, size_type _Length, const wchar_t* _After, size_type _LengthA) noexcept;
 
 	// 替换指定的数据
-	virtual XString& replace(size_type _Pos, size_type _Length, const XString& _After) noexcept;
+	XString& replace(size_type _Pos, size_type _Length, const XString& _After) noexcept;
 
 	// 替换指定的数据
-	virtual XString& replace(wchar_t _Before, wchar_t _After, Xanadu::CaseSensitivity _XCS = Xanadu::CaseSensitive) noexcept;
+	XString& replace(wchar_t _Before, wchar_t _After, Xanadu::CaseSensitivity _XCS = Xanadu::CaseSensitive) noexcept;
 
 	// 替换指定的数据
-	virtual XString& replace(wchar_t _Before, const wchar_t* _After, size_type _LengthA, Xanadu::CaseSensitivity _XCS = Xanadu::CaseSensitive) noexcept;
+	XString& replace(wchar_t _Before, const wchar_t* _After, size_type _LengthA, Xanadu::CaseSensitivity _XCS = Xanadu::CaseSensitive) noexcept;
 
 	// 替换指定的数据
-	virtual XString& replace(wchar_t _Before, const XString& _After, Xanadu::CaseSensitivity _XCS = Xanadu::CaseSensitive) noexcept;
+	XString& replace(wchar_t _Before, const XString& _After, Xanadu::CaseSensitivity _XCS = Xanadu::CaseSensitive) noexcept;
 
 	// 替换指定的数据
-	virtual XString& replace(const wchar_t* _Before, size_type _LengthB, wchar_t _After, Xanadu::CaseSensitivity _XCS = Xanadu::CaseSensitive) noexcept;
+	XString& replace(const wchar_t* _Before, size_type _LengthB, wchar_t _After, Xanadu::CaseSensitivity _XCS = Xanadu::CaseSensitive) noexcept;
 
 	// 替换指定的数据
-	virtual XString& replace(const wchar_t* _Before, size_type _LengthB, const wchar_t* _After, size_type _LengthA, Xanadu::CaseSensitivity _XCS = Xanadu::CaseSensitive) noexcept;
+	XString& replace(const wchar_t* _Before, size_type _LengthB, const wchar_t* _After, size_type _LengthA, Xanadu::CaseSensitivity _XCS = Xanadu::CaseSensitive) noexcept;
 
 	// 替换指定的数据
-	virtual XString& replace(const wchar_t* _Before, size_type _LengthB, const XString& _After, Xanadu::CaseSensitivity _XCS = Xanadu::CaseSensitive) noexcept;
+	XString& replace(const wchar_t* _Before, size_type _LengthB, const XString& _After, Xanadu::CaseSensitivity _XCS = Xanadu::CaseSensitive) noexcept;
 
 	// 替换指定的数据
-	virtual XString& replace(const XString& _Before, wchar_t _After, Xanadu::CaseSensitivity _XCS = Xanadu::CaseSensitive) noexcept;
+	XString& replace(const XString& _Before, wchar_t _After, Xanadu::CaseSensitivity _XCS = Xanadu::CaseSensitive) noexcept;
 
 	// 替换指定的数据
-	virtual XString& replace(const XString& _Before, const wchar_t* _After, size_type _LengthA, Xanadu::CaseSensitivity _XCS = Xanadu::CaseSensitive) noexcept;
+	XString& replace(const XString& _Before, const wchar_t* _After, size_type _LengthA, Xanadu::CaseSensitivity _XCS = Xanadu::CaseSensitive) noexcept;
 
 	// 替换指定的数据
-	virtual XString& replace(const XString& _Before, const XString& _After, Xanadu::CaseSensitivity _XCS = Xanadu::CaseSensitive) noexcept;
+	XString& replace(const XString& _Before, const XString& _After, Xanadu::CaseSensitivity _XCS = Xanadu::CaseSensitive) noexcept;
 
 public:
 	// 判断字符是否是空白字符 ('\t','\n','\v','\f','\r','_') 中的一个
@@ -660,76 +660,116 @@ public:
 	virtual XString simplified() const noexcept;
 
 public:
-	// string to int16S
-	virtual int16S  toInt16S(bool* _Ok = nullptr, int _Base = 10) const noexcept;
+	// string to char
+	char toChar(bool* _Ok = nullptr, int _Base = 10) const noexcept;
 
-	// string to int16U
-	virtual int16U toInt16U(bool* _Ok = nullptr, int _Base = 10) const noexcept;
+	// string to unsigned char
+	unsigned char toUChar(bool* _Ok = nullptr, int _Base = 10) const noexcept;
 
-	// string to int32S
-	virtual int32S toInt32S(bool* _Ok = nullptr, int _Base = 10) const noexcept;
+	// string to short
+	short toShort(bool* _Ok = nullptr, int _Base = 10) const noexcept;
 
-	// string to int32U
-	virtual int32U toInt32U(bool* _Ok = nullptr, int _Base = 10) const noexcept;
+	// string to unsigned short
+	unsigned short toUShort(bool* _Ok = nullptr, int _Base = 10) const noexcept;
 
-	// string to int64S
-	virtual int64S toInt64S(bool* _Ok = nullptr, int _Base = 10) const noexcept;
+	// string to int
+	int toInt(bool* _Ok = nullptr, int _Base = 10) const noexcept;
 
-	// string to int64U
-	virtual int64U toInt64U(bool* _Ok = nullptr, int _Base = 10) const noexcept;
+	// string to unsigned int
+	unsigned int toUInt(bool* _Ok = nullptr, int _Base = 10) const noexcept;
+
+	// string to long
+	long toLong(bool* _Ok = nullptr, int _Base = 10) const noexcept;
+
+	// string to unsigned long
+	unsigned long toULong(bool* _Ok = nullptr, int _Base = 10) const noexcept;
+
+	// string to long long
+	long long toLLong(bool* _Ok = nullptr, int _Base = 10) const noexcept;
+
+	// string to unsigned long long
+	unsigned long long toULLong(bool* _Ok = nullptr, int _Base = 10) const noexcept;
 
 	// string to float
-	virtual float toFloat(bool* _Ok = nullptr) const noexcept;
+	float toFloat(bool* _Ok) const noexcept;
 
 	// string to double
-	virtual double toDouble(bool* _Ok = nullptr) const noexcept;
+	double toDouble(bool* _Ok) const noexcept;
+
+public:
+
+	// string form number
+	XString& setNumber(char _Value, int _Base = 10) noexcept;
+
+	// string form number
+	XString& setNumber(unsigned char _Value, int _Base = 10) noexcept;
+
+	// string form number
+	XString& setNumber(short _Value, int _Base = 10) noexcept;
+
+	// string form number
+	XString& setNumber(unsigned short _Value, int _Base = 10) noexcept;
+
+	// string form number
+	XString& setNumber(int _Value, int _Base = 10) noexcept;
+
+	// string form number
+	XString& setNumber(unsigned int _Value, int _Base = 10) noexcept;
+
+	// string form number
+	XString& setNumber(long _Value, int _Base = 10) noexcept;
+
+	// string form number
+	XString& setNumber(unsigned long _Value, int _Base = 10) noexcept;
+
+	// string form number
+	XString& setNumber(long long _Value, int _Base = 10) noexcept;
+
+	// string form number
+	XString& setNumber(unsigned long long _Value, int _Base = 10) noexcept;
+
+	// string form number
+	XString& setNumber(float _Value, char _Format, int _Prec) noexcept;
+
+	// string form number
+	XString& setNumber(double _Value, char _Format, int _Prec) noexcept;
 
 public:
 	// string form number
-	virtual XString& setNumber(int16S _Value, int32S _Base = 10) noexcept;
+	static XString number(char _Value, int _Base = 10) noexcept;
 
 	// string form number
-	virtual XString& setNumber(int16U _Value, int32S _Base = 10) noexcept;
+	static XString number(unsigned char _Value, int _Base = 10) noexcept;
 
 	// string form number
-	virtual XString& setNumber(int32S _Value, int32S _Base = 10) noexcept;
+	static XString number(short _Value, int _Base = 10) noexcept;
 
 	// string form number
-	virtual XString& setNumber(int32U _Value, int32S _Base = 10) noexcept;
+	static XString number(unsigned short _Value, int _Base = 10) noexcept;
 
 	// string form number
-	virtual XString& setNumber(int64S _Value, int32S _Base = 10) noexcept;
+	static XString number(int _Value, int _Base = 10) noexcept;
 
 	// string form number
-	virtual XString& setNumber(int64U _Value, int32S _Base = 10) noexcept;
+	static XString number(unsigned int _Value, int _Base = 10) noexcept;
 
 	// string form number
-	virtual XString& setNumber(float _Value, char _Format = 'g', int32S _Prec = 6) noexcept;
+	static XString number(long _Value, int _Base = 10) noexcept;
 
 	// string form number
-	virtual XString& setNumber(double _Value, char _Format = 'g', int32S _Prec = 6) noexcept;
-
-public:
-	// string form number
-	static XString number(int16S _Value, int32S _Base = 10) noexcept;
+	static XString number(unsigned long _Value, int _Base = 10) noexcept;
 
 	// string form number
-	static XString number(int16U _Value, int32S _Base = 10) noexcept;
+	static XString number(long long _Value, int _Base = 10) noexcept;
 
 	// string form number
-	static XString number(int32S _Value, int32S _Base = 10) noexcept;
+	static XString number(unsigned long long _Value, int _Base = 10) noexcept;
 
 	// string form number
-	static XString number(int32U _Value, int32S _Base = 10) noexcept;
+	static XString number(float _Value, char _Format = 'g', int _Prec = 6) noexcept;
 
 	// string form number
-	static XString number(int64S _Value, int32S _Base = 10) noexcept;
-
-	// string form number
-	static XString number(int64U _Value, int32S _Base = 10) noexcept;
-
-	// string form number
-	static XString number(double _Value, char _Format = 'g', int32S _Prec = 6) noexcept;
+	static XString number(double _Value, char _Format = 'g', int _Prec = 6) noexcept;
 };
 
 // XString Swap

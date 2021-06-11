@@ -152,7 +152,7 @@ bool XAllocator::memoryAllocator(const void* _Memory, size_type _Length) noexcep
 	return false;
 }
 
-// Release memory
+// _clear memory
 void XAllocator::memoryRelease() noexcept
 {
 	XANADU_ALLOCATOR_DELETE(this->_memory_address);

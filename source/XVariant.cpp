@@ -1,190 +1,315 @@
 ﻿#include <XanaduCore/XVariant.h>
 
 
-// The XVariant object copies the macro function
-#define XANADU_VARIANT_OBJECT_CREATE(_Type, _Value)	{ \
-								this->_variant_data._VObject = XANADU_NEW _Type(); \
-								if(this->_variant_data._VObject) \
-								{ \
-									*(static_cast<_Type*>(this->_variant_data._VObject)) = _Value; \
-								} \
-							}
-
-#define XANADU_VARIANT_OBJECT_COPY(_Type)		{ \
-								this->_variant_data._VObject = XANADU_NEW _Type(); \
-								if(this->_variant_data._VObject) \
-								{ \
-									*(static_cast<_Type*>(this->_variant_data._VObject)) = *(static_cast<_Type*>(_Other._variant_data._VObject)); \
-								} \
-							}
-
-#define XANADU_VARIANT_OBJECT_RELEASE(_Type)		{ \
-								if(this->_variant_data._VObject)        \
-								{                                       \
-									delete static_cast<_Type*>(this->_variant_data._VObject); \
-									this->_variant_data._VObject = nullptr;\
-								}                                       \
-							}
-
-
-
 // Structure
 XVariant::XVariant() noexcept
 {
-	this->_variant_type = XVariant::EINVALID;
+	this->_variant_type = XVariant::kINVALID;
 	this->_variant_data._VNull = 0LL;
 }
 
-// Overloading structure
+// constructor
 XVariant::XVariant(Type _Type) noexcept
 {
 	this->_variant_type = _Type;
 	this->_variant_data._VNull = 0LL;
 }
 
-// Overloading structure
-XVariant::XVariant(const XVariant& _Other) noexcept
-{
-	this->Initialize(_Other);
-}
-
-// Overloading structure
+// constructor
 XVariant::XVariant(bool _Value) noexcept
 {
-	this->_variant_type = EBOOL;
+	this->_variant_type = kBOOLEAN;
 	this->_variant_data._VBool = _Value;
 }
 
-// Overloading structure
-XVariant::XVariant(int8S _Value) noexcept
+// constructor
+XVariant::XVariant(char _Value) noexcept
 {
-	this->_variant_type = EINT8S;
-	this->_variant_data._VInt8S = _Value;
-}
-
-// Overloading structure
-XVariant::XVariant(int8U _Value) noexcept
-{
-	this->_variant_type = EINT8U;
-	this->_variant_data._VInt8U = _Value;
-}
-
-// Overloading structure
-XVariant::XVariant(int16S _Value) noexcept
-{
-	this->_variant_type = EINT16S;
-	this->_variant_data._VInt16S = _Value;
-}
-
-// Overloading structure
-XVariant::XVariant(int16U _Value) noexcept
-{
-	this->_variant_type = EINT16U;
-	this->_variant_data._VInt16U = _Value;
-}
-
-// Overloading structure
-XVariant::XVariant(int32S _Value) noexcept
-{
-	this->_variant_type = EINT32S;
-	this->_variant_data._VInt32S = _Value;
-}
-
-// Overloading structure
-XVariant::XVariant(int32U _Value) noexcept
-{
-	this->_variant_type = EINT32U;
-	this->_variant_data._VInt32U = _Value;
-}
-
-// Overloading structure
-XVariant::XVariant(int64S _Value) noexcept
-{
-	this->_variant_type = EINT64S;
+	this->_variant_type = kCHAR;
 	this->_variant_data._VInt64S = _Value;
 }
 
-// Overloading structure
-XVariant::XVariant(int64U _Value) noexcept
+// constructor
+XVariant::XVariant(unsigned char _Value) noexcept
 {
-	this->_variant_type = EINT64U;
+	this->_variant_type = kUCHAR;
 	this->_variant_data._VInt64U = _Value;
 }
 
-// Overloading structure
-XVariant::XVariant(float _Value) noexcept
+// constructor
+XVariant::XVariant(short _Value) noexcept
 {
-	this->_variant_type = EFLOAT;
-	this->_variant_data._VFloat = _Value;
+	this->_variant_type = kSHORT;
+	this->_variant_data._VInt64S = _Value;
 }
 
-// Overloading structure
-XVariant::XVariant(double _Value) noexcept
+// constructor
+XVariant::XVariant(unsigned short _Value) noexcept
 {
-	this->_variant_type = EDOUBLE;
+	this->_variant_type = kUSHORT;
+	this->_variant_data._VInt64U = _Value;
+}
+
+// constructor
+XVariant::XVariant(int _Value) noexcept
+{
+	this->_variant_type = kINT;
+	this->_variant_data._VInt64S = _Value;
+}
+
+// constructor
+XVariant::XVariant(unsigned int _Value) noexcept
+{
+	this->_variant_type = kUINT;
+	this->_variant_data._VInt64U = _Value;
+}
+
+// constructor
+XVariant::XVariant(long _Value) noexcept
+{
+	this->_variant_type = kLONG;
+	this->_variant_data._VInt64S = _Value;
+}
+
+// constructor
+XVariant::XVariant(unsigned long _Value) noexcept
+{
+	this->_variant_type = kULONG;
+	this->_variant_data._VInt64U = _Value;
+}
+
+// constructor
+XVariant::XVariant(long long _Value) noexcept
+{
+	this->_variant_type = kLLONG;
+	this->_variant_data._VInt64S = _Value;
+}
+
+// constructor
+XVariant::XVariant(unsigned long long _Value) noexcept
+{
+	this->_variant_type = kULLONG;
+	this->_variant_data._VInt64U = _Value;
+}
+
+// constructor
+XVariant::XVariant(float _Value) noexcept
+{
+	this->_variant_type = kFLOAT;
 	this->_variant_data._VDouble = _Value;
 }
 
-// Overloading structure
+// constructor
+XVariant::XVariant(double _Value) noexcept
+{
+	this->_variant_type = kDOUBLE;
+	this->_variant_data._VDouble = _Value;
+}
+
+// constructor
 XVariant::XVariant(const wchar_t* _Value) noexcept
 {
-	this->_variant_type = ESTRING;
-	XANADU_VARIANT_OBJECT_CREATE(XString, _Value ? _Value : L"");
+	this->_variant_type = kSTRING;
+	this->_variant_data._VObject = XANADU_NEW XString(_Value);
 }
 
-// Overloading structure
+// constructor
 XVariant::XVariant(const XString& _Value) noexcept
 {
-	this->_variant_type = ESTRING;
-	XANADU_VARIANT_OBJECT_CREATE(XString, _Value);
+	this->_variant_type = kSTRING;
+	this->_variant_data._VObject = XANADU_NEW XString(_Value);
 }
 
-// Overloading structure
+// constructor
 XVariant::XVariant(const char* _Value) noexcept
 {
-	this->_variant_type = EBYTEARRAY;
-	XANADU_VARIANT_OBJECT_CREATE(XByteArray, _Value ? _Value : "");
+	this->_variant_type = kBYTES;
+	this->_variant_data._VObject = XANADU_NEW XByteArray(_Value);
 }
 
-// Overloading structure
+// constructor
 XVariant::XVariant(const XByteArray& _Value) noexcept
 {
-	this->_variant_type = EBYTEARRAY;
-	XANADU_VARIANT_OBJECT_CREATE(XByteArray, _Value);
+	this->_variant_type = kBYTES;
+	this->_variant_data._VObject = XANADU_NEW XByteArray(_Value);
 }
 
-// Overloading structure
+// constructor
+XVariant::XVariant(const XVariant& _Other) noexcept
+{
+	this->_copy(_Other);
+}
+
+// constructor
 XVariant::XVariant(XVariant&& _Other) noexcept
 {
 	this->_variant_type = _Other._variant_type;
 	this->_variant_data = _Other._variant_data;
 
-	_Other._variant_type = EINVALID;
+	_Other._variant_type = kINVALID;
 	_Other._variant_data._VObject = nullptr;
 }
 
 // Virtual destructor
 XVariant::~XVariant() noexcept
 {
-	this->Release();
+	this->_clear();
 }
 
 
 
-// Overload Operator =
+
+
+// Operator overload =
+XVariant& XVariant::operator = (bool _Value) noexcept
+{
+	this->_clear();
+	this->_variant_type = kBOOLEAN;
+	this->_variant_data._VBool = _Value;
+}
+
+// Operator overload =
+XVariant& XVariant::operator = (char _Value) noexcept
+{
+	this->_clear();
+	this->_variant_type = kCHAR;
+	this->_variant_data._VInt64S = _Value;
+}
+
+// Operator overload =
+XVariant& XVariant::operator = (unsigned char _Value) noexcept
+{
+	this->_clear();
+	this->_variant_type = kUCHAR;
+	this->_variant_data._VInt64U = _Value;
+}
+
+// Operator overload =
+XVariant& XVariant::operator = (short _Value) noexcept
+{
+	this->_clear();
+	this->_variant_type = kSHORT;
+	this->_variant_data._VInt64S = _Value;
+}
+
+// Operator overload =
+XVariant& XVariant::operator = (unsigned short _Value) noexcept
+{
+	this->_clear();
+	this->_variant_type = kUSHORT;
+	this->_variant_data._VInt64U = _Value;
+}
+
+// Operator overload =
+XVariant& XVariant::operator = (int _Value) noexcept
+{
+	this->_clear();
+	this->_variant_type = kINT;
+	this->_variant_data._VInt64S = _Value;
+}
+
+// Operator overload =
+XVariant& XVariant::operator = (unsigned int _Value) noexcept
+{
+	this->_clear();
+	this->_variant_type = kUINT;
+	this->_variant_data._VInt64U = _Value;
+}
+
+// Operator overload =
+XVariant& XVariant::operator = (long _Value) noexcept
+{
+	this->_clear();
+	this->_variant_type = kLONG;
+	this->_variant_data._VInt64S = _Value;
+}
+
+// Operator overload =
+XVariant& XVariant::operator = (unsigned long _Value) noexcept
+{
+	this->_clear();
+	this->_variant_type = kULONG;
+	this->_variant_data._VInt64U = _Value;
+}
+
+// Operator overload =
+XVariant& XVariant::operator = (long long _Value) noexcept
+{
+	this->_clear();
+	this->_variant_type = kLLONG;
+	this->_variant_data._VInt64S = _Value;
+}
+
+// Operator overload =
+XVariant& XVariant::operator = (unsigned long long _Value) noexcept
+{
+	this->_clear();
+	this->_variant_type = kULLONG;
+	this->_variant_data._VInt64U = _Value;
+}
+
+// Operator overload =
+XVariant& XVariant::operator = (float _Value) noexcept
+{
+	this->_clear();
+	this->_variant_type = kFLOAT;
+	this->_variant_data._VDouble = _Value;
+}
+
+// Operator overload =
+XVariant& XVariant::operator = (double _Value) noexcept
+{
+	this->_clear();
+	this->_variant_type = kDOUBLE;
+	this->_variant_data._VDouble = _Value;
+}
+
+// Operator overload =
+XVariant& XVariant::operator = (const wchar_t* _Value) noexcept
+{
+	this->_clear();
+	this->_variant_type = kSTRING;
+	this->_variant_data._VObject = XANADU_NEW XString(_Value);
+}
+
+// Operator overload =
+XVariant& XVariant::operator = (const XString& _Value) noexcept
+{
+	this->_clear();
+	this->_variant_type = kSTRING;
+	this->_variant_data._VObject = XANADU_NEW XString(_Value);
+}
+
+// Operator overload =
+XVariant& XVariant::operator = (const char* _Value) noexcept
+{
+	this->_clear();
+	this->_variant_type = kBYTES;
+	this->_variant_data._VObject = XANADU_NEW XByteArray(_Value);
+}
+
+// Operator overload =
+XVariant& XVariant::operator = (const XByteArray& _Value) noexcept
+{
+	this->_clear();
+	this->_variant_type = kBYTES;
+	this->_variant_data._VObject = XANADU_NEW XByteArray(_Value);
+}
+
+// Operator overload =
 XVariant& XVariant::operator = (const XVariant& _Other) noexcept
 {
-	this->Initialize(_Other);
+	this->_copy(_Other);
 	return *this;
 }
 
-// Overload Operator =
+// Operator overload =
 XVariant& XVariant::operator = (XVariant&& _Other) noexcept
 {
 	this->_variant_type = _Other._variant_type;
 	this->_variant_data = _Other._variant_data;
 
-	_Other._variant_type = EINVALID;
+	_Other._variant_type = kINVALID;
 	_Other._variant_data._VObject = nullptr;
 	return *this;
 }
@@ -193,33 +318,47 @@ XVariant& XVariant::operator = (XVariant&& _Other) noexcept
 
 
 
-// Data to construct
-void XVariant::Initialize(const XVariant& _Other) noexcept
+// Data copy
+void XVariant::_copy(const XVariant& _Other) noexcept
 {
-	this->Release();
+	this->_clear();
 
 	this->_variant_type = _Other._variant_type;
 	this->_variant_data._VNull = 0LL;
 	switch (this->_variant_type)
 	{
-		case EBOOL:
-		case EINT8S:
-		case EINT8U:
-		case EINT16S:
-		case EINT16U:
-		case EINT32S:
-		case EINT32U:
-		case EINT64S:
-		case EINT64U:
-		case EFLOAT:
-		case EDOUBLE:
+		case kBOOLEAN:
+		case kCHAR:
+		case kUCHAR:
+		case kSHORT:
+		case kUSHORT:
+		case kINT:
+		case kUINT:
+		case kLONG:
+		case kULONG:
+		case kLLONG:
+		case kULLONG:
+		case kFLOAT:
+		case kDOUBLE:
 			this->_variant_data = _Other._variant_data;
 			break;
-		case ESTRING:
-			XANADU_VARIANT_OBJECT_COPY(XString);
+		case kSTRING:
+		{
+			this->_variant_data._VObject = XANADU_NEW XString();
+			if(this->_variant_data._VObject)
+			{
+				*(static_cast<XString*>(this->_variant_data._VObject)) = *(static_cast<XString*>(_Other._variant_data._VObject));
+			}
+		}
 			break;
-		case EBYTEARRAY:
-			XANADU_VARIANT_OBJECT_COPY(XByteArray);
+		case kBYTES:
+		{
+			this->_variant_data._VObject = XANADU_NEW XByteArray();
+			if(this->_variant_data._VObject)
+			{
+				*(static_cast<XByteArray*>(this->_variant_data._VObject)) = *(static_cast<XByteArray*>(_Other._variant_data._VObject));
+			}
+		}
 			break;
 		default:
 			this->_variant_data._VNull = 0LL;
@@ -228,34 +367,48 @@ void XVariant::Initialize(const XVariant& _Other) noexcept
 }
 
 // Data released
-void XVariant::Release() noexcept
+void XVariant::_clear() noexcept
 {
 	switch (this->_variant_type)
 	{
-		case EBOOL:
-		case EINT8S:
-		case EINT8U:
-		case EINT16S:
-		case EINT16U:
-		case EINT32S:
-		case EINT32U:
-		case EINT64S:
-		case EINT64U:
-		case EFLOAT:
-		case EDOUBLE:
+		case kBOOLEAN:
+		case kCHAR:
+		case kUCHAR:
+		case kSHORT:
+		case kUSHORT:
+		case kINT:
+		case kUINT:
+		case kLLONG:
+		case kULLONG:
+		case kFLOAT:
+		case kDOUBLE:
 			this->_variant_data._VNull = 0LL;
 			break;
-		case ESTRING:
-			XANADU_VARIANT_OBJECT_RELEASE(XString);
+		case kSTRING:
+		{
+			auto		vString = static_cast<XString*>(this->_variant_data._VObject);
+			if(vString)
+			{
+				XANADU_DELETE_PTR(vString);
+				this->_variant_data._VObject = nullptr;
+			}
+		}
 			break;
-		case EBYTEARRAY:
-			XANADU_VARIANT_OBJECT_RELEASE(XByteArray);
+		case kBYTES:
+		{
+			auto		vBytes = static_cast<XByteArray*>(this->_variant_data._VObject);
+			if(vBytes)
+			{
+				XANADU_DELETE_PTR(vBytes);
+				this->_variant_data._VObject = nullptr;
+			}
+		}
 			break;
 		default:
 			this->_variant_data._VNull = 0LL;
 			break;
 	};
-	this->_variant_type = EINVALID;
+	this->_variant_type = kINVALID;
 	this->_variant_data._VNull = 0LL;
 }
 
@@ -271,7 +424,7 @@ XVariant::Type XVariant::type() const noexcept
 // Clear current content
 void XVariant::clear() noexcept
 {
-	this->Release();
+	this->_clear();
 }
 
 
@@ -283,140 +436,136 @@ bool XVariant::toBool() const noexcept
 {
 	switch (this->_variant_type)
 	{
-		case EBOOL:
+		case kBOOLEAN:
 			return this->_variant_data._VBool;
-		case EINT8S:
-			return this->_variant_data._VInt8S;
-		case EINT8U:
-			return this->_variant_data._VInt8U;
-		case EINT16S:
-			return this->_variant_data._VInt16S;
-		case EINT16U:
-			return this->_variant_data._VInt16U;
-		case EINT32S:
-			return this->_variant_data._VInt32S;
-		case EINT32U:
-			return this->_variant_data._VInt32U;
-		case EINT64S:
-			return this->_variant_data._VInt64S;
-		case EINT64U:
+		case kCHAR:
+		case kUCHAR:
+		case kSHORT:
+		case kUSHORT:
+		case kINT:
+		case kUINT:
+		case kLONG:
+		case kULONG:
+		case kLLONG:
+		case kULLONG:
 			return this->_variant_data._VInt64U;
-		case EFLOAT:
-			return this->_variant_data._VFloat;
-		case EDOUBLE:
-			return this->_variant_data._VDouble;
-		case ESTRING:
-			return (0 == this->toString().compare(L"1")) ? true : false;
-		case EBYTEARRAY:
-			return (0 == this->toByteArray().compare("1")) ? true : false;
+		case kFLOAT:
+		case kDOUBLE:
+			return this->_variant_data._VDouble == 0.0f;
+		case kSTRING:
+			return 0 == this->toString().compare(L"1");
+		case kBYTES:
+			return 0 == this->toBytes().compare("1");
 		default:
 			return this->_variant_data._VNull;
 	};
 }
 
-// Convert to int8S
-int8S XVariant::toInt8S() const noexcept
+// Convert to char
+char XVariant::toChar() const noexcept
 {
-	return static_cast<int8S>(this->toInt64S());
+	return static_cast<char>(this->toLLong());
 }
 
-// Convert to int8U
-int8U XVariant::toInt8U() const noexcept
+// Convert to unsigned char
+unsigned char XVariant::toUChar() const noexcept
 {
-	return static_cast<int8U>(this->toInt64S());
+	return static_cast<unsigned char>(this->toULLong());
 }
 
-// Convert to int16S
-int16S XVariant::toInt16S() const noexcept
+// Convert to short
+short XVariant::toShort() const noexcept
 {
-	return static_cast<int16S>(this->toInt64S());
+	return static_cast<short>(this->toLLong());
 }
 
-// Convert to int16U
-int16U XVariant::toInt16U() const noexcept
+// Convert to unsigned short
+unsigned short XVariant::toUShort() const noexcept
 {
-	return static_cast<int16U>(this->toInt64S());
+	return static_cast<unsigned short>(this->toULLong());
 }
 
-// Convert to int32S
-int32S XVariant::toInt32S() const noexcept
+// Convert to int
+int XVariant::toInt() const noexcept
 {
-	return static_cast<int32S>(this->toInt64S());
+	return static_cast<int>(this->toLLong());
 }
 
-// Convert to int32U
-int32U XVariant::toInt32U() const noexcept
+// Convert to unsigned int
+unsigned int XVariant::toUInt() const noexcept
 {
-	return static_cast<int32U>(this->toInt64S());
+	return static_cast<unsigned int>(this->toULLong());
 }
 
-// Convert to int64S
-int64S XVariant::toInt64S() const noexcept
+// Convert to long
+long XVariant::toLong() const noexcept
+{
+	return static_cast<long>(this->toLLong());
+}
+
+// Convert to unsigned long
+unsigned long XVariant::toULong() const noexcept
+{
+	return static_cast<unsigned long>(this->toULLong());
+}
+
+// Convert to long long
+long long XVariant::toLLong() const noexcept
 {
 	switch (this->_variant_type)
 	{
-		case EBOOL:
+		case kBOOLEAN:
 			return this->_variant_data._VBool ? 1LL : 0LL;
-		case EINT8S:
-			return this->_variant_data._VInt8S;
-		case EINT8U:
-			return this->_variant_data._VInt8U;
-		case EINT16S:
-			return this->_variant_data._VInt16S;
-		case EINT16U:
-			return this->_variant_data._VInt16U;
-		case EINT32S:
-			return this->_variant_data._VInt32S;
-		case EINT32U:
-			return this->_variant_data._VInt32U;
-		case EINT64S:
+		case kCHAR:
+		case kSHORT:
+		case kINT:
+		case kLONG:
+		case kLLONG:
 			return this->_variant_data._VInt64S;
-		case EINT64U:
-			return this->_variant_data._VInt64U;
-		case EFLOAT:
-			return static_cast<int64S>(this->_variant_data._VFloat);
-		case EDOUBLE:
-			return static_cast<int64S>(this->_variant_data._VDouble);
-		case ESTRING:
+		case kUCHAR:
+		case kUSHORT:
+		case kUINT:
+		case kULONG:
+		case kULLONG:
+			return static_cast<long long>(this->_variant_data._VInt64U);
+		case kFLOAT:
+		case kDOUBLE:
+			return static_cast<long long>(this->_variant_data._VDouble);
+		case kSTRING:
 			return Xanadu::wtoll(this->toString().data());
-		case EBYTEARRAY:
-			return Xanadu::atoll(this->toByteArray().data());
+		case kBYTES:
+			return Xanadu::atoll(this->toBytes().data());
 		default:
 			return this->_variant_data._VNull;
 	};
 }
 
-// Convert to int64U
-int64U XVariant::toInt64U() const noexcept
+// Convert to unsigned long long
+unsigned long long XVariant::toULLong() const noexcept
 {
 	switch (this->_variant_type)
 	{
-		case EBOOL:
+		case kBOOLEAN:
 			return this->_variant_data._VBool ? 1ULL : 0ULL;
-		case EINT8S:
-			return this->_variant_data._VInt8S;
-		case EINT8U:
-			return this->_variant_data._VInt8U;
-		case EINT16S:
-			return this->_variant_data._VInt16S;
-		case EINT16U:
-			return this->_variant_data._VInt16U;
-		case EINT32S:
-			return this->_variant_data._VInt32S;
-		case EINT32U:
-			return this->_variant_data._VInt32U;
-		case EINT64S:
-			return this->_variant_data._VInt64S;
-		case EINT64U:
+		case kCHAR:
+		case kSHORT:
+		case kINT:
+		case kLONG:
+		case kLLONG:
+			return static_cast<unsigned long long>(this->_variant_data._VInt64S);
+		case kUCHAR:
+		case kUSHORT:
+		case kUINT:
+		case kULONG:
+		case kULLONG:
 			return this->_variant_data._VInt64U;
-		case EFLOAT:
-			return static_cast<int64U>(this->_variant_data._VFloat);
-		case EDOUBLE:
-			return static_cast<int64U>(this->_variant_data._VDouble);
-		case ESTRING:
+		case kFLOAT:
+		case kDOUBLE:
+			return static_cast<unsigned long long>(this->_variant_data._VDouble);
+		case kSTRING:
 			return Xanadu::wtoll(this->toString().data());
-		case EBYTEARRAY:
-			return Xanadu::atoll(this->toByteArray().data());
+		case kBYTES:
+			return Xanadu::atoll(this->toBytes().data());
 		default:
 			return this->_variant_data._VNull;
 	};
@@ -433,32 +582,27 @@ double XVariant::toDouble() const noexcept
 {
 	switch (this->_variant_type)
 	{
-		case EBOOL:
+		case kBOOLEAN:
 			return 0.0f;
-		case EINT8S:
-			return this->_variant_data._VInt8S;
-		case EINT8U:
-			return this->_variant_data._VInt8U;
-		case EINT16S:
-			return this->_variant_data._VInt16S;
-		case EINT16U:
-			return this->_variant_data._VInt16U;
-		case EINT32S:
-			return this->_variant_data._VInt32S;
-		case EINT32U:
-			return this->_variant_data._VInt32U;
-		case EINT64S:
+		case kCHAR:
+		case kSHORT:
+		case kINT:
+		case kLONG:
+		case kLLONG:
 			return static_cast<double>(this->_variant_data._VInt64S);
-		case EINT64U:
+		case kUCHAR:
+		case kUSHORT:
+		case kUINT:
+		case kULONG:
+		case kULLONG:
 			return static_cast<double>(this->_variant_data._VInt64U);
-		case EFLOAT:
-			return this->_variant_data._VFloat;
-		case EDOUBLE:
+		case kFLOAT:
+		case kDOUBLE:
 			return this->_variant_data._VDouble;
-		case ESTRING:
+		case kSTRING:
 			return Xanadu::wtof(this->toString().data());
-		case EBYTEARRAY:
-			return Xanadu::atof(this->toByteArray().data());
+		case kBYTES:
+			return Xanadu::atof(this->toBytes().data());
 		default:
 			return static_cast<double>(this->_variant_data._VNull);
 	};
@@ -469,56 +613,51 @@ XString XVariant::toString() const noexcept
 {
 	switch (this->_variant_type)
 	{
-		case EBOOL:
-			return XString::format(L"%ls", this->_variant_data._VBool ? L"1" : L"0");
-		case EINT8S:
-			return XString::format(L"%d", this->_variant_data._VInt8S);
-		case EINT8U:
-			return XString::format(L"%u", this->_variant_data._VInt8U);
-		case EINT16S:
-			return XString::format(L"%d", this->_variant_data._VInt16S);
-		case EINT16U:
-			return XString::format(L"%u", this->_variant_data._VInt16U);
-		case EINT32S:
-			return XString::format(L"%d", this->_variant_data._VInt32S);
-		case EINT32U:
-			return XString::format(L"%u", this->_variant_data._VInt32U);
-		case EINT64S:
-			return XString::format(L"%lld", this->_variant_data._VInt64S);
-		case EINT64U:
-			return XString::format(L"%llu", this->_variant_data._VInt64U);
-		case EFLOAT:
-			return XString::format(L"%f", this->_variant_data._VFloat);
-		case EDOUBLE:
-			return XString::format(L"%f", this->_variant_data._VDouble);
-		case ESTRING:
+		case kBOOLEAN:
+			return this->_variant_data._VBool ? L"1" : L"0";
+		case kCHAR:
+		case kSHORT:
+		case kINT:
+		case kLONG:
+		case kLLONG:
+			return XString::number(this->_variant_data._VInt64S);
+		case kUCHAR:
+		case kUSHORT:
+		case kUINT:
+		case kULONG:
+		case kULLONG:
+			return XString::number(this->_variant_data._VInt64U);
+		case kFLOAT:
+		case kDOUBLE:
+			return XString::number(this->_variant_data._VDouble);
+		case kSTRING:
 			return *(static_cast<XString*>(this->_variant_data._VObject));
-		case EBYTEARRAY:
-			return XString::fromBytes(this->toByteArray());
+		case kBYTES:
+			return XString::fromBytes(this->toBytes());
 		default:
 			return L"";
 	};
 }
 
 // Convert to XByteArray
-XByteArray XVariant::toByteArray() const noexcept
+XByteArray XVariant::toBytes() const noexcept
 {
 	switch (this->_variant_type)
 	{
-		case EBOOL:
-		case EINT8S:
-		case EINT8U:
-		case EINT16S:
-		case EINT16U:
-		case EINT32S:
-		case EINT32U:
-		case EINT64S:
-		case EINT64U:
-		case EFLOAT:
-		case EDOUBLE:
-		case ESTRING:
+		case kBOOLEAN:
+		case kCHAR:
+		case kUCHAR:
+		case kSHORT:
+		case kUSHORT:
+		case kINT:
+		case kUINT:
+		case kLLONG:
+		case kULLONG:
+		case kFLOAT:
+		case kDOUBLE:
+		case kSTRING:
 			return this->toString().toBytes();
-		case EBYTEARRAY:
+		case kBYTES:
 			return *(static_cast<XByteArray*>(this->_variant_data._VObject));
 		default:
 			return XByteArray();

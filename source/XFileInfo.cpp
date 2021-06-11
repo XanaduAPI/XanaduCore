@@ -10,7 +10,7 @@ public:
 
 
 
-// Overload Initialize
+// Overload _copy
 XFileInfo::XFileInfo() noexcept
 {
 	this->_Info = XANADU_NEW XFileInfoPrivate();
@@ -18,7 +18,7 @@ XFileInfo::XFileInfo() noexcept
 	this->_Info->_AbsolutePath = L"";
 }
 
-// Overload Initialize
+// Overload _copy
 XFileInfo::XFileInfo(const XString& _Filepath) noexcept
 {
 	this->_Info = XANADU_NEW XFileInfoPrivate();
@@ -26,7 +26,7 @@ XFileInfo::XFileInfo(const XString& _Filepath) noexcept
 	this->_Info->_AbsolutePath = XFileInfo::ToAbsolutePath(_Filepath);
 }
 
-// Overload Initialize
+// Overload _copy
 XFileInfo::XFileInfo(const XFileInfo& _Fileinfo) noexcept
 {
 	this->_Info = XANADU_NEW XFileInfoPrivate();

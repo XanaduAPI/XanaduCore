@@ -1,4 +1,4 @@
-﻿#include <XanaduCore/base64.h>
+﻿#include <XanaduCore/XBase64.h>
 
 // Check for Base64 characters
 bool XanaduByteArrayIsBase64(unsigned char _Char)
@@ -8,12 +8,12 @@ bool XanaduByteArrayIsBase64(unsigned char _Char)
 
 
 // constructor
-Xanadu::base64::base64() noexcept
+XBase64::XBase64() noexcept
 {
 }
 
 // destructor
-Xanadu::base64::~base64() noexcept
+XBase64::~XBase64() noexcept
 {
 }
 
@@ -22,7 +22,7 @@ Xanadu::base64::~base64() noexcept
 
 
 // Encode the memory of the specified length as Base64
-XByteArray Xanadu::base64::encode(const void* _Memory, size_t _Length) noexcept
+XByteArray XBase64::encode(const void* _Memory, size_t _Length) noexcept
 {
 	if(nullptr == _Memory || 0 == _Length)
 	{
@@ -87,9 +87,9 @@ XByteArray Xanadu::base64::encode(const void* _Memory, size_t _Length) noexcept
 }
 
 // Encode a byte array as Base64
-XByteArray Xanadu::base64::encode(const XByteArray& _Bytes) noexcept
+XByteArray XBase64::encode(const XByteArray& _Bytes) noexcept
 {
-	return Xanadu::base64::encode(_Bytes.data(), _Bytes.size());
+	return XBase64::encode(_Bytes.data(), _Bytes.size());
 }
 
 
@@ -97,7 +97,7 @@ XByteArray Xanadu::base64::encode(const XByteArray& _Bytes) noexcept
 
 
 // Decode a segment of Base64 memory
-XByteArray Xanadu::base64::decode(const void* _Memory, size_t _Length) noexcept
+XByteArray XBase64::decode(const void* _Memory, size_t _Length) noexcept
 {
 	if(nullptr == _Memory || 0 == _Length || (_Length % 4))
 	{
@@ -158,7 +158,7 @@ XByteArray Xanadu::base64::decode(const void* _Memory, size_t _Length) noexcept
 }
 
 // Decode a byte array of Base64
-XByteArray Xanadu::base64::decode(const XByteArray& _Bytes) noexcept
+XByteArray XBase64::decode(const XByteArray& _Bytes) noexcept
 {
-	return Xanadu::base64::decode(_Bytes.data(), _Bytes.size());
+	return XBase64::decode(_Bytes.data(), _Bytes.size());
 }

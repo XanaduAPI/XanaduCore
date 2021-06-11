@@ -15,10 +15,10 @@ private:
 	XSettingPrivate*		_Info;
 
 public:
-	// Overload Initialize
+	// Overload _copy
 	XSetting() noexcept;
 
-	// Overload Initialize
+	// Overload _copy
 	XSetting(const XSetting& _Setting) noexcept;
 
 	// Virtual destructor

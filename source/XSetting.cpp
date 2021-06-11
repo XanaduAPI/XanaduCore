@@ -26,7 +26,7 @@ XSetting::XSetting() noexcept
 	this->_Info = nullptr;
 }
 
-// Overload Initialize
+// Overload _copy
 XSetting::XSetting(const XSetting& _Setting) noexcept
 {
 	this->_copy(_Setting);
@@ -358,12 +358,12 @@ bool XSetting::modify(const XString& _Section, const XString& _Key, const XVaria
 	auto		vNode = this->_find(_Section, _Key);
 	if(vNode)
 	{
-		vNode->_Text = _Key.toBytes() + "=" + _Value.toByteArray();
+		vNode->_Text = _Key.toBytes() + "=" + _Value.toBytes();
 		return true;
 	}
 	else
 	{
-		vNode = this->_format(_Key.toBytes() + "=" + _Value.toByteArray());
+		vNode = this->_format(_Key.toBytes() + "=" + _Value.toBytes());
 		if(vNode)
 		{
 			auto		vEnd = this->_section_end(_Section);
@@ -382,7 +382,7 @@ bool XSetting::modify(const XString& _Section, const XString& _Key, const XVaria
 			{
 				// 当没有同名Section存在时，创建一个Section与Key
 				auto		vNodeSection = this->_format(XByteArray("[") + _Section.toBytes() + XByteArray("]"));
-				auto		vNodeKey = this->_format(_Key.toBytes() + "=" + _Value.toByteArray());
+				auto		vNodeKey = this->_format(_Key.toBytes() + "=" + _Value.toBytes());
 				if(vNodeSection == vNodeKey)
 				{
 					this->_append(vNodeSection);

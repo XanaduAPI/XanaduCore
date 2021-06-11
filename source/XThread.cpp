@@ -1,5 +1,5 @@
 ﻿#include <XanaduCore/XThread.h>
-#include <XanaduCore/mutex.h>
+#include <XanaduCore/XMutex.h>
 
 // 线程结构
 typedef struct _PlatformThreadRunning

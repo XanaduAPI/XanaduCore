@@ -52,7 +52,7 @@
 /* ctx->wbuf[] at this point is in such an order that low   */
 /* address bytes in the ORIGINAL byte stream will go in     */
 /* this buffer to the high end of 32-bit words on BOTH big  */
-/* and little endian systems                                */
+/* and little XEndian systems                                */
 
 #ifdef ARRAY
 #define q(v,n)  v[n]
@@ -210,7 +210,7 @@ XANADU_CORE_EXPORT void XANADUAPI Xanadu::sha1_end(unsigned char _Hval[], XANADU
 
 	/* put bytes in the buffer in an order in which references to   */
 	/* 32-bit words will put bytes with lower addresses into the    */
-	/* top of 32 bit words on BOTH big and little endian machines   */
+	/* top of 32 bit words on BOTH big and little XEndian machines   */
 	bsw_32(_Context->wbuf, (i + 3 + SHA1_BITS) >> 2);
 
 	/* we now need to mask valid bytes and add the padding which is */
@@ -241,7 +241,7 @@ XANADU_CORE_EXPORT void XANADUAPI Xanadu::sha1_end(unsigned char _Hval[], XANADU
 	}
 
 	/* the following 32-bit length fields are assembled in the      */
-	/* wrong byte order on little endian machines but this is       */
+	/* wrong byte order on little XEndian machines but this is       */
 	/* corrected later since they are only ever used as 32-bit      */
 	/* word values.                                                 */
 	_Context->wbuf[14] = _Context->count[1];

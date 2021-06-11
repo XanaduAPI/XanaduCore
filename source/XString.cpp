@@ -1955,7 +1955,7 @@ XString XString::simplified() const noexcept
 		}
 		else
 		{
-			if(false == vBegin)
+			if(!vBegin)
 			{
 				if(vNumber)
 				{
@@ -1975,35 +1975,59 @@ XString XString::simplified() const noexcept
 
 
 
-// string to int16S
-int16S XString::toInt16S(bool* _Ok, int _Base) const noexcept
+// string to char
+char XString::toChar(bool* _Ok, int _Base) const noexcept
 {
-	return static_cast<int16S>(this->toInt64S(_Ok, _Base));
+	return static_cast<char>(this->toLLong(_Ok, _Base));
 }
 
-// string to int16U
-int16U XString::toInt16U(bool* _Ok, int _Base) const noexcept
+// string to unsigned char
+unsigned char XString::toUChar(bool* _Ok, int _Base) const noexcept
 {
-	return static_cast<int16U>(this->toInt64U(_Ok, _Base));
+	return static_cast<unsigned char>(this->toULLong(_Ok, _Base));
 }
 
-// string to int32S
-int32S XString::toInt32S(bool* _Ok, int _Base) const noexcept
+// string to short
+short XString::toShort(bool* _Ok, int _Base) const noexcept
 {
-	return static_cast<int32S>(this->toInt64S(_Ok, _Base));
+	return static_cast<short>(this->toLLong(_Ok, _Base));
 }
 
-// string to int32U
-int32U XString::toInt32U(bool* _Ok, int _Base) const noexcept
+// string to short
+unsigned short XString::toUShort(bool* _Ok, int _Base) const noexcept
 {
-	return static_cast<int32U>(this->toInt64U(_Ok, _Base));
+	return static_cast<unsigned short>(this->toULLong(_Ok, _Base));
 }
 
-// string to int64S
-int64S XString::toInt64S(bool* _Ok, int _Base) const noexcept
+// string to int
+int XString::toInt(bool* _Ok, int _Base) const noexcept
+{
+	return static_cast<int>(this->toLLong(_Ok, _Base));
+}
+
+// string to unsigned int
+unsigned int XString::toUInt(bool* _Ok, int _Base) const noexcept
+{
+	return static_cast<unsigned int>(this->toULLong(_Ok, _Base));
+}
+
+// string to long
+long XString::toLong(bool* _Ok, int _Base) const noexcept
+{
+	return static_cast<long>(this->toLLong(_Ok, _Base));
+}
+
+// string to unsigned long
+unsigned long XString::toULong(bool* _Ok, int _Base) const noexcept
+{
+	return static_cast<unsigned long>(this->toULLong(_Ok, _Base));
+}
+
+// string to long long
+long long XString::toLLong(bool* _Ok, int _Base) const noexcept
 {
 	auto		vEnd = static_cast<wchar_t*>(nullptr);
-	auto		vValue = static_cast<int64S>(std::wcstoll(this->data(), &vEnd, _Base));
+	auto		vValue = static_cast<long long>(std::wcstoll(this->data(), &vEnd, _Base));
 
 	if(_Ok)
 	{
@@ -2020,11 +2044,11 @@ int64S XString::toInt64S(bool* _Ok, int _Base) const noexcept
 	return vValue;
 }
 
-// string to int64U
-int64U XString::toInt64U(bool* _Ok, int _Base) const noexcept
+// string to unsigned long long
+unsigned long long XString::toULLong(bool* _Ok, int _Base) const noexcept
 {
 	auto		vEnd = static_cast<wchar_t*>(nullptr);
-	auto		vValue = static_cast<int64U>(std::wcstoull(this->data(), &vEnd, _Base));
+	auto		vValue = static_cast<unsigned long long>(std::wcstoull(this->data(), &vEnd, _Base));
 
 	if(_Ok)
 	{
@@ -2086,36 +2110,65 @@ double XString::toDouble(bool* _Ok) const noexcept
 
 
 
+
 // string form number
-XString& XString::setNumber(int16S _Value, int32S _Base) noexcept
+XString& XString::setNumber(char _Value, int _Base) noexcept
 {
-	this->setNumber(static_cast<int64S>(_Value), _Base);
+	this->setNumber(static_cast<long long>(_Value), _Base);
 	return *this;
 }
 
 // string form number
-XString& XString::setNumber(int16U _Value, int32S _Base) noexcept
+XString& XString::setNumber(unsigned char _Value, int _Base) noexcept
 {
-	this->setNumber(static_cast<int64U>(_Value), _Base);
+	this->setNumber(static_cast<unsigned long long>(_Value), _Base);
 	return *this;
 }
 
 // string form number
-XString& XString::setNumber(int32S _Value, int32S _Base) noexcept
+XString& XString::setNumber(short _Value, int _Base) noexcept
 {
-	this->setNumber(static_cast<int64S>(_Value), _Base);
+	this->setNumber(static_cast<long long>(_Value), _Base);
 	return *this;
 }
 
 // string form number
-XString& XString::setNumber(int32U _Value, int32S _Base) noexcept
+XString& XString::setNumber(unsigned short _Value, int _Base) noexcept
 {
-	this->setNumber(static_cast<int64U>(_Value), _Base);
+	this->setNumber(static_cast<unsigned long long>(_Value), _Base);
 	return *this;
 }
 
 // string form number
-XString& XString::setNumber(int64S _Value, int32S _Base) noexcept
+XString& XString::setNumber(int _Value, int _Base) noexcept
+{
+	this->setNumber(static_cast<long long>(_Value), _Base);
+	return *this;
+}
+
+// string form number
+XString& XString::setNumber(unsigned int _Value, int _Base) noexcept
+{
+	this->setNumber(static_cast<unsigned long long>(_Value), _Base);
+	return *this;
+}
+
+// string form number
+XString& XString::setNumber(long _Value, int _Base) noexcept
+{
+	this->setNumber(static_cast<long long>(_Value), _Base);
+	return *this;
+}
+
+// string form number
+XString& XString::setNumber(unsigned long _Value, int _Base) noexcept
+{
+	this->setNumber(static_cast<unsigned long long>(_Value), _Base);
+	return *this;
+}
+
+// string form number
+XString& XString::setNumber(long long _Value, int _Base) noexcept
 {
 	if(2 <= _Base && _Base <= 36)
 	{
@@ -2125,7 +2178,7 @@ XString& XString::setNumber(int64S _Value, int32S _Base) noexcept
 }
 
 // string form number
-XString& XString::setNumber(int64U _Value, int32S _Base) noexcept
+XString& XString::setNumber(unsigned long long _Value, int _Base) noexcept
 {
 	if(2 <= _Base && _Base <= 36)
 	{
@@ -2135,7 +2188,7 @@ XString& XString::setNumber(int64U _Value, int32S _Base) noexcept
 }
 
 // string form number
-XString& XString::setNumber(float _Value, char _Format, int32S _Prec) noexcept
+XString& XString::setNumber(float _Value, char _Format, int _Prec) noexcept
 {
 	XANADU_UNPARAMETER(_Format);
 	XANADU_UNPARAMETER(_Prec);
@@ -2145,7 +2198,7 @@ XString& XString::setNumber(float _Value, char _Format, int32S _Prec) noexcept
 }
 
 // string form number
-XString& XString::setNumber(double _Value, char _Format, int32S _Prec) noexcept
+XString& XString::setNumber(double _Value, char _Format, int _Prec) noexcept
 {
 	XANADU_UNPARAMETER(_Format);
 	XANADU_UNPARAMETER(_Prec);
@@ -2157,8 +2210,9 @@ XString& XString::setNumber(double _Value, char _Format, int32S _Prec) noexcept
 
 
 
+
 // string form number
-XString XString::number(int16S _Value, int32S _Base) noexcept
+XString XString::number(char _Value, int _Base) noexcept
 {
 	auto		vValue = XString();
 	vValue.setNumber(_Value, _Base);
@@ -2166,7 +2220,7 @@ XString XString::number(int16S _Value, int32S _Base) noexcept
 }
 
 // string form number
-XString XString::number(int16U _Value, int32S _Base) noexcept
+XString XString::number(unsigned char _Value, int _Base) noexcept
 {
 	auto		vValue = XString();
 	vValue.setNumber(_Value, _Base);
@@ -2174,7 +2228,7 @@ XString XString::number(int16U _Value, int32S _Base) noexcept
 }
 
 // string form number
-XString XString::number(int32S _Value, int32S _Base) noexcept
+XString XString::number(short _Value, int _Base) noexcept
 {
 	auto		vValue = XString();
 	vValue.setNumber(_Value, _Base);
@@ -2182,7 +2236,7 @@ XString XString::number(int32S _Value, int32S _Base) noexcept
 }
 
 // string form number
-XString XString::number(int32U _Value, int32S _Base) noexcept
+XString XString::number(unsigned short _Value, int _Base) noexcept
 {
 	auto		vValue = XString();
 	vValue.setNumber(_Value, _Base);
@@ -2190,7 +2244,7 @@ XString XString::number(int32U _Value, int32S _Base) noexcept
 }
 
 // string form number
-XString XString::number(int64S _Value, int32S _Base) noexcept
+XString XString::number(int _Value, int _Base) noexcept
 {
 	auto		vValue = XString();
 	vValue.setNumber(_Value, _Base);
@@ -2198,7 +2252,7 @@ XString XString::number(int64S _Value, int32S _Base) noexcept
 }
 
 // string form number
-XString XString::number(int64U _Value, int32S _Base) noexcept
+XString XString::number(unsigned int _Value, int _Base) noexcept
 {
 	auto		vValue = XString();
 	vValue.setNumber(_Value, _Base);
@@ -2206,7 +2260,47 @@ XString XString::number(int64U _Value, int32S _Base) noexcept
 }
 
 // string form number
-XString XString::number(double _Value, char _Format, int32S _Prec) noexcept
+XString XString::number(long _Value, int _Base) noexcept
+{
+	auto		vValue = XString();
+	vValue.setNumber(_Value, _Base);
+	return vValue;
+}
+
+// string form number
+XString XString::number(unsigned long _Value, int _Base) noexcept
+{
+	auto		vValue = XString();
+	vValue.setNumber(_Value, _Base);
+	return vValue;
+}
+
+// string form number
+XString XString::number(long long _Value, int _Base) noexcept
+{
+	auto		vValue = XString();
+	vValue.setNumber(_Value, _Base);
+	return vValue;
+}
+
+// string form number
+XString XString::number(unsigned long long _Value, int _Base) noexcept
+{
+	auto		vValue = XString();
+	vValue.setNumber(_Value, _Base);
+	return vValue;
+}
+
+// string form number
+XString XString::number(float _Value, char _Format, int _Prec) noexcept
+{
+	auto		vValue = XString();
+	vValue.setNumber(_Value, _Format, _Prec);
+	return vValue;
+}
+
+// string form number
+XString XString::number(double _Value, char _Format, int _Prec) noexcept
 {
 	auto		vValue = XString();
 	vValue.setNumber(_Value, _Format, _Prec);

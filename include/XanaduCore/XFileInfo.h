@@ -66,13 +66,13 @@ private:
 	XFileInfoPrivate*			_Info;
 
 public:
-	// Overload Initialize
+	// Overload _copy
 	XFileInfo() noexcept;
 
-	// Overload Initialize
+	// Overload _copy
 	XFileInfo(const XString& _Filepath) noexcept;
 
-	// Overload Initialize
+	// Overload _copy
 	XFileInfo(const XFileInfo& _Fileinfo) noexcept;
 
 	// Virtual destructor

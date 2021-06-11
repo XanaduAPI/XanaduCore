@@ -1,13 +1,13 @@
-﻿#include <XanaduCore/library.h>
+﻿#include <XanaduCore/XLibrary.h>
 
 
 // constructor
-Xanadu::library::library() noexcept
+XLibrary::XLibrary() noexcept
 {
 }
 
 // destructor
-Xanadu::library::~library() noexcept
+XLibrary::~XLibrary() noexcept
 {
 }
 
@@ -16,7 +16,7 @@ Xanadu::library::~library() noexcept
 
 
 // Open a dynamic library
-HANDLE Xanadu::library::open(const XString& _Dynamic) noexcept
+HANDLE XLibrary::open(const XString& _Dynamic) noexcept
 {
 #if defined(_XANADU_SYSTEM_WINDOWS)
 	return (HANDLE)::LoadLibraryW(_Dynamic.data());
@@ -27,7 +27,7 @@ HANDLE Xanadu::library::open(const XString& _Dynamic) noexcept
 }
 
 // Finds a specified function address from the dynamic library handle
-void* Xanadu::library::find(HANDLE _Handle, const NString& _Function) noexcept
+void* XLibrary::find(HANDLE _Handle, const NString& _Function) noexcept
 {
 	if(_Handle == nullptr && _Function.empty())
 	{
@@ -41,7 +41,7 @@ void* Xanadu::library::find(HANDLE _Handle, const NString& _Function) noexcept
 }
 
 // Close dynamic library handle
-int Xanadu::library::close(HANDLE _Handle) noexcept
+int XLibrary::close(HANDLE _Handle) noexcept
 {
 	if(_Handle == nullptr)
 	{

@@ -1,11 +1,11 @@
 ﻿#include "XHashCRC32.h"
 
-// big endian architectures need #define __BYTE_ORDER __BIG_ENDIAN
+// big XEndian architectures need #define __BYTE_ORDER __BIG_ENDIAN
 #ifndef _MSC_VER
 #if defined(_XANADU_SYSTEM_MACOS)
-#include <machine/endian.h>
+#include <machine/XEndian.h>
 #else
-#include <endian.h>
+#include <XEndian.h>
 #endif
 #endif // _MSC_VER
 

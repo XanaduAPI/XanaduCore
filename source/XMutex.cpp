@@ -1,8 +1,8 @@
-﻿#include <XanaduCore/mutex.h>
+﻿#include <XanaduCore/XMutex.h>
 
 
 // constructor
-Xanadu::mutex::mutex(RecursionMode _Mode) noexcept
+XMutex::XMutex(RecursionMode _Mode) noexcept
 {
 	this->_mutex_mode = _Mode;
 #if defined(_XANADU_SYSTEM_WINDOWS)
@@ -16,7 +16,7 @@ Xanadu::mutex::mutex(RecursionMode _Mode) noexcept
 
 	switch(_Mode)
 	{
-		case Xanadu::mutex::Recursive:
+		case Xanadu::XMutex::Recursive:
 			{
 				pthread_mutexattr_t	vAttr;
 				pthread_mutexattr_init(&vAttr);
@@ -24,7 +24,7 @@ Xanadu::mutex::mutex(RecursionMode _Mode) noexcept
 				pthread_mutex_init(static_cast<pthread_mutex_t*>(this->_mutex_data), &vAttr);
 			}
 			break;
-		case Xanadu::mutex::NonRecursive:
+		case Xanadu::XMutex::NonRecursive:
 			{
 				pthread_mutex_init(static_cast<pthread_mutex_t*>(this->_mutex_data), nullptr);
 			}
@@ -36,7 +36,7 @@ Xanadu::mutex::mutex(RecursionMode _Mode) noexcept
 }
 
 // destructor
-Xanadu::mutex::~mutex() noexcept
+XMutex::~XMutex() noexcept
 {
 	XANADU_CHECK_RETURN(this->_mutex_data);
 #if defined(_XANADU_SYSTEM_WINDOWS)
@@ -56,7 +56,7 @@ Xanadu::mutex::~mutex() noexcept
 
 
 // Gets the type of the lock
-Xanadu::mutex::RecursionMode Xanadu::mutex::type() const noexcept
+XMutex::RecursionMode XMutex::type() const noexcept
 {
 	return this->_mutex_mode;
 }
@@ -66,7 +66,7 @@ Xanadu::mutex::RecursionMode Xanadu::mutex::type() const noexcept
 
 
 // Lock
-void Xanadu::mutex::lock() noexcept
+void XMutex::lock() noexcept
 {
 	XANADU_CHECK_RETURN(this->_mutex_data);
 #if defined(_XANADU_SYSTEM_WINDOWS)
@@ -77,7 +77,7 @@ void Xanadu::mutex::lock() noexcept
 }
 
 // Unlock
-void Xanadu::mutex::unlock() noexcept
+void XMutex::unlock() noexcept
 {
 	XANADU_CHECK_RETURN(this->_mutex_data);
 #if defined(_XANADU_SYSTEM_WINDOWS)
@@ -92,13 +92,13 @@ void Xanadu::mutex::unlock() noexcept
 
 
 // constructor
-Xanadu::mutex_auto::mutex_auto(Xanadu::mutex& _Mutex) noexcept : _data_mutex(_Mutex)
+XMutexAuto::XMutexAuto(XMutex& _Mutex) noexcept : _data_mutex(_Mutex)
 {
 	this->_data_mutex.lock();
 }
 
 // destructor
-Xanadu::mutex_auto::~mutex_auto() noexcept
+XMutexAuto::~XMutexAuto() noexcept
 {
 	this->_data_mutex.unlock();
 }

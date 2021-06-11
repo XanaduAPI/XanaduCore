@@ -11,116 +11,168 @@ class XANADU_CORE_EXPORT XVariant
 public:
 	enum Type
 	{
-		EINVALID = 0,			// Unknown Type
-		EBOOL,				// true / false
-		EINT8S,				// char
-		EINT8U,				// unsigned char
-		EINT16S,			// short
-		EINT16U,			// unsigned short
-		EINT32S,			// int
-		EINT32U,			// unsigned int
-		EINT64S,			// long long
-		EINT64U,			// unsigned long long
-		EFLOAT,				// float
-		EDOUBLE,			// double
-		ESTRING,			// XString
-		EBYTEARRAY,			// XByteArray
+		kINVALID = 0,				// Unknown Type
+		kBOOLEAN,				// true / false
+		kCHAR,					// char
+		kUCHAR,					// unsigned char
+		kSHORT,					// short
+		kUSHORT,				// unsigned short
+		kINT,					// int
+		kUINT,					// unsigned int
+		kLONG,					// long
+		kULONG,					// unsigned long
+		kLLONG,					// long long
+		kULLONG,				// unsigned long long
+		kFLOAT,					// float
+		kDOUBLE,				// double
+		kSTRING,				// XString
+		kBYTES,					// XByteArray
 	};
 
 private:
 	union Data
 	{
-		bool		_VBool;
-		int8S		_VInt8S;
-		int8U		_VInt8U;
-		int16S		_VInt16S;
-		int16U		_VInt16U;
-		int32S		_VInt32S;
-		int32U		_VInt32U;
-		int64S		_VInt64S;
-		int64U		_VInt64U;
-		float 		_VFloat;
-		double 		_VDouble;
-		void*		_VObject;
-		int64S		_VNull;
+		bool					_VBool;
+		long long				_VInt64S;
+		unsigned long long			_VInt64U;
+		double 					_VDouble;
+		void*					_VObject;
+		long long				_VNull;
 	}_variant_data;
 
-	Type			_variant_type;
+	Type						_variant_type;
 
 public:
-	// Structure
+	// constructor
 	XVariant() noexcept;
 
-	// Overloading structure
-	XVariant(Type _Type) noexcept;
+	// constructor
+	explicit XVariant(Type _Type) noexcept;
 
-	// Overloading structure
+	// constructor
+	explicit XVariant(bool _Value) noexcept;
+
+	// constructor
+	explicit XVariant(char _Value) noexcept;
+
+	// constructor
+	explicit XVariant(unsigned char _Value) noexcept;
+
+	// constructor
+	explicit XVariant(short _Value) noexcept;
+
+	// constructor
+	explicit XVariant(unsigned short _Value) noexcept;
+
+	// constructor
+	explicit XVariant(int _Value) noexcept;
+
+	// constructor
+	explicit XVariant(unsigned int _Value) noexcept;
+
+	// constructor
+	explicit XVariant(long _Value) noexcept;
+
+	// constructor
+	explicit XVariant(unsigned long _Value) noexcept;
+
+	// constructor
+	explicit XVariant(long long _Value) noexcept;
+
+	// constructor
+	explicit XVariant(unsigned long long _Value) noexcept;
+
+	// constructor
+	explicit XVariant(float _Value) noexcept;
+
+	// constructor
+	explicit XVariant(double _Value) noexcept;
+
+	// constructor
+	explicit XVariant(const wchar_t* _Value) noexcept;
+
+	// constructor
+	explicit XVariant(const XString& _Value) noexcept;
+
+	// constructor
+	explicit XVariant(const char* _Value) noexcept;
+
+	// constructor
+	explicit XVariant(const XByteArray& _Value) noexcept;
+
+	// constructor
 	XVariant(const XVariant& _Other) noexcept;
 
-	// Overloading structure
-	XVariant(bool _Value) noexcept;
-
-	// Overloading structure
-	XVariant(int8S _Value) noexcept;
-
-	// Overloading structure
-	XVariant(int8U _Value) noexcept;
-
-	// Overloading structure
-	XVariant(int16S _Value) noexcept;
-
-	// Overloading structure
-	XVariant(int16U _Value) noexcept;
-
-	// Overloading structure
-	XVariant(int32S _Value) noexcept;
-
-	// Overloading structure
-	XVariant(int32U _Value) noexcept;
-
-	// Overloading structure
-	XVariant(int64S _Value) noexcept;
-
-	// Overloading structure
-	XVariant(int64U _Value) noexcept;
-
-	// Overloading structure
-	XVariant(float _Value) noexcept;
-
-	// Overloading structure
-	XVariant(double _Value) noexcept;
-
-	// Overloading structure
-	XVariant(const wchar_t* _Value) noexcept;
-
-	// Overloading structure
-	XVariant(const XString& _Value) noexcept;
-
-	// Overloading structure
-	XVariant(const char* _Value) noexcept;
-
-	// Overloading structure
-	XVariant(const XByteArray& _Value) noexcept;
-
-	// Overloading structure
+	// constructor
 	XVariant(XVariant&& _Other) noexcept;
 
-	// Virtual destructor
+	// destructor
 	virtual ~XVariant() noexcept;
 
 public:
-	// Overload Operator =
-	virtual XVariant& operator = (const XVariant& _Other) noexcept;
+	// Operator overload =
+	XVariant& operator = (bool _Value) noexcept;
 
-	// Overload Operator =
-	virtual XVariant& operator = (XVariant&& _Other) noexcept;
+	// Operator overload =
+	XVariant& operator = (char _Value) noexcept;
+
+	// Operator overload =
+	XVariant& operator = (unsigned char _Value) noexcept;
+
+	// Operator overload =
+	XVariant& operator = (short _Value) noexcept;
+
+	// Operator overload =
+	XVariant& operator = (unsigned short _Value) noexcept;
+
+	// Operator overload =
+	XVariant& operator = (int _Value) noexcept;
+
+	// Operator overload =
+	XVariant& operator = (unsigned int _Value) noexcept;
+
+	// Operator overload =
+	XVariant& operator = (long _Value) noexcept;
+
+	// Operator overload =
+	XVariant& operator = (unsigned long _Value) noexcept;
+
+	// Operator overload =
+	XVariant& operator = (long long _Value) noexcept;
+
+	// Operator overload =
+	XVariant& operator = (unsigned long long _Value) noexcept;
+
+	// Operator overload =
+	XVariant& operator = (float _Value) noexcept;
+
+	// Operator overload =
+	XVariant& operator = (double _Value) noexcept;
+
+	// Operator overload =
+	XVariant& operator = (const wchar_t* _Value) noexcept;
+
+	// Operator overload =
+	XVariant& operator = (const XString& _Value) noexcept;
+
+	// Operator overload =
+	XVariant& operator = (const char* _Value) noexcept;
+
+	// Operator overload =
+	XVariant& operator = (const XByteArray& _Value) noexcept;
+
+	// Operator overload =
+	XVariant& operator = (const XVariant& _Other) noexcept;
+
+	// Operator overload =
+	XVariant& operator = (XVariant&& _Other) noexcept;
 
 private:
-	// Data to construct
-	virtual void Initialize(const XVariant& _Other) noexcept;
+	// Data copy
+	void _copy(const XVariant& _Other) noexcept;
 
 	// Data released
-	virtual void Release() noexcept;
+	void _clear() noexcept;
 
 public:
 	// Get the current type
@@ -133,29 +185,35 @@ public:
 	// Convert to bool
 	virtual bool toBool() const noexcept;
 
-	// Convert to int8S
-	virtual int8S toInt8S() const noexcept;
+	// Convert to char
+	virtual char toChar() const noexcept;
 
-	// Convert to int8U
-	virtual int8U toInt8U() const noexcept;
+	// Convert to unsigned char
+	virtual unsigned char toUChar() const noexcept;
 
-	// Convert to int16S
-	virtual int16S toInt16S() const noexcept;
+	// Convert to short
+	virtual short toShort() const noexcept;
 
-	// Convert to int16U
-	virtual int16U toInt16U() const noexcept;
+	// Convert to unsigned short
+	virtual unsigned short toUShort() const noexcept;
 
-	// Convert to int32S
-	virtual int32S toInt32S() const noexcept;
+	// Convert to int
+	virtual int toInt() const noexcept;
 
-	// Convert to int32U
-	virtual int32U toInt32U() const noexcept;
+	// Convert to unsigned int
+	virtual unsigned int toUInt() const noexcept;
 
-	// Convert to int64S
-	virtual int64S toInt64S() const noexcept;
+	// Convert to long
+	virtual long toLong() const noexcept;
 
-	// Convert to int64U
-	virtual int64U toInt64U() const noexcept;
+	// Convert to unsigned long
+	virtual unsigned long toULong() const noexcept;
+
+	// Convert to long long
+	virtual long long toLLong() const noexcept;
+
+	// Convert to unsigned long long
+	virtual unsigned long long toULLong() const noexcept;
 
 	// Convert to float
 	virtual float toFloat() const noexcept;
@@ -167,7 +225,7 @@ public:
 	virtual XString toString() const noexcept;
 
 	// Convert to XByteArray
-	virtual XByteArray toByteArray() const noexcept;
+	virtual XByteArray toBytes() const noexcept;
 };
 
-#endif // _XANADU_CORE_VARIANT_H_
+#endif

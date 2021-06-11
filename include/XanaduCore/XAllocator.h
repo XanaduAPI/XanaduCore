@@ -69,7 +69,7 @@ public:
 	// Allocator memory
 	virtual bool memoryAllocator(const void* _Memory, size_type _Length) noexcept;
 
-	// Release memory
+	// _clear memory
 	virtual void memoryRelease() noexcept;
 
 	// append memory
