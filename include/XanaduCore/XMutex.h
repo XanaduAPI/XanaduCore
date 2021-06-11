@@ -59,6 +59,6 @@ public:
 };
 
 // Macro used to call auto destruct lock conveniently
-#define				XANADU_MUTEX_AUTO(_Mutex)				Xanadu::mutex_auto	_XanaduMutexAuto(_Mutex)
+#define				XANADU_MUTEX_AUTO(_Mutex)				XMutexAuto		_XanaduMutexAuto(_Mutex)
 
 #endif
