@@ -137,7 +137,7 @@ bool XProcess::traverse(std::function<bool(const XProcessInfo& _Info)> _Lambda) 
 					auto	vName = Xanadu::strrchr(vDirectory, '/') + 1;
 					if(vName && Xanadu::strlen(vName))
 					{
-						if(false == _Lambda(XProcessInfo(static_cast<int64U>(_Info.fileName().toInt64S()), XString::fromUString(vName))))
+						if(false == _Lambda(XProcessInfo(static_cast<int64U>(_Info.fileName().toLLong()), XString::fromUString(vName))))
 						{
 							//当取消时返回false
 							return false;
