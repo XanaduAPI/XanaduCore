@@ -691,10 +691,10 @@ public:
 	unsigned long long toULLong(bool* _Ok = nullptr, int _Base = 10) const noexcept;
 
 	// string to float
-	float toFloat(bool* _Ok) const noexcept;
+	float toFloat(bool* _Ok = nullptr) const noexcept;
 
 	// string to double
-	double toDouble(bool* _Ok) const noexcept;
+	double toDouble(bool* _Ok = nullptr) const noexcept;
 
 public:
 
