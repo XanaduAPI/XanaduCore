@@ -156,16 +156,22 @@ int32S XShell::run(const XString& _Shell, std::function<bool(const XString& _Out
 			Xanadu::memset(vBuffer, 0, XANADU_SIZE_KB);
 			auto		vSync = Xanadu::fgets(vBuffer, XANADU_SIZE_KB, vHandle);
 			vBytes += XByteArray(vBuffer, Xanadu::strlen(vBuffer));
-			auto		vFind = vBytes.find('\n');
-			if(vFind != XByteArray::npos)
-			{
-				if(_Lambda)
+			// Loop detection here to prevent multiple messages from merging together.
+			do{
+				auto		vFind = vBytes.find('\n');
+				if(vFind == XByteArray::npos)
 				{
-					_Lambda(XString::fromBytes(vBytes.left(vFind)));
+					break;
 				}
-				vBytes.remove(static_cast<XByteArray::size_type>(0U), vFind + 1);
-			}
-
+				else
+				{
+					if(_Lambda)
+					{
+						_Lambda(XString::fromBytes(vBytes.left(vFind)));
+					}
+					vBytes.remove(static_cast<XByteArray::size_type>(0U), vFind + 1);
+				}
+			}while(true);
 			if(vSync == nullptr)
 			{
 				if(0 != Xanadu::ferror(vHandle) || 0 != Xanadu::feof(vHandle))
