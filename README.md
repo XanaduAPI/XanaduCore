@@ -65,7 +65,7 @@ sudo make install
 
 ## License
 
-This XLibrary is licensed under the [GNU Lesser General Public License v2.1](https://www.gnu.org/licenses/lgpl-2.1.en.html),
+This library is licensed under the [GNU Lesser General Public License v2.1](https://www.gnu.org/licenses/lgpl-2.1.en.html),
 also included in the repository in the `LICENSE` file.
 
-README Updated on: 2021-06-11
+README Updated on: 2021-06-15
