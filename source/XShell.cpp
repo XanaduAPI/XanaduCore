@@ -99,15 +99,22 @@ int32S XShell::run(const XString& _Shell, std::function<bool(const XString& _Out
 					{
 						vBytes += XByteArray(vBuffer, Xanadu::strlen(vBuffer));
 					}
-					auto		vFind = vBytes.find('\n');
-					if(vFind != XByteArray::npos)
-					{
-						if(_Lambda)
+					// Loop detection here to prevent multiple messages from merging together.
+					do{
+						auto		vFind = vBytes.find('\n');
+						if(vFind == XByteArray::npos)
 						{
-							_Lambda(XString::fromBytes(vBytes.left(vFind)));
+							break;
 						}
-						vBytes.remove(static_cast<XByteArray::size_type>(0U), vFind + 1);
-					}
+						else
+						{
+							if(_Lambda)
+							{
+								_Lambda(XString::fromBytes(vBytes.left(vFind)));
+							}
+							vBytes.remove(static_cast<XByteArray::size_type>(0U), vFind + 1);
+						}
+					}while(true);
 					if(!vSuccess)
 					{
 						if(ERROR_BROKEN_PIPE == ::GetLastError())
