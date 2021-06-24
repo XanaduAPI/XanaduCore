@@ -36,7 +36,14 @@ set shiftwidth=8
 
 ## Comment format
 
-*Consistent with XanaduAPI/XanaduRuntime*
+```shell
+/// <summary>
+/// The description of the current function
+/// </summary>
+/// <param name="_ParameterName"> Parameter description </param>
+/// <returns> Return value description</returns>
+/// <examples> Examples </examples>
+```
 
 
 ## Installation
@@ -45,8 +52,11 @@ set shiftwidth=8
 
 First install all required dependencies and build tools:
 ```shell
+sudo apt install git
+sudo apt install autoconf
+sudo apt install automake
+sudo apt install libtool-bin
 sudo apt install cmake
-sudo apt install XanaduRuntime
 ```
 
 Then clone the actual project Repository:
@@ -68,4 +78,4 @@ sudo make install
 This library is licensed under the [GNU Lesser General Public License v2.1](https://www.gnu.org/licenses/lgpl-2.1.en.html),
 also included in the repository in the `LICENSE` file.
 
-README Updated on: 2021-06-15
+README Updated on: 2021-06-24
