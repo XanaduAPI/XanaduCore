@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.8)
 
 
 # 项目名称
-project(XanaduCore VERSION 1.0.0)
+project(XanaduCore VERSION 1.1.0)
 
 
 # 输出提示信息
@@ -22,7 +22,6 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_INSTALL_PREFIX}/lib/cmake)
 
 
 # 项目依赖
-find_package(XanaduRuntime REQUIRED)
 
 
 # C++支持
@@ -31,11 +30,9 @@ set(CMAKE_CXX_STANDARD 17)
 
 # 头文件搜索目录
 include_directories(${PROJECT_SOURCE_DIR}/include)
-include_directories(${XANADU_RUNTIME_INCLUDE})
 
 
 # 链接库搜索目录
-link_directories(${XANADU_RUNTIME_LIBRARY})
 
 
 # 设置静态编译宏
@@ -70,16 +67,19 @@ set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
 
 
 # 链接库
-if (MINGW)
-	link_libraries("stdc++")
-endif()
-if (UNIX)
-	link_libraries("pthread")
-endif ()
 if (CMAKE_BUILD_TYPE STREQUAL "Debug")
-	link_libraries(XanaduRuntimeD)
 else ()
-	link_libraries(XanaduRuntime)
+endif ()
+if (WIN32)
+	link_libraries("Ws2_32.lib")
+	link_libraries("Iphlpapi.lib")
+elseif (MINGW)
+	link_libraries("Ws2_32")
+	link_libraries("Iphlpapi")
+	link_libraries("stdc++")
+else ()
+	link_libraries("pthread")
+	link_libraries("dl")
 endif ()
 
 
@@ -88,7 +88,7 @@ add_library(${PROJECT_NAME} SHARED ${SRC})
 
 
 # 设置项目属性
-set_target_properties(${PROJECT_NAME} PROPERTIES VERSION 1.0.0 SOVERSION 1)
+set_target_properties(${PROJECT_NAME} PROPERTIES VERSION 1.1.0 SOVERSION 1)
 set_target_properties(${PROJECT_NAME} PROPERTIES DEBUG_POSTFIX D)
 
 
