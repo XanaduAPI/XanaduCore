@@ -1624,7 +1624,7 @@ XANADU_CORE_EXPORT long long XANADUAPI Xanadu::abs(long long _X) noexcept
 // Returns the absolute value of the specified value.
 XANADU_CORE_EXPORT float XANADUAPI Xanadu::abs(float _X) noexcept
 {
-	return std::fabsf(_X);
+	return std::fabs(_X);
 }
 
 // Returns the absolute value of the specified value.
@@ -1636,7 +1636,7 @@ XANADU_CORE_EXPORT double XANADUAPI Xanadu::abs(double _X) noexcept
 // Returns the absolute value of the specified value.
 XANADU_CORE_EXPORT long double XANADUAPI Xanadu::abs(long double _X) noexcept
 {
-	return std::fabsl(_X);
+	return std::fabs(_X);
 }
 
 
@@ -2079,22 +2079,10 @@ XANADU_CORE_EXPORT void XANADUAPI Xanadu::exit(int _Status) noexcept
 	std::exit(_Status);
 }
 
-// causes quick program termination without completely cleaning up
-XANADU_CORE_EXPORT void XANADUAPI Xanadu::quick_exit(int _ExitCode) noexcept
-{
-	std::quick_exit(_ExitCode);
-}
-
 // registers a function to be called on std::exit() invocation
 XANADU_CORE_EXPORT int XANADUAPI Xanadu::atexit(_Function_atexit _Function) noexcept
 {
 	return std::atexit(_Function);
-}
-
-// registers a function to be called on quick_exit invocation
-XANADU_CORE_EXPORT int XANADUAPI Xanadu::at_quick_exit(_Function_at_quick_exit _Function) noexcept
-{
-	return std::at_quick_exit(_Function);
 }
 
 // This function returns the process identifier of the calling process.
@@ -3676,7 +3664,7 @@ XANADU_CORE_EXPORT int XANADUAPI Xanadu::shutdown(SOCKET _Socket, int _Now) noex
 }
 
 // determines the status of one or more sockets, waiting if necessary, to perform synchronous I/O.
-XANADU_CORE_EXPORT int XANADUAPI Xanadu::select(int _Fds, fd_set* _ReadFds, fd_set* _WriteFds, fd_set* _ExceptFds, const struct timeval* _Timeout) noexcept
+XANADU_CORE_EXPORT int XANADUAPI Xanadu::select(int _Fds, fd_set* _ReadFds, fd_set* _WriteFds, fd_set* _ExceptFds, struct timeval* _Timeout) noexcept
 {
 	XANADU_CHECK_RETURN(_Fds > 0, -1);
 

@@ -834,16 +834,9 @@ namespace Xanadu
 	// causes normal program termination with cleaning up
 	XANADU_CORE_EXPORT void XANADUAPI exit(int _Status) noexcept;
 
-	// causes quick program termination without completely cleaning up
-	XANADU_CORE_EXPORT void XANADUAPI quick_exit(int _ExitCode) noexcept;
-
 	// registers a function to be called on std::exit() invocation
-	typedef void(__cdecl* _Function_atexit)(void);
+	typedef void(XANADUAPI* _Function_atexit)(void);
 	XANADU_CORE_EXPORT int XANADUAPI atexit(_Function_atexit _Function) noexcept;
-
-	// registers a function to be called on quick_exit invocation
-	typedef void(__cdecl* _Function_at_quick_exit)(void);
-	XANADU_CORE_EXPORT int XANADUAPI at_quick_exit(_Function_at_quick_exit _Function) noexcept;
 
 	// This function returns the process identifier of the calling process.
 	XANADU_CORE_EXPORT unsigned long XANADUAPI GetCurrentProcessId() noexcept;
@@ -1246,7 +1239,7 @@ namespace Xanadu
 	XANADU_CORE_EXPORT int XANADUAPI shutdown(SOCKET _Socket, int _Now) noexcept;
 
 	// determines the status of one or more sockets, waiting if necessary, to perform synchronous I/O.
-	XANADU_CORE_EXPORT int XANADUAPI select(int _Fds, fd_set* _ReadFds, fd_set* _WriteFds, fd_set* _ExceptFds, const struct timeval* _Timeout) noexcept;
+	XANADU_CORE_EXPORT int XANADUAPI select(int _Fds, fd_set* _ReadFds, fd_set* _WriteFds, fd_set* _ExceptFds, struct timeval* _Timeout) noexcept;
 };
 
 #endif
