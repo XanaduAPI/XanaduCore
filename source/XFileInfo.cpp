@@ -1,4 +1,5 @@
 ﻿#include <XanaduCore/XFileInfo.h>
+#include <XanaduCore/XRuntime.h>
 
 
 class XFileInfoPrivate

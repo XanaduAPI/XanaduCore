@@ -3,6 +3,7 @@
 #include <XanaduCore/XLibrary.h>
 #include <XanaduCore/XShell.h>
 #include <XanaduCore/XStream.h>
+#include <XanaduCore/XRuntime.h>
 #ifndef _XANADU_SYSTEM_WINDOWS
 #include <sys/utsname.h>
 #endif

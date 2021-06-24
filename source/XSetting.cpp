@@ -1,4 +1,6 @@
 ﻿#include <XanaduCore/XSetting.h>
+#include <XanaduCore/XRuntime.h>
+
 
 #define 			XANADU_SETTING_LINE_FEED			"\r\n"
 

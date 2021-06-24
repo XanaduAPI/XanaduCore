@@ -1,8 +1,10 @@
 ﻿#include <XanaduCore/XHash.h>
+#include <XanaduCore/XRuntime.h>
 #include "Hash/XHashMD5.h"
 #include "Hash/XHashSHA1.h"
 #include "Hash/XHashSHA2.h"
 #include "Hash/XHashCRC32.h"
+
 
 class XHashPrivate
 {

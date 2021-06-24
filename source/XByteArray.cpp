@@ -1,5 +1,7 @@
 ﻿#include <XanaduCore/XByteArray.h>
 #include <XanaduCore/XBase64.h>
+#include <XanaduCore/XRuntime.h>
+
 
 static char				_StaticIndexBeyond = '\0';
 

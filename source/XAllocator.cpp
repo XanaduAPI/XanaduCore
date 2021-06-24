@@ -1,4 +1,6 @@
 ﻿#include <XanaduCore/XAllocator.h>
+#include <XanaduCore/XRuntime.h>
+
 
 #define XANADU_ALLOCATOR_DELETE(_Address)			if((_Address)){ delete[] static_cast<char*>(_Address); _Address = nullptr;}
 

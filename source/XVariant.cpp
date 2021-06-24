@@ -1,4 +1,5 @@
 ﻿#include <XanaduCore/XVariant.h>
+#include <XanaduCore/XRuntime.h>
 
 
 // Structure

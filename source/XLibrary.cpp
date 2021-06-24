@@ -1,4 +1,5 @@
 ﻿#include <XanaduCore/XLibrary.h>
+#include <XanaduCore/XRuntime.h>
 
 
 // constructor

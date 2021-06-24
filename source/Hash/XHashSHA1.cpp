@@ -1,4 +1,4 @@
-﻿
+﻿#include <XanaduCore/XRuntime.h>
 #include "XHashSHA1.h"
 
 #if defined( _MSC_VER ) && ( _MSC_VER > 800 )

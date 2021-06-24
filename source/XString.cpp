@@ -1,4 +1,6 @@
 ﻿#include <XanaduCore/XString.h>
+#include <XanaduCore/XRuntime.h>
+
 
 #define				XANADU_STRING_FORMAT_LENGTH			102400
 #define				XANADU_STRING_REDUNDANCY			128

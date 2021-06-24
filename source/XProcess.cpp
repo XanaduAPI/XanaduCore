@@ -2,6 +2,7 @@
 #include <XanaduCore/XFileSystem.h>
 #include <XanaduCore/XNative.h>
 #include <XanaduCore/XSystem.h>
+#include <XanaduCore/XRuntime.h>
 #if defined(_XANADU_SYSTEM_WINDOWS)
 #include <tlhelp32.h>
 #endif

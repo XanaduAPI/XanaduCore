@@ -1,7 +1,5 @@
 ﻿#include <XanaduCore/XDateTime.h>
-#include <time.h>
-#include <sys/types.h>
-#include <sys/timeb.h>
+#include <XanaduCore/XRuntime.h>
 
 XDateTime::XDateTime() noexcept
 {

@@ -3,6 +3,7 @@
  * MD5 Message-Digest Algorithm (RFC 1321).
  */
 
+#include <XanaduCore/XRuntime.h>
 #include "XHashMD5.h"
 
 /*

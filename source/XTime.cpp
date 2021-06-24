@@ -1,7 +1,6 @@
 ﻿#include <XanaduCore/XTime.h>
-#include <ctime>
-#include <sys/types.h>
-#include <sys/timeb.h>
+#include <XanaduCore/XRuntime.h>
+
 
 typedef struct _XANADU_TIME_HIGH_PRECISION
 {

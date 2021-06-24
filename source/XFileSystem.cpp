@@ -2,6 +2,8 @@
 #include <XanaduCore/XSystem.h>
 #include <XanaduCore/XStream.h>
 #include <XanaduCore/XBase64.h>
+#include <XanaduCore/XRuntime.h>
+
 
 #define			XANADU_FILESYSTEM_REMOVE_SUFFIX					L".xrm"
 

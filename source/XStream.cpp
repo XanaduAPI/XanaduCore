@@ -1,5 +1,7 @@
 ﻿#include <XanaduCore/XStream.h>
 #include <XanaduCore/XDateTime.h>
+#include <XanaduCore/XRuntime.h>
+
 
 #define			XANADU_LOG_MAX_LENGTH			10240
 
@@ -80,7 +82,7 @@ void XStream::setDebugLevel(ENUM_XANADU_DEBUG_LEVEL _Level) noexcept
 
 
 // 输出日志:INFO
-XANADU_DEPRECATED void XStream::Info(const char* _Format, ...) noexcept
+void XStream::Info(const char* _Format, ...) noexcept
 {
 #ifdef XANADU_OUTPUT_ENABLED
 	char		vBuffer[XANADU_LOG_MAX_LENGTH] = { 0 };
@@ -124,7 +126,7 @@ void XStream::Info(const XString& _Format) noexcept
 
 
 // 输出日志:WARNING
-XANADU_DEPRECATED void XStream::Warning(const char* _Format, ...) noexcept
+void XStream::Warning(const char* _Format, ...) noexcept
 {
 #ifdef XANADU_OUTPUT_ENABLED
 	char		vBuffer[XANADU_LOG_MAX_LENGTH] = { 0 };
@@ -168,7 +170,7 @@ void XStream::Warning(const XString& _Format) noexcept
 
 
 // 输出日志:ERROR
-XANADU_DEPRECATED void XStream::Error(const char* _Format, ...) noexcept
+void XStream::Error(const char* _Format, ...) noexcept
 {
 #ifdef XANADU_OUTPUT_ENABLED
 	char		vBuffer[XANADU_LOG_MAX_LENGTH] = { 0 };

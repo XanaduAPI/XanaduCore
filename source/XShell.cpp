@@ -1,5 +1,7 @@
 ﻿#include <XanaduCore/XShell.h>
 #include <XanaduCore/XProcess.h>
+#include <XanaduCore/XRuntime.h>
+
 
 XShell::XShell() noexcept
 {
@@ -19,11 +21,11 @@ int32S XShell::run(const XString& _Shell) noexcept
 #if defined(_XANADU_SYSTEM_WINDOWS)
 	return static_cast<int32S>(XProcess::execute(L"cmd.exe", _Shell));
 #else
-#ifdef _XANADU_SYSTEM_ARM
+#if defined(_XANADU_SYSTEM_ARM)
 	return static_cast<int32S>(XProcess::execute(L"/bin/sh", XString(L"-c ") + _Shell));
 #else
 	return static_cast<int32S>(XProcess::execute(L"/bin/bash", XString(L"-c ") + _Shell));
-#endif // _XANADU_SYSTEM_ARM
+#endif
 #endif
 }
 

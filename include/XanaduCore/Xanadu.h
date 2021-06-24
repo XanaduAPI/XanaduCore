@@ -14,6 +14,7 @@
 #include <XanaduCore/XMutex.h>
 #include <XanaduCore/XNative.h>
 #include <XanaduCore/XProcess.h>
+#include <XanaduCore/XRuntime.h>
 #include <XanaduCore/XThread.h>
 #include <XanaduCore/XTime.h>
 #include <XanaduCore/XSetting.h>
