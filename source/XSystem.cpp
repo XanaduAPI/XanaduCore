@@ -142,10 +142,10 @@ XString XSystem::userHome() noexcept
 	return XString(L"C:/Users/") + XSystem::currentUser();
 #endif
 #if defined(_XANADU_SYSTEM_LINUX)
-	return XString(L"/home/") + XSystem::CurrentUser();
+	return XString(L"/home/") + XSystem::currentUser();
 #endif
 #if defined(_XANADU_SYSTEM_MACOS)
-	return XString(L"/Users/") + XSystem::CurrentUser();
+	return XString(L"/Users/") + XSystem::currentUser();
 #endif
 }
 
@@ -513,12 +513,12 @@ XString XSystem::onlyString() noexcept
 		vTempOnlyString += L"]";
 #endif
 #if defined(_XANADU_SYSTEM_LINUX)
-		auto		vTempOnlyString = XSystem::NativeString() + XSystem::DiskID() + L"]_MachineGuid[";
+		auto		vTempOnlyString = XSystem::nativeString() + XSystem::diskID() + L"]_MachineGuid[";
 		vTempOnlyString += XString::number(static_cast<int64S>(gethostid()));
 		vTempOnlyString += L"]";
 #endif
 #if defined(_XANADU_SYSTEM_MACOS)
-		auto		vTempOnlyString = XSystem::NativeString() + XSystem::DiskID() + L"]_MachineGuid[";
+		auto		vTempOnlyString = XSystem::nativeString() + XSystem::diskID() + L"]_MachineGuid[";
 		vTempOnlyString += XString::number(static_cast<int64S>(gethostid()));
 		// 获取macOS计算机序列号
 		XShell::run(L"ioreg -rd1 -c IOPlatformExpertDevice | awk \'/IOPlatformSerialNumber/ { print $3; }\'", [&](const XString& _Output)->bool
