@@ -78,7 +78,7 @@ bool XFileSystem::PathIsDirectory(const XString& _Path) noexcept
 // 名称是否正常
 bool XFileSystem::PathIsAllow(const XString& _Name) noexcept
 {
-	auto		vFullPath = XSystem::UserHome() + L"/" + _Name;
+	auto		vFullPath = XSystem::userHome() + L"/" + _Name;
 	auto		vHandle = XFileSystem::FileOpen(vFullPath, L"wb");
 	if(vHandle)
 	{

@@ -54,40 +54,40 @@ public:
 	static int64S SystemVersion() noexcept;
 
 	// The name of the user who is now logged in
-	static XString CurrentUser() noexcept;
+	static XString currentUser() noexcept;
 
 	// Computer name
-	static XString HostName() noexcept;
+	static XString hostName() noexcept;
 
 	// Gets the directory for the current user
-	static XString UserHome() noexcept;
+	static XString userHome() noexcept;
 
 	// Whether the operating system is 32-bit
-	static bool IsX86() noexcept;
+	static bool is_32bit() noexcept;
 
 	// Whether the operating system is 64-bit
-	static bool IsX64() noexcept;
+	static bool is_64bit() noexcept;
 
 	// Whether the operating system is a server version
-	static bool IsServer() noexcept;
+	static bool isServer() noexcept;
 
 	// Whether the operating system is a desktop version
-	static bool IsDesktop() noexcept;
+	static bool isDesktop() noexcept;
 
 	// Native system String
-	static XString NativeString() noexcept;
+	static XString nativeString() noexcept;
 
 	// Native Build Version
-	static XString BuildVersion() noexcept;
+	static XString buildVersion() noexcept;
 
 	// The CPUID of the current computer
-	static XString CPUID() noexcept;
+	static XString cpuID() noexcept;
 
 	// The hard disk ID of the current computer
-	static XString DiskID() noexcept;
+	static XString diskID() noexcept;
 
 	// A string unique to the current computer
-	static XString OnlyString() noexcept;
+	static XString onlyString() noexcept;
 };
 
-#endif // _XANADU_CORE_SYSTEM_H_
+#endif

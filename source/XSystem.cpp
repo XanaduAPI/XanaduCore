@@ -32,7 +32,7 @@ int64S XSystem::SystemVersion() noexcept
 		auto		vVersion_1 = static_cast<long>(0);
 		auto		vVersion_2 = static_cast<long>(0);
 		auto		vVersion_3 = static_cast<long>(0);
-		auto		vIsServer = IsServer();
+		auto		vIsServer = isServer();
 		auto		vModule = XLibrary::open(L"ntdll.dll");
 		if(vModule)
 		{
@@ -108,7 +108,7 @@ int64S XSystem::SystemVersion() noexcept
 }
 
 // The name of the user who is now logged in
-XString XSystem::CurrentUser() noexcept
+XString XSystem::currentUser() noexcept
 {
 #if defined(_XANADU_SYSTEM_WINDOWS)
 	wchar_t		vUserName[XANADU_SIZE_KB] = { 0 };
@@ -121,7 +121,7 @@ XString XSystem::CurrentUser() noexcept
 }
 
 // Computer name
-XString XSystem::HostName() noexcept
+XString XSystem::hostName() noexcept
 {
 #if defined(_XANADU_SYSTEM_WINDOWS)
 	wchar_t		vHostName[XANADU_PATH] = { 0 };
@@ -136,10 +136,10 @@ XString XSystem::HostName() noexcept
 }
 
 // Gets the directory for the current user
-XString XSystem::UserHome() noexcept
+XString XSystem::userHome() noexcept
 {
 #if defined(_XANADU_SYSTEM_WINDOWS)
-	return XString(L"C:/Users/") + XSystem::CurrentUser();
+	return XString(L"C:/Users/") + XSystem::currentUser();
 #endif
 #if defined(_XANADU_SYSTEM_LINUX)
 	return XString(L"/home/") + XSystem::CurrentUser();
@@ -150,13 +150,13 @@ XString XSystem::UserHome() noexcept
 }
 
 // Whether the operating system is 32-bit
-bool XSystem::IsX86() noexcept
+bool XSystem::is_32bit() noexcept
 {
-	return !XSystem::IsX64();
+	return !XSystem::is_64bit();
 }
 
 // Whether the operating system is 64-bit
-bool XSystem::IsX64() noexcept
+bool XSystem::is_64bit() noexcept
 {
 	static Xanadu::Boolean		vValue64Bit = Xanadu::VALUE_NULL;
 	if(Xanadu::VALUE_NULL == vValue64Bit)
@@ -183,7 +183,7 @@ bool XSystem::IsX64() noexcept
 }
 
 // Whether the operating system is a server version
-bool XSystem::IsServer() noexcept
+bool XSystem::isServer() noexcept
 {
 	static Xanadu::Boolean		vValueServer = Xanadu::VALUE_NULL;
 	if(Xanadu::VALUE_NULL == vValueServer)
@@ -208,13 +208,13 @@ bool XSystem::IsServer() noexcept
 }
 
 // Whether the operating system is a desktop version
-bool XSystem::IsDesktop() noexcept
+bool XSystem::isDesktop() noexcept
 {
-	return !XSystem::IsServer();
+	return !XSystem::isServer();
 }
 
 // Native system String
-XString XSystem::NativeString() noexcept
+XString XSystem::nativeString() noexcept
 {
 	static XString			_StaticNativeString;
 	if (_StaticNativeString.empty())
@@ -339,11 +339,11 @@ XString XSystem::NativeString() noexcept
 		}
 		//拼接编译版本
 		vSystemString += L" (build ";
-		vSystemString += XSystem::BuildVersion();
+		vSystemString += XSystem::buildVersion();
 		vSystemString += L")";
 
 		//拼接系统位数
-		if(XSystem::IsX64())
+		if(XSystem::is_64bit())
 		{
 			vSystemString += L",64-Bit";
 		}
@@ -357,7 +357,7 @@ XString XSystem::NativeString() noexcept
 }
 
 // Native Build Version
-XString XSystem::BuildVersion() noexcept
+XString XSystem::buildVersion() noexcept
 {
 #if defined(_XANADU_SYSTEM_WINDOWS)
 	auto		vBuildVersion = XString();
@@ -388,7 +388,7 @@ XString XSystem::BuildVersion() noexcept
 }
 
 // The CPUID of the current computer
-XString XSystem::CPUID() noexcept
+XString XSystem::cpuID() noexcept
 {
 	static wchar_t			_StaticCpuID[XANADU_PATH] = { 0 };
 	if(!Xanadu::wcslen(_StaticCpuID))
@@ -411,7 +411,7 @@ XString XSystem::CPUID() noexcept
 }
 
 // The hard disk ID of the current computer
-XString XSystem::DiskID() noexcept
+XString XSystem::diskID() noexcept
 {
 	static wchar_t				_StaticDiskID[XANADU_PATH] = { 0 };
 	if(0LL == Xanadu::wcslen(_StaticDiskID))
@@ -479,17 +479,17 @@ XString XSystem::DiskID() noexcept
 }
 
 // A string unique to the current computer
-XString XSystem::OnlyString() noexcept
+XString XSystem::onlyString() noexcept
 {
 	static XString			_StaticOnlyString;
 	if(_StaticOnlyString.empty())
 	{
 #if defined(_XANADU_SYSTEM_WINDOWS)
-		auto		vTempOnlyString = XSystem::NativeString() + L"_CPU[" + XSystem::CPUID() + L"]_DISK[" + XSystem::DiskID() + L"]_MachineGuid[";
+		auto		vTempOnlyString = XSystem::nativeString() + L"_CPU[" + XSystem::cpuID() + L"]_DISK[" + XSystem::diskID() + L"]_MachineGuid[";
 		// 获取MachineGuid(重装系统后改变)
 		HKEY		vKey = nullptr;
 		LSTATUS		vResult = ERROR_SUCCESS;
-		if(XSystem::IsX64())
+		if(XSystem::is_64bit())
 		{
 			vResult = RegOpenKeyExW(HKEY_LOCAL_MACHINE, L"SOFTWARE\\Microsoft\\Cryptography", NULL, KEY_READ | KEY_WOW64_64KEY, &vKey);
 		}

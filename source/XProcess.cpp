@@ -340,7 +340,7 @@ bool XProcess::program(std::function<void(const XANADU_CORE_PROCESS_UNINSTALL* _
 		}
 	}
 	//获取64位
-	if(XSystem::IsX64())
+	if(XSystem::is_64bit())
 	{
 		HKEY		vKey = NULL;
 		LONG		vRegedit = RegOpenKeyExA(HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall", NULL, KEY_READ | KEY_WOW64_64KEY, &vKey);
