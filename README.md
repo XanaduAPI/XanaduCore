@@ -9,16 +9,17 @@ This is a collection of C++ extension classes, which can make some C++ calls mor
 
 
 ### Function
-    XString         : String processing of Unicode encoding
-    XByteArray      : Byte array processing
-    XBase64         : Base64 codec
-    XLibrary        : Dynamic library loading
-    XMutex          : Mutex
-    XShell          : Shell operation, easy to call the command line and return output
-    XStream         : Log output
-    XVariant        : Variant
-    XHash           : Provide calculation of MD5 / CRC32 / SHA1
-    XException      : Exception handling
+    XString             : String processing of Unicode encoding
+    XByteArray          : Byte array processing
+    XBase64             : Base64 codec
+    XCoreApplication    : Some basic application operations
+    XLibrary            : Dynamic library loading
+    XMutex              : Mutex
+    XShell              : Shell operation, easy to call the command line and return output
+    XStream             : Log output
+    XVariant            : Variant
+    XHash               : Provide calculation of MD5 / CRC32 / SHA1
+    XException          : Exception handling
     more...
 
 
@@ -78,4 +79,4 @@ sudo make install
 This library is licensed under the [GNU Lesser General Public License v2.1](https://www.gnu.org/licenses/lgpl-2.1.en.html),
 also included in the repository in the `LICENSE` file.
 
-README Updated on: 2021-06-24
+README Updated on: 2021-07-03
