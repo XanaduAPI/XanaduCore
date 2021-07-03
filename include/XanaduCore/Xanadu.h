@@ -4,6 +4,7 @@
 #include <XanaduCore/XAllocator.h>
 #include <XanaduCore/XBase64.h>
 #include <XanaduCore/XByteArray.h>
+#include <XanaduCore/XCoreApplication.h>
 #include <XanaduCore/XDateTime.h>
 #include <XanaduCore/XEndian.h>
 #include <XanaduCore/XException.h>
