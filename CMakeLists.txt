@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.8)
 
 
 # 项目名称
-project(XanaduCore VERSION 1.2.0)
+project(XanaduCore VERSION 1.2.1)
 
 
 # 输出提示信息
@@ -88,7 +88,7 @@ add_library(${PROJECT_NAME} SHARED ${SRC})
 
 
 # 设置项目属性
-set_target_properties(${PROJECT_NAME} PROPERTIES VERSION 1.2.0 SOVERSION 1)
+set_target_properties(${PROJECT_NAME} PROPERTIES VERSION 1.2.1 SOVERSION 1)
 set_target_properties(${PROJECT_NAME} PROPERTIES DEBUG_POSTFIX D)
 
 
