@@ -414,13 +414,13 @@ XString XSystem::cpuID() noexcept
 XString XSystem::diskID() noexcept
 {
 	static wchar_t				_StaticDiskID[XANADU_PATH] = { 0 };
-	if(0LL == Xanadu::wcslen(_StaticDiskID))
+	if(0 == Xanadu::wcslen(_StaticDiskID))
 	{
 #if defined(_XANADU_SYSTEM_WINDOWS)
-		auto		vHandle = ::CreateFileA("\\\\.\\PhysicalDrive0", GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ, NULL, OPEN_EXISTING, NULL, NULL);
+		auto		vHandle = ::CreateFileA("\\\\.\\PhysicalDrive0", GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ, nullptr, OPEN_EXISTING, 0, nullptr);
 		if(!vHandle)
 		{
-			vHandle = ::CreateFileA("\\\\.\\Scsi0", GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ, NULL, OPEN_EXISTING, NULL, NULL);
+			vHandle = ::CreateFileA("\\\\.\\Scsi0", GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ, nullptr, OPEN_EXISTING, 0, nullptr);
 		}
 		if(vHandle)
 		{
@@ -428,7 +428,7 @@ XString XSystem::diskID() noexcept
 			GETVERSIONINPARAMS	gVersionParsams;
 			Xanadu::memset(&gVersionParsams, 0, sizeof(GETVERSIONINPARAMS));
 
-			if(DeviceIoControl(vHandle, SMART_GET_VERSION, NULL, NULL, &gVersionParsams, sizeof(GETVERSIONINPARAMS), &dwBytesReturned, NULL))
+			if(DeviceIoControl(vHandle, SMART_GET_VERSION, nullptr, 0, &gVersionParsams, sizeof(GETVERSIONINPARAMS), &dwBytesReturned, nullptr))
 			{
 				if(dwBytesReturned != 0 && gVersionParsams.bIDEDeviceMap > 0)
 				{
@@ -442,7 +442,7 @@ XString XSystem::diskID() noexcept
 
 					BYTE btBuffer[1024] = { 0 };
 
-					if(DeviceIoControl(vHandle, SMART_RCV_DRIVE_DATA, &scip, sizeof(SENDCMDINPARAMS), btBuffer, 1024, &dwBytesReturned, NULL))
+					if(DeviceIoControl(vHandle, SMART_RCV_DRIVE_DATA, &scip, sizeof(SENDCMDINPARAMS), btBuffer, 1024, &dwBytesReturned, nullptr))
 					{
 						//序列号的开始位置,具体请参考SENDCMDOUTPARAMS与IDSECTOR结构
 						auto		vSerialPos = 0x24;

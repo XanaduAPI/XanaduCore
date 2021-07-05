@@ -1809,6 +1809,12 @@ XString& XString::remove(wchar_t _Char, Xanadu::CaseSensitivity _XCS) noexcept
 }
 
 // 删除与参数相同的数据
+XString& XString::remove(const wchar_t* _String, Xanadu::CaseSensitivity _XCS) noexcept
+{
+	return this->remove(_String, Xanadu::wcslen(_String), _XCS);
+}
+
+// 删除与参数相同的数据
 XString& XString::remove(const wchar_t* _String, size_type _Length, Xanadu::CaseSensitivity _XCS) noexcept
 {
 	auto		vPos = XString::npos;

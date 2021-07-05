@@ -610,7 +610,10 @@ public:
 	XString& remove(wchar_t _Char, Xanadu::CaseSensitivity _XCS = Xanadu::CaseSensitive) noexcept;
 
 	// 删除与参数相同的数据
-	XString& remove(const wchar_t* _String, size_type _Length = XString::npos, Xanadu::CaseSensitivity _XCS = Xanadu::CaseSensitive) noexcept;
+	XString& remove(const wchar_t* _String, Xanadu::CaseSensitivity _XCS = Xanadu::CaseSensitive) noexcept;
+
+	// 删除与参数相同的数据
+	XString& remove(const wchar_t* _String, size_type _Length, Xanadu::CaseSensitivity _XCS = Xanadu::CaseSensitive) noexcept;
 
 	// 删除与参数相同的数据
 	XString& remove(const XString& _String, Xanadu::CaseSensitivity _XCS = Xanadu::CaseSensitive) noexcept;
