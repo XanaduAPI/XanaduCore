@@ -43,13 +43,13 @@ public:
 	virtual ~XAllocator() noexcept;
 
 public:
-	// 操作符重载 =
+	// operators overload =
 	XAllocator& operator = (const XAllocator& _Allocator) noexcept;
 
-	// 操作符重载 +
+	// operators overload +
 	XAllocator operator + (const XAllocator& _Allocator) noexcept;
 
-	// 操作符重载 +=
+	// operators overload +=
 	XAllocator& operator += (const XAllocator& _Allocator) noexcept;
 
 public:

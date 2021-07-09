@@ -56,21 +56,21 @@ XByteArray::~XByteArray() noexcept
 }
 
 
-// 操作符重载 =
+// operators overload =
 XByteArray& XByteArray::operator = (const char* _Memory) noexcept
 {
 	this->memoryCopy(_Memory, Xanadu::strlen(_Memory));
 	return *this;
 }
 
-// 操作符重载 =
+// operators overload =
 XByteArray& XByteArray::operator = (const XByteArray& _Bytes) noexcept
 {
 	this->memoryCopy(_Bytes);
 	return *this;
 }
 
-// 操作符重载 =
+// operators overload =
 XByteArray& XByteArray::operator = (XByteArray&& _Other) noexcept
 {
 	this->memoryMove(_Other);
@@ -79,7 +79,7 @@ XByteArray& XByteArray::operator = (XByteArray&& _Other) noexcept
 
 
 
-// 操作符重载 +
+// operators overload +
 XByteArray XByteArray::operator + (char _Char) const noexcept
 {
 	auto		vTempBytes = *this;
@@ -87,7 +87,7 @@ XByteArray XByteArray::operator + (char _Char) const noexcept
 	return vTempBytes;
 }
 
-// 操作符重载 +
+// operators overload +
 XByteArray XByteArray::operator + (const char* _Memory) const noexcept
 {
 	auto		vTempBytes = *this;
@@ -95,7 +95,7 @@ XByteArray XByteArray::operator + (const char* _Memory) const noexcept
 	return vTempBytes;
 }
 
-// 操作符重载 +
+// operators overload +
 XByteArray XByteArray::operator + (const XByteArray& _Bytes) const noexcept
 {
 	auto		vTempBytes = *this;
@@ -105,21 +105,21 @@ XByteArray XByteArray::operator + (const XByteArray& _Bytes) const noexcept
 
 
 
-// 操作符重载 +=
+// operators overload +=
 XByteArray& XByteArray::operator += (char _Char) noexcept
 {
 	this->memoryAppend(1, _Char);
 	return *this;
 }
 
-// 操作符重载 +=
+// operators overload +=
 XByteArray& XByteArray::operator += (const char* _Memory) noexcept
 {
 	this->memoryAppend(_Memory, Xanadu::strlen(_Memory));
 	return *this;
 }
 
-// 操作符重载 +=
+// operators overload +=
 XByteArray& XByteArray::operator += (const XByteArray& _Bytes) noexcept
 {
 	this->memoryAppend(_Bytes);
@@ -129,73 +129,73 @@ XByteArray& XByteArray::operator += (const XByteArray& _Bytes) noexcept
 
 
 
-// 操作符重载 ==
+// operators overload ==
 bool XByteArray::operator == (const char* _Memory) const noexcept
 {
 	return this->compare(_Memory) == 0;
 }
 
-// 操作符重载 ==
+// operators overload ==
 bool XByteArray::operator == (const XByteArray& _Bytes) const noexcept
 {
 	return this->compare(_Bytes) == 0;
 }
 
-// 操作符重载 !=
+// operators overload !=
 bool XByteArray::operator != (const char* _Memory) const noexcept
 {
 	return this->compare(_Memory) != 0;
 }
 
-// 操作符重载 !=
+// operators overload !=
 bool XByteArray::operator != (const XByteArray& _Bytes) const noexcept
 {
 	return this->compare(_Bytes) != 0;
 }
 
-// 操作符重载 <
+// operators overload <
 bool XByteArray::operator < (const char* _Memory) const noexcept
 {
 	return this->compare(_Memory) < 0;
 }
 
-// 操作符重载 <
+// operators overload <
 bool XByteArray::operator < (const XByteArray& _Bytes) const noexcept
 {
 	return this->compare(_Bytes) < 0;
 }
 
-// 操作符重载 >
+// operators overload >
 bool XByteArray::operator > (const char* _Memory) const noexcept
 {
 	return this->compare(_Memory) > 0;
 }
 
-// 操作符重载 >
+// operators overload >
 bool XByteArray::operator > (const XByteArray& _Bytes) const noexcept
 {
 	return this->compare(_Bytes) > 0;
 }
 
-// 操作符重载 <=
+// operators overload <=
 bool XByteArray::operator <= (const char* _Memory) const noexcept
 {
 	return this->compare(_Memory) <= 0;
 }
 
-// 操作符重载 <=
+// operators overload <=
 bool XByteArray::operator <= (const XByteArray& _Bytes) const noexcept
 {
 	return this->compare(_Bytes) <= 0;
 }
 
-// 操作符重载 >=
+// operators overload >=
 bool XByteArray::operator >= (const char* _Memory) const noexcept
 {
 	return this->compare(_Memory) >= 0;
 }
 
-// 操作符重载 >=
+// operators overload >=
 bool XByteArray::operator >= (const XByteArray& _Bytes) const noexcept
 {
 	return this->compare(_Bytes) >= 0;
@@ -417,19 +417,19 @@ XByteArray::const_reverse_iterator XByteArray::crend() const noexcept
 
 
 
-// Vector兼容:从结尾添加数据
+// Vector兼容:Add at the end
 void XByteArray::push_back(char _Char) noexcept
 {
 	this->append(_Char);
 }
 
-// Vector兼容:从结尾添加数据
+// Vector兼容:Add at the end
 void XByteArray::push_back(const char* _Memory) noexcept
 {
 	this->append(_Memory);
 }
 
-// Vector兼容:从结尾添加数据
+// Vector兼容:Add at the end
 void XByteArray::push_back(const XByteArray& _Bytes) noexcept
 {
 	this->append(_Bytes);
@@ -487,43 +487,43 @@ XByteArray& XByteArray::prepend(const XByteArray& _Bytes) noexcept
 	return this->insert(0ULL, _Bytes);
 }
 
-// 从结尾添加数据
+// Add at the end
 XByteArray& XByteArray::append(char _Char) noexcept
 {
 	return this->insert(this->size(), _Char);
 }
 
-// 从结尾添加数据
+// Add at the end
 XByteArray& XByteArray::append(size_type _Count, char _Char) noexcept
 {
 	return this->insert(this->size(), _Count, _Char);
 }
 
-// 从结尾添加数据
+// Add at the end
 XByteArray& XByteArray::append(const char* _String) noexcept
 {
 	return this->insert(this->size(), _String);
 }
 
-// 从结尾添加数据
+// Add at the end
 XByteArray& XByteArray::append(const char* _String, size_type _Length) noexcept
 {
 	return this->insert(this->size(), _String, _Length);
 }
 
-// 从结尾添加数据
+// Add at the end
 XByteArray& XByteArray::append(const XByteArray& _Bytes) noexcept
 {
 	return this->insert(this->size(), _Bytes);
 }
 
-// 从指定的位置插入数据
+// Inserts data from the specified location
 XByteArray& XByteArray::insert(size_type _Index, char _Char) noexcept
 {
 	return this->insert(_Index, 1, _Char);
 }
 
-// 从指定的位置插入数据
+// Inserts data from the specified location
 XByteArray& XByteArray::insert(size_type _Index, size_type _Count, char _Char) noexcept
 {
 	if(_Count > 0ULL)
@@ -540,13 +540,13 @@ XByteArray& XByteArray::insert(size_type _Index, size_type _Count, char _Char) n
 	return *this;
 }
 
-// 从指定的位置插入数据
+// Inserts data from the specified location
 XByteArray& XByteArray::insert(size_type _Index, const char* _String) noexcept
 {
 	return this->insert(_Index, _String, Xanadu::strlen(_String));
 }
 
-// 从指定的位置插入数据
+// Inserts data from the specified location
 XByteArray& XByteArray::insert(size_type _Index, const char* _String, size_type _Length) noexcept
 {
 	if (_String && _Length > 0ULL)
@@ -557,7 +557,7 @@ XByteArray& XByteArray::insert(size_type _Index, const char* _String, size_type 
 	return *this;
 }
 
-// 从指定的位置插入数据
+// Inserts data from the specified location
 XByteArray& XByteArray::insert(size_type _Index, const XByteArray& _Bytes) noexcept
 {
 	return this->insert(_Index, _Bytes.data(), _Bytes.size());
@@ -568,27 +568,27 @@ XByteArray& XByteArray::insert(size_type _Index, const XByteArray& _Bytes) noexc
 
 
 
-// 从指定的位置删除指定长度的数据
+// Removes the specified length of data from the specified location
 XByteArray& XByteArray::remove(size_type _Index, size_type _Length) noexcept
 {
 	this->memoryRemove(_Index, _Length);
 	return *this;
 }
 
-// 删除与参数相同的数据
+// Delete the same data as the parameter
 XByteArray& XByteArray::remove(const char _Char) noexcept
 {
 	char 		vBuffer[2] = {_Char, '\0'};
 	return this->remove(vBuffer);
 }
 
-// 删除与参数相同的数据
+// Delete the same data as the parameter
 XByteArray& XByteArray::remove(const char* _Memory) noexcept
 {
 	return this->remove(_Memory, Xanadu::strlen(_Memory));
 }
 
-// 删除与参数相同的数据
+// Delete the same data as the parameter
 XByteArray& XByteArray::remove(const char* _Memory, size_type _Size) noexcept
 {
 	if(_Size == XByteArray::npos)
@@ -607,7 +607,7 @@ XByteArray& XByteArray::remove(const char* _Memory, size_type _Size) noexcept
 	return *this;
 }
 
-// 删除与参数相同的数据
+// Delete the same data as the parameter
 XByteArray& XByteArray::remove(const XByteArray& _Bytes) noexcept
 {
 	return this->remove(_Bytes.data(), _Bytes.size());
@@ -618,46 +618,46 @@ XByteArray& XByteArray::remove(const XByteArray& _Bytes) noexcept
 
 
 
-// 替换指定的数据
+// Replace the specified data
 XByteArray& XByteArray::replace(size_type _Index, size_type _Length, const char* _After) noexcept
 {
 	return this->replace(_Index, _Length, _After, Xanadu::strlen(_After));
 }
 
-// 替换指定的数据
+// Replace the specified data
 XByteArray& XByteArray::replace(size_type _Index, size_type _Length, const char* _After, size_type _Asize) noexcept
 {
 	this->memoryReplace(_Index, _Length, _After, _Asize);
 	return *this;
 }
 
-// 替换指定的数据
+// Replace the specified data
 XByteArray& XByteArray::replace(size_type _Index, size_type _Length, const XByteArray& _Bytes) noexcept
 {
 	return this->replace(_Index, _Length, _Bytes.data(), _Bytes.size());
 }
 
-// 替换指定的数据
+// Replace the specified data
 XByteArray& XByteArray::replace(char _Before, const char* _After) noexcept
 {
 	char 		vBuffer[2] = {_Before, '\0'};
 	return this->replace(vBuffer, Xanadu::strlen(vBuffer), _After, Xanadu::strlen(_After));
 }
 
-// 替换指定的数据
+// Replace the specified data
 XByteArray& XByteArray::replace(char _Before, const XByteArray& _After) noexcept
 {
 	char 		vBuffer[2] = {_Before, '\0'};
 	return this->replace(vBuffer, Xanadu::strlen(vBuffer), _After.data(), _After.size());
 }
 
-// 替换指定的数据
+// Replace the specified data
 XByteArray& XByteArray::replace(const char* _Before, const char* _After) noexcept
 {
 	return this->replace(_Before, Xanadu::strlen(_Before), _After, Xanadu::strlen(_After));
 }
 
-// 替换指定的数据
+// Replace the specified data
 XByteArray& XByteArray::replace(const char* _Before, size_type _Bsize, const char* _After, size_type _Asize) noexcept
 {
 	auto		vIndex = static_cast<size_type>(0U);
@@ -674,25 +674,25 @@ XByteArray& XByteArray::replace(const char* _Before, size_type _Bsize, const cha
 	return *this;
 }
 
-// 替换指定的数据
+// Replace the specified data
 XByteArray& XByteArray::replace(const XByteArray& _Before, const XByteArray& _After) noexcept
 {
 	return this->replace(_Before.data(), _Before.size(), _After.data(), _After.size());
 }
 
-// 替换指定的数据
+// Replace the specified data
 XByteArray& XByteArray::replace(const XByteArray& _Before, const char* _After) noexcept
 {
 	return this->replace(_Before.data(), _Before.size(), _After, Xanadu::strlen(_After));
 }
 
-// 替换指定的数据
+// Replace the specified data
 XByteArray& XByteArray::replace(const char* _Before, const XByteArray& _After) noexcept
 {
 	return this->replace(_Before, Xanadu::strlen(_Before), _After.data(), _After.size());
 }
 
-// 替换指定的数据
+// Replace the specified data
 XByteArray& XByteArray::replace(char _Before, char _After) noexcept
 {
 	char 		vBuffer1[2] = {_Before, '\0'};
@@ -856,14 +856,14 @@ bool XByteArray::endsWith(const XByteArray& _Bytes) const noexcept
 
 
 
-// 从指定位置按正序查找
+// Find in positive order from the specified location
 XByteArray::size_type XByteArray::find(char _Char, size_type _From) const noexcept
 {
 	char		vBuffer[2] = {_Char, '\0'};
 	return this->find(XByteArray(vBuffer, 1ULL), _From);
 }
 
-// 从指定位置按正序查找
+// Find in positive order from the specified location
 XByteArray::size_type XByteArray::find(const char* _Memory, size_type _From) const noexcept
 {
 	if(_Memory)
@@ -873,7 +873,7 @@ XByteArray::size_type XByteArray::find(const char* _Memory, size_type _From) con
 	return XByteArray::npos;
 }
 
-// 从指定位置按正序查找
+// Find in positive order from the specified location
 XByteArray::size_type XByteArray::find(const XByteArray& _Bytes, size_type _From) const noexcept
 {
 	XANADU_CHECK_RETURN(_Bytes.size(), XByteArray::npos);
@@ -881,14 +881,14 @@ XByteArray::size_type XByteArray::find(const XByteArray& _Bytes, size_type _From
 	return XAllocator::memoryFind(_From, _Bytes.data(), _Bytes.size());
 }
 
-// 从指定位置按倒序查找
+// Search in reverse order from the specified location
 XByteArray::size_type XByteArray::rfind(char _Char, size_type _From) const noexcept
 {
 	char		vBuffer[2] = {_Char, '\0'};
 	return this->rfind(XByteArray(vBuffer, 1ULL), _From);
 }
 
-// 从指定位置按倒序查找
+// Search in reverse order from the specified location
 XByteArray::size_type XByteArray::rfind(const char* _Memory, size_type _From) const noexcept
 {
 	if(_Memory)
@@ -898,7 +898,7 @@ XByteArray::size_type XByteArray::rfind(const char* _Memory, size_type _From) co
 	return XByteArray::npos;
 }
 
-// 从指定位置按倒序查找
+// Search in reverse order from the specified location
 XByteArray::size_type XByteArray::rfind(const XByteArray& _Bytes, size_type _From) const noexcept
 {
 	if(_Bytes.exist())
@@ -912,31 +912,31 @@ XByteArray::size_type XByteArray::rfind(const XByteArray& _Bytes, size_type _Fro
 
 
 
-// 检查是否包含指定的内容
+// Check whether the specified content is included
 bool XByteArray::contains(char _Char) const noexcept
 {
 	return this->find(_Char, 0ULL);
 }
 
-// 检查是否包含指定的内容
+// Check whether the specified content is included
 bool XByteArray::contains(const char* _Memory) const noexcept
 {
 	return this->find(_Memory, 0ULL);
 }
 
-// 检查是否包含指定的内容
+// Check whether the specified content is included
 bool XByteArray::contains(const XByteArray& _Bytes) const noexcept
 {
 	return this->find(_Bytes, 0ULL);
 }
 
-// 检查它们是否相同 (默认大小写敏感)
+// Check that they are the same
 int XByteArray::compare(const char* _Memory, Xanadu::CaseSensitivity _XCS) const noexcept
 {
 	return this->compare(XByteArray(_Memory), _XCS);
 }
 
-// 检查它们是否相同 (默认大小写敏感)
+// Check that they are the same
 int XByteArray::compare(const XByteArray& _Bytes, Xanadu::CaseSensitivity _XCS) const noexcept
 {
 	if (this->empty() && _Bytes.empty())

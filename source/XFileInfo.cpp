@@ -60,7 +60,7 @@ XFileInfo& XFileInfo::operator = (const XFileInfo& _Fileinfo) noexcept
 	return *this;
 }
 
-// 操作符重载 =
+// operators overload =
 XFileInfo& XFileInfo::operator = (XFileInfo&& _Fileinfo) noexcept
 {
 	XANADU_DELETE_PTR(this->_Info);

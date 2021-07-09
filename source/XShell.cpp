@@ -85,6 +85,13 @@ int32S XShell::run(const XString& _Shell, std::function<bool(const XString& _Out
 			}
 			Xanadu::wmemcpy(vCommandLine, _Shell.data() + vPos, static_cast<size_t>(_Shell.size() - vPos));
 
+			// 修复 CreateProcess GetLastError = 123 的错误
+			if(vApplication[0] == L'\"' && vApplication[Xanadu::wcslen(vApplication) - 1] == L'\"')
+			{
+				vApplication[Xanadu::wcslen(vApplication) - 1] = L'\0';
+				Xanadu::wmemmove(vApplication, vApplication + 1, Xanadu::wcslen(vApplication) - 1);
+				vApplication[Xanadu::wcslen(vApplication) - 1] = L'\0';
+			}
 			// 创建子进程
 			if (::CreateProcessW(vApplication, vCommandLine, nullptr, nullptr, TRUE, NULL, nullptr, nullptr, &si, &pi))
 			{
@@ -144,7 +151,12 @@ int32S XShell::run(const XString& _Shell, std::function<bool(const XString& _Out
 				XANADU_DELETE_ARR(vCommandLine);
 				return vExitCode;
 			}
-			XANADU_DELETE_ARR(vCommandLine);
+			else
+			{
+				XANADU_DELETE_ARR(vCommandLine);
+				return GetLastError();
+			}
+
 		}
 	}
 #else

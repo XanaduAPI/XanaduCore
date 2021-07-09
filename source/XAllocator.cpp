@@ -59,14 +59,14 @@ XAllocator::~XAllocator() noexcept
 
 
 
-// 操作符重载 =
+// operators overload =
 XAllocator& XAllocator::operator = (const XAllocator& _Allocator) noexcept
 {
 	this->memoryCopy(_Allocator);
 	return *this;
 }
 
-// 操作符重载 +
+// operators overload +
 XAllocator XAllocator::operator + (const XAllocator& _Allocator) noexcept
 {
 	auto		vResult = *this;
@@ -74,7 +74,7 @@ XAllocator XAllocator::operator + (const XAllocator& _Allocator) noexcept
 	return vResult;
 }
 
-// 操作符重载 +=
+// operators overload +=
 XAllocator& XAllocator::operator += (const XAllocator& _Allocator) noexcept
 {
 	this->memoryAppend(_Allocator);

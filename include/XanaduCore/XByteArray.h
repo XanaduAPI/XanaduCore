@@ -37,70 +37,70 @@ public:
 	virtual ~XByteArray() noexcept;
 
 public:
-	// 操作符重载 =
+	// operators overload =
 	XByteArray& operator = (const char* _Memory) noexcept;
 
-	// 操作符重载 =
+	// operators overload =
 	XByteArray& operator = (const XByteArray& _Bytes) noexcept;
 
-	// 操作符重载 =
+	// operators overload =
 	XByteArray& operator = (XByteArray&& _Other) noexcept;
 
 public:
-	// 操作符重载 +
+	// operators overload +
 	XByteArray operator + (char _Char) const noexcept;
 
-	// 操作符重载 +
+	// operators overload +
 	XByteArray operator + (const char* _Memory) const noexcept;
 
-	// 操作符重载 +
+	// operators overload +
 	XByteArray operator + (const XByteArray& _Bytes) const noexcept;
 
 public:
-	// 操作符重载 +=
+	// operators overload +=
 	XByteArray& operator += (char _Char) noexcept;
 
-	// 操作符重载 +=
+	// operators overload +=
 	XByteArray& operator += (const char* _Memory) noexcept;
 
-	// 操作符重载 +=
+	// operators overload +=
 	XByteArray& operator += (const XByteArray& _Bytes) noexcept;
 
 public:
-	// 操作符重载 ==
+	// operators overload ==
 	virtual bool operator == (const char* _Memory) const noexcept;
 
-	// 操作符重载 ==
+	// operators overload ==
 	virtual bool operator == (const XByteArray& _Bytes) const noexcept;
 
-	// 操作符重载 !=
+	// operators overload !=
 	virtual bool operator != (const char* _Memory) const noexcept;
 
-	// 操作符重载 !=
+	// operators overload !=
 	virtual bool operator != (const XByteArray& _Bytes) const noexcept;
 
-	// 操作符重载 <
+	// operators overload <
 	virtual bool operator < (const char* _Memory)const noexcept;
 
-	// 操作符重载 <
+	// operators overload <
 	virtual bool operator < (const XByteArray& _Bytes)const noexcept;
 
-	// 操作符重载 >
+	// operators overload >
 	virtual bool operator > (const char* _Memory) const noexcept;
 
-	// 操作符重载 >
+	// operators overload >
 	virtual bool operator > (const XByteArray& _Bytes) const noexcept;
 
-	// 操作符重载 <=
+	// operators overload <=
 	virtual bool operator <= (const char* _Memory) const noexcept;
 
-	// 操作符重载 <=
+	// operators overload <=
 	virtual bool operator <= (const XByteArray& _Bytes) const noexcept;
 
-	// 操作符重载 >=
+	// operators overload >=
 	virtual bool operator >= (const char* _Memory) const noexcept;
 
-	// 操作符重载 >=
+	// operators overload >=
 	virtual bool operator >= (const XByteArray& _Bytes) const noexcept;
 
 public:
@@ -208,13 +208,13 @@ public:
 	virtual const_reverse_iterator crend() const noexcept;
 
 public:
-	// Vector兼容:从结尾添加数据
+	// Vector兼容:Add at the end
 	virtual void push_back(char _Char) noexcept;
 
-	// Vector兼容:从结尾添加数据
+	// Vector兼容:Add at the end
 	virtual void push_back(const char* _Memory) noexcept;
 
-	// Vector兼容:从结尾添加数据
+	// Vector兼容:Add at the end
 	virtual void push_back(const XByteArray& _Bytes) noexcept;
 
 	// Vector兼容:从开头添加数据
@@ -242,84 +242,84 @@ public:
 	// 从开头添加数据
 	virtual XByteArray& prepend(const XByteArray& _Bytes) noexcept;
 
-	// 从结尾添加数据
+	// Add at the end
 	virtual XByteArray& append(char _Char) noexcept;
 
-	// 从结尾添加数据
+	// Add at the end
 	virtual XByteArray& append(size_type _Count, char _Char) noexcept;
 
-	// 从结尾添加数据
+	// Add at the end
 	virtual XByteArray& append(const char* _String) noexcept;
 
-	// 从结尾添加数据
+	// Add at the end
 	virtual XByteArray& append(const char* _String, size_type _Length) noexcept;
 
-	// 从结尾添加数据
+	// Add at the end
 	virtual XByteArray& append(const XByteArray& _Bytes) noexcept;
 
-	// 从指定的位置插入数据
+	// Inserts data from the specified location
 	virtual XByteArray& insert(size_type _Index, char _Char) noexcept;
 
-	// 从指定的位置插入数据
+	// Inserts data from the specified location
 	virtual XByteArray& insert(size_type _Index, size_type _Count, char _Char) noexcept;
 
-	// 从指定的位置插入数据
+	// Inserts data from the specified location
 	virtual XByteArray& insert(size_type _Index, const char* _String) noexcept;
 
-	// 从指定的位置插入数据
+	// Inserts data from the specified location
 	virtual XByteArray& insert(size_type _Index, const char* _String, size_type _Length) noexcept;
 
-	// 从指定的位置插入数据
+	// Inserts data from the specified location
 	virtual XByteArray& insert(size_type _Index, const XByteArray& _Bytes) noexcept;
 
 public:
-	// 从指定的位置删除指定长度的数据
+	// Removes the specified length of data from the specified location
 	virtual XByteArray& remove(size_type _Index, size_type _Length) noexcept;
 
-	// 删除与参数相同的数据
+	// Delete the same data as the parameter
 	virtual XByteArray& remove(char _Char) noexcept;
 
-	// 删除与参数相同的数据
+	// Delete the same data as the parameter
 	virtual XByteArray& remove(const char* _Memory) noexcept;
 
-	// 删除与参数相同的数据
+	// Delete the same data as the parameter
 	virtual XByteArray& remove(const char* _Memory, size_type _Size) noexcept;
 
-	// 删除与参数相同的数据
+	// Delete the same data as the parameter
 	virtual XByteArray& remove(const XByteArray& _Bytes) noexcept;
 
 public:
-	// 替换指定的数据
+	// Replace the specified data
 	virtual XByteArray& replace(size_type _Index, size_type _Length, const char* _After) noexcept;
 
-	// 替换指定的数据
+	// Replace the specified data
 	virtual XByteArray& replace(size_type _Index, size_type _Length, const char* _After, size_type _Asize) noexcept;
 
-	// 替换指定的数据
+	// Replace the specified data
 	virtual XByteArray& replace(size_type _Index, size_type _Length, const XByteArray& _Bytes) noexcept;
 
-	// 替换指定的数据
+	// Replace the specified data
 	virtual XByteArray& replace(char _Before, const char* _After) noexcept;
 
-	// 替换指定的数据
+	// Replace the specified data
 	virtual XByteArray& replace(char _Before, const XByteArray& _After) noexcept;
 
-	// 替换指定的数据
+	// Replace the specified data
 	virtual XByteArray& replace(const char* _Before, const char* _After) noexcept;
 
-	// 替换指定的数据
+	// Replace the specified data
 	virtual XByteArray& replace(const char* _Before, size_type _Bsize, const char* _After, size_type _Asize) noexcept;
 
-	// 替换指定的数据
+	// Replace the specified data
 	virtual XByteArray& replace(const XByteArray& _Before, const XByteArray& _After) noexcept;
 
-	// 替换指定的数据
+	// Replace the specified data
 	virtual XByteArray& replace(const XByteArray& _Before, const char* _After) noexcept;
 
-	// 替换指定的数据
+	// Replace the specified data
 	virtual XByteArray& replace(const char* _Before, const XByteArray& _After) noexcept;
 
-	// 替换指定的数据
+	// Replace the specified data
 	virtual XByteArray& replace(char _Before, char _After) noexcept;
 
 public:
@@ -359,38 +359,38 @@ public:
 	virtual bool endsWith(const XByteArray& _Bytes) const noexcept;
 
 public:
-	// 从指定位置按正序查找
+	// Find in positive order from the specified location
 	virtual size_type find(char _Char, size_type _From = 0U) const noexcept;
 
-	// 从指定位置按正序查找
+	// Find in positive order from the specified location
 	virtual size_type find(const char* _Memory, size_type _From = 0U) const noexcept;
 
-	// 从指定位置按正序查找
+	// Find in positive order from the specified location
 	virtual size_type find(const XByteArray& _Bytes, size_type _From = 0U) const noexcept;
 
-	// 从指定位置按倒序查找
+	// Search in reverse order from the specified location
 	virtual size_type rfind(char _Char, size_type _From = XByteArray::npos) const noexcept;
 
-	// 从指定位置按倒序查找
+	// Search in reverse order from the specified location
 	virtual size_type rfind(const char* _Memory, size_type _From = XByteArray::npos) const noexcept;
 
-	// 从指定位置按倒序查找
+	// Search in reverse order from the specified location
 	virtual size_type rfind(const XByteArray& _Bytes, size_type _From = XByteArray::npos) const noexcept;
 
 public:
-	// 检查是否包含指定的内容
+	// Check whether the specified content is included
 	virtual bool contains(char _Char) const noexcept;
 
-	// 检查是否包含指定的内容
+	// Check whether the specified content is included
 	virtual bool contains(const char* _Memory) const noexcept;
 
-	// 检查是否包含指定的内容
+	// Check whether the specified content is included
 	virtual bool contains(const XByteArray& _Bytes) const noexcept;
 
-	// 检查它们是否相同 (默认大小写敏感)
+	// Check that they are the same
 	virtual int compare(const char* _Memory, Xanadu::CaseSensitivity _XCS = Xanadu::CaseSensitive) const noexcept;
 
-	// 检查它们是否相同 (默认大小写敏感)
+	// Check that they are the same
 	virtual int compare(const XByteArray& _Bytes, Xanadu::CaseSensitivity _XCS = Xanadu::CaseSensitive) const noexcept;
 
 public:

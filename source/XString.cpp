@@ -453,7 +453,7 @@ XString::~XString() noexcept
 
 
 
-// 操作符重载 =
+// operators overload =
 XString& XString::operator = (wchar_t _Char) noexcept
 {
 	this->_memory_free();
@@ -461,7 +461,7 @@ XString& XString::operator = (wchar_t _Char) noexcept
 	return *this;
 }
 
-// 操作符重载 =
+// operators overload =
 XString& XString::operator = (const wchar_t* _String) noexcept
 {
 	this->_memory_free();
@@ -469,7 +469,7 @@ XString& XString::operator = (const wchar_t* _String) noexcept
 	return *this;
 }
 
-// 操作符重载 =
+// operators overload =
 XString& XString::operator = (const WString& _String) noexcept
 {
 	this->_memory_free();
@@ -477,7 +477,7 @@ XString& XString::operator = (const WString& _String) noexcept
 	return *this;
 }
 
-// 操作符重载 =
+// operators overload =
 XString& XString::operator = (const XString& _String) noexcept
 {
 	if(this != &_String)
@@ -488,7 +488,7 @@ XString& XString::operator = (const XString& _String) noexcept
 	return *this;
 }
 
-// 操作符重载 =
+// operators overload =
 XString& XString::operator = (XString&& _String) noexcept
 {
 	if(this != &_String)
@@ -596,6 +596,8 @@ void XString::_memory_free() noexcept
 	this->_string_length = 0LL;
 	this->_string_capacity = 0LL;
 }
+
+
 
 
 
@@ -800,6 +802,37 @@ int32S XString::_string_compare(const wchar_t* _String, size_type _Size, Xanadu:
 	}
 }
 
+// private middle
+XString XString::_string_middle(const wchar_t* _Left, size_type _LengthL, const wchar_t* _Right, size_type _LengthR, Xanadu::CaseSensitivity _XCS) const noexcept
+{
+	if(_Left == nullptr || _Right == nullptr)
+	{
+		return XString();
+	}
+	if(_LengthL == XString::npos)
+	{
+		_LengthL = Xanadu::wcslen(_Left);
+	}
+	if(_LengthR == XString::npos)
+	{
+		_LengthR = Xanadu::wcslen(_Right);
+	}
+
+	auto		vPosLeft = this->_string_search(_Left, _LengthL, 0, _XCS);
+	if(XString::npos != vPosLeft)
+	{
+		vPosLeft += _LengthL;
+		auto		vPosRight = this->_string_search(_Right, _LengthR, vPosLeft, _XCS);
+		if(XString::npos != vPosRight)
+		{
+			return substr(vPosLeft, vPosRight - vPosLeft);
+		}
+	}
+	return XString();
+}
+
+
+
 
 
 // 查找
@@ -859,6 +892,8 @@ bool XString::_compare(const wchar_t* _String, size_type _Length, size_type _Pos
 
 
 
+
+
 // cxx iterator private
 XString::String_iterator_type XString::_ibegin() const noexcept
 {
@@ -890,6 +925,7 @@ XString::size_type XString::_getLength(const XString::const_iterator _First, con
 	}
 	return _Second.current.pos - _First.current.pos;
 }
+
 
 
 
@@ -965,6 +1001,8 @@ XString::const_reverse_iterator XString::crend() const noexcept
 {
 	return this->_end();
 }
+
+
 
 
 
@@ -1065,6 +1103,7 @@ void XString::truncate(size_type _Index) noexcept
 
 
 
+
 // 元素访问 (1)
 const wchar_t& XString::operator [] (size_type _Index) const
 {
@@ -1122,10 +1161,19 @@ wchar_t& XString::back()
 }
 
 
+
+
+
 // cxx push_back (1)
 void XString::push_back(wchar_t _Char) noexcept
 {
 	this->append(_Char);
+}
+
+// cxx push_back
+void XString::push_back(const wchar_t* _String) noexcept
+{
+	this->push_back(_String, Xanadu::wcslen(_String));
 }
 
 // cxx push_back (2)
@@ -1151,23 +1199,25 @@ XString& XString::pop_back() noexcept
 }
 
 
-// 操作符重载 +=
+
+
+
+// operators overload +=
 XString& XString::operator += (wchar_t _Char) noexcept
 {
-	wchar_t		vBuffer[2] = { 0 };
-	vBuffer[0] = _Char;
+	wchar_t		vBuffer[2] = { _Char, 0 };
 	this->_string_append(vBuffer);
 	return *this;
 }
 
-// 操作符重载 +=
+// operators overload +=
 XString& XString::operator += (const wchar_t* _String) noexcept
 {
 	this->_string_append(_String);
 	return *this;
 }
 
-// 操作符重载 +=
+// operators overload +=
 XString& XString::operator += (const XString& _String) noexcept
 {
 	this->_string_append(_String._string_data, _String._string_length);
@@ -1177,79 +1227,78 @@ XString& XString::operator += (const XString& _String) noexcept
 
 
 
-// 操作符重载 ==
+
+// operators overload ==
 bool XString::operator == (const wchar_t* _String) const noexcept
 {
 	return this->_string_compare(_String, Xanadu::wcslen(_String)) == 0;
 }
 
-// 操作符重载 ==
+// operators overload ==
 bool XString::operator == (const XString& _String) const noexcept
 {
 	return this->_string_compare(_String._string_data, _String._string_length) == 0;
 }
 
-// 操作符重载 !=
+// operators overload !=
 bool XString::operator != (const wchar_t* _String) const noexcept
 {
 	return this->_string_compare(_String, Xanadu::wcslen(_String)) != 0;
 }
 
-// 操作符重载 !=
+// operators overload !=
 bool XString::operator != (const XString& _String) const noexcept
 {
 	return this->_string_compare(_String._string_data, _String._string_length) != 0;
 }
 
-// 操作符重载 <
+// operators overload <
 bool XString::operator < (const wchar_t* _String) const noexcept
 {
 	return this->_string_compare(_String, Xanadu::wcslen(_String)) < 0;
 }
 
-// 操作符重载 <
+// operators overload <
 bool XString::operator < (const XString& _String) const noexcept
 {
 	return this->_string_compare(_String._string_data, _String._string_length) < 0;
 }
 
-// 操作符重载 >
+// operators overload >
 bool XString::operator > (const wchar_t* _String) const noexcept
 {
 	return this->_string_compare(_String, Xanadu::wcslen(_String)) > 0;
 }
 
-// 操作符重载 >
+// operators overload >
 bool XString::operator > (const XString& _String) const noexcept
 {
 	return this->_string_compare(_String._string_data, _String._string_length) > 0;
 }
 
-// 操作符重载 <=
+// operators overload <=
 bool XString::operator <= (const wchar_t* _String) const noexcept
 {
 	return this->_string_compare(_String, Xanadu::wcslen(_String)) <= 0;
 }
 
-// 操作符重载 <=
+// operators overload <=
 bool XString::operator <= (const XString& _String) const noexcept
 {
 	return this->_string_compare(_String._string_data, _String._string_length) <= 0;
 }
 
-// 操作符重载 >=
+// operators overload >=
 bool XString::operator >= (const wchar_t* _String) const noexcept
 {
 	return this->_string_compare(_String, Xanadu::wcslen(_String)) >= 0;
 }
 
-// 操作符重载 >=
+// operators overload >=
 bool XString::operator >= (const XString& _String) const noexcept
 {
 	return this->_string_compare(_String._string_data, _String._string_length) >= 0;
 }
-
-
 
 
 
@@ -1494,6 +1543,9 @@ XString XString::toLower() const noexcept
 }
 
 
+
+
+
 // 格式化字符串 (char* [%S]) (wchar_t* [%s][%ls][%ws])
 XString XANADUAPI XString::format(const wchar_t* _Format, ...) noexcept
 {
@@ -1514,7 +1566,16 @@ XString XANADUAPI XString::format(const wchar_t* _Format, ...) noexcept
 }
 
 
-// 取出子字符串
+
+
+
+// Extracting substrings from strings
+XString XString::substr(size_type _Pos) const noexcept
+{
+	return this->substr(_Pos, XString::npos);
+}
+
+// Extracting substrings from strings
 XString XString::substr(size_type _Pos, size_type _Length) const noexcept
 {
 	if(_Pos < this->size())
@@ -1534,205 +1595,448 @@ XString XString::substr(size_type _Pos, size_type _Length) const noexcept
 	}
 }
 
-// 按长度获取左边的数据
+// Gets the substring to the left of the source string
+XString XString::left() const noexcept
+{
+	return this->left(XString::npos);
+}
+
+// Gets the substring to the left of the source string
 XString XString::left(size_type _Pos) const noexcept
 {
 	return this->substr(0, _Pos);
 }
 
-// 按长度获取右边的数据
+// Gets the substring to the right of the source string
+XString XString::right() const noexcept
+{
+	return this->right(XString::npos);
+}
+
+// Gets the substring to the right of the source string
 XString XString::right(size_type _Pos) const noexcept
 {
 	return this->substr(size() - _Pos, XString::npos);
 }
 
-// 按长度获取中间的数据
+// Gets the substring in the middle of the source string
+XString XString::mid(size_type _Pos) const noexcept
+{
+	return this->mid(_Pos, XString::npos);
+}
+
+// Gets the substring in the middle of the source string
 XString XString::mid(size_type _Pos, size_type _Size) const noexcept
 {
 	return this->substr(_Pos, _Size);
 }
 
-// 按匹配字符串获取中间的数据
-XString XString::middle(const XString& _Left, const XString& _Right, Xanadu::CaseSensitivity _XCS) const noexcept
+// Gets the substring in the middle of the source string
+XString XString::mid(const wchar_t* _Left, const wchar_t* _Right) const noexcept
 {
-	auto		vPosLeft = this->_string_search(_Left._string_data, _Left._string_length, 0, _XCS);
-	if(XString::npos != vPosLeft)
-	{
-		vPosLeft += _Left._string_length;
-		auto		vPosRight = this->_string_search(_Right._string_data, _Right._string_length, vPosLeft, _XCS);
-		if(XString::npos != vPosRight)
-		{
-			return substr(vPosLeft, vPosRight - vPosLeft);
-		}
-	}
-	return XString();
+	return this->_string_middle(_Left, Xanadu::wcslen(_Left), _Right, Xanadu::wcslen(_Right), Xanadu::CaseSensitive);
+}
+
+// Gets the substring in the middle of the source string
+XString XString::mid(const wchar_t* _Left, const wchar_t* _Right, Xanadu::CaseSensitivity _XCS) const noexcept
+{
+	return this->_string_middle(_Left, Xanadu::wcslen(_Left), _Right, Xanadu::wcslen(_Right), _XCS);
+}
+
+// Gets the substring in the middle of the source string
+XString XString::mid(const wchar_t* _Left, const XString& _Right) const noexcept
+{
+	return this->_string_middle(_Left, Xanadu::wcslen(_Left), _Right.data(), _Right.size(), Xanadu::CaseSensitive);
+}
+
+// Gets the substring in the middle of the source string
+XString XString::mid(const wchar_t* _Left, const XString& _Right, Xanadu::CaseSensitivity _XCS) const noexcept
+{
+	return this->_string_middle(_Left, Xanadu::wcslen(_Left), _Right.data(), _Right.size(), _XCS);
+}
+
+// Gets the substring in the middle of the source string
+XString XString::mid(const XString& _Left, const wchar_t* _Right) const noexcept
+{
+	return this->_string_middle(_Left.data(), _Left.size(), _Right, Xanadu::wcslen(_Right), Xanadu::CaseSensitive);
+}
+
+// Gets the substring in the middle of the source string
+XString XString::mid(const XString& _Left, const wchar_t* _Right, Xanadu::CaseSensitivity _XCS) const noexcept
+{
+	return this->_string_middle(_Left.data(), _Left.size(), _Right, Xanadu::wcslen(_Right), _XCS);
+}
+
+// Gets the substring in the middle of the source string
+XString XString::mid(const XString& _Left, const XString& _Right) const noexcept
+{
+	return this->_string_middle(_Left.data(), _Left.size(), _Right.data(), _Right.size(), Xanadu::CaseSensitive);
+}
+
+// Gets the substring in the middle of the source string
+XString XString::mid(const XString& _Left, const XString& _Right, Xanadu::CaseSensitivity _XCS) const noexcept
+{
+	return this->_string_middle(_Left.data(), _Left.size(), _Right.data(), _Right.size(), _XCS);
 }
 
 
 
 
 
-// 检查头部是否相同
+// Detects whether the string starts with the specified prefix
+bool XString::startsWith(wchar_t _Char) const noexcept
+{
+	return this->startsWith(_Char, Xanadu::CaseSensitive);
+}
+
+// Detects whether the string starts with the specified prefix
 bool XString::startsWith(wchar_t _Char, Xanadu::CaseSensitivity _XCS) const noexcept
 {
-	return this->left(1).compare(_Char, _XCS) == 0;
+	wchar_t		vBuffer[2] = { _Char, 0 };
+	return this->startsWith(vBuffer, _XCS);
 }
 
-// 检查头部是否相同
+// Detects whether the string starts with the specified prefix
+bool XString::startsWith(const wchar_t* _Memory) const noexcept
+{
+	return this->startsWith(_Memory, Xanadu::CaseSensitive);
+}
+
+// Detects whether the string starts with the specified prefix
 bool XString::startsWith(const wchar_t* _Memory, Xanadu::CaseSensitivity _XCS) const noexcept
 {
-	return this->left(Xanadu::wcslen(_Memory)).compare(_Memory, _XCS) == 0;
+	return this->startsWith(_Memory, Xanadu::wcslen(_Memory), _XCS);
 }
 
-// 检查头部是否相同
+// Detects whether the string starts with the specified prefix
+bool XString::startsWith(const wchar_t* _Memory, size_type _Length) const noexcept
+{
+	return this->startsWith(_Memory, _Length, Xanadu::CaseSensitive);
+}
+
+// Detects whether the string starts with the specified prefix
+bool XString::startsWith(const wchar_t* _Memory, size_type _Length, Xanadu::CaseSensitivity _XCS) const noexcept
+{
+	return this->left(_Length).compare(_Memory, _XCS) == 0;
+}
+
+// Detects whether the string starts with the specified prefix
+bool XString::startsWith(const XString& _String) const noexcept
+{
+	return this->startsWith(_String, Xanadu::CaseSensitive);
+}
+
+// Detects whether the string starts with the specified prefix
 bool XString::startsWith(const XString& _String, Xanadu::CaseSensitivity _XCS) const noexcept
 {
-	return this->left(_String.size()).compare(_String, _XCS) == 0;
+	return this->startsWith(_String.data(), _String.size(), _XCS);
 }
 
-// 检查尾部是否相同
+
+
+
+
+// Detects whether the string ends with the specified suffix
+bool XString::endsWith(wchar_t _Char) const noexcept
+{
+	return this->endsWith(_Char, Xanadu::CaseSensitive);
+}
+
+// Detects whether the string ends with the specified suffix
 bool XString::endsWith(wchar_t _Char, Xanadu::CaseSensitivity _XCS) const noexcept
 {
-	return this->right(1).compare(_Char, _XCS) == 0;
+	wchar_t		vBuffer[2] = { _Char, 0 };
+	return this->endsWith(vBuffer, _XCS);
 }
 
-// 检查尾部是否相同
+// Detects whether the string ends with the specified suffix
+bool XString::endsWith(const wchar_t* _Memory) const noexcept
+{
+	return this->endsWith(_Memory, Xanadu::CaseSensitive);
+}
+
+// Detects whether the string ends with the specified suffix
 bool XString::endsWith(const wchar_t* _Memory, Xanadu::CaseSensitivity _XCS) const noexcept
 {
-	return this->right(Xanadu::wcslen(_Memory)).compare(_Memory, _XCS) == 0;
+	return this->endsWith(_Memory, Xanadu::wcslen(_Memory), _XCS);
 }
 
-// 检查尾部是否相同
+// Detects whether the string ends with the specified suffix
+bool XString::endsWith(const wchar_t* _Memory, size_type _Length) const noexcept
+{
+	return this->endsWith(_Memory, _Length, Xanadu::CaseSensitive);
+}
+
+// Detects whether the string ends with the specified suffix
+bool XString::endsWith(const wchar_t* _Memory, size_type _Length, Xanadu::CaseSensitivity _XCS) const noexcept
+{
+	return this->right(_Length).compare(_Memory, _XCS) == 0;
+}
+
+// Detects whether the string ends with the specified suffix
+bool XString::endsWith(const XString& _String) const noexcept
+{
+	return this->endsWith(_String, Xanadu::CaseSensitive);
+}
+
+// Detects whether the string ends with the specified suffix
 bool XString::endsWith(const XString& _String, Xanadu::CaseSensitivity _XCS) const noexcept
 {
-	return this->right(_String.size()).compare(_String, _XCS) == 0;
+	return this->endsWith(_String.data(), _String.size(), _XCS);
 }
 
 
 
 
 
-
-// 从指定位置按正序查找
-XString::XString::size_type XString::find(const XString& _String, size_type _Pos) const noexcept
+// Find in positive order from the specified location
+XString::XString::size_type XString::find(wchar_t _Char) const noexcept
 {
-	return this->_find(_String._string_data, _String._string_length, _Pos);
+	return this->find(_Char, 0);
 }
 
-// 从指定位置按正序查找
+// Find in positive order from the specified location
+XString::XString::size_type XString::find(wchar_t _Char, size_type _Pos) const noexcept
+{
+	wchar_t		vBuffer[2] = { _Char, 0 };
+	return this->find(vBuffer, 1, _Pos);
+}
+
+// Find in positive order from the specified location
+XString::XString::size_type XString::find(const wchar_t* _String) const noexcept
+{
+	return this->find(_String, Xanadu::wcslen(_String), 0);
+}
+
+// Find in positive order from the specified location
 XString::XString::size_type XString::find(const wchar_t* _String, size_type _Pos) const noexcept
 {
-	return this->_find(_String, Xanadu::wcslen(_String), _Pos);
+	return this->find(_String, Xanadu::wcslen(_String), _Pos);
 }
 
-// 从指定位置按正序查找
+// Find in positive order from the specified location
 XString::XString::size_type XString::find(const wchar_t* _String, size_type _Length, size_type _Pos) const noexcept
 {
 	return this->_find(_String, _Length, _Pos);
 }
 
-// 从指定位置按正序查找
-XString::XString::size_type XString::find(wchar_t _Char, size_type _Pos) const noexcept
+// Find in positive order from the specified location
+XString::XString::size_type XString::find(const XString& _String) const noexcept
+{
+	return this->find(_String, 0);
+}
+
+// Find in positive order from the specified location
+XString::XString::size_type XString::find(const XString& _String, size_type _Pos) const noexcept
+{
+	return this->find(_String.data(), _String.size(), _Pos);
+}
+
+
+
+
+
+// Search in reverse order from the specified location
+XString::XString::size_type XString::rfind(wchar_t _Char) const noexcept
+{
+	return this->rfind(_Char, XString::npos);
+}
+
+// Search in reverse order from the specified location
+XString::XString::size_type XString::rfind(wchar_t _Char, size_type _Pos) const noexcept
 {
 	wchar_t		vBuffer[2] = { _Char, 0 };
-	return this->_find(vBuffer, 1, _Pos);
+	return this->rfind(vBuffer, 1, _Pos);
 }
 
-
-// 从指定位置按倒序查找
-XString::XString::size_type XString::rfind(const XString& _String, size_type _Pos) const noexcept
+// Search in reverse order from the specified location
+XString::XString::size_type XString::rfind(const wchar_t* _String) const noexcept
 {
-	return this->_rfind(_String._string_data, _String._string_length, _Pos);
+	return  this->rfind(_String, Xanadu::wcslen(_String), XString::npos);
 }
 
-// 从指定位置按倒序查找
+// Search in reverse order from the specified location
 XString::XString::size_type XString::rfind(const wchar_t* _String, size_type _Pos) const noexcept
 {
-	return  this->_rfind(_String, Xanadu::wcslen(_String), _Pos);
+	return  this->rfind(_String, Xanadu::wcslen(_String), _Pos);
 }
 
-// 从指定位置按倒序查找
+// Search in reverse order from the specified location
 XString::XString::size_type XString::rfind(const wchar_t* _String, size_type _Length, size_type _Pos) const noexcept
 {
 	return this->_rfind(_String, _Length, _Pos);
 }
 
-// 从指定位置按倒序查找
-XString::XString::size_type XString::rfind(wchar_t _Char, size_type _Pos) const noexcept
+// Search in reverse order from the specified location
+XString::XString::size_type XString::rfind(const XString& _String) const noexcept
 {
-	wchar_t		vBuffer[2] = { _Char, 0 };
-	return this->_rfind(vBuffer, 1, _Pos);
+	return this->rfind(_String, XString::npos);
+}
+
+// Search in reverse order from the specified location
+XString::XString::size_type XString::rfind(const XString& _String, size_type _Pos) const noexcept
+{
+	return this->rfind(_String.data(), _String.size(), _Pos);
 }
 
 
 
 
 
-// 检查是否包含指定的内容
+// Check whether the specified content is included
+bool XString::contains(wchar_t _Char) const noexcept
+{
+	return this->contains(_Char, Xanadu::CaseSensitive);
+}
+
+// Check whether the specified content is included
 bool XString::contains(wchar_t _Char, Xanadu::CaseSensitivity _XCS) const noexcept
 {
 	wchar_t		vBuffer[2] = { _Char, 0 };
 	return this->contains(vBuffer, 1, _XCS);
 }
 
-// 检查是否包含指定的内容
+// Check whether the specified content is included
+bool XString::contains(const wchar_t* _String) const noexcept
+{
+	return this->contains(_String, Xanadu::wcslen(_String), Xanadu::CaseSensitive);
+}
+
+// Check whether the specified content is included
 bool XString::contains(const wchar_t* _String, Xanadu::CaseSensitivity _XCS) const noexcept
 {
 	return this->contains(_String, Xanadu::wcslen(_String), _XCS);
 }
 
-// 检查是否包含指定的内容
-bool XString::contains(const wchar_t* _String, size_type _Size, Xanadu::CaseSensitivity _XCS) const noexcept
+// Check whether the specified content is included
+bool XString::contains(const wchar_t* _String, size_type _Length) const noexcept
 {
-	return this->_string_search(_String, _Size, 0, _XCS) != XString::npos;
+	return this->contains(_String, _Length, Xanadu::CaseSensitive);
 }
 
-// 检查是否包含指定的内容
+// Check whether the specified content is included
+bool XString::contains(const wchar_t* _String, size_type _Length, Xanadu::CaseSensitivity _XCS) const noexcept
+{
+	return this->_string_search(_String, _Length, 0, _XCS) != XString::npos;
+}
+
+// Check whether the specified content is included
+bool XString::contains(const XString& _String) const noexcept
+{
+	return this->contains(_String.data(), _String.size(), Xanadu::CaseSensitive);
+}
+
+// Check whether the specified content is included
 bool XString::contains(const XString& _String, Xanadu::CaseSensitivity _XCS) const noexcept
 {
-	return this->contains(_String._string_data, _String._string_length, _XCS);
+	return this->contains(_String.data(), _String.size(), _XCS);
 }
 
 
 
 
 
-// 检查它们是否相同 (默认大小写敏感)
+// Check that they are the same
+int XString::compare(wchar_t _Char) const noexcept
+{
+	return this->compare(_Char, Xanadu::CaseSensitive);
+}
+
+// Check that they are the same
 int XString::compare(wchar_t _Char, Xanadu::CaseSensitivity _XCS) const noexcept
 {
 	wchar_t		vBuffer[2] = { _Char, 0 };
 	return this->compare(vBuffer, 1, _XCS);
 }
 
-// 检查它们是否相同 (默认大小写敏感)
+// Check that they are the same
+int XString::compare(const wchar_t* _String) const noexcept
+{
+	return this->compare(_String, Xanadu::wcslen(_String), Xanadu::CaseSensitive);
+}
+
+// Check that they are the same
 int XString::compare(const wchar_t* _String, Xanadu::CaseSensitivity _XCS) const noexcept
 {
 	return this->compare(_String, Xanadu::wcslen(_String), _XCS);
 }
 
-// 检查它们是否相同 (默认大小写敏感)
-int XString::compare(const wchar_t* _String, size_type _Size, Xanadu::CaseSensitivity _XCS) const noexcept
+// Check that they are the same
+int XString::compare(const wchar_t* _String, size_type _Length) const noexcept
 {
-	return this->_string_compare(_String, _Size, _XCS);
+	return this->_string_compare(_String, _Length, Xanadu::CaseSensitive);
 }
 
-// 检查它们是否相同 (默认大小写敏感)
+// Check that they are the same
+int XString::compare(const wchar_t* _String, size_type _Length, Xanadu::CaseSensitivity _XCS) const noexcept
+{
+	return this->_string_compare(_String, _Length, _XCS);
+}
+
+// Check that they are the same
+int XString::compare(const XString& _String) const noexcept
+{
+	return this->compare(_String.data(), _String.size(), Xanadu::CaseSensitive);
+}
+
+// Check that they are the same
 int XString::compare(const XString& _String, Xanadu::CaseSensitivity _XCS) const noexcept
 {
-	return this->compare(_String._string_data, _String._string_length, _XCS);
+	return this->compare(_String.data(), _String.size(), _XCS);
 }
 
 
 
 
-// 从结尾添加数据
+
+// Add at the begin
+XString& XString::prepend(wchar_t _Char) noexcept
+{
+	wchar_t		vBuffer[2] = { _Char, 0 };
+	return this->prepend(vBuffer, 1);
+}
+
+// Add at the begin
+XString& XString::prepend(const wchar_t* _String) noexcept
+{
+	return this->prepend(_String, Xanadu::wcslen(_String));
+}
+
+// Add at the begin
+XString& XString::prepend(const wchar_t* _String, size_type _Size) noexcept
+{
+	if(_Size == XString::npos)
+	{
+		_Size = Xanadu::wcslen(_String);
+	}
+	this->_string_insert(0, _String, _Size);
+	return *this;
+}
+
+// Add at the begin
+XString& XString::prepend(const XString& _String) noexcept
+{
+	return this->prepend(_String.data(), _String.size());
+}
+
+
+
+
+
+// Add at the end
 XString& XString::append(wchar_t _Char) noexcept
 {
 	wchar_t		vBuffer[2] = { _Char, 0 };
-	return this->append(vBuffer);
+	return this->append(vBuffer, 1);
 }
 
-// 从结尾添加数据
+// Add at the end
+XString& XString::append(const wchar_t* _String) noexcept
+{
+	return this->append(_String, Xanadu::wcslen(_String));
+}
+
+// Add at the end
 XString& XString::append(const wchar_t* _String, size_type _Size) noexcept
 {
 	if(_Size == XString::npos)
@@ -1743,78 +2047,98 @@ XString& XString::append(const wchar_t* _String, size_type _Size) noexcept
 	return *this;
 }
 
-// 从结尾添加数据
+// Add at the end
 XString& XString::append(const XString& _String) noexcept
 {
-	return this->append(_String._string_data, _String._string_length);
+	return this->append(_String.data(), _String.size());
 }
 
 
 
 
-// 从指定的位置插入数据 wchar_t
+
+// Inserts data from the specified location wchar_t
 XString& XString::insert(size_type _Pos, wchar_t _Char) noexcept
 {
 	this->_string_insert(_Pos, _Char);
 	return *this;
 }
 
-// 从指定的位置插入数据 wchar_t
+// Inserts data from the specified location wchar_t
 XString& XString::insert(size_type _Pos, size_type _Count, wchar_t _Char) noexcept
 {
-	for(auto vIndex = 0ULL; vIndex < _Count; ++vIndex)
+	auto		vBuffer = new(std::nothrow) wchar_t[_Count];
+	if(vBuffer)
 	{
-		this->_string_insert(_Pos, _Char);
+		Xanadu::wmemset(vBuffer, _Char, _Count);
+		this->_string_insert(_Pos, vBuffer, _Count);
+		delete[] vBuffer;
 	}
 	return *this;
 }
 
-// 从指定的位置插入数据 const wchar_t*
+// Inserts data from the specified location const wchar_t*
+XString& XString::insert(size_type _Pos, const wchar_t* _String) noexcept
+{
+	return this->insert(_Pos, _String, Xanadu::wcslen(_String));
+}
+
+// Inserts data from the specified location const wchar_t*
 XString& XString::insert(size_type _Pos, const wchar_t* _String, size_type _Length) noexcept
 {
 	this->_string_insert(_Pos, _String, _Length);
 	return *this;
 }
 
-// 从指定的位置插入数据 XString
+// Inserts data from the specified location XString
 XString& XString::insert(size_type _Pos, const XString& _String) noexcept
 {
-	this->_string_insert(_Pos, _String._string_data, _String._string_length);
-	return *this;
+	return this->insert(_Pos, _String.data(), _String.size());
 }
 
 
 
-// 从指定的位置删除指定长度的数据
+
+
+// Removes the specified length of data from the specified location
 XString& XString::remove(size_type _Pos, size_type _Length) noexcept
 {
 	this->_string_remove(_Pos, _Length);
 	return *this;
 }
 
-// 删除与参数相同的数据
-XString& XString::remove(wchar_t _Char, Xanadu::CaseSensitivity _XCS) noexcept
+// Delete the same data as the parameter
+XString& XString::remove(wchar_t _Char) noexcept
 {
-	auto		vPos = XString::npos;
-	do
-	{
-		vPos = this->_string_search(_Char, vPos, _XCS);
-		if(XString::npos != vPos)
-		{
-			this->_string_remove(vPos, 1);
-			vPos += 1;
-		}
-	} while(XString::npos != vPos);
-	return *this;
+	return this->remove(_Char, Xanadu::CaseSensitive);
 }
 
-// 删除与参数相同的数据
+// Delete the same data as the parameter
+XString& XString::remove(wchar_t _Char, Xanadu::CaseSensitivity _XCS) noexcept
+{
+	wchar_t		vBuffer[2] = { _Char, 0 };
+	return this->remove(vBuffer, 1, _XCS);
+}
+
+// Delete the same data as the parameter
+XString& XString::remove(const wchar_t* _String) noexcept
+{
+	return this->remove(_String, Xanadu::wcslen(_String), Xanadu::CaseSensitive);
+}
+
+// Delete the same data as the parameter
 XString& XString::remove(const wchar_t* _String, Xanadu::CaseSensitivity _XCS) noexcept
 {
 	return this->remove(_String, Xanadu::wcslen(_String), _XCS);
 }
 
-// 删除与参数相同的数据
+// Delete the same data as the parameter
+XString& XString::remove(const wchar_t* _String, size_type _Length) noexcept
+{
+	return this->remove(_String, _Length, Xanadu::CaseSensitive);
+}
+
+// Delete the same data as the parameter
 XString& XString::remove(const wchar_t* _String, size_type _Length, Xanadu::CaseSensitivity _XCS) noexcept
 {
 	auto		vPos = XString::npos;
@@ -1833,23 +2157,36 @@ XString& XString::remove(const wchar_t* _String, size_type _Length, Xanadu::Case
 	return *this;
 }
 
-// 删除与参数相同的数据
+// Delete the same data as the parameter
+XString& XString::remove(const XString& _String) noexcept
+{
+	return this->remove(_String.data(), _String.size(), Xanadu::CaseSensitive);
+}
+
+// Delete the same data as the parameter
 XString& XString::remove(const XString& _String, Xanadu::CaseSensitivity _XCS) noexcept
 {
-	return this->remove(_String._string_data, _String._string_length, _XCS);
+	return this->remove(_String.data(), _String.size(), _XCS);
 }
 
 
 
-// 替换指定的数据
+
+
+// Replace the specified data
 XString& XString::replace(size_type _Pos, size_type _Length, wchar_t _After) noexcept
 {
-	this->remove(_Pos, _Length);
-	this->insert(_Pos, _After);
-	return *this;
+	wchar_t		vBuffer[2] = { _After, 0 };
+	return this->replace(_Pos, _Length, vBuffer, 1);
 }
 
-// 替换指定的数据
+// Replace the specified data
+XString& XString::replace(size_type _Pos, size_type _Length, const wchar_t* _After) noexcept
+{
+	return this->replace(_Pos, _Length, _After, Xanadu::wcslen(_After));
+}
+
+// Replace the specified data
 XString& XString::replace(size_type _Pos, size_type _Length, const wchar_t* _After, size_type _LengthA) noexcept
 {
 	this->remove(_Pos, _Length);
@@ -1857,43 +2194,119 @@ XString& XString::replace(size_type _Pos, size_type _Length, const wchar_t* _Aft
 	return *this;
 }
 
-// 替换指定的数据
+// Replace the specified data
 XString& XString::replace(size_type _Pos, size_type _Length, const XString& _After) noexcept
 {
-	this->remove(_Pos, _Length);
-	this->insert(_Pos, _After._string_data, _After._string_length);
-	return *this;
+	return this->replace(_Pos, _Length, _After.data(), _After.size());
 }
 
-// 替换指定的数据
+
+
+// Replace the specified data
+XString& XString::replace(wchar_t _Before, wchar_t _After) noexcept
+{
+	return this->replace(_Before, _After, Xanadu::CaseSensitive);
+}
+
+// Replace the specified data
 XString& XString::replace(wchar_t _Before, wchar_t _After, Xanadu::CaseSensitivity _XCS) noexcept
 {
-	wchar_t		vStringA[2] = { _After, 0 };
-	return replace(_Before, XString(vStringA), _XCS);
+	wchar_t		vStringBefore[2] = { _Before, 0 };
+	wchar_t		vStringAfter[2] = { _After, 0 };
+	return this->replace(vStringBefore, 1, vStringAfter, 1, _XCS);
 }
 
-// 替换指定的数据
+// Replace the specified data
+XString& XString::replace(wchar_t _Before, const wchar_t* _After, size_type _LengthA) noexcept
+{
+	wchar_t		vStringBefore[2] = { _Before, 0 };
+	return this->replace(vStringBefore, 1, _After, _LengthA, Xanadu::CaseSensitive);
+}
+
+// Replace the specified data
 XString& XString::replace(wchar_t _Before, const wchar_t* _After, size_type _LengthA, Xanadu::CaseSensitivity _XCS) noexcept
 {
-	wchar_t		vStringB[2] = { _Before, 0 };
-	return this->replace(XString(vStringB), _After, _LengthA, _XCS);
+	wchar_t		vStringBefore[2] = { _Before, 0 };
+	return this->replace(vStringBefore, _After, _LengthA, _XCS);
 }
 
-// 替换指定的数据
+// Replace the specified data
+XString& XString::replace(wchar_t _Before, const XString& _After) noexcept
+{
+	wchar_t		vStringBefore[2] = { _Before, 0 };
+	return this->replace(vStringBefore, 1, _After.data(), _After.size(), Xanadu::CaseSensitive);
+}
+
+// Replace the specified data
 XString& XString::replace(wchar_t _Before, const XString& _After, Xanadu::CaseSensitivity _XCS) noexcept
 {
-	wchar_t		vStringB[2] = { _Before, 0 };
-	return this->replace(XString(vStringB), _After._string_data, _After._string_length, _XCS);
+	wchar_t		vStringBefore[2] = { _Before, 0 };
+	return this->replace(vStringBefore, 1, _After.data(), _After.size(), _XCS);
 }
 
-// 替换指定的数据
+
+
+// Replace the specified data
+XString& XString::replace(const wchar_t* _Before, wchar_t _After) noexcept
+{
+	wchar_t		vStringAfter[2] = { _After, 0 };
+	return this->replace(_Before, Xanadu::wcslen(_Before), vStringAfter, 1, Xanadu::CaseSensitive);
+}
+
+// Replace the specified data
+XString& XString::replace(const wchar_t* _Before, wchar_t _After, Xanadu::CaseSensitivity _XCS) noexcept
+{
+	wchar_t		vStringAfter[2] = { _After, 0 };
+	return this->replace(_Before, Xanadu::wcslen(_Before), vStringAfter, 1, _XCS);
+}
+
+// Replace the specified data
+XString& XString::replace(const wchar_t* _Before, const wchar_t* _After, size_type _LengthA) noexcept
+{
+	return this->replace(_Before, Xanadu::wcslen(_Before), _After, _LengthA, Xanadu::CaseSensitive);
+}
+
+// Replace the specified data
+XString& XString::replace(const wchar_t* _Before, const wchar_t* _After, size_type _LengthA, Xanadu::CaseSensitivity _XCS) noexcept
+{
+	return this->replace(_Before, Xanadu::wcslen(_Before), _After, _LengthA, _XCS);
+}
+
+// Replace the specified data
+XString& XString::replace(const wchar_t* _Before, const XString& _After) noexcept
+{
+	return this->replace(_Before, Xanadu::wcslen(_Before), _After.data(), _After.size(), Xanadu::CaseSensitive);
+}
+
+// Replace the specified data
+XString& XString::replace(const wchar_t* _Before, const XString& _After, Xanadu::CaseSensitivity _XCS) noexcept
+{
+	return this->replace(_Before, Xanadu::wcslen(_Before), _After.data(), _After.size(), _XCS);
+}
+
+
+
+// Replace the specified data
+XString& XString::replace(const wchar_t* _Before, size_type _LengthB, wchar_t _After) noexcept
+{
+	wchar_t		vStringAfter[2] = { _After, 0 };
+	return this->replace(_Before, _LengthB, vStringAfter, 1, Xanadu::CaseSensitive);
+}
+
+// Replace the specified data
 XString& XString::replace(const wchar_t* _Before, size_type _LengthB, wchar_t _After, Xanadu::CaseSensitivity _XCS) noexcept
 {
-	wchar_t		vStringA[2] = { _After, 0 };
-	return this->replace(_Before, _LengthB, XString(vStringA), _XCS);
+	wchar_t		vStringAfter[2] = { _After, 0 };
+	return this->replace(_Before, _LengthB, vStringAfter, 1, _XCS);
 }
 
-// 替换指定的数据
+// Replace the specified data
+XString& XString::replace(const wchar_t* _Before, size_type _LengthB, const wchar_t* _After, size_type _LengthA) noexcept
+{
+	return this->replace(_Before, _LengthB, _After, _LengthA, Xanadu::CaseSensitive);
+}
+
+// Replace the specified data
 XString& XString::replace(const wchar_t* _Before, size_type _LengthB, const wchar_t* _After, size_type _LengthA, Xanadu::CaseSensitivity _XCS) noexcept
 {
 	auto		vPos = XString::npos;
@@ -1910,46 +2323,70 @@ XString& XString::replace(const wchar_t* _Before, size_type _LengthB, const wcha
 	return *this;
 }
 
-// 替换指定的数据
+// Replace the specified data
+XString& XString::replace(const wchar_t* _Before, size_type _LengthB, const XString& _After) noexcept
+{
+	return this->replace(_Before, _LengthB, _After.data(), _After.size(), Xanadu::CaseSensitive);
+}
+
+// Replace the specified data
 XString& XString::replace(const wchar_t* _Before, size_type _LengthB, const XString& _After, Xanadu::CaseSensitivity _XCS) noexcept
 {
-	return this->replace(_Before, _LengthB, _After._string_data, _After._string_length, _XCS);
+	return this->replace(_Before, _LengthB, _After.data(), _After.size(), _XCS);
 }
 
-// 替换指定的数据
+
+
+// Replace the specified data
+XString& XString::replace(const XString& _Before, wchar_t _After) noexcept
+{
+	wchar_t		vStringAfter[2] = { _After, 0 };
+	return this->replace(_Before.data(), _Before.size(), vStringAfter, 1, Xanadu::CaseSensitive);
+}
+
+// Replace the specified data
 XString& XString::replace(const XString& _Before, wchar_t _After, Xanadu::CaseSensitivity _XCS) noexcept
 {
-	wchar_t		vStringA[2] = { _After, 0 };
-	return this->replace(_Before._string_data, _Before._string_length, XString(vStringA), _XCS);
+	wchar_t		vStringAfter[2] = { _After, 0 };
+	return this->replace(_Before.data(), _Before.size(), vStringAfter, 1, _XCS);
 }
 
-// 替换指定的数据
+// Replace the specified data
+XString& XString::replace(const XString& _Before, const wchar_t* _After, size_type _LengthA) noexcept
+{
+	return this->replace(_Before.data(), _Before.size(), _After, _LengthA, Xanadu::CaseSensitive);
+}
+
+// Replace the specified data
 XString& XString::replace(const XString& _Before, const wchar_t* _After, size_type _LengthA, Xanadu::CaseSensitivity _XCS) noexcept
 {
-	return this->replace(_Before._string_data, _Before._string_length, _After, _LengthA, _XCS);
+	return this->replace(_Before.data(), _Before.size(), _After, _LengthA, _XCS);
 }
 
-// 替换指定的数据
+// Replace the specified data
+XString& XString::replace(const XString& _Before, const XString& _After) noexcept
+{
+	return this->replace(_Before.data(), _Before.size(), _After.data(), _After.size(), Xanadu::CaseSensitive);
+}
+
+// Replace the specified data
 XString& XString::replace(const XString& _Before, const XString& _After, Xanadu::CaseSensitivity _XCS) noexcept
 {
-	return this->replace(_Before._string_data, _Before._string_length, _After._string_data, _After._string_length, _XCS);
+	return this->replace(_Before.data(), _Before.size(), _After.data(), _After.size(), _XCS);
 }
 
 
 
 
 
-// 判断字符是否是空白字符 ('\t','\n','\v','\f','\r','_') 中的一个
+// Determine whether a character is a blank character, Same as iswspace.
 bool XString::isSpace(wchar_t _Char) noexcept
 {
-	if(_Char == L' ' || _Char == L'\t' || _Char == L'\n' || _Char == L'\v' || _Char == L'\f' || _Char == L'\r')
-	{
-		return true;
-	}
-	return false;
+	// Non-zero value if the wide character is a whitespace character, zero otherwise.
+	return Xanadu::iswspace(_Char);
 }
 
-// 删除开头、中间和结尾空白字符
+// Returns a string that has whitespace removed from the start and the end, and that has each sequence of internal whitespace replaced with a single space.
 XString XString::simplified() const noexcept
 {
 	auto		vString = XString();
