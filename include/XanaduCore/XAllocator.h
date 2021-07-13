@@ -24,19 +24,19 @@ private:
 	size_type					_memory_capacity = 0;
 
 public:
-	// 构造
+	// constructor
 	XAllocator() noexcept;
 
-	// 构造
+	// constructor
 	XAllocator(size_type _Length) noexcept;
 
-	// 构造
+	// constructor
 	XAllocator(size_type _Length, char _Char) noexcept;
 
-	// 构造
+	// constructor
 	XAllocator(const void* _Memory, size_type _Length) noexcept;
 
-	// 构造
+	// constructor
 	XAllocator(const XAllocator& _Allocator) noexcept;
 
 	// Destructor
@@ -56,10 +56,10 @@ public:
 	// Fix Pos
 	virtual size_type memoryFixSize(size_type _Pos) const noexcept;
 
-	// 检查是否为空，当长度为0时返回true
+	// Check whether it is empty, and return true when the length is 0
 	virtual bool memoryIsEmpty() const noexcept;
 
-	// 检查是否有值，当长度不为0时返回true
+	// Check whether there is a value, and return true when the length is not 0
 	virtual bool memoryIsExist() const noexcept;
 
 public:

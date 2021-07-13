@@ -44,86 +44,92 @@ XProcess::~XProcess() noexcept
 {
 }
 
-// 结束进程
-bool XProcess::terminate(const XString& _ProcessName) noexcept
-{
-	XANADU_CHECK_RETURN(_ProcessName.exist(), false);
 
-	auto			vResult = true;
+
+// Kills the process by the specified name
+bool XProcess::kill(const XString& _ProcessName) noexcept
+{
+	if(_ProcessName.empty())
+	{
+		return false;
+	}
+
+	auto		vSync = true;
 	XProcess::traverse([&](const XProcessInfo& _ProcessInfo)->bool
 	{
 		if(_ProcessInfo.getProcessName() == _ProcessName)
 		{
-			vResult = _ProcessInfo.terminate();
+			vSync = XProcess::kill(_ProcessInfo.getProcessID());
 		}
 		return true;
 	});
-	return vResult;
+	return vSync;
 }
 
-// 结束进程
-bool XProcess::terminate(int64U _ProcessID) noexcept
+// Kill the process with the specified process ID
+bool XProcess::kill(long long _ProcessID) noexcept
 {
-	auto		vResult = true;
+	auto		vSync = true;
 #if defined(_XANADU_SYSTEM_WINDOWS)
 	auto		vProcess = ::OpenProcess(PROCESS_ALL_ACCESS, FALSE, static_cast<DWORD>(_ProcessID));
 	if(vProcess != nullptr)
 	{
-		vResult = ::TerminateProcess(vProcess, 0);
+		vSync = ::TerminateProcess(vProcess, 0);
 		::CloseHandle(vProcess);
 	}
 #endif
 #if defined(_XANADU_SYSTEM_LINUX)
-	vResult = (Xanadu::kill(_ProcessID, 9) == 0) ? true : false;
+	vSync = Xanadu::kill(_ProcessID, 9) == 0;
 #endif
 #if defined(_XANADU_SYSTEM_MACOS)
-	vResult = (Xanadu::kill(_ProcessID, 9) == 0) ? true : false;
+	vSync = Xanadu::kill(_ProcessID, 9) == 0;
 #endif
-	return vResult;
+	return vSync;
 }
 
-// 当前进程ID
+
+
+// Gets the current process ID
 int64U XProcess::currentProcessID() noexcept
 {
 #if defined(_XANADU_SYSTEM_WINDOWS)
-	return static_cast<int64U>(GetCurrentProcessId());
+	return static_cast<int64U>(Xanadu::GetCurrentProcessId());
 #else
-	return static_cast<int64U>(getpid());
+	return static_cast<int64U>(Xanadu::getpid());
 #endif
 }
 
-// 遍历
+
+
+// Traverses the list of currently running processes
 bool XProcess::traverse(std::function<bool(const XProcessInfo& _Info)> _Lambda) noexcept
 {
 	XANADU_CHECK_RETURN(_Lambda, false);
 
-	auto		vResult = false;
+	auto		vSync = false;
 
 #if defined(_XANADU_SYSTEM_WINDOWS)
-	// 给系统内的所有进程拍一个快照--改函数用于获取系统指定进程的快照，也可以传入不同参数获取被这些进程使用的堆、模块和线程的快照
 	auto		vProcessEntry32 = PROCESSENTRY32W();
 	vProcessEntry32.dwSize = sizeof(vProcessEntry32);
 	auto		vSnapshotHandle = ::CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
 	if(vSnapshotHandle != INVALID_HANDLE_VALUE)
 	{
-		vResult = true;
-		// 遍历进程快照，轮流显示每个进程的信息
+		vSync = true;
 		auto		vMore = ::Process32FirstW(vSnapshotHandle, &vProcessEntry32);
 		while(vMore)
 		{
 			if(!_Lambda(XProcessInfo(static_cast<int64U>(vProcessEntry32.th32ProcessID), vProcessEntry32.szExeFile)))
 			{
-				// 当取消时返回false
+				// If the caller cancels the operation, then we should jump out of the loop
 				break;
 			}
 			vMore = ::Process32NextW(vSnapshotHandle, &vProcessEntry32);
 		};
-		// 清除hProcessSnap对象
 		::CloseHandle(vSnapshotHandle);
 	}
-#endif//
+#endif
 #if defined(_XANADU_SYSTEM_LINUX)
-	vResult = XFileSystem::DirectoryList(L"/proc", [&](const XFileInfo& _Info)->bool
+	vSync = XFileSystem::DirectoryList(L"/proc", [&](const XFileInfo& _Info)->bool
 	{
 		if(_Info.isDir())
 		{
@@ -140,7 +146,7 @@ bool XProcess::traverse(std::function<bool(const XProcessInfo& _Info)> _Lambda) 
 					{
 						if(false == _Lambda(XProcessInfo(static_cast<int64U>(_Info.fileName().toLLong()), XString::fromUString(vName))))
 						{
-							//当取消时返回false
+							// If the caller cancels the operation, then we should jump out of the loop
 							return false;
 						}
 					}
@@ -160,7 +166,7 @@ bool XProcess::traverse(std::function<bool(const XProcessInfo& _Info)> _Lambda) 
 			vProcessNumber = proc_listpids(PROC_ALL_PIDS, 0, vProcessArray, sizeof(pid_t) * vProcessNumber);
 			if(vProcessNumber)
 			{
-				vResult = true;
+				vSync = true;
 				for(auto vIndex = 0; vIndex < vProcessNumber; ++vIndex)
 				{
 					pid_t           vProcessID = vProcessArray[vIndex];
@@ -176,7 +182,7 @@ bool XProcess::traverse(std::function<bool(const XProcessInfo& _Info)> _Lambda) 
 					//proc_pidinfo(vProcessID, PROC_PIDTBSDINFO, 0, &vProcessINFO, PROC_PIDTBSDINFO_SIZE);
 					if(false == _Lambda(XProcessInfo(static_cast<int64U>(vProcessID), XString::fromUString(vProcessNAME))))
 					{
-						//当取消时返回false
+						// If the caller cancels the operation, then we should jump out of the loop
 						break;
 					}
 				}
@@ -185,13 +191,18 @@ bool XProcess::traverse(std::function<bool(const XProcessInfo& _Info)> _Lambda) 
 		}
 	}
 #endif
-	return vResult;
+	return vSync;
 }
 
-// 进程是否存在
+
+
+// Does the specified process name exist
 bool XProcess::isExist(const XString& _ProcessName) noexcept
 {
-	XANADU_CHECK_RETURN(_ProcessName.exist(), false);
+	if(_ProcessName.empty())
+	{
+		return false;
+	}
 
 	if(XProcess::number(_ProcessName) > 0)
 	{
@@ -200,10 +211,13 @@ bool XProcess::isExist(const XString& _ProcessName) noexcept
 	return false;
 }
 
-// 同进程名的数量
+// How many instances of the specified process name
 int64U XProcess::number(const XString& _ProcessName) noexcept
 {
-	XANADU_CHECK_RETURN(_ProcessName.exist(), 0);
+	if(_ProcessName.empty())
+	{
+		return 0;
+	}
 
 	auto		vNumber = 0;
 	XProcess::traverse([&](const XProcessInfo& _ProcessInfo)->bool
@@ -222,22 +236,22 @@ int64U XProcess::execute(const XString& _Application, const XString& _Param, con
 {
 #if defined(_XANADU_SYSTEM_WINDOWS)
 	DWORD			vExitCode = STATUS_INVALID_HANDLE;
-	SHELLEXECUTEINFOW	vInfo = { sizeof(SHELLEXECUTEINFOW) };
+	SHELLEXECUTEINFOW	vInfoShell = {sizeof(SHELLEXECUTEINFOW) };
 	if (_UI)
 	{
-		vInfo.fMask = SEE_MASK_NOCLOSEPROCESS;
+		vInfoShell.fMask = SEE_MASK_NOCLOSEPROCESS;
 	}
 	else
 	{
-		vInfo.fMask = SEE_MASK_NOCLOSEPROCESS | SEE_MASK_FLAG_NO_UI;
+		vInfoShell.fMask = SEE_MASK_NOCLOSEPROCESS | SEE_MASK_FLAG_NO_UI;
 	}
-	vInfo.lpFile = _Application.data();
-	vInfo.lpParameters = _Param.data();
-	vInfo.lpDirectory = _Directory.data();
-	vInfo.nShow = _UI ? SW_SHOW : SW_HIDE;
-	if(ShellExecuteExW(&vInfo))
+	vInfoShell.lpFile = _Application.data();
+	vInfoShell.lpParameters = _Param.data();
+	vInfoShell.lpDirectory = _Directory.data();
+	vInfoShell.nShow = _UI ? SW_SHOW : SW_HIDE;
+	if(ShellExecuteExW(&vInfoShell))
 	{
-		auto	vHandle = vInfo.hProcess;
+		auto	vHandle = vInfoShell.hProcess;
 		if(vHandle)
 		{
 			if(_Wait)
@@ -307,7 +321,7 @@ bool XProcess::program(std::function<void(const XANADU_CORE_PROCESS_UNINSTALL* _
 			wchar_t		vBuffer[MAX_PATH] = { 0 };
 			DWORD		vLength = MAX_PATH;
 			Xanadu::memset(vBuffer, 0, sizeof(wchar_t) * MAX_PATH);
-			vResult = RegEnumKeyExW(_Key, vIndex, vBuffer, &vLength, NULL, NULL, NULL, NULL);
+			vResult = RegEnumKeyExW(_Key, vIndex, vBuffer, &vLength, nullptr, nullptr, nullptr, nullptr);
 			if(vResult == ERROR_SUCCESS)
 			{
 				auto	vInfo = XANADU_NEW XANADU_CORE_PROCESS_UNINSTALL();
@@ -330,7 +344,7 @@ bool XProcess::program(std::function<void(const XANADU_CORE_PROCESS_UNINSTALL* _
 
 	//获取32位
 	{
-		HKEY		vKey = NULL;
+		HKEY		vKey = nullptr;
 		LONG		vRegedit = RegOpenKeyExA(HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall", NULL, KEY_READ, &vKey);
 		if(ERROR_SUCCESS == vRegedit)
 		{
@@ -342,7 +356,7 @@ bool XProcess::program(std::function<void(const XANADU_CORE_PROCESS_UNINSTALL* _
 	//获取64位
 	if(XSystem::is_64bit())
 	{
-		HKEY		vKey = NULL;
+		HKEY		vKey = nullptr;
 		LONG		vRegedit = RegOpenKeyExA(HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall", NULL, KEY_READ | KEY_WOW64_64KEY, &vKey);
 		if(ERROR_SUCCESS == vRegedit)
 		{
@@ -360,7 +374,7 @@ bool XProcess::program(std::function<void(const XANADU_CORE_PROCESS_UNINSTALL* _
 	{
 		if(_Info.isDir())
 		{
-			auto	vUninstall = Dynamic::plist_from_file(_Info.filePath() + QString("/Contents/Info.plist"));
+			auto	vUninstall = Dynamic::plist_from_file(_Info.filePath() + L"/Contents/Info.plist");
 			if(vUninstall)
 			{
 				auto	vInfo = XANADU_NEW XANADU_CORE_PROCESS_UNINSTALL();

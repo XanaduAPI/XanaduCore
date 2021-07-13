@@ -377,20 +377,23 @@ XString::reverse_iterator XString::reverse_iterator::operator- (size_type i)
 
 
 
-// 构造
+// constructor
 XString::XString() noexcept
 {
 	this->_memory_malloc(0);
 }
 
-// 构造
-XString::XString(wchar_t _Char) noexcept
+// constructor
+XString::XString(size_type _Count, wchar_t _Char) noexcept
 {
-	this->_memory_malloc(0);
-	this->_string_append(_Char);
+	this->_memory_malloc(_Count);
+	if(this->_string_length == _Count)
+	{
+		Xanadu::wmemset(this->_string_data, _Char, this->_string_length);
+	}
 }
 
-// 构造
+// constructor
 XString::XString(const wchar_t* _String) noexcept
 {
 	this->_memory_malloc(0);
@@ -402,7 +405,7 @@ XString::XString(const wchar_t* _String) noexcept
 	}
 }
 
-// 构造
+// constructor
 XString::XString(const wchar_t* _String, size_type _Length) noexcept
 {
 	this->_memory_malloc(0);
@@ -417,7 +420,7 @@ XString::XString(const wchar_t* _String, size_type _Length) noexcept
 	}
 }
 
-// 构造
+// constructor
 XString::XString(const XString& _String) noexcept
 {
 	this->_memory_malloc(0);
@@ -428,38 +431,30 @@ XString::XString(const XString& _String) noexcept
 	}
 }
 
-// 构造
+// constructor
 XString::XString(XString&& _String) noexcept
 {
 	*this = std::move(_String);
 }
 
-// 构造
+// constructor
 XString::XString(const WString& _String) noexcept
 {
 	this->_memory_malloc(0);
 
-	if(_String.size() > 0)
+	if(!_String.empty())
 	{
 		this->_string_append(_String.data(), _String.size());
 	}
 }
 
-// 虚析构
+// destructor
 XString::~XString() noexcept
 {
 	this->_memory_free();
 }
 
 
-
-// operators overload =
-XString& XString::operator = (wchar_t _Char) noexcept
-{
-	this->_memory_free();
-	this->_string_append(_Char);
-	return *this;
-}
 
 // operators overload =
 XString& XString::operator = (const wchar_t* _String) noexcept
@@ -507,7 +502,7 @@ XString& XString::operator = (XString&& _String) noexcept
 
 
 
-// 内存操作:申请
+// Memory operation: malloc
 void XString::_memory_malloc(size_type _Size) noexcept
 {
 	this->_memory_free();
@@ -532,7 +527,7 @@ void XString::_memory_malloc(size_type _Size) noexcept
 	}
 }
 
-// 内存操作:添加
+// Memory operation: append
 void XString::_memory_append(size_type _Size) noexcept
 {
 	if(_Size != XString::npos)
@@ -560,7 +555,7 @@ void XString::_memory_append(size_type _Size) noexcept
 	}
 }
 
-// 内存操作:重新定义大小
+// Memory operation: resize
 void XString::_memory_resize(size_type _Size) noexcept
 {
 	if(_Size != XString::npos)
@@ -588,7 +583,7 @@ void XString::_memory_resize(size_type _Size) noexcept
 	}
 }
 
-// 内存操作:释放
+// Memory operation: free
 void XString::_memory_free() noexcept
 {
 	XANADU_DELETE_ARR(this->_string_data);
@@ -835,7 +830,7 @@ XString XString::_string_middle(const wchar_t* _Left, size_type _LengthL, const 
 
 
 
-// 查找
+// Find
 XString::XString::size_type XString::_find(const wchar_t* _String, size_type _Length, size_type _Pos) const noexcept
 {
 	auto		vReturn = XString::npos;
@@ -854,7 +849,7 @@ XString::XString::size_type XString::_find(const wchar_t* _String, size_type _Le
 	return vReturn;
 }
 
-// 反向查找
+// Reverse find
 XString::XString::size_type XString::_rfind(const wchar_t* _String, size_type _Length, size_type _Pos) const noexcept
 {
 	auto		vReturn = XString::npos;
@@ -873,7 +868,7 @@ XString::XString::size_type XString::_rfind(const wchar_t* _String, size_type _L
 	return vReturn;
 }
 
-// 查找并比较
+// Find and compare
 bool XString::_compare(const wchar_t* _String, size_type _Length, size_type _Pos) const noexcept
 {
 	if(_Pos == XString::npos)
@@ -1006,43 +1001,43 @@ XString::const_reverse_iterator XString::crend() const noexcept
 
 
 
-// 获取字符串的数据指针
+// Gets the data pointer of the string
 wchar_t* XString::data() noexcept
 {
 	return this->_string_data;
 }
 
-// 获取字符串的常量数据指针
+// Gets a constant data pointer to a string
 const wchar_t* XString::data() const noexcept
 {
 	return this->_string_data;
 }
 
-// 获取字符串的数据长度
+// Gets the data length of the string
 XString::size_type XString::length() const noexcept
 {
 	return this->_string_length;
 }
 
-// 获取字符串的数据长度
+// Gets the data length of the string
 XString::size_type XString::size() const noexcept
 {
 	return this->length();
 }
 
-// 获取字符串的数据容量
+// Gets the data capacity of the string
 XString::size_type XString::capacity() const noexcept
 {
 	return this->_string_capacity;
 }
 
-// 以 0 清空所有空间
+// Empty all spaces with 0
 void XString::clear() noexcept
 {
 	this->_memory_free();
 }
 
-// 检查是否为空，当长度为0时返回true
+// Check whether it is empty, and return true when the length is 0
 bool XString::empty() const noexcept
 {
 	if(this->data() && this->size() > 0)
@@ -1055,13 +1050,13 @@ bool XString::empty() const noexcept
 	}
 }
 
-// 检查是否有值，当长度不为0时返回true
+// Check whether there is a value, and return true when the length is not 0
 bool XString::exist() const noexcept
 {
 	return !this->empty();
 }
 
-// 交换字符串
+// Exchange string
 void XString::swap(XString& _String) noexcept
 {
 	XString		vTemp = std::move(*this);
@@ -1069,19 +1064,19 @@ void XString::swap(XString& _String) noexcept
 	_String = std::move(vTemp);
 }
 
-// 获取允许的最大长度
+// Gets the maximum length allowed
 XString::size_type XString::max_size() const noexcept
 {
 	return 0xFFFFFFFFULL;
 }
 
-// 调整大小
+// Resizing
 void XString::resize(size_type _Length) noexcept
 {
 	this->_memory_resize(_Length);
 }
 
-// 调整大小
+// Resizing
 void XString::resize(size_type _Length, wchar_t _Char) noexcept
 {
 	this->_memory_resize(_Length);
@@ -1091,7 +1086,7 @@ void XString::resize(size_type _Length, wchar_t _Char) noexcept
 	}
 }
 
-// 截断字节数组的下标位置pos。如果pos超出了数组的末尾，则什么也不会发生。
+// Truncates the subscript POS of the byte array. If POS goes beyond the end of the array, nothing happens.
 void XString::truncate(size_type _Index) noexcept
 {
 	if (_Index < this->size())
@@ -1104,19 +1099,19 @@ void XString::truncate(size_type _Index) noexcept
 
 
 
-// 元素访问 (1)
+// Element access (1)
 const wchar_t& XString::operator [] (size_type _Index) const
 {
 	return *(this->_string_data + _Index);
 }
 
-// 元素访问 (2)
+// Element access (2)
 wchar_t& XString::operator [] (size_type _Index)
 {
 	return *(this->_string_data + _Index);
 }
 
-// 元素访问 (3)
+// Element access (3)
 const wchar_t& XString::at(size_type _Index) const
 {
 	if(this->_string_length <= _Index)
@@ -1126,7 +1121,7 @@ const wchar_t& XString::at(size_type _Index) const
 	return operator[](_Index);
 }
 
-// 元素访问 (4)
+// Element access (4)
 wchar_t& XString::at(size_type _Index)
 {
 	if(this->_string_length <= _Index)
@@ -1136,25 +1131,25 @@ wchar_t& XString::at(size_type _Index)
 	return operator[](_Index);
 }
 
-// 元素访问 (5)
+// Element access (5)
 const wchar_t& XString::front() const
 {
 	return operator[](0);
 }
 
-// 元素访问 (6)
+// Element access (6)
 wchar_t& XString::front()
 {
 	return operator[](0);
 }
 
-// 元素访问 (7)
+// Element access (7)
 const wchar_t& XString::back() const
 {
 	return operator[](this->size() - 1);
 }
 
-// 元素访问 (8)
+// Element access (8)
 wchar_t& XString::back()
 {
 	return operator[](this->size() - 1);
@@ -1304,7 +1299,7 @@ bool XString::operator >= (const XString& _String) const noexcept
 
 
 
-// 转换至 ASCII 编码的字符串
+// Convert to ASCII encoded string
 AString XString::toAString() const noexcept
 {
 	auto		vAString = AString("");
@@ -1317,13 +1312,13 @@ AString XString::toAString() const noexcept
 	return vAString;
 }
 
-// 转换至 UNICODE 编码的字符串
+// Convert to UNICODE encoded string
 WString XString::toWString() const noexcept
 {
 	return WString(data() ? data() : L"");
 }
 
-// 转换至 UTF-8 编码的字符串
+// Convert to UTF-8 encoded string
 UString XString::toUString() const noexcept
 {
 	auto		vUString = UString("");
@@ -1346,14 +1341,14 @@ NString XString::toNString() const noexcept
 #endif
 }
 
-// 转换至 UTF-8 编码的 XByteArray
+// Convert to UTF-8 encoded byte array
 XByteArray XString::toBytes() const noexcept
 {
 	auto		vUString = this->toUString();
 	return XByteArray(vUString.data(), vUString.size());
 }
 
-// 转换至 UTF-8 编码的 URL 类型字符串
+// Convert to UTF-8 encoded url
 UString XString::toURL() const noexcept
 {
 	auto		vDecode = toUString();
@@ -1404,25 +1399,25 @@ UString XANADUAPI XString::toUString(const XString& _String) noexcept
 	return _String.toUString();
 }
 
-// 转换至 本机( Windows : ASCII / Other : UTF-8) 编码的字符串
+// Convert to native (Windows: ASCII / other: UTF-8) encoded string
 NString XANADUAPI XString::toNString(const XString& _String) noexcept
 {
 	return _String.toNString();
 }
 
-// 转换至 UTF-8 编码的 XByteArray
+// Convert to UTF-8 encoded byte array
 XByteArray XANADUAPI XString::toBytes(const XString& _String) noexcept
 {
 	return _String.toBytes();
 }
 
-// 转换至 UTF-8 编码的 URL 类型字符串
+// Convert to UTF-8 encoded url
 UString XANADUAPI XString::toURL(const XString& _String) noexcept
 {
 	return _String.toURL();
 }
 
-// 从 ASCII 编码的字符串格式化
+// Format strings from ASCII
 XString XANADUAPI XString::fromAString(const AString& _AString) noexcept
 {
 	auto		vXString = XString(L"");
@@ -1435,13 +1430,13 @@ XString XANADUAPI XString::fromAString(const AString& _AString) noexcept
 	return vXString;
 }
 
-// 从 UNICODE 编码的字符串格式化
+// Format strings from UNICODE
 XString XANADUAPI XString::fromWString(const WString& _XString) noexcept
 {
 	return XString(_XString.data());
 }
 
-// 从 UTF-8 编码的字符串格式化
+// Format strings from UTF-8
 XString XANADUAPI XString::fromUString(const UString& _UString) noexcept
 {
 	auto		vXString = XString(L"");
@@ -1454,7 +1449,7 @@ XString XANADUAPI XString::fromUString(const UString& _UString) noexcept
 	return vXString;
 }
 
-// 从 本机( Windows : ASCII / Other : UTF-8) 编码的字符串格式化
+// Format strings encoded from native (Windows: ASCII / other: UTF-8)
 XString XANADUAPI XString::fromNString(const NString& _NString) noexcept
 {
 #if defined(_XANADU_SYSTEM_WINDOWS)
@@ -1464,13 +1459,13 @@ XString XANADUAPI XString::fromNString(const NString& _NString) noexcept
 #endif
 }
 
-// 从 UTF-8 编码的 XByteArray 格式化
+// Format byte array encoded from UTF-8
 XString XANADUAPI XString::fromBytes(const XByteArray& _Bytes) noexcept
 {
 	return XString::fromUString(UString(_Bytes.data(), static_cast<UString::size_type>(_Bytes.size())));
 }
 
-// 从 UTF-8 编码的 URL 类型字符串格式化
+// Format url encoded from UTF-8
 XString XANADUAPI XString::fromURL(const UString& _URL) noexcept
 {
 	auto		vEncode = _URL;
@@ -1518,7 +1513,7 @@ XString XANADUAPI XString::fromURL(const UString& _URL) noexcept
 	return fromUString(vDecode);
 }
 
-// 转换至大写
+// Convert to uppercase
 XString XString::toUpper() const noexcept
 {
 	if(this->data() && this->size())
@@ -1530,7 +1525,7 @@ XString XString::toUpper() const noexcept
 	return *this;
 }
 
-// 转换至小写
+// Convert to lowercase
 XString XString::toLower() const noexcept
 {
 	if(this->data() && this->size())
@@ -1546,7 +1541,7 @@ XString XString::toLower() const noexcept
 
 
 
-// 格式化字符串 (char* [%S]) (wchar_t* [%s][%ls][%ws])
+// Format string (char* [%S]) (wchar_t* [%s][%ls][%ws])
 XString XANADUAPI XString::format(const wchar_t* _Format, ...) noexcept
 {
 	auto		vString = XString();

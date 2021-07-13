@@ -163,34 +163,31 @@ public:
 	using reverse_pointer = reverse_iterator;
 
 public:
-	// 构造
+	// constructor
 	XString() noexcept;
 
-	// 构造
-	XString(wchar_t _Char) noexcept;
+	// constructor
+	XString(size_type _Count, wchar_t _Char) noexcept;
 
-	// 构造
+	// constructor
 	XString(const wchar_t* _String) noexcept;
 
-	// 构造
+	// constructor
 	XString(const wchar_t* _String, size_type _Length) noexcept;
 
-	// 构造
+	// constructor
 	XString(const XString& _String) noexcept;
 
-	// 构造
+	// constructor
 	XString(XString&& _String) noexcept;
 
-	// 构造
+	// constructor
 	XString(const WString& _String) noexcept;
 
-	// 虚析构
+	// destructor
 	virtual ~XString() noexcept;
 
 public:
-	// operators overload =
-	virtual XString& operator = (wchar_t _Char) noexcept;
-
 	// operators overload =
 	virtual XString& operator = (const wchar_t* _String) noexcept;
 
@@ -204,16 +201,16 @@ public:
 	XString& operator = (XString&& _String) noexcept;
 
 private:
-	// 内存操作:申请
+	// Memory operation: malloc
 	virtual void _memory_malloc(size_type _Size) noexcept;
 
-	// 内存操作:添加
+	// Memory operation: append
 	virtual void _memory_append(size_type _Size) noexcept;
 
-	// 内存操作:重新定义大小
+	// Memory operation: resize
 	virtual void _memory_resize(size_type _Size) noexcept;
 
-	// 内存操作:释放
+	// Memory operation: free
 	virtual void _memory_free() noexcept;
 
 private:
@@ -245,13 +242,13 @@ private:
 	virtual XString _string_middle(const wchar_t* _Left, size_type _LengthL, const wchar_t* _Right, size_type _LengthR, Xanadu::CaseSensitivity _XCS) const noexcept;
 
 private:
-	// 查找
+	// Find
 	virtual size_type _find(const wchar_t* _String, size_type _Length, size_type _Pos) const noexcept;
 
-	// 反向查找
+	// Reverse find
 	virtual size_type _rfind(const wchar_t* _String, size_type _Length, size_type _Pos) const noexcept;
 
-	// 查找并比较
+	// Find and compare
 	virtual bool _compare(const wchar_t* _String, size_type _Length, size_type _Pos) const noexcept;
 
 private:
@@ -305,68 +302,68 @@ public:
 	virtual const_reverse_iterator crend() const noexcept;
 
 public:
-	// 获取字符串的数据指针
+	// Gets the data pointer of the string
 	virtual wchar_t* data() noexcept;
 
-	// 获取字符串的常量数据指针
+	// Gets a constant data pointer to a string
 	virtual const wchar_t* data() const noexcept;
 
-	// 获取字符串的数据长度
+	// Gets the data length of the string
 	virtual size_type length() const noexcept;
 
-	// 获取字符串的数据长度
+	// Gets the data length of the string
 	virtual size_type size() const noexcept;
 
-	// 获取字符串的数据容量
+	// Gets the data capacity of the string
 	virtual size_type capacity() const noexcept;
 
-	// 以 0 清空所有空间
+	// Empty all spaces with 0
 	virtual void clear() noexcept;
 
-	// 检查是否为空，当长度为0时返回true
+	// Check whether it is empty, and return true when the length is 0
 	virtual bool empty() const noexcept;
 
-	// 检查是否有值，当长度不为0时返回true
+	// Check whether there is a value, and return true when the length is not 0
 	virtual bool exist() const noexcept;
 
-	// 交换字符串
+	// Exchange string
 	virtual void swap(XString& _String) noexcept;
 
-	// 获取允许的最大长度
+	// Gets the maximum length allowed
 	virtual size_type max_size() const noexcept;
 
-	// 调整大小
+	// Resizing
 	virtual void resize(size_type _Length) noexcept;
 
-	// 调整大小
+	// Resizing
 	virtual void resize(size_type _Length, wchar_t _Char) noexcept;
 
-	// 截断字节数组的下标位置pos。如果pos超出了数组的末尾，则什么也不会发生。
+	// Truncates the subscript POS of the byte array. If POS goes beyond the end of the array, nothing happens.
 	virtual void truncate(size_type _Index) noexcept;
 
 public:
-	// 元素访问 (1)
+	// Element access (1)
 	const wchar_t& operator [] (size_type _Index) const;
 
-	// 元素访问 (2)
+	// Element access (2)
 	wchar_t& operator [] (size_type _Index);
 
-	// 元素访问 (3)
+	// Element access (3)
 	const wchar_t& at(size_type _Index) const;
 
-	// 元素访问 (4)
+	// Element access (4)
 	wchar_t& at(size_type _Index);
 
-	// 元素访问 (5)
+	// Element access (5)
 	const wchar_t& front() const;
 
-	// 元素访问 (6)
+	// Element access (6)
 	wchar_t& front();
 
-	// 元素访问 (7)
+	// Element access (7)
 	const wchar_t& back() const;
 
-	// 元素访问 (8)
+	// Element access (8)
 	wchar_t& back();
 
 public:
@@ -433,68 +430,68 @@ public:
 	virtual bool operator >= (const XString& _String) const noexcept;
 
 public:
-	// 转换至 ASCII 编码的字符串
+	// Convert to ASCII encoded string
 	virtual AString toAString() const noexcept;
 
-	// 转换至 UNICODE 编码的字符串
+	// Convert to UNICODE encoded string
 	virtual WString toWString() const noexcept;
 
-	// 转换至 UTF-8 编码的字符串
+	// Convert to UTF-8 encoded string
 	virtual UString toUString() const noexcept;
 
-	// 转换至 本机( Windows : ASCII / Other : UTF-8 ) 编码的字符串
+	// Convert to native (Windows: ASCII / other: UTF-8) encoded string
 	virtual NString toNString() const noexcept;
 
-	// 转换至 UTF-8 编码的 XByteArray
+	// Convert to UTF-8 encoded byte array
 	virtual XByteArray toBytes() const noexcept;
 
-	// 转换至 UTF-8 编码的 URL 类型字符串
+	// Convert to UTF-8 encoded url
 	virtual UString toURL() const noexcept;
 
-	// 转换至 ASCII 编码的字符串
+	// Convert to ASCII encoded string
 	static AString XANADUAPI toAString(const XString& _String) noexcept;
 
-	// 转换至 UNICODE 编码的字符串
+	// Convert to UNICODE encoded string
 	static WString XANADUAPI toWString(const XString& _String) noexcept;
 
-	// 转换至 UTF-8 编码的字符串
+	// Convert to UTF-8 encoded string
 	static UString XANADUAPI toUString(const XString& _String) noexcept;
 
-	// 转换至 本机( Windows : ASCII / Other : UTF-8) 编码的字符串
+	// Convert to native (Windows: ASCII / other: UTF-8) encoded string
 	static NString XANADUAPI toNString(const XString& _String) noexcept;
 
-	// 转换至 UTF-8 编码的 XByteArray
+	// Convert to UTF-8 encoded byte array
 	static XByteArray XANADUAPI toBytes(const XString& _String) noexcept;
 
-	// 转换至 UTF-8 编码的 URL 类型字符串
+	// Convert to UTF-8 encoded url
 	static UString XANADUAPI toURL(const XString& _String) noexcept;
 
-	// 从 ASCII 编码的字符串格式化
+	// Format strings from ASCII
 	static XString XANADUAPI fromAString(const AString& _AString) noexcept;
 
-	// 从 UNICODE 编码的字符串格式化
+	// Format strings from UNICODE
 	static XString XANADUAPI fromWString(const WString& _WString) noexcept;
 
-	// 从 UTF-8 编码的字符串格式化
+	// Format strings from UTF-8
 	static XString XANADUAPI fromUString(const UString& _UString) noexcept;
 
-	// 从 本机( Windows : ASCII / Other : UTF-8) 编码的字符串格式化
+	// Format strings encoded from native (Windows: ASCII / other: UTF-8)
 	static XString XANADUAPI fromNString(const NString& _NString) noexcept;
 
-	// 从 UTF-8 编码的 XByteArray 格式化
+	// Format byte array encoded from UTF-8
 	static XString XANADUAPI fromBytes(const XByteArray& _Bytes) noexcept;
 
-	// 从 UTF-8 编码的 URL 类型字符串格式化
+	// Format url encoded from UTF-8
 	static XString XANADUAPI fromURL(const UString& _URL) noexcept;
 
-	// 转换至大写
+	// Convert to uppercase
 	virtual XString toUpper() const noexcept;
 
-	// 转换至小写
+	// Convert to lowercase
 	virtual XString toLower() const noexcept;
 
 public:
-	// 格式化字符串 (char* [%S]) (wchar_t* [%s][%ls][%ws])
+	// Format string (char* [%S]) (wchar_t* [%s][%ls][%ws])
 	static XString XANADUAPI format(const wchar_t* _Format, ...) noexcept;
 
 public:

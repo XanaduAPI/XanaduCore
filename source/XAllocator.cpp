@@ -18,32 +18,32 @@ char* XanaduAllocatorMallocMemory(XAllocator::size_type _Size)
 	return XANADU_NEW char[vSize];
 }
 
-// 构造
+// constructor
 XAllocator::XAllocator() noexcept
 {
 	this->memoryAllocator(0);
 }
 
-// 构造
+// constructor
 XAllocator::XAllocator(size_type _Length) noexcept
 {
 	this->memoryAllocator(_Length);
 }
 
-// 构造
+// constructor
 XAllocator::XAllocator(size_type _Length, char _Char) noexcept
 {
 	this->memoryAllocator(_Length);
 	Xanadu::memset(this->_memory_address, _Char, this->_memory_length);
 }
 
-// 构造
+// constructor
 XAllocator::XAllocator(const void* _Memory, size_type _Length) noexcept
 {
 	this->memoryAllocator(_Memory, _Length);
 }
 
-// 构造
+// constructor
 XAllocator::XAllocator(const XAllocator& _Allocator) noexcept
 {
 	this->memoryAllocator(_Allocator._memory_address, _Allocator._memory_length);
@@ -99,13 +99,13 @@ XAllocator::size_type XAllocator::memoryFixSize(size_type _Pos) const noexcept
 	return _Pos;
 }
 
-// 检查是否为空，当长度为0时返回true
+// Check whether it is empty, and return true when the length is 0
 bool XAllocator::memoryIsEmpty() const noexcept
 {
 	return this->_memory_length == 0;
 }
 
-// 检查是否有值，当长度不为0时返回true
+// Check whether there is a value, and return true when the length is not 0
 bool XAllocator::memoryIsExist() const noexcept
 {
 	return !this->memoryIsEmpty();

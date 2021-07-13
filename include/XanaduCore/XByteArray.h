@@ -18,22 +18,22 @@ public:
 	static const size_type				npos = XAllocator::npos;
 
 public:
-	// 构造
+	// constructor
 	XByteArray() noexcept;
 
-	// 构造
+	// constructor
 	XByteArray(const char* _Memory, size_type _Size = XByteArray::npos) noexcept;
 
-	// 构造
+	// constructor
 	XByteArray(size_type _Size, char _Char) noexcept;
 
-	// 构造
+	// constructor
 	explicit XByteArray(size_type _Size) noexcept;
 
-	// 构造
+	// constructor
 	XByteArray(const XByteArray& _Bytes) noexcept;
 
-	// 虚析构
+	// destructor
 	virtual ~XByteArray() noexcept;
 
 public:
@@ -116,7 +116,7 @@ public:
 	// 获取数据长度
 	virtual size_type length() const noexcept;
 
-	// 调整大小
+	// Resizing
 	virtual void resize(size_type _Size) noexcept;
 
 	// 从 _Index 截断字节数组的下标位置。如果 _Index 超出了数组的末尾，则什么也不会发生。
@@ -128,10 +128,10 @@ public:
 	// 获取当前容量
 	virtual size_type capacity() const noexcept;
 
-	// 检查是否为空，当长度为0时返回true
+	// Check whether it is empty, and return true when the length is 0
 	virtual bool empty() const noexcept;
 
-	// 检查是否有值，当长度不为0时返回true
+	// Check whether there is a value, and return true when the length is not 0
 	virtual bool exist() const noexcept;
 
 public:
@@ -400,10 +400,10 @@ public:
 	// 检查是否全部是大写字符
 	virtual bool isUpper() const noexcept;
 
-	// 转换至小写
+	// Convert to lowercase
 	virtual XByteArray toLower() const noexcept;
 
-	// 转换至大写
+	// Convert to uppercase
 	virtual XByteArray toUpper() const noexcept;
 
 	// 删除开始和结束空白字符

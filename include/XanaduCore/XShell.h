@@ -14,13 +14,13 @@ public:
 
 public:
 	// Async run shell
-	static int32S run(const XString& _Shell) noexcept;
+	static int run(const XString& _Shell) noexcept;
 
 	// Sync run shell
-	static int32S run(const XString& _Shell, std::function<bool(const XString& _Output)> _Lambda) noexcept;
+	static int run(const XString& _Shell, const std::function<bool(const XString& _Output)>& _Lambda) noexcept;
 
 	// Native system
-	static int32S system(const XString& _Command) noexcept;
+	static int system(const XString& _Command) noexcept;
 };
 
-#endif // _XANADU_CORE_SHELL_H_
+#endif

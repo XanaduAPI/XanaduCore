@@ -63,7 +63,6 @@ XProcessInfo& XProcessInfo::operator = (const XProcessInfo& _Other) noexcept
 
 
 
-
 // 获取进程ID
 int64U XProcessInfo::getProcessID() const noexcept
 {
@@ -79,5 +78,5 @@ XString XProcessInfo::getProcessName() const noexcept
 // 结束进程
 bool XProcessInfo::terminate() const noexcept
 {
-	return XProcess::terminate(this->getProcessID());
+	return XProcess::kill(this->getProcessID());
 }

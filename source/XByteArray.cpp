@@ -24,33 +24,33 @@ unsigned char XanaduByteArrayHexToInt8U(char _Char)
 
 
 
-// 构造
+// constructor
 XByteArray::XByteArray() noexcept : XAllocator()
 {
 }
 
-// 构造
+// constructor
 XByteArray::XByteArray(const char* _Memory, size_type _Size) noexcept : XAllocator()
 {
 	XAllocator::memoryAppend(_Memory, _Size == XByteArray::npos ? Xanadu::strlen(_Memory) : _Size);
 }
 
-// 构造
+// constructor
 XByteArray::XByteArray(size_type _Size, char _Char) noexcept : XAllocator(_Size, _Char)
 {
 }
 
-// 构造
+// constructor
 XByteArray::XByteArray(size_type _Size) noexcept : XAllocator(_Size)
 {
 }
 
-// 构造
+// constructor
 XByteArray::XByteArray(const XByteArray& _Bytes) noexcept : XAllocator(_Bytes.data(), _Bytes.size())
 {
 }
 
-// 虚析构
+// destructor
 XByteArray::~XByteArray() noexcept
 {
 }
@@ -227,7 +227,7 @@ XByteArray::size_type XByteArray::length() const noexcept
 	return this->size();
 }
 
-// 调整大小
+// Resizing
 void XByteArray::resize(size_type _Size) noexcept
 {
 	this->memoryResize(_Size);
@@ -259,13 +259,13 @@ XByteArray::size_type XByteArray::capacity() const noexcept
 	return this->memoryCapacity();
 }
 
-// 检查是否为空，当长度为0时返回true
+// Check whether it is empty, and return true when the length is 0
 bool XByteArray::empty() const noexcept
 {
 	return this->memoryIsEmpty();
 }
 
-// 检查是否有值，当长度不为0时返回true
+// Check whether there is a value, and return true when the length is not 0
 bool XByteArray::exist() const noexcept
 {
 	return this->memoryIsExist();
@@ -998,7 +998,7 @@ bool XByteArray::isUpper() const noexcept
 	return true;
 }
 
-// 转换至小写
+// Convert to lowercase
 XByteArray XByteArray::toLower() const noexcept
 {
 	auto		vBytes = XByteArray();
@@ -1014,7 +1014,7 @@ XByteArray XByteArray::toLower() const noexcept
 	return vBytes;
 }
 
-// 转换至大写
+// Convert to uppercase
 XByteArray XByteArray::toUpper() const noexcept
 {
 	auto		vBytes = XByteArray();
